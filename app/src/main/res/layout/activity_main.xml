@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -16,6 +15,7 @@
         android:layout_marginTop="20dp">
 
         <Button
+            android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="취소"
@@ -29,6 +29,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"/>
         <Button
+            android:id="@+id/finishBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="완료"
@@ -39,6 +40,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -63,6 +65,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/plotTextView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="10dp"
@@ -84,5 +87,12 @@
             android:text="+"/>
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/testTextView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:hint="test text will appear"
+        android:padding="20dp"
+        />
 
 </LinearLayout>

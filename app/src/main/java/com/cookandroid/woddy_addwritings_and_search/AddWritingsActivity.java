@@ -1,6 +1,4 @@
-package com.example.woody;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.cookandroid.woddy_addwritings_and_search;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,13 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.os.Debug;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class AddWritingsActivity extends AppCompatActivity {
     myDBHelper myDBHelper;
     SQLiteDatabase sqlDB;
     Button cancelBtn, finishBtn;
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.add_writings_main);
 
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         finishBtn = (Button) findViewById(R.id.finishBtn);
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         myDBHelper = new myDBHelper(this);
         sqlDB = myDBHelper.getWritableDatabase();
-        myDBHelper.onUpgrade(sqlDB,1,2);
+        myDBHelper.onUpgrade(sqlDB, 1, 2);
         sqlDB.close();
 
         finishBtn.setOnClickListener(new View.OnClickListener() {
@@ -43,19 +42,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sqlDB = myDBHelper.getWritableDatabase();
-                sqlDB.execSQL("INSERT INTO writings VALUES ('" + titleTV.getText().toString() + "' , '" + plotTV.getText().toString() + "');" );
-                Toast.makeText(getApplicationContext(), "insert finished", 0).show();
+                sqlDB.execSQL("INSERT INTO writings VALUES ('" + titleTV.getText().toString() + "' , '" + plotTV.getText().toString() + "');");
+                Toast.makeText(getApplicationContext(), "insert finished", Toast.LENGTH_SHORT).show();
 
                 sqlDB = myDBHelper.getReadableDatabase();
                 Cursor cursor;
-                cursor = sqlDB.rawQuery("SELECT * FROM writings;",null);
+                cursor = sqlDB.rawQuery("SELECT * FROM writings;", null);
 
-                Toast.makeText(getApplicationContext(), "2 finished", 0).show();
+                Toast.makeText(getApplicationContext(), "2 finished", Toast.LENGTH_SHORT).show();
 
                 String strTitle = "";
                 String strPlot = "";
 
-                while (cursor.moveToNext()){
+                while (cursor.moveToNext()) {
                     strTitle += cursor.getString(0);
                     strPlot += cursor.getString(1);
                 }
@@ -63,11 +62,12 @@ public class MainActivity extends AppCompatActivity {
                 cursor.close();
                 sqlDB.close();
 
-                Toast.makeText(getApplicationContext(), "입력됨", 0).show();
+                Toast.makeText(getApplicationContext(), "입력됨", Toast.LENGTH_SHORT).show();
                 writing_index++;
             }
         });
     }
+
     public class myDBHelper extends SQLiteOpenHelper {
         public myDBHelper(Context context) {
             super(context, "writingsDB", null, 1);

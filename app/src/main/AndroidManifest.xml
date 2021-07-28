@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Woddy">
         <activity android:name=".FemaleCertActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:parentActivityName=".LogInActivity"></activity>
         <activity
             android:name=".LogInActivity"
             android:theme="@style/SplashTheme">

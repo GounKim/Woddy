@@ -52,4 +52,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'com.google.firebase:firebase-database:20.0.1'
 
+    // FireStorage
+    implementation 'com.google.firebase:firebase-storage'
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
+
 }

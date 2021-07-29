@@ -101,11 +101,10 @@
             android:orientation="horizontal" />
     </HorizontalScrollView>
 
-
     <TextView
         android:id="@+id/testTextView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:hint="test text will appear"
         android:padding="20dp" />
 

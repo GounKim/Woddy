@@ -19,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.jetbrains.annotations.NotNull;
 
 
-public class ActivityBase extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
     Toolbar mToolbar;
     TextView toolbarTitle;
     BottomNavigationView bottomNavi;
@@ -59,28 +59,30 @@ public class ActivityBase extends AppCompatActivity {
         // BottomNavi 사용 여부
         if (useBottomNavi()) {
             // 첫 화면 설정
+            setMyTitle("홈");
             getSupportFragmentManager().beginTransaction().add(R.id.activity_content, new HomeFragment()).commit();
 
             // BottomNavigationView 내부 아이템 설정
-            bottomNavi.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.bottom_menu_home:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
-                            break;
-                        case R.id.bottom_menu_post:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostFragment()).commit();
-                            break;
-                        case R.id.bottom_menu_chatting:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new ChattingFragment()).commit();
-                            break;
-                        case R.id.bottom_menu_myPage:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new MyPageFragment()).commit();
-                            break;
-                    }
-                    return true;
+            bottomNavi.setOnItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) item -> {
+                switch (item.getItemId()) {
+                    case R.id.bottom_menu_home:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
+                        setMyTitle("홈");
+                        break;
+                    case R.id.bottom_menu_post:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostFragment()).commit();
+                        setMyTitle("게시판");
+                        break;
+                    case R.id.bottom_menu_chatting:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new ChattingFragment()).commit();
+                        setMyTitle("채팅");
+                        break;
+                    case R.id.bottom_menu_myPage:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new MyPageFragment()).commit();
+                        setMyTitle("마이페이지");
+                        break;
                 }
+                return true;
             });
         }
     }

@@ -17,9 +17,7 @@
         <activity
             android:name=".LogInActivity"
             android:theme="@style/SplashTheme"></activity>
-        <activity android:name=".MyPage"></activity>
         <activity android:name=".ChattingRoom" />
-        <activity android:name=".ChattingList" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +28,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class ChattingRoom extends ActivityBase{
+public class ChattingRoom extends BaseActivity {
     ChattingRoomAdapter crAdapter;
     RecyclerView crRecyclerView;
     ImageView btnPlus;

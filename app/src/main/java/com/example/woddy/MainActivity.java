@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.woddy.DB.InitDBdata;
+import com.example.woddy.Entity.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class MainActivity extends ActivityBase {
     Button btnMoveToChatt;
@@ -41,6 +45,7 @@ public class MainActivity extends ActivityBase {
         btnDBTest = findViewById(R.id.btn_dbtest);
         addWritingsBtn = (Button) findViewById(R.id.addWritingBtn);
         searchBtn = (Button) findViewById(R.id.searchBtn);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +74,7 @@ public class MainActivity extends ActivityBase {
         btnDBTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testDB();
+                InitDBdata init = new InitDBdata(tvDBTest);
             }
         });
 
@@ -91,14 +96,17 @@ public class MainActivity extends ActivityBase {
     }
 
     private void testDB() {
-        db = FirebaseDatabase.getInstance().getReference("/user/userNickName/");
-        db.orderByChild("roomNumbers").addListenerForSingleValueEvent(new ValueEventListener() {
+        ArrayList<String> alist = new ArrayList<String>();
+        db = FirebaseDatabase.getInstance().getReference("/user/userNickName/chattingList/roomNumbers");
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    String name = dataSnapshot.getValue().toString();
-                    String key = dataSnapshot.getKey();
-                    Toast.makeText(getApplicationContext(), name + "  " + key, Toast.LENGTH_LONG);
+                    //String str =dataSnapshot.getKey() + " : " +dataSnapshot.getValue();
+                    //tvDBTest.append(dataSnapshot.getValue().toString());
+                    alist.add(dataSnapshot.getValue().toString());
+                    //Toast.makeText(getApplicationContext(), name + "  " + key, Toast.LENGTH_LONG);
+                                    
                 }
             }
 
@@ -107,8 +115,6 @@ public class MainActivity extends ActivityBase {
 
             }
         });
-
-
     }
 
 }

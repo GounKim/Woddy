@@ -51,7 +51,7 @@ public class ChattingRoom extends ActivityBase{
         // ChattingList에서 클릭한 방의 CHATTER 받아오기
         Intent intent = getIntent();
         String chatter = intent.getStringExtra("CHATTER");
-        setMyTitle(chatter);
+//        setMyTitle(chatter);
 
         String user = "userB";
 

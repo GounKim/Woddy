@@ -1,34 +1,32 @@
 package com.example.woddy;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.example.woddy.fragment.FragmentChatting;
+import com.example.woddy.fragment.FragmentHome;
+import com.example.woddy.fragment.FragmentMy;
+import com.example.woddy.fragment.FragmentPost;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener;
 import com.google.android.material.navigation.NavigationBarView;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.BinaryOperator;
 
 
 public class ActivityBase extends AppCompatActivity {
     Toolbar mToolbar;
     TextView toolbarTitle;
 
-    //bottomnavigation
+//    //bottomnavigation
+    FrameLayout main_layout;
     BottomNavigationView bottomNavigationView;
 
     private String TAG = "메인";
@@ -43,6 +41,7 @@ public class ActivityBase extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        Log.i(TAG, "시작");
 
         //프래그먼트 생성
         fragment_home = new FragmentHome();
@@ -50,37 +49,70 @@ public class ActivityBase extends AppCompatActivity {
         fragment_chatting = new FragmentChatting();
         fragment_my = new FragmentMy();
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        init();
+        SettingListener();
 
-        //리스너 등록
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.i(TAG, "바텀 네비게이션 클릭");
-                int id = item.getItemId();
-                switch(id){
-                    case R.id.menu_home:
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.main_layout,fragment_home).commitAllowingStateLoss();
-                        return true;
-                    case R.id.menu_post:
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.main_layout,fragment_post).commitAllowingStateLoss();
-                        return true;
-                    case R.id.menu_chatting:
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.main_layout,fragment_chatting).commitAllowingStateLoss();
-                        return true;
-                    case R.id.menu_my_page:
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.main_layout,fragment_my).commitAllowingStateLoss();
-                        return true;
+        //처음화면
+        //getSupportFragmentManager().beginTransaction().add(R.id.main_layout, new FragmentHome()).commit();
+        bottomNavigationView.setSelectedItemId(R.id.menu_home);
 
-                }
-                return true;
-            }
-        });
+//        //리스너 등록
+//        bottomNavigationView.setOnItemSelectedListener(item -> {
+//            Log.i(TAG, "바텀 네비게이션 클릭");
+//
+//            switch(item.getItemId()){
+//                case R.id.menu_home:
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentHome()).commit();
+//                    break;
+//                case R.id.menu_post:
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentPost()).commit();
+//                    break;
+//                case R.id.menu_chatting:
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentChatting()).commit();
+//                    break;
+//                case R.id.menu_my_page:
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentMy()).commit();
+//                    break;
+//
+//            }
+//            return true;
+//        });
     }
+
+    private void init() {
+        main_layout = findViewById(R.id.main_layout);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+    }
+
+    private void SettingListener() {
+        //선택 리스너 등록
+        bottomNavigationView.setOnItemSelectedListener(new BottomNaviSelectedListener());
+    }
+
+    class BottomNaviSelectedListener implements NavigationBarView.OnItemSelectedListener{
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_home:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentHome()).commit();
+                    return true;
+                case R.id.menu_post:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentPost()).commit();
+                    return true;
+                case R.id.menu_chatting:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentChatting()).commit();
+                    return true;
+                case R.id.menu_my_page:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,new FragmentMy()).commit();
+                    return true;
+
+            }
+            return false;
+        }
+    }
+
+
+
 
 //    // 툴바 기본 설정
 //    @Override

@@ -28,14 +28,17 @@
     <FrameLayout
         android:id="@+id/activity_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1" />
-<!--
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/bottomNavi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/menu_bottom"/>
--->
+        android:layout_gravity="bottom"
+        android:background="@drawable/bottom_navi_shape"
+        app:itemIconTint="@drawable/bottom_navi_color"
+        app:itemTextColor="@drawable/bottom_navi_color"
+        app:menu="@menu/menu_bottom" />
+
 </LinearLayout>

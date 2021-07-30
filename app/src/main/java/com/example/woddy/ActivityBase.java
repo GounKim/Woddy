@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,11 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class ActivityBase extends AppCompatActivity {
     Toolbar mToolbar;
     TextView toolbarTitle;
+    BottomNavigationView bottomNavi;
+
+    private Boolean useToolbar = true;
+    private Boolean useBottomNavi = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,7 @@ public class ActivityBase extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.chatting_room_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
+        bottomNavi = findViewById(R.id.bottomNavi);;
 
         // 툴바 사용 여부 결정
         if(useToolbar()) {
@@ -46,11 +55,44 @@ public class ActivityBase extends AppCompatActivity {
         } else {
             mToolbar.setVisibility(View.GONE);
         }
+
+        // BottomNavi 사용 여부
+        if (useBottomNavi()) {
+            // 첫 화면 설정
+            getSupportFragmentManager().beginTransaction().add(R.id.activity_content, new HomeFragment()).commit();
+
+            // BottomNavigationView 내부 아이템 설정
+            bottomNavi.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.bottom_menu_home:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
+                            break;
+                        case R.id.bottom_menu_post:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostFragment()).commit();
+                            break;
+                        case R.id.bottom_menu_chatting:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new ChattingFragment()).commit();
+                            break;
+                        case R.id.bottom_menu_myPage:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new MyPageFragment()).commit();
+                            break;
+                    }
+                    return true;
+                }
+            });
+        }
     }
 
     // 툴바 사용여부 (사용 기본)
     protected boolean useToolbar() {
-        return true;
+        return useToolbar;
+    }
+
+    // 툴바 사용여부 변경
+    public void setUseToolbar(Boolean useToolbar) {
+        this.useToolbar = useToolbar;
     }
 
     protected void setMyTitle(String title) {
@@ -70,4 +112,13 @@ public class ActivityBase extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // BottomNavi 사용여부 (사용 기본)
+    protected boolean useBottomNavi() {
+        return useBottomNavi;
+    }
+
+    // BottomNavi 사용여부 변경
+    public void setUseBottomNavi(Boolean useBottomNavi) {
+        this.useBottomNavi = useBottomNavi;
+    }
 }

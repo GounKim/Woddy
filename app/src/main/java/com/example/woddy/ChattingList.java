@@ -29,7 +29,7 @@ public class ChattingList extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_list);
 
-        setMyTitle("채팅목록");
+//        setMyTitle("채팅목록");
 
         button = findViewById(R.id.button);
         recyclerView = (RecyclerView)findViewById(R.id.chatting_recycler_view);

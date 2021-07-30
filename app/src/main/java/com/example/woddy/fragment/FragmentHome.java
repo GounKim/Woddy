@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.fragment;
 
 import android.os.Bundle;
 
@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.woddy.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class FragmentPost extends Fragment {
+public class FragmentHome extends Fragment {
 
     private View view;
 
@@ -24,10 +26,11 @@ public class FragmentPost extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,@Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
         Log.i(TAG,"onCreateView");
-        view=inflater.inflate(R.layout.fragment_post,container,false);
+        view=inflater.inflate(R.layout.fragment_home,container,false);
         return view;
     }
+
 }

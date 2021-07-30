@@ -1,38 +1,36 @@
 package com.example.woddy;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.woddy.DB.FirebaseManager;
+import com.example.woddy.Entity.MemberInfo;
+import com.example.woddy.Entity.Posting;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -43,38 +41,53 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AddWritingsActivity extends AppCompatActivity {
     private File tempFile;
     private Boolean isPermission = true;
 
-    private static final int Gallery_Code = 10;
     private static final int PICK_FROM_ALBUM = 1;
-//    private static final int PICK_FROM_CAMERA = 2;
 
     Button cancelBtn, finishBtn, addImageBtn;
     EditText titleTV, plotTV;
     TextView testTV;
-    ImageView imageView;
-    static int writing_index = 0;
-    static int image_index = 0;
+    Spinner spinner;
+    static int writing_index = 1;
+    int image_index = 1;
+    String tag = "";
+    String pictures = "";
 
     FirebaseStorage storage;
     StorageReference storageRef;
+    DatabaseReference db;
+    FirebaseManager firebaseManager;
+    FirebaseManager firestoreManager;
+
+    InputMethodManager imm;
+
+    String[] tags = {"태그1", "태그2", "태그3", "태그4", "태그5"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
         setContentView(R.layout.add_writings_main);
 
+        db = FirebaseDatabase.getInstance().getReference();
+        firebaseManager = new FirebaseManager(db);
+        firestoreManager = new FirebaseManager();
+
+        spinner = (Spinner) findViewById(R.id.spinner);
         addImageBtn = (Button) findViewById(R.id.addImages);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         finishBtn = (Button) findViewById(R.id.finishBtn);
@@ -82,11 +95,21 @@ public class AddWritingsActivity extends AppCompatActivity {
         plotTV = (EditText) findViewById(R.id.plotTextView);
         testTV = (TextView) findViewById(R.id.testTextView);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tags);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-        DatabaseReference title = database.getReference("user/writings/" + writing_index + "/title");
-        DatabaseReference plot = database.getReference("user/writings/" + writing_index + "/plot");
-        StorageReference attachedImagesRef = storageRef.child("user/writings/" + writing_index + "/images/" + image_index);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tag = tags[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                tag = tags[0];
+            }
+        });
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,60 +120,19 @@ public class AddWritingsActivity extends AppCompatActivity {
         });
 
         finishBtn.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("WrongConstant")
             @Override
             public void onClick(View v) {
-                writing_index = writing_index + 1;
-
                 if (!titleTV.getText().toString().isEmpty() && !plotTV.getText().toString().isEmpty()) {
-                    title.setValue(titleTV.getText().toString());
-                    plot.setValue(plotTV.getText().toString());
-
-                    title.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String strTitle = dataSnapshot.getValue().toString();
-                            testTV.setText("title: " + strTitle + ", ");
-                            Log.d("Database", "Value is: " + strTitle);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            Log.w("Database", "Failed to read value.", error.toException());
-                        }
-                    });
-
-                    plot.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
-                            String strPlot = dataSnapshot.getValue().toString();
-                            testTV.setText((testTV.getText() + "plot : " + strPlot));
-                            Log.d("Database", "Value is: " + strPlot);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.w("Database", "Failed to read value.", error.toException());
-                        }
-                    });
-
-                    Toast.makeText(getApplicationContext(), "입력됨", Toast.LENGTH_SHORT).show();
+                    final String title = titleTV.getText().toString();
+                    final String content = plotTV.getText().toString();
+                    Posting post = new Posting("P000000" + writing_index, tag, "writer", title, content, pictures);
+                    firestoreManager.PostingUpload(post);
+                    firebaseManager.addPosting(post);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
+                    writing_index++;
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddWritingsActivity.this);
-
-                    builder.setTitle("입력 오류").setMessage("입력되지 않은 부분이 있습니다.");
-                    builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                    Toast.makeText(getApplicationContext(), "제목과 내용 모두를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -167,6 +149,13 @@ public class AddWritingsActivity extends AppCompatActivity {
         });
     }
 
+    // 키보드 자동 올라오기 막기
+    public void linearOnClick(View v) {
+        imm.hideSoftInputFromWindow(titleTV.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(plotTV.getWindowToken(), 0);
+    }
+
+    // 갤러리로부터 사진 가져오기기
     private void goToAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
@@ -192,13 +181,14 @@ public class AddWritingsActivity extends AppCompatActivity {
         if (requestCode == PICK_FROM_ALBUM) {
             Uri photoUri = data.getData();
             StorageReference storageRef = storage.getReference();
-            StorageReference attachedImage = storageRef.child("user/writings" + writing_index + "/image" + image_index + ".png");
+            StorageReference attachedImage = storageRef.child("user/myPostings/postNumbers/postNum" + writing_index + "/image/imageNum" + image_index + ".png");
             UploadTask uploadTask = attachedImage.putFile(photoUri);
             Bitmap bitmap = null;
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
                 setImage(bitmap);
+                pictures = photoUri.toString();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -218,7 +208,7 @@ public class AddWritingsActivity extends AppCompatActivity {
     }
 
     private void tedPermission() {
-
+        // 접근 권한 요청
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -249,20 +239,16 @@ public class AddWritingsActivity extends AppCompatActivity {
         // 이미지가 저장될 폴더 이름 ( image )
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/image/");
         if (!storageDir.exists()) storageDir.mkdirs();
-
         // 파일 생성
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
         return image;
     }
 
+    // 사진 선택하면 이미지 골라서 보여주기
     private void setImage(Bitmap img) {
-        image_index = image_index + 1;
         LinearLayout imageLayout = (LinearLayout) findViewById(R.id.imageLayout);
         ImageView iv = new ImageView(this);
-
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(250, 250);
         lp.setMargins(20, 0, 20, 0);
@@ -275,6 +261,7 @@ public class AddWritingsActivity extends AppCompatActivity {
         imageLayout.addView(iv);
 
         tempFile = null;
+        image_index = image_index + 1;
     }
 
 }

@@ -1,10 +1,16 @@
 package com.example.woddy.DB;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 
+import com.example.woddy.AddWritingsActivity;
 import com.example.woddy.ChattingRoom;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.ChattingInfo;
+import com.example.woddy.Entity.MemberInfo;
+import com.example.woddy.Entity.Posting;
+import com.example.woddy.Entity.PostingInfo;
 import com.example.woddy.Entity.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,10 +18,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 public class FirebaseManager {
     // Realtime Database이용
@@ -72,6 +82,48 @@ public class FirebaseManager {
                 .push().setValue(chatChat);
     }
 
+    public void addPosting(Posting post) {
+        database.child("user")
+                .child("userNickName")
+                .child("Postings")
+                .child(post.getPostingNumber())
+                .child("title")
+                .setValue(post.getTitle());
+
+        database.child("user")
+                .child("userNickName")
+                .child("Postings")
+                .child(post.getPostingNumber())
+                .child("content")
+                .setValue(post.getContent());
+
+        database.child("user")
+                .child("Postings")
+                .child(post.getPostingNumber())
+                .child("tag")
+                .setValue(post.getTag());
+
+        database.child("user")
+                .child("Postings")
+                .child(post.getPostingNumber())
+                .child("writer")
+                .setValue(post.getWriter());
+    }
+
+    // Cloud Firestore에도 작성한 글 정보 저장
+    private FirebaseFirestore db;
+
+    public FirebaseManager() {
+        db = FirebaseFirestore.getInstance();
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void PostingUpload(Posting posting) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // User 정보 받아올 수 있도록 해야할 것 같음
+        User user = new User("Test");
+        db.collection("user").document(user.getNickName()).collection("posting").document(posting.getPostingNumber()).set(posting);
+    }
 
     // 사용자 채팅방리스트에 있는 채팅방들 찾기
 

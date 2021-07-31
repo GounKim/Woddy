@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.storage.StorageManager;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,12 +38,14 @@ public class SignUpActivity extends AppCompatActivity {
     EditText pw1EditText;
     EditText pw2EditText;
     EditText nicknameEditText;
+    EditText addressEditText;
     Button idCheckButton;
     Button nicknameCheckButton;
     Button nextButton;
     TextView idAvailTextView;
     TextView pwAvailTextView;
     TextView nickAvailTextView;
+    Boolean idCheck = false, pwCheck = false, nickCheck = false;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -55,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         pw1EditText = findViewById(R.id.password_edit_text);
         pw2EditText = findViewById(R.id.password_confirm_edit_text);
         nicknameEditText = findViewById(R.id.nickname_edit_text);
+        addressEditText = findViewById(R.id.address_edit_text);
         idCheckButton = findViewById(R.id.id_availability_check_button);
         nicknameCheckButton = findViewById(R.id.nickname_availability_check_button);
         nextButton = findViewById(R.id.next_button);
@@ -67,18 +74,30 @@ public class SignUpActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("회원가입");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        pw2EditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        if (pw1EditText.getText().toString().equals(pw2EditText.getText().toString())) {
-            pwAvailTextView.setVisibility(View.VISIBLE);
-            pwAvailTextView.setText("비밀번호가 일치합니다.");
-        } else {
-            pwAvailTextView.setVisibility(View.VISIBLE);
-            pwAvailTextView.setText("비밀번호가 일치하지 않습니다.");
-        }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                pwAvailTextView.setVisibility(View.VISIBLE);
+                if (pw1EditText.getText().toString().equals(pw2EditText.getText().toString())) {
+                    pwAvailTextView.setTextColor(Color.GRAY);
+                    pwAvailTextView.setText("비밀번호가 일치합니다.");
+                    pwCheck = true;
+                } else {
+                    pwAvailTextView.setTextColor(Color.RED);
+                    pwAvailTextView.setText("비밀번호가 일치하지않습니다.");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         idCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,9 +149,32 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                StorageReference storageReference = firebaseStorage.getReference()
-                                        .child("userProfileImage")
-                                        .child("gs://awoddy-5a5b2.appspot.com/userProfileImage/user.png");
+                                final String uid = task.getResult().getUser().getUid();
+                                UserProfile userProfile = new UserProfile();
+
+                                userProfile.userID = email;
+                                userProfile.userPW = pw1;
+                                userProfile.nickname = nickname;
+                                userProfile.women = false;
+                                //address
+                                String tmpStr = addressEditText.getText().toString();
+                                String[] tmpStrArr = tmpStr.split(" ");
+                                userProfile.city = tmpStrArr[0];
+                                userProfile.gu = tmpStrArr[1];
+                                userProfile.dong = tmpStrArr[2];
+
+                                firebaseDatabase.getReference().child("userProfile").child(uid).setValue(userProfile);
+
+                                //SignUpSuccessActivity로 화면전환, SignUpActivity는 아예 종료시켜야함.
+                                Intent intent = new Intent(SignUpActivity.this, SignUpSuccessActivity.class);
+                                startActivity(intent);
+                                finish();
+                                Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (task.getException() != null) {
+                                    Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_LONG).show();
+
+                                }
                             }
                         }
                     });
@@ -153,5 +195,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }

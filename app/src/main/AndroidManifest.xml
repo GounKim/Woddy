@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Woddy">
-        <activity android:name=".FemaleCertActivity"></activity>
+        <activity android:name=".SignUpSuccessActivity"></activity>
+        <activity android:name=".FemaleCertActivity" />
         <activity
             android:name=".SignUpActivity"
-            android:parentActivityName=".LogInActivity"></activity>
+            android:parentActivityName=".LogInActivity" />
         <activity
             android:name=".LogInActivity"
             android:theme="@style/SplashTheme">

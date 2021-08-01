@@ -84,6 +84,8 @@ public class BaseActivity extends AppCompatActivity {
                 }
                 return true;
             });
+        } else {
+            bottomNavi.setVisibility(View.GONE);
         }
     }
 
@@ -92,9 +94,9 @@ public class BaseActivity extends AppCompatActivity {
         return useToolbar;
     }
 
-    // 툴바 사용여부 변경
-    public void setUseToolbar(Boolean useToolbar) {
-        this.useToolbar = useToolbar;
+    // BottomNavi 사용여부 (사용 기본)
+    protected boolean useBottomNavi() {
+        return useBottomNavi;
     }
 
     protected void setMyTitle(String title) {
@@ -112,15 +114,5 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    // BottomNavi 사용여부 (사용 기본)
-    protected boolean useBottomNavi() {
-        return useBottomNavi;
-    }
-
-    // BottomNavi 사용여부 변경
-    public void setUseBottomNavi(Boolean useBottomNavi) {
-        this.useBottomNavi = useBottomNavi;
     }
 }

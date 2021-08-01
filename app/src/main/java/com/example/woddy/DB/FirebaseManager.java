@@ -66,10 +66,10 @@ public class FirebaseManager {
         //ciValue = chatChat.toMap();
         //database.child("/chattingRoom/" + chatChat.getRoomNum() + "/messages/").push().setValue(ciValue);
 
-        database.child("chattingRoom")
-                .child(chatChat.getRoomNum())
-                .child("messages")
-                .push().setValue(chatChat);
+//        database.child("chattingRoom")
+//                .child(chatChat.getRoomNum())
+//                .child("messages")
+//                .push().setValue(chatChat);
     }
 
 

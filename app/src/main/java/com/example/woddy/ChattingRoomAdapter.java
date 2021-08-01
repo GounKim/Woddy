@@ -14,7 +14,11 @@ import com.example.woddy.Entity.ChattingMsg;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int USER_MESSAGE = 0;
@@ -60,12 +64,12 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof UserMessageHolder) {
             ((UserMessageHolder)holder).userMsg.setText(chatItemList.get(position).getMessage());
-            ((UserMessageHolder)holder).sendTime.setText(chatItemList.get(position).getWrittenTime());
+            ((UserMessageHolder)holder).sendTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
         } else if (holder instanceof ChatterMessageHolder) {
             ((ChatterMessageHolder)holder).chatterMsg.setText(chatItemList.get(position).getMessage());
-            ((ChatterMessageHolder)holder).getTime.setText(chatItemList.get(position).getWrittenTime());
+            ((ChatterMessageHolder)holder).getTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
         } else {
-            ((DateMarkHolder)holder).dateMark.setText(chatItemList.get(position).getWrittenTime()); // 요일로 변경 필요
+            ((DateMarkHolder)holder).dateMark.setText(timestamp(chatItemList.get(position).getWrittenTime())); // 요일로 변경 필요
         }
     }
 
@@ -115,5 +119,14 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             dateMark = itemView.findViewById(R.id.date_mark);
         }
+    }
+
+    private String timestamp(Date date) {    // 타임스탬프 생성
+        TimeZone timeZone;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.KOREAN);
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREAN);
+        timeZone = TimeZone.getTimeZone("Asia/Seoul");
+        sdf.setTimeZone(timeZone);
+        return sdf.format(date);
     }
 }

@@ -3,20 +3,45 @@ package com.example.woddy;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.Entity.ChattingInfo;
+import com.example.woddy.Entity.ChattingMsg;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 
 public class ChattingFragment extends Fragment {
+    FirestoreManager manager = new FirestoreManager();
+
     RecyclerView recyclerView;
     ChattingListAdapter clAdapter;
     Button button;
@@ -34,41 +59,64 @@ public class ChattingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chatting, container, false);
 
-        button = view.findViewById(R.id.button);
         recyclerView = view.findViewById(R.id.chatting_recycler_view);
 
-        // 초기 채팅 리스트 설정
-        chatterList = new ArrayList<>();
-        rChattingList = new ArrayList<>();
-        cImageList = new ArrayList<>();
 
-        chatterList.add("사용자A");
-        rChattingList.add("사용자A의 메시지");
-        cImageList.add(Uri.parse(image1));
-        chatterList.add("사용자B");
-        rChattingList.add("사용자B의 메시지");
-        cImageList.add(Uri.parse(image2));
-
-        clAdapter = new ChattingListAdapter(view.getContext(), chatterList, rChattingList,cImageList);
+        clAdapter = new ChattingListAdapter(view.getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(clAdapter);
 
-        String str = "사용자";
-        String chat = "사용자의 메시지";
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(num % 2 == 0) {
-                    clAdapter.addItem(str, chat, Uri.parse(image1));
-                }
-                else {
-                    clAdapter.addItem(str, chat, Uri.parse(image2));
-                }
-                num++;
-            }
-        });
+        // getDB
+        getChatList();
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    // 채팅 리스트 가져오기
+    private void getChatList() {
+        //FirestoreManager manager = new FirestoreManager();
+        String user = "user1";
+
+        manager.getChatRoomList(user)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed.", error);
+                            return;
+                        }
+
+                        for (QueryDocumentSnapshot doc: value) {
+                            try {
+                                ChattingInfo chatInfo = doc.toObject(ChattingInfo.class);
+                                setCurrentMsg(chatInfo);
+                                Log.d(TAG, "!!!!!!" + chatInfo.getRoomNumber());
+                            } catch (RuntimeException e){
+                                Log.d(TAG, "Error getting chatList: ", e);
+                            }
+                        }
+                    }
+                });
+    }
+
+    // 최근 메시지 가져오기
+    private void setCurrentMsg(ChattingInfo chatInfo) {
+        manager.getMessage(chatInfo.getRoomNumber()).limitToLast(1)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed.", error);
+                            return;
+                        }
+
+                        for (DocumentSnapshot doc: value.getDocuments()) {
+                            String curMsg = doc.get("message").toString();
+                            chatInfo.setRecentMsg(curMsg);
+                            clAdapter.setCurMsg(chatInfo);
+                        }
+                    }
+                });
     }
 }

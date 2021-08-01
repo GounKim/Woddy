@@ -4,17 +4,24 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.woddy.Entity.Board;
 import com.example.woddy.Entity.BoardTag;
+import com.example.woddy.Entity.ChattingInfo;
+import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.MemberInfo;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -129,24 +136,6 @@ public class FirestoreManager {
                 });
     }
 
-    // 사용자 채팅방 목록 설정
-    public void addUChatList() {
-        /*DocumentReference userRef = fsDB.collection("user").document();
-        userRef.collection("chattingList").add()
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "User has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-         */
-    }
 
     // Member 정보 추가 (회원가입용 사용자 정보 -> 접근 보안 上)
     public void addMember(MemberInfo member) {
@@ -236,10 +225,10 @@ public class FirestoreManager {
 
     // 게시물 추가
     public void addPosting(Posting posting) {
-        fsDB.collection("posting").document(posting.getPostingNumber()).set(posting)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        fsDB.collection("posting").add(posting)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(Void unused) {
+                    public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "User has successfully Added!");
                     }
                 })
@@ -286,8 +275,8 @@ public class FirestoreManager {
     }
 
     // 채팅방 추가
-    public void addChatRoom(Posting posting) {
-        fsDB.collection("chattingRoom").document(posting.getPostingNumber()).set(posting)
+    public void addChatRoom(ChattingInfo chattingInfo) {
+        fsDB.collection("chattingRoom").document(chattingInfo.getRoomNumber()).set(chattingInfo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -319,7 +308,96 @@ public class FirestoreManager {
                 });
     }
 
+    // 사용자 채팅방 목록 설정
+    public Query getChatRoomList(String user) {
+        CollectionReference ref = fsDB.collection("chattingRoom");
+
+        return ref.whereArrayContains("participant", user);
+    }
+
+    // 채팅 메시지 추가
+    public void addMessage(String docID, ChattingMsg msg) {
+        DocumentReference roomRef = fsDB.collection("chattingRoom").document(docID);
+        roomRef.collection("messages").add(msg)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "Message has successfully Added!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error adding document in Message collection", e);
+                    }
+                });
+    }
+
+    // 채팅 메시지 가져오기
+    public Query getMessage(String roomNum) {
+        DocumentReference docRef = fsDB.collection("chattingRoom").document(roomNum);
+
+        return docRef.collection("messages").orderBy("writtenTime", Query.Direction.ASCENDING);
+    }
+
+//    // 채팅 마지막 메시지 가져오기
+//    public Query getRecentMsg(String roomNum) {
+//        DocumentReference docRef = fsDB.collection("chattingRoom").document(roomNum);
+//
+//        return docRef.collection("messages").orderBy("writtenTime", Query.Direction.DESCENDING);
+//    }
+
     /* ************* 검색 ************* */
+    public void search(String colPath, String field, String value) {
+        CollectionReference ref = fsDB.collection(colPath);
+
+        ref.whereEqualTo(field, value).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                try {
+                                    Posting posting = document.toObject(Posting.class);
+                                } catch (RuntimeException e){
+                                    Log.d(TAG, "Error getting Objset: ", e);
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
+    // 게시판 태그에 맞는 정렬할 게시물 검색
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

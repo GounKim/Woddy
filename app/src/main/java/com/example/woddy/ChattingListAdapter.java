@@ -3,6 +3,7 @@ package com.example.woddy;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,28 +13,39 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import org.jetbrains.annotations.NotNull;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
 
+import com.example.woddy.Entity.ChattingInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
 import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapter.clHolder> {
-    Context clContext;  //ChattingList Context
-    ArrayList<String> chatterNameList;
-    ArrayList<String> recentChatList;
-    ArrayList<Uri> cImagePList;  // Chatter Image Path List
+    private Context clContext;  //ChattingList Context
+    //ArrayList<String> chatterNameList;
+    //ArrayList<String> recentChatList;
+    //ArrayList<Uri> cImagePList;  // Chatter Image Path List
+    //ArrayList<String> roomNumList;
+    private ArrayList<ChattingInfo> chattingInfos;
 
 
-    ChattingListAdapter(Context context, ArrayList<String> chatterList, ArrayList<String> rChatList, ArrayList<Uri> cImageList) {
+    ChattingListAdapter(Context context) {
         this.clContext = context;
-        this.chatterNameList = chatterList;
-        this.recentChatList = rChatList;
-        this.cImagePList = cImageList;
+        //this.chatterNameList = new ArrayList<>();
+        //this.recentChatList = new ArrayList<>();
+        //this.cImagePList = new ArrayList<>();
+        this.chattingInfos = new ArrayList<>();
+        //this.roomNumList = new ArrayList<>();
     }
 
-    public void addItem(String chatter, String rChatt, Uri cImage) {
-        chatterNameList.add(chatter);
-        recentChatList.add(rChatt);
-        cImagePList.add(cImage);
+    public void addItem(ChattingInfo chattingInfo) {
+        //chatterNameList.add(chatter);
+        //recentChatList.add(rChatt);
+        //cImagePList.add(cImage);
+        chattingInfos.add(chattingInfo);
+        //roomNumList.add(chattingInfo.getRoomNumber());
         notifyDataSetChanged();
     }
 
@@ -56,7 +68,8 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
                     if (pos != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(clContext, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        intent.putExtra("CHATTER", chatterNameList.get(pos));
+                        intent.putExtra("CHATTER", getChatter(pos, "user1"));
+                        intent.putExtra("ROOMNUM", chattingInfos.get(pos).getRoomNumber());
 
                         clContext.startActivity(intent);
                     }
@@ -89,14 +102,36 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull clHolder holder, int position) {
-        holder.getChatterName().setText(chatterNameList.get(position));
-        holder.getRecentChatt().setText(recentChatList.get(position));
-        holder.getChatterImage().setImageURI(cImagePList.get(position));
+        holder.getChatterName().setText(getChatter(position, "user1"));
+        holder.getRecentChatt().setText(chattingInfos.get(position).getRecentMsg());
+        //holder.getChatterImage().setImageURI(chattingInfos.get(position).getChatterImg());
     }
 
     @Override
     public int getItemCount() {
-        return chatterNameList.size();
+        return chattingInfos.size();
     }
+
+    // 대화 상대방 가져오기
+    private String getChatter(int pos, String user) {
+        List<String> list = (List<String>) chattingInfos.get(pos).getParticipant();
+        String chatter = list.get(0).equals(user) ? list.get(1) : list.get(0);
+        return chatter;
+    }
+
+    public void setCurMsg(ChattingInfo chatInfo) {
+        if (chattingInfos.size() == 0) {
+            addItem(chatInfo);
+        } else {
+            for (ChattingInfo info : chattingInfos) { //for문을 통한 전체출력
+                if (info.getRoomNumber().equals(chatInfo.getRoomNumber())) {
+                    chattingInfos.add(0, chatInfo);
+                    chattingInfos.remove(info);
+                    notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
 }
 

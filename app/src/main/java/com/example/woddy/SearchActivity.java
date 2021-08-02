@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,9 +34,7 @@ public class SearchActivity extends AppCompatActivity {
         public boolean onQueryTextSubmit(String query) {
             // 텍스트 입력 후 검색 버튼이 눌렸을 때의 이벤트
 // Get a reference to our posts
-            final FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference titleRef = database.getReference("user/userNickName/myPostings/postNumbers/postNum" + AddWritingsActivity.writing_index + "/title");
-//            DatabaseReference plotRef = database.getReference("user/userNickName/myPostings/postNumbers/postNum" + AddWritingsActivity.writing_index + "/plot");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             return false;
         }

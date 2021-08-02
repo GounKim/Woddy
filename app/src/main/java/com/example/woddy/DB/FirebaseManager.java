@@ -82,34 +82,6 @@ public class FirebaseManager {
                 .push().setValue(chatChat);
     }
 
-    public void addPosting(Posting post) {
-        database.child("user")
-                .child("userNickName")
-                .child("Postings")
-                .child(post.getPostingNumber())
-                .child("title")
-                .setValue(post.getTitle());
-
-        database.child("user")
-                .child("userNickName")
-                .child("Postings")
-                .child(post.getPostingNumber())
-                .child("content")
-                .setValue(post.getContent());
-
-        database.child("user")
-                .child("Postings")
-                .child(post.getPostingNumber())
-                .child("tag")
-                .setValue(post.getTag());
-
-        database.child("user")
-                .child("Postings")
-                .child(post.getPostingNumber())
-                .child("writer")
-                .setValue(post.getWriter());
-    }
-
     // Cloud Firestore에도 작성한 글 정보 저장
     private FirebaseFirestore db;
 

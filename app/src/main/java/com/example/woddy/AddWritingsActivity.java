@@ -127,7 +127,6 @@ public class AddWritingsActivity extends AppCompatActivity {
                     final String content = plotTV.getText().toString();
                     Posting post = new Posting("P000000" + writing_index, tag, "writer", title, content, pictures);
                     firestoreManager.PostingUpload(post);
-                    firebaseManager.addPosting(post);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     writing_index++;

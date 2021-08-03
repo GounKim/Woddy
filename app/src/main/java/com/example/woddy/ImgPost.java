@@ -1,4 +1,4 @@
-package com.example.woody;
+package com.example.woddy;
 
 import androidx.appcompat.app.AppCompatActivity;
 

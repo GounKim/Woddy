@@ -16,8 +16,8 @@ public class ChattingInfo {
     public ChattingInfo() {
     }
 
-    public ChattingInfo(String roomNumber, List<String> participant) {
-        this.roomNumber = roomNumber;
+    public ChattingInfo(List<String> participant) {
+        this.roomNumber = "";
         this.participant = participant;
         this.recentMsg = "";
     }

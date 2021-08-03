@@ -13,8 +13,8 @@ public class Posting {
     public Posting() {
     }
 
-    public Posting(String postingNumber, String tag, String writer, String title, String content) {
-        this.postingNumber = postingNumber;
+    public Posting(String tag, String writer, String title, String content) {
+        this.postingNumber = "";
         this.tag = tag;
         this.writer = writer;
         this.title = title;
@@ -22,8 +22,8 @@ public class Posting {
         this.report = 0;
     }
 
-    public Posting(String postingNumber, String tag, String writer, String title, String content, String pictures) {
-        this.postingNumber = postingNumber;
+    public Posting(String tag, String writer, String title, String content, String pictures) {
+        this.postingNumber = "";
         this.tag = tag;
         this.writer = writer;
         this.title = title;

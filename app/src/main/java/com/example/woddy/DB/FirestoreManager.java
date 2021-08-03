@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.woddy.ChattingRoom;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,12 +27,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 
 public class FirestoreManager {
+    private final String NUMOFPOST = "numOfPost";
+    private final String NUMOFCHAT = "numOfChat";
+
     private FirebaseFirestore fsDB;
 
     public FirestoreManager() {
@@ -229,6 +235,9 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        Map<String, Object> id = new HashMap<>();
+                        id.put("postingNumber", documentReference.getId());
+                        updatePosting(documentReference.getId(), id);
                         Log.d(TAG, "User has successfully Added!");
                     }
                 })
@@ -276,17 +285,39 @@ public class FirestoreManager {
 
     // 채팅방 추가
     public void addChatRoom(ChattingInfo chattingInfo) {
-        fsDB.collection("chattingRoom").document(chattingInfo.getRoomNumber()).set(chattingInfo)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        fsDB.collection("chattingRoom").add(chattingInfo)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully Added!");
+                    public void onSuccess(DocumentReference documentReference) {
+                        Map<String, Object> id = new HashMap<>();
+                        id.put("roomNumber", documentReference.getId());
+                        updateChatRoom(documentReference.getId(), id);
+                        addMessage(documentReference.getId(), new ChattingMsg(chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다."));
+
+                        Log.d(TAG, "chattingRoom has successfully Added!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
                         Log.w(TAG, "Error adding document in user collection", e);
+                    }
+                });
+    }
+
+    // 채팅방 번호 설정용 update (docID는 Posting Number)
+    public void updateChatRoom(String docID, Map<String, Object> newData) {
+        fsDB.collection("chattingRoom").document(docID).update(newData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "User has successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error updating user", e);
                     }
                 });
     }
@@ -369,10 +400,6 @@ public class FirestoreManager {
                     }
                 });
     }
-
-
-
-    // 게시판 태그에 맞는 정렬할 게시물 검색
 
 
 }

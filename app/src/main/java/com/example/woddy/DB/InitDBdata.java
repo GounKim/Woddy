@@ -185,16 +185,16 @@ public class InitDBdata {
     }
 
     private void testPosting() {
-        Posting posting1 = new Posting("P0000001", "태그 이름","user1","제목 작성1","오늘 날씨가 매우 덥네요.");
-        manager.addPosting(posting1);
-        Posting posting2 = new Posting("P0000002", "태그 이름","user2","제목 작성2","안녕하세요.");
-        manager.addPosting(posting2);
-        Posting posting3 = new Posting("P0000003", "태그 이름","user2","제목 작성3","오늘 날씨가 매우 춥네요.");
-        manager.addPosting(posting3);
-        Posting posting4 = new Posting("P0000004", "Tag Name","user3","제목 작성4","내용 작성.");
-        manager.addPosting(posting4);
-        Posting posting5 = new Posting("P0000005", "Tag Name","user1","제목 작성5","좋은 아침입니다.", "사진선택");
-        manager.addPosting(posting5);
+        //Posting posting1 = new Posting("태그 이름","user1","제목 작성1","오늘 날씨가 매우 덥네요.");
+        //manager.addPosting(posting1);
+        //Posting posting2 = new Posting("태그 이름","user2","제목 작성2","안녕하세요.");
+        //manager.addPosting(posting2);
+        //Posting posting3 = new Posting("태그 이름","user2","제목 작성3","오늘 날씨가 매우 춥네요.");
+        //manager.addPosting(posting3);
+        //Posting posting4 = new Posting("Tag Name","user3","제목 작성4","내용 작성.");
+        //manager.addPosting(posting4);
+        //Posting posting5 = new Posting("Tag Name","user1","제목 작성5","좋은 아침입니다.", "사진선택");
+        //manager.addPosting(posting5);
 
 //
 //        Map<String, Object> tData = new HashMap<>();
@@ -210,15 +210,15 @@ public class InitDBdata {
     }
 
     private void testChatList() {
-        ChattingInfo chatInfo1 = new ChattingInfo("CR0000001", Arrays.asList("user1", "user2"));
-        manager.addChatRoom(chatInfo1);
-        ChattingInfo chatInfo2 = new ChattingInfo("CR0000002", Arrays.asList("user3", "user1"));
-        manager.addChatRoom(chatInfo2);
-        ChattingInfo chatInfo3 = new ChattingInfo("CR0000003", Arrays.asList("user2", "user3"));
-        manager.addChatRoom(chatInfo3);
-        ChattingInfo chatInfo4 = new ChattingInfo("CR0000004", Arrays.asList("user1", "user5"));
-        manager.addChatRoom(chatInfo4);
-        ChattingInfo chatInfo5 = new ChattingInfo("CR0000005", Arrays.asList("user6", "user1"));
+        //ChattingInfo chatInfo1 = new ChattingInfo("CR0000001", Arrays.asList("user1", "user2"));
+        //manager.addChatRoom(chatInfo1);
+        //ChattingInfo chatInfo2 = new ChattingInfo("CR0000002", Arrays.asList("user3", "user1"));
+        //manager.addChatRoom(chatInfo2);
+        //ChattingInfo chatInfo3 = new ChattingInfo("CR0000003", Arrays.asList("user2", "user3"));
+        //manager.addChatRoom(chatInfo3);
+        //ChattingInfo chatInfo4 = new ChattingInfo("CR0000004", Arrays.asList("user1", "user5"));
+        //manager.addChatRoom(chatInfo4);
+        ChattingInfo chatInfo5 = new ChattingInfo(Arrays.asList("user6", "user1"));
         manager.addChatRoom(chatInfo5);
     }
 }

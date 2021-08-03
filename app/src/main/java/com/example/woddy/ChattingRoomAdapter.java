@@ -11,10 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.Entity.ChattingMsg;
+import com.google.type.DateTime;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -24,6 +26,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int USER_MESSAGE = 0;
     public static final int CHATTER_MESSAGE = 1;
     public static final int DATE_MARK = 2;
+    public static final int INTRO_MARK = 3;
 
     ArrayList<ChattingMsg> chatItemList;
     String chatter;
@@ -54,9 +57,12 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (viewType == CHATTER_MESSAGE) {
             view = inflater.inflate(R.layout.chat_room_recycler_chatter, parent, false);
             return new ChatterMessageHolder(view);
-        } else {
+        } else if (viewType == DATE_MARK){
             view = inflater.inflate(R.layout.chat_room_recycler_date, parent, false);
             return new DateMarkHolder(view);
+        } else {
+            view = inflater.inflate(R.layout.chat_room_recycler_date, parent, false);
+            return new IntroMarkHolder(view);
         }
     }
 
@@ -68,8 +74,10 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof ChatterMessageHolder) {
             ((ChatterMessageHolder)holder).chatterMsg.setText(chatItemList.get(position).getMessage());
             ((ChatterMessageHolder)holder).getTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
+        } else if (holder instanceof DateMarkHolder) {
+            ((DateMarkHolder)holder).dateMark.setText(datestamp(chatItemList.get(position).getWrittenTime())); // 요일로 변경 필요
         } else {
-            ((DateMarkHolder)holder).dateMark.setText(timestamp(chatItemList.get(position).getWrittenTime())); // 요일로 변경 필요
+            ((IntroMarkHolder)holder).introMark.setText(chatItemList.get(position).getMessage());
         }
     }
 
@@ -80,11 +88,16 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if (chatItemList.get(position).getWriter().equals(user)) {
+        ChattingMsg item = chatItemList.get(position);
+
+        if (item.getWriter() != null && item.getWriter().equals(user)) {
             return USER_MESSAGE;
         }
-        else if (chatItemList.get(position).getWriter().equals("userA")) {
+        else if (item.getWriter() != null && item.getWriter().equals(chatter)) {
             return CHATTER_MESSAGE;
+        }
+        else if (item.getWrittenTime() == null){
+            return INTRO_MARK;
         }
         else {
             return DATE_MARK;
@@ -121,10 +134,26 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    public class IntroMarkHolder extends RecyclerView.ViewHolder {
+        TextView introMark;
+        public IntroMarkHolder(@NonNull @NotNull View itemView) {
+            super(itemView);
+            introMark = itemView.findViewById(R.id.date_mark);
+        }
+    }
+
     private String timestamp(Date date) {    // 타임스탬프 생성
         TimeZone timeZone;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.KOREAN);
         //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREAN);
+        timeZone = TimeZone.getTimeZone("Asia/Seoul");
+        sdf.setTimeZone(timeZone);
+        return sdf.format(date);
+    }
+
+    private String datestamp(Date date) {    // 타임스탬프 생성
+        TimeZone timeZone;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.KOREAN);
         timeZone = TimeZone.getTimeZone("Asia/Seoul");
         sdf.setTimeZone(timeZone);
         return sdf.format(date);

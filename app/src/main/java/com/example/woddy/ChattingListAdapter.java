@@ -24,28 +24,18 @@ import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapter.clHolder> {
     private Context clContext;  //ChattingList Context
-    //ArrayList<String> chatterNameList;
-    //ArrayList<String> recentChatList;
-    //ArrayList<Uri> cImagePList;  // Chatter Image Path List
-    //ArrayList<String> roomNumList;
     private ArrayList<ChattingInfo> chattingInfos;
+    private String user;
 
 
-    ChattingListAdapter(Context context) {
+    ChattingListAdapter(Context context, String user) {
         this.clContext = context;
-        //this.chatterNameList = new ArrayList<>();
-        //this.recentChatList = new ArrayList<>();
-        //this.cImagePList = new ArrayList<>();
+        this.user = user;
         this.chattingInfos = new ArrayList<>();
-        //this.roomNumList = new ArrayList<>();
     }
 
     public void addItem(ChattingInfo chattingInfo) {
-        //chatterNameList.add(chatter);
-        //recentChatList.add(rChatt);
-        //cImagePList.add(cImage);
         chattingInfos.add(chattingInfo);
-        //roomNumList.add(chattingInfo.getRoomNumber());
         notifyDataSetChanged();
     }
 
@@ -68,7 +58,8 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
                     if (pos != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(clContext, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        intent.putExtra("CHATTER", getChatter(pos, "user1"));
+                        intent.putExtra("USER", user);
+                        intent.putExtra("CHATTER", getChatter(pos, user));
                         intent.putExtra("ROOMNUM", chattingInfos.get(pos).getRoomNumber());
 
                         clContext.startActivity(intent);
@@ -102,7 +93,7 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull clHolder holder, int position) {
-        holder.getChatterName().setText(getChatter(position, "user1"));
+        holder.getChatterName().setText(getChatter(position, user));
         holder.getRecentChatt().setText(chattingInfos.get(position).getRecentMsg());
         //holder.getChatterImage().setImageURI(chattingInfos.get(position).getChatterImg());
     }
@@ -112,7 +103,7 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
         return chattingInfos.size();
     }
 
-    // 대화 상대방 가져오기
+    // 대화 상대 분리하기 String[0] = user, String[1] = chatter
     private String getChatter(int pos, String user) {
         List<String> list = (List<String>) chattingInfos.get(pos).getParticipant();
         String chatter = list.get(0).equals(user) ? list.get(1) : list.get(0);

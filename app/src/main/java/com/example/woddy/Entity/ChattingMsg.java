@@ -21,6 +21,14 @@ public class ChattingMsg {
         this.writtenTime = writtenTime;
     }
 
+    public ChattingMsg(String message) {
+        this.message = message;
+    }
+
+    public ChattingMsg(Date writtenTime) {
+        this.writtenTime = writtenTime;
+    }
+
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> chatChat = new HashMap<>();

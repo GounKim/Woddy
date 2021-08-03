@@ -1,5 +1,6 @@
 package com.example.woddy;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.InitDBdata;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,39 +48,37 @@ public class ChattingFragment extends Fragment {
     RecyclerView recyclerView;
     ChattingListAdapter clAdapter;
     Button button;
+    EditText editText;
 
-    ArrayList<String> chatterList;    // 초기 채팅 리스트 (사용자이름)
-    ArrayList<String> rChattingList;    // 초기 채팅 리스트 (최근채팅)
-    ArrayList<Uri> cImageList; // 초기 채팅 리스트 (채팅상대 이미지)
-
-    String image1 = "file://https://w7.pngwing.com/pngs/998/506/png-transparent-computer-icons-businessperson-organization-boys-and-girls-dormitory-icon-service-people-head.png";
-    String image2 = "file://https://e7.pngegg.com/pngimages/758/183/png-clipart-computer-icons-icon-design-user-women-icon-cdr-hat.png";
-    int num = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chatting, container, false);
 
         recyclerView = view.findViewById(R.id.chatting_recycler_view);
+        button = view.findViewById(R.id.button);
+        editText = view.findViewById(R.id.editText);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String user = editText.getText().toString();
+                // getDB
+                getChatList(user);
 
-        clAdapter = new ChattingListAdapter(view.getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
-        recyclerView.setAdapter(clAdapter);
+                clAdapter = new ChattingListAdapter(view.getContext(), user);
+                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
+                recyclerView.setAdapter(clAdapter);
+            }
+        });
 
-        // getDB
-        getChatList();
-
-        // Inflate the layout for this fragment
         return view;
     }
 
     // 채팅 리스트 가져오기
-    private void getChatList() {
-        //FirestoreManager manager = new FirestoreManager();
-        String user = "user1";
-
+    private void getChatList(String user) {
         manager.getChatRoomList(user)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override

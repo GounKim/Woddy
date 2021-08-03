@@ -75,8 +75,8 @@ public class ChattingRoom extends BaseActivity {
         String chatter = intent.getStringExtra("CHATTER");
         setMyTitle(chatter);
         String roomNum = intent.getStringExtra("ROOMNUM");
+        String user = intent.getStringExtra("USER");
 
-        String user = "user1";
 
         initDatabase(roomNum);
         updateDB(roomNum);
@@ -99,21 +99,15 @@ public class ChattingRoom extends BaseActivity {
             @Override
             public void onClick(View view) {
                 String chat = edtInputCon.getText().toString();
-                manager.addMessage("CR0000001", new ChattingMsg(user, chat, new Date()));
-                //firebaseManager.addChattingChat(new ChattingMsg(roomNum, user, chat,timestamp()));
+                manager.addMessage(roomNum, new ChattingMsg(user, chat, new Date()));
                 edtInputCon.setText(null);
-                //crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
             }
         });
 
     }
 
     private void initDatabase(String roomNum) {
-        //db = FirebaseDatabase.getInstance().getReference();
-        //firebaseManager = new FirebaseManager(db);
-        //firebaseManager.addChattingRoom(initInfo());
         manager = new FirestoreManager();
-        //FirebaseFirestore fsDB = FirebaseFirestore.getInstance();
 
         manager.getMessage(roomNum).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

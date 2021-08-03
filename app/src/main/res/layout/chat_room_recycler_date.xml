@@ -13,7 +13,7 @@
         android:text="2021-07-22 (금)"
         android:textSize="18dp"
         android:padding="10dp"
-        android:background="@drawable/conversation_border"
+        android:background="@drawable/button_round_shape_grayish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

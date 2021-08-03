@@ -3,11 +3,11 @@ package com.example.woddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,12 +15,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.DB.FirebaseManager;
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.ChattingMsg;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +41,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class ChattingRoom extends ActivityBase{
+import static android.content.ContentValues.TAG;
+
+public class ChattingRoom extends BaseActivity {
     ChattingRoomAdapter crAdapter;
     RecyclerView crRecyclerView;
     ImageView btnPlus;
@@ -39,9 +53,17 @@ public class ChattingRoom extends ActivityBase{
     // DB
     DatabaseReference db;
     FirebaseManager firebaseManager;
+    FirestoreManager manager;
     private ChildEventListener childEL; // 실시간 작업에 응답하기 위해 필요
 
     //private ArrayList<ChattingMsg> itemList;
+
+    // 하단 메뉴 사용 안함
+    @Override
+    protected boolean useBottomNavi() {
+        return false;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +73,13 @@ public class ChattingRoom extends ActivityBase{
         // ChattingList에서 클릭한 방의 CHATTER 받아오기
         Intent intent = getIntent();
         String chatter = intent.getStringExtra("CHATTER");
-//        setMyTitle(chatter);
+        setMyTitle(chatter);
+        String roomNum = intent.getStringExtra("ROOMNUM");
+        String user = intent.getStringExtra("USER");
 
-        String user = "userB";
 
-        initDatabase();
-        //Toast.makeText(getApplicationContext(), firebaseManager.getChat().get(0), Toast.LENGTH_LONG).show();
-        //firebaseManager.updateUser();
+        initDatabase(roomNum);
+        updateDB(roomNum);
 
         // xml 연결
         crRecyclerView = findViewById(R.id.chatting_room_recyclerView);
@@ -77,74 +99,59 @@ public class ChattingRoom extends ActivityBase{
             @Override
             public void onClick(View view) {
                 String chat = edtInputCon.getText().toString();
-                firebaseManager.addChattingChat(new ChattingMsg("CR0000001", user, chat,timestamp()));
+                manager.addMessage(roomNum, new ChattingMsg(user, chat, new Date()));
                 edtInputCon.setText(null);
-                //crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
             }
         });
 
     }
 
-    private void initDatabase() {
-        db = FirebaseDatabase.getInstance().getReference();
-        firebaseManager = new FirebaseManager(db);
+    private void initDatabase(String roomNum) {
+        manager = new FirestoreManager();
 
-        //firebaseManager.addChattingRoom(initInfo());
+        manager.getMessage(roomNum).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                try {
+                                    ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
+                                    crAdapter.addItem(chattingMsg);
+                                    if(crAdapter.getItemCount() != 0) {
+                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
+                                    }
+                                } catch (RuntimeException e){
+                                    Log.d(TAG, "Error getting chatList: ", e);
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
-        childEL = new ChildEventListener() {
-            // 데이터가 추가되었을 때
-            @Override
-            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                ChattingMsg chattingMsg = snapshot.getValue(ChattingMsg.class);
-                crAdapter.addItem(chattingMsg);
-                if(crAdapter.getItemCount() != 0) {
-                    crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
-                }
-            }
-
-            //데이터가 변경되었을 띠
-            @Override
-            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-
-            }
-
-            // 데이터가 제거되었을 때
-            @Override
-            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
-            }
-
-            // 데이터의 DB 리스트 위치가 변경되었을 때
-            @Override
-            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-
-            }
-
-            // DB 처리 중 오류가 발생했을 때
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        };
-
-        db.child("chattingRoom")
-                .child("CR0000001")
-                .child("messages").orderByChild("writtenTime").addChildEventListener(childEL);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        db.removeEventListener(childEL);
-    }
+    private void updateDB(String roomNum) {
+        manager.getMessage(roomNum).limitToLast(1)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed.", error);
+                            return;
+                        }
 
-    private String timestamp() {    // 타임스탬프 생성
-        TimeZone timeZone;
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREAN);
-        timeZone = TimeZone.getTimeZone("Asia/Seoul");
-        sdf.setTimeZone(timeZone);
-        return sdf.format(date);
+                        for (DocumentSnapshot doc: value.getDocuments()) {
+                            ChattingMsg chattingMsg = doc.toObject(ChattingMsg.class);
+                            crAdapter.addItem(chattingMsg);
+                            if(crAdapter.getItemCount() != 0) {
+                                crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
+                            }
+                        }
+                    }
+                });
     }
 
 /*

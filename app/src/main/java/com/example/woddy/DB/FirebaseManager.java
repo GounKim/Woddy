@@ -76,10 +76,10 @@ public class FirebaseManager {
         //ciValue = chatChat.toMap();
         //database.child("/chattingRoom/" + chatChat.getRoomNum() + "/messages/").push().setValue(ciValue);
 
-        database.child("chattingRoom")
-                .child(chatChat.getRoomNum())
-                .child("messages")
-                .push().setValue(chatChat);
+//        database.child("chattingRoom")
+//                .child(chatChat.getRoomNum())
+//                .child("messages")
+//                .push().setValue(chatChat);
     }
 
     // Cloud Firestore에도 작성한 글 정보 저장

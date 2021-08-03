@@ -8,7 +8,7 @@ public class BoardTag {
 
     public BoardTag(String tagName, String boardName) {
         this.tagName = tagName;
-        BoardName = boardName;
+        this.BoardName = boardName;
     }
 
     public String getTagName() {

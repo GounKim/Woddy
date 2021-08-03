@@ -1,7 +1,6 @@
 package com.example.woddy.Entity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 // 게시글
@@ -14,13 +13,26 @@ public class Posting {
     private String pictures;    // 첨부된 사진
     private int report; // 신고 여부 (신고된 횟수)
 
-    public Posting(String postingNumber, String tag, String writer, String title, String content, String pictures) {
-        this.postingNumber = postingNumber;
+    public Posting() {
+    }
+
+    public Posting(String tag, String writer, String title, String content) {
+        this.postingNumber = "";
+        this.tag = tag;
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
+        this.report = 0;
+    }
+
+    public Posting(String tag, String writer, String title, String content, String pictures) {
+        this.postingNumber = "";
         this.tag = tag;
         this.writer = writer;
         this.title = title;
         this.content = content;
         this.pictures = pictures;
+        this.report = 0;
     }
 
     public Map<String, Object> toMap() {

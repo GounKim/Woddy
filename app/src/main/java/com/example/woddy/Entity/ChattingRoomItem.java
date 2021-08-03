@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Entity;
 
 public class ChattingRoomItem {
     private String conversation;    // 대화내용

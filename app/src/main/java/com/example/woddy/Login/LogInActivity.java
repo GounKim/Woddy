@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.woddy.MainActivity;
-import com.example.woddy.PostWriting.PwResetActivity;
 import com.example.woddy.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

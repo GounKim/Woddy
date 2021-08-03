@@ -15,11 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Woddy">
-        <activity android:name=".Login.FemaleCertActivity"></activity>
-        <activity android:name=".Login.SignUpActivity"></activity>
+        <activity android:name=".Login.FemaleCertActivity" />
+        <activity android:name=".Login.SignUpActivity" />
+        <activity android:name=".Login.SignUpSuccessActivity" />
         <activity
             android:name=".Login.LogInActivity"
-            android:theme="@style/SplashTheme"></activity>
+            android:theme="@style/SplashTheme" />
+        <activity android:name=".Login.PwResetSuccessActivity" />
+        <activity android:name=".Login.PwResetActivity" />
+        <activity android:name=".Login.RegisterEtcActivity" />
         <activity android:name=".Chatting.ChattingRoom" />
         <activity android:name=".MainActivity">
             <intent-filter>

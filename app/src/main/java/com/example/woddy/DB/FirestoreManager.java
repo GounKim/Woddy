@@ -32,13 +32,66 @@ import static android.content.ContentValues.TAG;
 import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 
 public class FirestoreManager {
-    private final String NUMOFPOST = "numOfPost";
-    private final String NUMOFCHAT = "numOfChat";
 
     private FirebaseFirestore fsDB;
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();
+    }
+
+    // Member 정보 추가 (회원가입용 사용자 정보 -> 접근 보안 上)
+    public void addMember(MemberInfo member) {
+        fsDB.collection("memberInfo").document(member.getNickname()).set(member)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        User user = new User(member.getNickname());
+                        addUser(user);
+                        Log.d(TAG, "User has successfully Added!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error adding document in user collection", e);
+                    }
+                });
+    }
+
+
+    // Member 정보 수정 (docID는 userNick)
+    public void updateMember(String docID, Map<String, Object> newData) {
+        fsDB.collection("memberInfo").document(docID).update(newData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "User has successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error updating user", e);
+                    }
+                });
+    }
+
+    // Member 정보 삭제 (docID는 userNick)
+    public void deleteMember(String docID) {
+        fsDB.collection("memberInfo").document(docID).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        deleteUser(docID);
+                        Log.d(TAG, "user has successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error deleting user", e);
+                    }
+                });
     }
 
     // User 추가
@@ -136,59 +189,6 @@ public class FirestoreManager {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
                         Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-    }
-
-
-    // Member 정보 추가 (회원가입용 사용자 정보 -> 접근 보안 上)
-    public void addMember(MemberInfo member) {
-        fsDB.collection("memberInfo").document(member.getNickname()).set(member)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-    }
-
-
-    // Member 정보 수정 (docID는 userNick)
-    public void updateMember(String docID, Map<String, Object> newData) {
-        fsDB.collection("memberInfo").document(docID).update(newData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully updated!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error updating user", e);
-                    }
-                });
-    }
-
-    // Member 정보 삭제 (docID는 userNick)
-    public void deleteMember(String docID) {
-        fsDB.collection("memberInfo").document(docID).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "user has successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error deleting user", e);
                     }
                 });
     }

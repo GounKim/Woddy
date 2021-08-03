@@ -23,9 +23,6 @@ public class User {
 
     public User(String nickName) {
         this.nickName = nickName;
-        this.local = "";
-        this.introduce = "";
-        this.userImage = "";
     }
 
     public User(String nickName, String local, String introduce, String userImage) {

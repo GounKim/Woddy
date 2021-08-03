@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Woddy">
-        <activity android:name=".SignUpSuccessActivity"></activity>
+        <activity android:name=".PwResetSuccessActivity"></activity>
+        <activity android:name=".PwResetActivity" />
+        <activity android:name=".RegisterEtcActivity" />
+        <activity android:name=".SignUpSuccessActivity" />
         <activity android:name=".FemaleCertActivity" />
         <activity
             android:name=".SignUpActivity"

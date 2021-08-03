@@ -1,6 +1,7 @@
 package com.example.woddy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -25,13 +26,24 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText emailEditText;
@@ -50,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
-    private FirebaseStorage firebaseStorage;
+    private FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         pw2EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,18 +129,92 @@ public class SignUpActivity extends AppCompatActivity {
                 signUp();
             }
         });
+
+//        if (idCheck && pwCheck && nickCheck) {
+//            Log.d("taggg", "ggggg");
+//            addressEditText.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                    nextButton.setBackground(getDrawable(R.drawable.button_round_shape));
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                }
+//            });
+//        }
     }
 
     void checkID() {
-        idAvailTextView.setVisibility(View.VISIBLE);
-        idAvailTextView.setText("사용 가능한 이메일입니다.");
-        //idAvailTextView.setText("중복된 이메일입니다.");
+        String email_str = emailEditText.getText().toString();
+        email_str = email_str.replaceAll("\\.", "1");
+        String finalEmail_str = email_str;
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("checkOnly").child("email");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> child = dataSnapshot.getChildren().iterator();
+                Boolean check = false;
+                while (child.hasNext()) {
+                    if (child.next().getKey().equals(finalEmail_str)) {
+                        check = true;
+                    }
+                }
+                if (check) {
+                    idAvailTextView.setVisibility(View.VISIBLE);
+                    idAvailTextView.setTextColor(Color.rgb(255, 105, 105));
+                    idAvailTextView.setText("중복된 이메일입니다.");
+                } else {
+                    idAvailTextView.setVisibility(View.VISIBLE);
+                    idAvailTextView.setTextColor(Color.GRAY);
+                    idAvailTextView.setText("사용 가능한 이메일입니다.");
+                    idCheck = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     void checkNickname() {
-        nickAvailTextView.setVisibility(View.VISIBLE);
-        nickAvailTextView.setText("사용 가능한 닉네임입니다.");
-        //nickAvailTextView.setText("중복된 닉네임입니다.");
+        String nick_str = nicknameEditText.getText().toString();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("checkOnly").child("nickname");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> child = dataSnapshot.getChildren().iterator();
+                Boolean check = false;
+                while (child.hasNext()) {
+                    if (child.next().getKey().equals(nick_str)) {
+                        check = true;
+                    }
+                }
+                if (check) {
+                    nickAvailTextView.setVisibility(View.VISIBLE);
+                    nickAvailTextView.setTextColor(Color.rgb(255, 105, 105));
+                    nickAvailTextView.setText("중복된 닉네임입니다.");
+                } else {
+                    nickAvailTextView.setVisibility(View.VISIBLE);
+                    nickAvailTextView.setTextColor(Color.GRAY);
+                    nickAvailTextView.setText("사용 가능한 닉네임입니다.");
+                    nickCheck = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     void signUp() {
@@ -138,7 +224,7 @@ public class SignUpActivity extends AppCompatActivity {
         String nickname = nicknameEditText.getText().toString();
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pw1) ||
-                TextUtils.isEmpty(pw2) || TextUtils.isEmpty(nickname)) {
+                TextUtils.isEmpty(pw2) || TextUtils.isEmpty(nickname) || TextUtils.isEmpty(addressEditText.getText().toString())) {
             Toast.makeText(this, "빈칸을 모두 채워주세요.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -164,6 +250,18 @@ public class SignUpActivity extends AppCompatActivity {
                                 userProfile.dong = tmpStrArr[2];
 
                                 firebaseDatabase.getReference().child("userProfile").child(uid).setValue(userProfile);
+
+                                //중복 체크를 위한 데이터베이스에 저장 - email
+                                String tmpEmail = email.replaceAll("\\.", "1");
+                                Map<String, String> chkemail = new HashMap<>();
+                                chkemail.put(tmpEmail, "true");
+                                firebaseDatabase.getReference().child("checkOnly").child("email").child(tmpEmail).setValue(chkemail);
+
+                                //중복 체크를 위한 데이터베이스에 저장 - nickname
+                                String tmpNick = nickname;
+                                Map<String, String> chkNick = new HashMap<>();
+                                chkNick.put(tmpNick, "true");
+                                firebaseDatabase.getReference().child("checkOnly").child("nickname").child(tmpNick).setValue(chkNick);
 
                                 //SignUpSuccessActivity로 화면전환, SignUpActivity는 아예 종료시켜야함.
                                 Intent intent = new Intent(SignUpActivity.this, SignUpSuccessActivity.class);

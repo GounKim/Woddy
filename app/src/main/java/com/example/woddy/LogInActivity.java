@@ -43,6 +43,8 @@ public class LogInActivity extends AppCompatActivity {
     EditText pwEditText;
     Button loginButton;
     Button signUpButton;
+    Button findPwButton;
+
     SignInButton googleLoginButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -53,17 +55,18 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_log_in);
+
         idEditText = findViewById(R.id.id_edit_text);
         pwEditText = findViewById(R.id.password_edit_text);
         loginButton = findViewById(R.id.login_button);
         signUpButton = findViewById(R.id.sign_up_button);
+        findPwButton = findViewById(R.id.find_password_button);
         googleLoginButton = findViewById(R.id.google_login_button);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        setGoogleButtonText(googleLoginButton, "Google 계정으로 로그인");
+        setGoogleButtonText(googleLoginButton, "Google 계정으로 회원가입 및 로그인    ");
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -71,9 +74,11 @@ public class LogInActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
+//        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
 //        if (gsa != null) {
-//            //이미 로그인된 사용자
+//            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+//            startActivity(intent);
 //        }
 
         //login button click listener
@@ -87,6 +92,15 @@ public class LogInActivity extends AppCompatActivity {
                 } else {
                     signIn();
                 }
+            }
+        });
+
+        //find password button click listener
+        findPwButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LogInActivity.this, PwResetActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -158,7 +172,7 @@ public class LogInActivity extends AppCompatActivity {
                 userProfile.women = false;
                 firebaseDatabase.getReference().child("userProfile").child(uid).setValue(userProfile);
 
-                Intent intent = new Intent(this, FemaleCertActivity.class);
+                Intent intent = new Intent(this, RegisterEtcActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -176,6 +190,7 @@ public class LogInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {

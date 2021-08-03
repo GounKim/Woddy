@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.PostWriting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.woddy.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class PwResetActivity extends AppCompatActivity {

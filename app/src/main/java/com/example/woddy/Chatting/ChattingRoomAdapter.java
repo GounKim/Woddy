@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Chatting;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.Entity.ChattingMsg;
+import com.example.woddy.R;
 import com.google.type.DateTime;
 
 import org.jetbrains.annotations.NotNull;

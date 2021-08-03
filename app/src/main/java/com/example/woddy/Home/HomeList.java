@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Home;
 
 import android.widget.ListView;
 import android.widget.TextView;

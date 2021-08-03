@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Search;
 
 import android.os.Bundle;
 import android.widget.SearchView;
@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.woddy.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

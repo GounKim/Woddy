@@ -1,9 +1,7 @@
-package com.example.woddy;
+package com.example.woddy.Chatting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.Entity.ChattingInfo;
+import com.example.woddy.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapter.clHolder> {

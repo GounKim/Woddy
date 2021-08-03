@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.woddy.R;
+
 public class PostFragment extends Fragment {
 
 

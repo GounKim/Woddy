@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Home;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.view.menu.MenuView;
+import com.example.woddy.R;
 
 import java.util.ArrayList;
 

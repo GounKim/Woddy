@@ -1,8 +1,10 @@
-package com.example.woddy;
+package com.example.woddy.Album;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.woddy.R;
 
 public class AlbumBoard extends AppCompatActivity {
 

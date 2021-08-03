@@ -1,8 +1,10 @@
-package com.example.woddy;
+package com.example.woddy.PostWriting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.woddy.R;
 
 public class ImgPost extends AppCompatActivity {
 

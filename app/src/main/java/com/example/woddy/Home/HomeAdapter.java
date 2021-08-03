@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Home;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.woddy.Entity.ChattingInfo;
+import com.example.woddy.R;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="40dp"
     android:orientation="vertical"
-    tools:context=".ImgPost">
+    tools:context=".PostWriting.ImgPost">
 
 
     <ScrollView

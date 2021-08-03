@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,23 +7,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.DB.InitDBdata;
-
-import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import com.example.woddy.PostWriting.AddWritingsActivity;
+import com.example.woddy.R;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;

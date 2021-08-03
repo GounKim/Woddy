@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.PostWriting;
 
 import android.Manifest;
 import android.app.Activity;
@@ -26,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.woddy.DB.FirebaseManager;
 import com.example.woddy.Entity.MemberInfo;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.MainActivity;
+import com.example.woddy.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;

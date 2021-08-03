@@ -1,10 +1,7 @@
-package com.example.woddy;
+package com.example.woddy.Chatting;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,26 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.DB.InitDBdata;
 import com.example.woddy.Entity.ChattingInfo;
-import com.example.woddy.Entity.ChattingMsg;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
+import com.example.woddy.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 

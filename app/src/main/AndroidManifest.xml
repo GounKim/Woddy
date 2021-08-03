@@ -15,12 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Woddy">
-        <activity android:name=".FemaleCertActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".Login.FemaleCertActivity"></activity>
+        <activity android:name=".Login.SignUpActivity"></activity>
         <activity
-            android:name=".LogInActivity"
+            android:name=".Login.LogInActivity"
             android:theme="@style/SplashTheme"></activity>
-        <activity android:name=".ChattingRoom" />
+        <activity android:name=".Chatting.ChattingRoom" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".AddWritingsActivity" />
+        <activity android:name=".Search.SearchActivity" />
+        <activity android:name=".PostWriting.AddWritingsActivity" />
     </application>
 
 </manifest>

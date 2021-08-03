@@ -1,4 +1,4 @@
-package com.example.woddy.fragment;
+package com.example.woddy.Album;
 
 import android.content.Context;
 import android.view.LayoutInflater;

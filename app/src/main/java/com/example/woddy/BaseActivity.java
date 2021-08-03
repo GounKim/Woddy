@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,10 +12,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.example.woddy.Chatting.ChattingFragment;
+import com.example.woddy.Home.HomeFragment;
+import com.example.woddy.MyPage.MyPageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.jetbrains.annotations.NotNull;
 
 
 public class BaseActivity extends AppCompatActivity {

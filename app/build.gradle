@@ -49,10 +49,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'com.google.firebase:firebase-database:20.0.1'
 
-    //Firestore
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:28.2.1')
-    // Declare the dependency for the Cloud Firestore library
+    // FireStorage, FireStore
+    implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-firestore'
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+
 
 }

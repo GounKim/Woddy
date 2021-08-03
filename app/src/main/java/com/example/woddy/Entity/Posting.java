@@ -1,5 +1,8 @@
 package com.example.woddy.Entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // 게시글
 public class Posting {
     private String postingNumber;  // P0000001부터 시작
@@ -30,6 +33,17 @@ public class Posting {
         this.content = content;
         this.pictures = pictures;
         this.report = 0;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> post = new HashMap<>();
+        post.put("postingNumber", postingNumber);
+        post.put("title", title);
+        post.put("content", content);
+        post.put("writer", writer);
+        post.put("tag", tag);
+
+        return post;
     }
 
     public String getPostingNumber() {

@@ -1,7 +1,6 @@
 {
   "project_info": {
     "project_number": "788844289509",
-    "firebase_url": "https://awoddy-5a5b2-default-rtdb.firebaseio.com",
     "project_id": "awoddy-5a5b2",
     "storage_bucket": "awoddy-5a5b2.appspot.com"
   },
@@ -14,14 +13,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "788844289509-6ssd2ctd0oqro20oaot5dv6s27uen53g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.woddy",
-            "certificate_hash": "1ec07b12dbf489c31f510a96eb99a3360bb8a270"
-          }
-        },
         {
           "client_id": "788844289509-1hvgbt2963j9re109a52vqbf652u073k.apps.googleusercontent.com",
           "client_type": 3

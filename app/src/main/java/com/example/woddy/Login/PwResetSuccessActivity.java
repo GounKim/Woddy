@@ -1,4 +1,4 @@
-package com.example.woddy.PostWriting;
+package com.example.woddy.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 
 public class PwResetSuccessActivity extends AppCompatActivity {

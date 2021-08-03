@@ -1,5 +1,6 @@
 package com.example.woddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -28,6 +29,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeBoardAdapter myAdapter;
     HomeAdapter homeAdapter;
+    Button btn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +38,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = view.findViewById(R.id.home_recyclerView);
+        btn = view.findViewById(R.id.btn);
 
         myAdapter = new HomeBoardAdapter();
         myAdapter.addItem(new HomePostings("writer1", "content1", "board1", 100, "18:30"));
@@ -53,6 +56,14 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(homeAdapter);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddWritingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

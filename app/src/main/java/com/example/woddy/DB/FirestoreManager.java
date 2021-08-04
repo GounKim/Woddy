@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
-import com.example.woddy.Entity.MemberInfo;
+import com.example.woddy.Entity.UserProfile;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
@@ -39,6 +39,57 @@ public class FirestoreManager {
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();
+    }
+
+    // User Profile 추가 - 회원가입 시 유저 정보
+    public void addUserProfile(String uid, UserProfile userProfile) {
+        fsDB.collection("userProfile").document(uid).set(userProfile)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "User Profile has successfully Added!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error adding document in userProfile collection", e);
+                    }
+                });
+    }
+
+    // User Profile 업데이트 (docID는 uid - 계정 생성 시 자동 부여되는 값)
+    public void updateUserProfile(String uid, Map<String, Object> newData) {
+        fsDB.collection("userProfile").document(uid).update(newData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "User Profile has successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error adding document in userProfile collection", e);
+                    }
+                });
+    }
+
+    // User Profile 삭제 (docID는 uid - 계정 생성 시 자동 부여되는 값)
+    public void deleteUserProfile(String uid) {
+        fsDB.collection("userProfile").document(uid).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "userProfile has successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error deleting userProfile", e);
+                    }
+                });
     }
 
     // User 추가
@@ -116,8 +167,7 @@ public class FirestoreManager {
             // 목록에서 삭제 + 전체 posting에서 삭제 + 다른 사용자에게도 삭제된 메시지라고 떠야함
 
 
-        }
-        else {
+        } else {
             // 목록에서 삭제 구현 필요
         }
     }
@@ -142,7 +192,7 @@ public class FirestoreManager {
 
 
     // Member 정보 추가 (회원가입용 사용자 정보 -> 접근 보안 上)
-    public void addMember(MemberInfo member) {
+    public void addMember(UserProfile member) {
         fsDB.collection("memberInfo").document(member.getNickname()).set(member)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -154,41 +204,6 @@ public class FirestoreManager {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
                         Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-    }
-
-
-    // Member 정보 수정 (docID는 userNick)
-    public void updateMember(String docID, Map<String, Object> newData) {
-        fsDB.collection("memberInfo").document(docID).update(newData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully updated!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error updating user", e);
-                    }
-                });
-    }
-
-    // Member 정보 삭제 (docID는 userNick)
-    public void deleteMember(String docID) {
-        fsDB.collection("memberInfo").document(docID).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "user has successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error deleting user", e);
                     }
                 });
     }
@@ -388,7 +403,7 @@ public class FirestoreManager {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 try {
                                     Posting posting = document.toObject(Posting.class);
-                                } catch (RuntimeException e){
+                                } catch (RuntimeException e) {
                                     Log.d(TAG, "Error getting Objset: ", e);
                                 }
                             }

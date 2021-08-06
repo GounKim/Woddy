@@ -22,11 +22,11 @@ import com.example.woddy.Entity.Posting;
 import com.example.woddy.PostWriting.AddWritingsActivity;
 import com.example.woddy.R;
 
+import java.util.Date;
+
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
-
-    Button btn; // test용
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,13 +38,13 @@ public class HomeFragment extends Fragment {
 
         homeAdapter = new HomeAdapter(getContext());
         // 공지 Board
-        Posting notice = new Posting("notice","administrator","공지 제목","공지 내용 입니다.");
+        Posting notice = new Posting("notice","administrator","공지 제목","공지 내용 입니다.",new Date());
         HomeNBAdapter nAdapter = new HomeNBAdapter(new Posting[]{notice, notice, notice});
         homeAdapter.addItem(nAdapter);
 
         // 인기글 Board
-        Posting pop1 = new Posting("free","user1","제목 작성","내용 작성");
-        Posting pop2 = new Posting("free","user1","제목 작성","내용 작성",String.valueOf(R.drawable.sample_image2));
+        Posting pop1 = new Posting("free","user1","제목 작성","내용 작성", new Date());
+        Posting pop2 = new Posting("free","user1","제목 작성","내용 작성",String.valueOf(R.drawable.sample_image2), new Date());
         HomePBAdapter pbAdapter = new HomePBAdapter(new Posting[]{pop1, pop2, pop1});
         homeAdapter.addItem(pbAdapter);
 
@@ -65,17 +65,6 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(homeAdapter);
 
-
-
-        // Test 용
-        btn = view.findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddWritingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
 
         return view;
     }

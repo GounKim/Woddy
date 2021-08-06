@@ -1,21 +1,13 @@
 package com.example.woddy.DB;
 
-import androidx.annotation.NonNull;
+import android.annotation.SuppressLint;
 
-import com.example.woddy.ChattingRoom;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.ChattingInfo;
+import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirebaseManager {
     // Realtime Database이용
@@ -66,12 +58,26 @@ public class FirebaseManager {
         //ciValue = chatChat.toMap();
         //database.child("/chattingRoom/" + chatChat.getRoomNum() + "/messages/").push().setValue(ciValue);
 
-        database.child("chattingRoom")
-                .child(chatChat.getRoomNum())
-                .child("messages")
-                .push().setValue(chatChat);
+//        database.child("chattingRoom")
+//                .child(chatChat.getRoomNum())
+//                .child("messages")
+//                .push().setValue(chatChat);
     }
 
+    // Cloud Firestore에도 작성한 글 정보 저장
+    private FirebaseFirestore db;
+
+    public FirebaseManager() {
+        db = FirebaseFirestore.getInstance();
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void PostingUpload(Posting posting) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // User 정보 받아올 수 있도록 해야할 것 같음
+        User user = new User("Test");
+        db.collection("user").document(user.getNickName()).collection("posting").document(posting.getPostingNumber()).set(posting);
+    }
 
     // 사용자 채팅방리스트에 있는 채팅방들 찾기
 

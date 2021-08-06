@@ -1,30 +1,25 @@
 package com.example.woddy.Entity;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // 채팅방 정보
 public class ChattingInfo {
     private String roomNumber;  // 채팅방 번호 ( CR0000001부터 )
-    private String userA;   // 참가자1 [ FK : User ]
-    private String userB;   // 참가자2 [ FK : User ]
-    private String messages;
+    private List<String> participant;
+    private String recentMsg;
+    private String chatterImg;
 
-    public ChattingInfo(String roomNumber, String userA, String userB) {
-        this.roomNumber = roomNumber;
-        this.userA = userA;
-        this.userB = userB;
-        this.messages = null;
+    public ChattingInfo() {
     }
 
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> chatInfo = new HashMap<>();
-        chatInfo.put("userAName", userA);
-        chatInfo.put("userBName", userB);
-        chatInfo.put("messages", null);
-
-        return chatInfo;
+    public ChattingInfo(List<String> participant) {
+        this.roomNumber = "";
+        this.participant = participant;
+        this.recentMsg = "";
     }
 
     public String getRoomNumber() {
@@ -35,19 +30,28 @@ public class ChattingInfo {
         this.roomNumber = roomNumber;
     }
 
-    public String getUserA() {
-        return userA;
+
+    public List<String> getParticipant() {
+        return participant;
     }
 
-    public void setUserA(String userA) {
-        userA = userA;
+    public void setParticipant(List<String> participant) {
+        this.participant = participant;
     }
 
-    public String getUserB() {
-        return userB;
+    public String getRecentMsg() {
+        return recentMsg;
     }
 
-    public void setUserB(String user2) {
-        userB = userB;
+    public void setRecentMsg(String recentMsg) {
+        this.recentMsg = recentMsg;
+    }
+
+    public String getChatterImg() {
+        return chatterImg;
+    }
+
+    public void setChatterImg(String chatterImg) {
+        this.chatterImg = chatterImg;
     }
 }

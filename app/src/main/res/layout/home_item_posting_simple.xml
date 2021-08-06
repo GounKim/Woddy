@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/button_round_shape_no_background">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/home_postingS_writer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="300dp"
+            android:maxHeight="20dp"
+            android:text="작성자 닉네임"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:layout_gravity="left|top"/>
+
+        <TextView
+            android:id="@+id/home_postingS_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="300dp"
+            android:maxHeight="35dp"
+            android:text="mmmmmmmmmmmmmbbbbbbbbbbbmmmmmmmmmmnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+            android:textSize="10dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginTop="3dp"/>
+
+        <TextView
+            android:id="@+id/home_postingS_board_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="300dp"
+            android:maxHeight="20dp"
+            android:text="게시판 이름"
+            android:textSize="10dp"
+            android:layout_gravity="left|bottom"/>
+
+        <TextView
+            android:id="@+id/home_postingS_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="60dp"
+            android:text="17:05"
+            android:textSize="10dp"
+            android:layout_gravity="right|top"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right|bottom">
+
+            <ImageView
+                android:id="@+id/home_postingS_imageThumb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_thumb_up_24"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="2dp"/>
+
+            <TextView
+                android:id="@+id/home_postingS_liked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="60dp"
+                android:text="40000"
+                android:textSize="10dp"
+                android:textColor="#FF6B6B"/>
+
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

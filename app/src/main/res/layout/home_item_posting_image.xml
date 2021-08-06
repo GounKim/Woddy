@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/button_round_shape_no_background">
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="9"
+        android:paddingRight="5dp">
+        <TextView
+            android:id="@+id/home_postingI_writer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="230dp"
+            android:maxHeight="20dp"
+            android:text="작성자 닉네임"
+            android:textStyle="bold"
+            android:layout_gravity="left|top"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/home_postingI_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="240dp"
+            android:maxHeight="35dp"
+            android:text="mmmmmmmmmmmmmbbbbbbbbbbbmmmmmmmmmmnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+            android:textSize="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="left|center_vertical"/>
+
+        <TextView
+            android:id="@+id/home_postingI_board_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="300dp"
+            android:maxHeight="20dp"
+            android:text="게시판 이름"
+            android:textSize="10dp"
+            android:layout_gravity="left|bottom"/>
+
+        <TextView
+            android:id="@+id/home_postingI_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="60dp"
+            android:text="17:05"
+            android:textSize="10dp"
+            android:layout_gravity="right|top"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right|bottom">
+
+            <ImageView
+                android:id="@+id/home_postingI_imageThumb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_thumb_up_24"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="2dp"/>
+
+            <TextView
+                android:id="@+id/home_postingI_liked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="60dp"
+                android:text="40000"
+                android:textSize="10dp"
+                android:textColor="#FF6B6B"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/home_postingI_image"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="3dp"
+
+        android:layout_weight="3"
+        android:layout_gravity="center_vertical|center_horizontal"
+        tools:srcCompat="@drawable/sample_image" />
+
+</LinearLayout>

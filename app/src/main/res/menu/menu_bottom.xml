@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_home"
+        android:id="@+id/bottom_menu_home"
         android:icon="@drawable/bottom_navi_home"
         android:title="홈" />
     <item
-        android:id="@+id/menu_post"
+        android:id="@+id/bottom_menu_post"
         android:icon="@drawable/bottom_navi_post"
         android:title="게시판" />
     <item
-        android:id="@+id/menu_chatting"
+        android:id="@+id/bottom_menu_chatting"
         android:icon="@drawable/bottom_navi_chatting"
         android:title="채팅" />
     <item
-        android:id="@+id/menu_my_page"
+        android:id="@+id/bottom_menu_myPage"
         android:icon="@drawable/bottom_navi_my"
         android:title="마이페이지" />
 </menu>

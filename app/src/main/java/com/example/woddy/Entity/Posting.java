@@ -1,5 +1,6 @@
 package com.example.woddy.Entity;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,28 +12,28 @@ public class Posting {
     private String title;   // 글의 제목
     private String content; // 글의 내용
     private String pictures;    // 첨부된 사진
-    private int report; // 신고 여부 (신고된 횟수)
+    private Date postedTime;    // 작성된 시간
 
     public Posting() {
     }
 
-    public Posting(String tag, String writer, String title, String content) {
+    public Posting(String tag, String writer, String title, String content, Date postedTime) {
         this.postingNumber = "";
         this.tag = tag;
         this.writer = writer;
         this.title = title;
         this.content = content;
-        this.report = 0;
+        this.postedTime = postedTime;
     }
 
-    public Posting(String tag, String writer, String title, String content, String pictures) {
+    public Posting(String tag, String writer, String title, String content, String pictures, Date postedTime) {
         this.postingNumber = "";
         this.tag = tag;
         this.writer = writer;
         this.title = title;
         this.content = content;
         this.pictures = pictures;
-        this.report = 0;
+        this.postedTime = postedTime;
     }
 
     public Map<String, Object> toMap() {
@@ -94,11 +95,11 @@ public class Posting {
         this.pictures = pictures;
     }
 
-    public int getReport() {
-        return report;
+    public Date getPostedTime() {
+        return postedTime;
     }
 
-    public void setReport(int report) {
-        this.report = report;
+    public void setPostedTime(Date postedTime) {
+        this.postedTime = postedTime;
     }
 }

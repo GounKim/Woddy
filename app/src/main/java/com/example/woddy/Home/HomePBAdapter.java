@@ -1,6 +1,7 @@
 package com.example.woddy.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
+import com.example.woddy.ShowWriting;
 
 import java.util.ArrayList;
 
@@ -48,6 +51,8 @@ public class HomePBAdapter extends BaseAdapter {
     public View getView(int index, View view, ViewGroup viewGroup) {
         Context context = viewGroup.getContext();
         int viewType = getItemViewType(index) ;
+
+        LinearLayout layout = null;
         TextView writer = null;
         TextView content = null;
         TextView boardName = null;
@@ -62,6 +67,7 @@ public class HomePBAdapter extends BaseAdapter {
                 case WRITING_SIMPLE:    // 기본형
                     view = inflater.inflate(R.layout.home_item_posting_simple, viewGroup, false);
 
+                    layout = view.findViewById(R.id.home_postingS_layout);
                     writer = view.findViewById(R.id.home_postingS_writer);
                     content = view.findViewById(R.id.home_postingS_content);
                     boardName = view.findViewById(R.id.home_postingS_board_name);
@@ -73,6 +79,7 @@ public class HomePBAdapter extends BaseAdapter {
                 case WRITING_WITH_IMAGE:    // 이미지 포함형
                     view = inflater.inflate(R.layout.home_item_posting_image, viewGroup, false);
 
+                    layout = view.findViewById(R.id.home_postingI_layout);
                     writer = view.findViewById(R.id.home_postingI_writer);
                     content = view.findViewById(R.id.home_postingI_content);
                     boardName = view.findViewById(R.id.home_postingI_board_name);
@@ -94,6 +101,15 @@ public class HomePBAdapter extends BaseAdapter {
         if (writing.getPictures() != null) {
             imageView.setImageURI(Uri.parse(writing.getPictures()));
         }
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), getItem(index) + "", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), ShowWriting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                view.getContext().startActivity(intent);
+            }
+        });
 
         return view;
     }

@@ -5,10 +5,20 @@
       <map>
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/conversation_border.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/edge.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.5697916666666667" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_baseline_liked_no.xml" value="0.561025641025641" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_baseline_liked_yes.xml" value="0.561025641025641" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_baseline_scraped_no.xml" value="0.561025641025641" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_baseline_scraped_yes.xml" value="0.561025641025641" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_baseline_thumb_up_24.xml" value="0.561025641025641" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/notice_border.xml" value="0.144" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_chatting_room.xml" value="0.5536458333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_main.xml" value="0.11145833333333334" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_pw_reset.xml" value="0.11927083333333334" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_posting.xml" value="0.5536458333333333" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_writing.xml" value="0.21510416666666668" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_post.xml" value="0.5536458333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item.xml" value="0.24974358974358973" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_Rscroll.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_favorite__board.xml" value="0.25364583333333335" />
@@ -18,8 +28,10 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_notice.xml" value="0.536" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_image.xml" value="0.536" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.536" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_writing_recycler_commend.xml" value="0.5536458333333333" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_writing_recycler_comment.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

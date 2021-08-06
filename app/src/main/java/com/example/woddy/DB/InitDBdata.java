@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,8 +44,8 @@ public class InitDBdata {
         //tv.setText("");
 
         //testUser();
-        //testPosting();
-        testChatList();
+        testPosting();
+        //testChatList();
 
         /*
         // update 사용법
@@ -185,16 +186,16 @@ public class InitDBdata {
     }
 
     private void testPosting() {
-        //Posting posting1 = new Posting("태그 이름","user1","제목 작성1","오늘 날씨가 매우 덥네요.");
-        //manager.addPosting(posting1);
-        //Posting posting2 = new Posting("태그 이름","user2","제목 작성2","안녕하세요.");
-        //manager.addPosting(posting2);
-        //Posting posting3 = new Posting("태그 이름","user2","제목 작성3","오늘 날씨가 매우 춥네요.");
-        //manager.addPosting(posting3);
-        //Posting posting4 = new Posting("Tag Name","user3","제목 작성4","내용 작성.");
-        //manager.addPosting(posting4);
-        //Posting posting5 = new Posting("Tag Name","user1","제목 작성5","좋은 아침입니다.", "사진선택");
-        //manager.addPosting(posting5);
+//        Posting posting1 = new Posting("태그 이름","user1","제목 작성1","오늘 날씨가 매우 덥네요.", new Date());
+//        manager.addPosting(posting1);
+        Posting posting2 = new Posting("태그 이름","user2","제목 작성2","안녕하세요.", new Date());
+        manager.addPosting(posting2);
+//        Posting posting3 = new Posting("태그 이름","user2","제목 작성3","오늘 날씨가 매우 춥네요.", new Date());
+//        manager.addPosting(posting3);
+//        Posting posting4 = new Posting("Tag Name","user3","제목 작성4","내용 작성.", new Date());
+//        manager.addPosting(posting4);
+//        Posting posting5 = new Posting("Tag Name","user1","제목 작성5","좋은 아침입니다.", "사진선택", new Date());
+//        manager.addPosting(posting5);
 
 //
 //        Map<String, Object> tData = new HashMap<>();

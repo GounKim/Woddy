@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Holder> {
+
+    FirestoreManager manager = new FirestoreManager();
 
     private ArrayList<String> homeBoards;
     private ArrayList<HomeBoardAdapter> pAdapter;

@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.woddy.Album.AlbummBoardFragment;
 import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.MyPage.MyPageFragment;
@@ -69,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
                         setMyTitle("홈");
                         break;
                     case R.id.bottom_menu_post:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new AlbummBoardFragment()).commit();
                         setMyTitle("게시판");
                         break;
                     case R.id.bottom_menu_chatting:

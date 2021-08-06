@@ -34,6 +34,7 @@
         </activity>
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".PostWriting.AddWritingsActivity" />
+        <activity android:name=".ImgPost.ImgPost" />
     </application>
 
 </manifest>

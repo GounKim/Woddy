@@ -59,15 +59,15 @@
                     android:layout_weight="3">
 
                     <ImageView
-                        android:id="@+id/album_thumb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/album_heart"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="2dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/album_liked"
-                        app:srcCompat="@drawable/ic_baseline_thumb_up_24"
+                        app:srcCompat="@drawable/heart_on"
                         tools:ignore="MissingConstraints" />
 
                     <TextView

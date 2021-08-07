@@ -2,11 +2,13 @@ package com.example.woddy.Album;
 //앨범게시판 아이템에 저장할 데이터
 public class AlbumItem {
 
+    private String postingNumber;
     private String url;
     private String title;
-    private Integer liked;
+    private String liked;
 
-    public AlbumItem(String url, String title, Integer liked){
+    public AlbumItem(String postingNumber, String url, String title, String liked){
+        this.postingNumber = postingNumber;
         this.url = url;
         this.title = title;
         this.liked = liked;
@@ -18,11 +20,19 @@ public class AlbumItem {
         return title;
     }
 
-    public Integer getLiked() {
+    public String getLiked() {
         return liked;
     }
 
-    public void setLiked(Integer liked) {
+    public String getPostingNumber() {
+        return postingNumber;
+    }
+
+    public void setPostingNumber(String postingNumber) {
+        this.postingNumber = postingNumber;
+    }
+
+    public void setLiked(String liked) {
         this.liked = liked;
     }
 

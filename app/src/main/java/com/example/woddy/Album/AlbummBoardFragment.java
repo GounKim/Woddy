@@ -15,15 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.woddy.Home.HomeAdapter;
-import com.example.woddy.Home.HomeBoardAdapter;
-import com.example.woddy.Home.HomePostings;
 import com.example.woddy.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AlbummBoardFragment extends Fragment {
 
-    private AlbumAdapter adapter = new AlbumAdapter();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,14 +30,7 @@ public class AlbummBoardFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.album_recycler_view);
 
-        StaggeredGridLayoutManager staggeredGridLayoutManager
-                = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
-        recyclerView.setLayoutManager(staggeredGridLayoutManager); // 상하 스크롤
-        recyclerView.setAdapter(adapter);
-
-        //아이템 로드
-        adapter.setItems(new AlbumData().getItems());
+        new AlbumData().getItems(recyclerView);
 
         return view;
     }

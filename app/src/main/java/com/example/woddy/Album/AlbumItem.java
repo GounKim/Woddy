@@ -7,11 +7,15 @@ public class AlbumItem {
     private String title;
     private String liked;
 
+
     public AlbumItem(String postingNumber, String url, String title, String liked){
         this.postingNumber = postingNumber;
         this.url = url;
         this.title = title;
         this.liked = liked;
+    }
+
+    public AlbumItem() {
     }
 
     public String getUrl(){ return url; }

@@ -19,11 +19,14 @@ import java.util.ArrayList;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
-    private ArrayList<AlbumItem> items = new ArrayList<>();
-
+    private ArrayList<AlbumItem> items;
     private Context mContext;
 
     private String postingNumber;
+    private String pictures;
+    private String title;
+    private String numberOfLiked;
+
 
     @NonNull
     @Override

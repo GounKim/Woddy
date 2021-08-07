@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Woddy">
         <activity
+            android:name=".MyPage.UpdateProfile"
+            android:exported="true" />
+        <activity
             android:name=".ShowWriting"
             android:exported="true" />
         <activity android:name=".Login.FemaleCertActivity" />

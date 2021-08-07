@@ -1,5 +1,8 @@
 package com.example.woddy.Entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // 게시판 태그
 public class BoardTag {
     private String tagName; // 태그 이름
@@ -9,6 +12,20 @@ public class BoardTag {
     public BoardTag(String tagName, String boardName) {
         this.tagName = tagName;
         this.BoardName = boardName;
+    }
+
+    public Map<String, Object> BoardToMap() {
+        HashMap<String, Object> boardMap = new HashMap<>();
+        boardMap.put("BoardName", BoardName);
+
+        return boardMap;
+    }
+
+    public Map<String, Object> tagToMap() {
+        HashMap<String, Object> tagMap = new HashMap<>();
+        tagMap.put("tagName", tagName);
+
+        return tagMap;
     }
 
     public String getTagName() {

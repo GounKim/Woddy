@@ -12,8 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
 import com.example.woddy.ShowWriting;
@@ -26,31 +24,35 @@ public class HomePBAdapter extends BaseAdapter {
     private final int WRITING_WITH_IMAGE = 1;
     private final int ITEM_VIEW_TYPE_MAX = 2;
 
-    private Posting[] writings;
+    private ArrayList<Posting> writings;
 
-    HomePBAdapter(Posting[] writing) {
+    HomePBAdapter(ArrayList<Posting> writing) {
         this.writings = writing;
+    }
+
+    public void addItem(Posting posting) {
+        writings.add(posting);
     }
 
     @Override
     public int getCount() {
-        return writings.length;
+        return writings.size();
     }
 
     @Override
-    public Posting getItem(int index) {
-        return writings[index];
+    public Posting getItem(int position) {
+        return writings.get(position);
     }
 
     @Override
-    public long getItemId(int index) {
-        return index;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public View getView(int index, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         Context context = viewGroup.getContext();
-        int viewType = getItemViewType(index) ;
+        int viewType = getItemViewType(position) ;
 
         LinearLayout layout = null;
         TextView writer = null;
@@ -68,7 +70,7 @@ public class HomePBAdapter extends BaseAdapter {
                     view = inflater.inflate(R.layout.home_item_posting_simple, viewGroup, false);
 
                     layout = view.findViewById(R.id.home_postingS_layout);
-                    writer = view.findViewById(R.id.home_postingS_writer);
+                    writer = view.findViewById(R.id.home_postingS_title);
                     content = view.findViewById(R.id.home_postingS_content);
                     boardName = view.findViewById(R.id.home_postingS_board_name);
                     time = view.findViewById(R.id.home_postingS_time);
@@ -80,7 +82,7 @@ public class HomePBAdapter extends BaseAdapter {
                     view = inflater.inflate(R.layout.home_item_posting_image, viewGroup, false);
 
                     layout = view.findViewById(R.id.home_postingI_layout);
-                    writer = view.findViewById(R.id.home_postingI_writer);
+                    writer = view.findViewById(R.id.home_postingI_title);
                     content = view.findViewById(R.id.home_postingI_content);
                     boardName = view.findViewById(R.id.home_postingI_board_name);
                     time = view.findViewById(R.id.home_postingI_time);
@@ -91,13 +93,13 @@ public class HomePBAdapter extends BaseAdapter {
             }
         }
 
-        Posting writing = getItem(index);
+        Posting writing = getItem(position);
 
-        writer.setText(writing.getWriter());
+        writer.setText(writing.getTitle());
         content.setText(writing.getContent());
         boardName.setText(writing.getTag());
         time.setText("17:05");
-        liked.setText("200");
+        liked.setText(""+writing.getNumberOfLiked());
         if (writing.getPictures() != null) {
             imageView.setImageURI(Uri.parse(writing.getPictures()));
         }
@@ -105,7 +107,7 @@ public class HomePBAdapter extends BaseAdapter {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), getItem(index) + "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), getItem(position) + "", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), ShowWriting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 view.getContext().startActivity(intent);
             }
@@ -120,8 +122,8 @@ public class HomePBAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getItemViewType(int index) {
-        if (getItem(index).getPictures() == null) {
+    public int getItemViewType(int position) {
+        if (getItem(position).getPictures() == null) {
             return WRITING_SIMPLE;
         } else {
             return WRITING_WITH_IMAGE;

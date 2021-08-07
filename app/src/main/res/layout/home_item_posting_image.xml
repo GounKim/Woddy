@@ -19,12 +19,12 @@
         android:layout_weight="9"
         android:paddingRight="5dp">
         <TextView
-            android:id="@+id/home_postingI_writer"
+            android:id="@+id/home_postingI_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="230dp"
             android:maxHeight="16dp"
-            android:text="작성자 닉네임"
+            android:text="제목"
             android:textStyle="bold"
             android:layout_gravity="left|top"
             android:textSize="12dp" />

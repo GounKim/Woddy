@@ -188,8 +188,8 @@ public class InitDBdata {
     private void testPosting() {
 //        Posting posting1 = new Posting("태그 이름","user1","제목 작성1","오늘 날씨가 매우 덥네요.", new Date());
 //        manager.addPosting(posting1);
-        Posting posting2 = new Posting("태그 이름","user2","제목 작성2","안녕하세요.", new Date());
-        manager.addPosting(posting2);
+//        Posting posting2 = new Posting("태그 이름","user2","제목 작성2","안녕하세요.", new Date());
+//        manager.addPosting(posting2);
 //        Posting posting3 = new Posting("태그 이름","user2","제목 작성3","오늘 날씨가 매우 춥네요.", new Date());
 //        manager.addPosting(posting3);
 //        Posting posting4 = new Posting("Tag Name","user3","제목 작성4","내용 작성.", new Date());

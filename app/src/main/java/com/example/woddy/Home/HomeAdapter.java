@@ -42,6 +42,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void addItem(Object adapter) {
         adapterList.add(adapter);
+        notifyDataSetChanged();
     }
 
     public class VerticalScrollHolder extends RecyclerView.ViewHolder {

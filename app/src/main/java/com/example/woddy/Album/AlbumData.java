@@ -48,6 +48,7 @@ public class AlbumData {
 //
 //                        Log.d("sys",document.getData().get("postingNumber").toString());
 //                    }
+//                    //어댭터setadapter
 //                }
 //                }
 //            }

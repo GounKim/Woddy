@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyPage.UpdateProfile"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/updateProfile_userImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_account_circle_24_1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="닉네임"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/updateProfile_edt_nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:background="@drawable/button_round_shape_no_background"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:hint="닉네임을 입력하세요." />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="한줄 소개"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/updateProfile_edt_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:background="@drawable/button_round_shape_no_background"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:hint="한줄 소개를 입력하세요." />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:text="자역(구)"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/updateProfile_edt_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="7.5"
+                android:background="@drawable/button_round_shape_no_background"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:hint="지역(구)를 입력하새요" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/updateProfile_btn_complete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="프로필 설정" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

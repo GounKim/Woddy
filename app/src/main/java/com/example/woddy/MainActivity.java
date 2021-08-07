@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.woddy.DB.InitDBdata;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,12 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            InitDBdata initDB = new InitDBdata();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //        btnLogin = findViewById(R.id.btn_Login);
 //        btnMoveToChatt = findViewById(R.id.btn_move_to_chatt);

@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/home_item_layout"
+    android:id="@+id/home_item_layoutR"
     android:paddingTop="20dp"
     android:paddingBottom="20dp">
 
     <TextView
-        android:id="@+id/home_board_name"
+        android:id="@+id/home_board_nameR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_round_shape_no_background"
@@ -32,32 +32,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_board_name"
+        app:layout_constraintTop_toTopOf="@+id/home_board_nameR"
         app:layout_constraintWidth_percent="0.9">
 
-        <TextView
-            android:id="@+id/home_item_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:text="더보기 >" />
-
-        <ListView
-            android:id="@+id/home_board_listView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_board_hori_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="30dp"
+            android:layout_margin="20dp"
             android:scrollbars="none"
             android:dividerHeight="5dp"
             android:divider="#00000000">
 
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

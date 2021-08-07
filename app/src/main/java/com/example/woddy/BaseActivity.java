@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.woddy.Album.AlbummBoardFragment;
 import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.MyPage.MyPageFragment;

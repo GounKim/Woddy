@@ -9,9 +9,9 @@ public class BoardTag {
     private String BoardName; // 게시판 이름 [ FK : Board ]
 
 
-    public BoardTag(String tagName, String boardName) {
-        this.tagName = tagName;
+    public BoardTag(String boardName, String tagName) {
         this.BoardName = boardName;
+        this.tagName = tagName;
     }
 
     public Map<String, Object> BoardToMap() {

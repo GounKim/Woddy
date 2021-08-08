@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.BaseActivity;
-import com.example.woddy.DB.FirebaseManager;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
@@ -44,7 +43,6 @@ public class ChattingRoom extends BaseActivity {
 
     // DB
     DatabaseReference db;
-    FirebaseManager firebaseManager;
     FirestoreManager manager;
     private ChildEventListener childEL; // 실시간 작업에 응답하기 위해 필요
 

@@ -23,8 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.woddy.DB.FirebaseManager;
-import com.example.woddy.Entity.MemberInfo;
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.MainActivity;
 import com.example.woddy.R;
@@ -32,7 +31,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -43,11 +41,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class AddWritingsActivity extends AppCompatActivity {
     private File tempFile;
@@ -66,9 +62,7 @@ public class AddWritingsActivity extends AppCompatActivity {
 
     FirebaseStorage storage;
     StorageReference storageRef;
-    DatabaseReference db;
-    FirebaseManager firebaseManager;
-    FirebaseManager firestoreManager;
+    FirestoreManager firestoreManager;
 
     InputMethodManager imm;
 
@@ -85,9 +79,7 @@ public class AddWritingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.add_writings_main);
 
-        db = FirebaseDatabase.getInstance().getReference();
-        firebaseManager = new FirebaseManager(db);
-        firestoreManager = new FirebaseManager();
+        firestoreManager = new FirestoreManager();
 
         spinner = (Spinner) findViewById(R.id.spinner);
         addImageBtn = (Button) findViewById(R.id.addImages);
@@ -128,7 +120,7 @@ public class AddWritingsActivity extends AppCompatActivity {
                     final String title = titleTV.getText().toString();
                     final String content = plotTV.getText().toString();
                     Posting post = new Posting(tag, "writer", title, content, pictures, new Date());
-                    firestoreManager.PostingUpload(post);
+                    firestoreManager.addPosting("자유게시판",tag, post);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     writing_index++;
@@ -189,7 +181,8 @@ public class AddWritingsActivity extends AppCompatActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
                 setImage(bitmap);
-                pictures = photoUri.toString();
+//                pictures = photoUri.toString();
+                pictures = attachedImage.getPath();
             } catch (IOException e) {
                 e.printStackTrace();
             }

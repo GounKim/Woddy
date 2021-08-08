@@ -72,7 +72,7 @@ public class StorageManager {
     }
 
     public void addPostingImage(String postingNum, ArrayList<String> uriPath) {
-        String stroagePath = "PostingImages/" + postingNum + "/";
+        String stroagePath = "BoardName/TagName/PostingImages/" + postingNum + "/";
 
         for (int index = 0; index < uriPath.size(); index++) {
             Uri file = Uri.fromFile(new File(uriPath.get(index)));     // 절대경로(uri)를 file에 할당

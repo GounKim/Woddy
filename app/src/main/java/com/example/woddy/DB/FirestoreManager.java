@@ -10,7 +10,6 @@ import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.UserProfile;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
-import com.example.woddy.Entity.PostingInfo;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
@@ -144,6 +143,11 @@ public class FirestoreManager {
                 });
     }
 
+    // User 추가
+    public Task<QuerySnapshot> findUser(String userNick) {
+        return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
+    }
+
     // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
     public void addUserActivity(String docID, UserActivity activity) {
         DocumentReference userRef = fsDB.collection("user").document(docID);
@@ -246,29 +250,29 @@ public class FirestoreManager {
 */
 
     /* ---------------------- Posting용 DB ---------------------- */
-    /*
+
     // posting collectionRef
     public CollectionReference postCollectionRef(String boardName, String tagName) {
         CollectionReference postColRef = fsDB.collection("postBoard").document(boardName)
                 .collection("postTag").document(tagName).collection("postings");
         return postColRef;
     }
-     */
 
     // 게시물 추가
-    public void addPosting(Posting posting) {
-        fsDB.collection("postings").add(posting)
+    public void addPosting(String boardName, String tagName, Posting posting) {
+        CollectionReference colRef = postCollectionRef(boardName, tagName);
+        colRef.add(posting)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         // postingNumber를 docID로 설정하기
                         Map<String, Object> id = new HashMap<>();
                         id.put("postingNumber", documentReference.getId());
-                        updatePosting(documentReference.getId(), id);
+                        updatePosting(boardName, tagName, documentReference.getId(), id);
 
-                        // 게시글 정보 추가
-                        PostingInfo postingInfo = new PostingInfo();
-                        documentReference.collection("postingInfo").add(postingInfo);
+//                        // 게시글 정보 추가
+//                        PostingInfo postingInfo = new PostingInfo();
+//                        documentReference.collection("postingInfo").add(postingInfo);
 
                         Log.d(TAG, "Posting has successfully Added!");
                     }
@@ -281,9 +285,27 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 내용 수정 (docID는 Posting Number)
-    public void updatePosting(String docID, Map<String, Object> newData) {
-        fsDB.collection("postings").document(docID).update(newData)
+    // 게시물 찾기(docID는 Posting Number)
+    private void searchPosting(String postingNum) {
+        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    // 게시물 내용 수정 (docID는 Posting Number)_VER1
+    public void updatePosting(String boardName, String tagName, String docID, Map<String, Object> newData) {
+        CollectionReference colRef = postCollectionRef(boardName, tagName);
+        colRef.document(docID).update(newData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -298,19 +320,97 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 삭제 (docID는 userNick)
-    public void delPosting(String docID) {
-        fsDB.collection("postings").document(docID).delete()
+    // 게시물 내용 수정 VER2
+    public void updatePostings(String postingNum, Map<String, Object> newData) {
+        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference docRef = document.getReference();
+                                docRef.update(newData)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                Log.d(TAG, "Posting has successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull @NotNull Exception e) {
+                                                Log.w(TAG, "Error updating posting", e);
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+    // 게시물 삭제 VER1
+    public void delPosting(String boardName, String tagName, Posting posting) {
+        StorageManager storage = new StorageManager();
+
+        CollectionReference colRef = postCollectionRef(boardName, tagName);
+        colRef.document(posting.getPostingNumber()).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Posting has successfully deleted!");
+
+                        // 사진 파일도 지우기
+                        int numOfPic = posting.getPicture().size();
+                        for (int index = 0; index < numOfPic; index++) {
+                            storage.delPostingImage(posting.getPicture().get(index));
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
                         Log.w(TAG, "Error deleting posting", e);
+                    }
+                });
+    }
+
+    // 게시물 삭제 VER2
+    public void delPostings(Posting posting) {
+        StorageManager storage = new StorageManager();
+
+        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", posting.getPostingNumber()).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference docRef = document.getReference();
+                                docRef.delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                Log.d(TAG, "Posting has successfully updated!");
+
+                                                // 사진 파일도 지우기
+                                                int numOfPic = posting.getPicture().size();
+                                                for (int index = 0; index < numOfPic; index++) {
+                                                    storage.delPostingImage(posting.getPicture().get(index));
+                                                }
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull @NotNull Exception e) {
+                                                Log.w(TAG, "Error updating posting", e);
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
                     }
                 });
     }
@@ -346,14 +446,19 @@ public class FirestoreManager {
                 });
     }
 
+    // 태그로 게시물 불러오기
+    public Query getPostWithTag(String tagName) {
+        return fsDB.collectionGroup("postings").whereEqualTo("tag", tagName);
+    }
+
     // 최근 게시물 불러오기 (docID는 postingNumber)
     public Query getCurrentPost() {
-        return fsDB.collection("postings").orderBy("postedTime", Query.Direction.DESCENDING);
+        return fsDB.collectionGroup("postings").orderBy("postedTime", Query.Direction.DESCENDING).limit(3);
     }
 
     // 인기 게시물 불러오기
     public Query getPopularPost() {
-        return fsDB.collection("postings").orderBy("numberOfLiked", Query.Direction.ASCENDING);
+        return fsDB.collectionGroup("postings").orderBy("numberOfLiked", Query.Direction.DESCENDING).limit(3);
     }
 
     // 게시물 댓글 추가 (postingNumber은 게시물 번호)
@@ -533,28 +638,3 @@ public class FirestoreManager {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

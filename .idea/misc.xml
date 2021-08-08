@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_img_post.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_pw_reset.xml" value="0.11927083333333334" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_my.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_my_page.xml" value="0.134375" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_image.xml" value="0.134375" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.134375" />
         <entry key="..\:/Woddy/app/src/main/res/drawable/bg_indicator_active.xml" value="0.13541666666666666" />
         <entry key="..\:/Woddy/app/src/main/res/drawable/bg_indicator_inactive.xml" value="0.13541666666666666" />
         <entry key="..\:/Woddy/app/src/main/res/drawable/heart_off.xml" value="0.1" />

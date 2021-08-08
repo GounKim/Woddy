@@ -76,8 +76,6 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
 
                             User user = document.toObjects(User.class).get(0);
 
-                            Log.d(TAG, user.getUserImage() + " ----------------------========");
-
                             FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
                             StorageReference storageRef = storage.getReference(user.getUserImage()); // 스토리지 공간을 참조해서 이미지를 가져옴
 

@@ -67,53 +67,67 @@ public class HomeFragment extends Fragment {
 
     void setHomeAdapter() {
         // 공지 Board
-        Posting notice = new Posting("notice","administrator","공지 제목","공지 내용 입니다.",new Date());
-        HomeNBAdapter nAdapter = new HomeNBAdapter(new Posting[]{notice, notice, notice});
-        homeAdapter.addItem(nAdapter);
-
-
-        manager.getPopularPost().get()
+        manager.getPostWithTag("notice").limit(3).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            ArrayList<Posting> popPosts = new ArrayList<>();
+                            ArrayList<Posting> notices = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                popPosts.add(document.toObject(Posting.class));
+                                notices.add(document.toObject(Posting.class));
                             }
 
-                            HomePBAdapter pbAdapter = new HomePBAdapter(popPosts);
-                            homeAdapter.addItem(pbAdapter);
+                            HomeNBAdapter nAdapter = new HomeNBAdapter(notices);
+                            homeAdapter.addItem(nAdapter);
 
-                            // 최신글 Board
-                            manager.getCurrentPost().get()
-                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            manager.getPopularPost().get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
-                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                            ArrayList<Posting> curPosts = new ArrayList<>();
-                                            for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                                                curPosts.add(snap.toObject(Posting.class));
-                                            }
-                                            HomePBAdapter rbAdapter = new HomePBAdapter(curPosts);
-                                            homeAdapter.addItem(rbAdapter);
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                ArrayList<Posting> popPosts = new ArrayList<>();
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    popPosts.add(document.toObject(Posting.class));
+                                                }
 
-                                            // 즐겨찾기한 게시판 Board
-                                            BoardTag boardTag = new BoardTag("집 소개", "자유게시판");
-                                            HomeFBAdapter fbAdapter = new HomeFBAdapter();
-                                            fbAdapter.addItem(boardTag);
-                                            fbAdapter.addItem(boardTag);
-                                            fbAdapter.addItem(boardTag);
-                                            fbAdapter.addItem(boardTag);
-                                            homeAdapter.addItem(fbAdapter);
+                                                HomePBAdapter pbAdapter = new HomePBAdapter(popPosts);
+                                                homeAdapter.addItem(pbAdapter);
+
+                                                // 최신글 Board
+                                                manager.getCurrentPost().get()
+                                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                                ArrayList<Posting> curPosts = new ArrayList<>();
+                                                                for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                                                                    curPosts.add(snap.toObject(Posting.class));
+                                                                }
+                                                                HomePBAdapter rbAdapter = new HomePBAdapter(curPosts);
+                                                                homeAdapter.addItem(rbAdapter);
+
+                                                                // 즐겨찾기한 게시판 Board
+                                                                BoardTag boardTag = new BoardTag("집 소개", "자유게시판");
+                                                                HomeFBAdapter fbAdapter = new HomeFBAdapter();
+                                                                fbAdapter.addItem(boardTag);
+                                                                fbAdapter.addItem(boardTag);
+                                                                fbAdapter.addItem(boardTag);
+                                                                fbAdapter.addItem(boardTag);
+                                                                homeAdapter.addItem(fbAdapter);
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Finding RecentPost failed.", e);
+                                                    }
+                                                });
+                                            } else {
+                                                Log.d(TAG, "Finding PopularPost failed.", task.getException());
+                                            }
                                         }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Finding RecentPost failed.", e);
-                                }
-                            });
+                                    });
+
                         } else {
-                            Log.d(TAG, "Finding PopularPost failed.", task.getException());
+                            Log.d(TAG, "Finding notice failed.", task.getException());
                         }
                     }
                 });

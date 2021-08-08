@@ -25,7 +25,9 @@
         <activity android:name=".Login.SignUpSuccessActivity" />
         <activity
             android:name=".Login.LogInActivity"
-            android:theme="@style/SplashTheme" />
+            android:theme="@style/SplashTheme">
+            
+        </activity>
         <activity android:name=".Login.PwResetSuccessActivity" />
         <activity android:name=".Login.PwResetActivity" />
         <activity android:name=".Login.RegisterEtcActivity" />

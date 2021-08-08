@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.Entity.UserProfile;
 import com.example.woddy.MainActivity;
 import com.example.woddy.R;
 import com.google.android.gms.auth.api.Auth;
@@ -32,6 +34,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LogInActivity extends AppCompatActivity {
+    final String TAG = "LogIn";
     final int RC_SIGN_IN = 9001;
     EditText idEditText;
     EditText pwEditText;
@@ -144,7 +147,7 @@ public class LogInActivity extends AppCompatActivity {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-                Log.d("tagg", result.getStatus().toString());
+                Log.d(TAG, result.getStatus().toString());
             }
         }
     }
@@ -155,17 +158,14 @@ public class LogInActivity extends AppCompatActivity {
             assert task != null;
             if (task.isSuccessful()) {
                 final String uid = firebaseAuth.getCurrentUser().getUid();
-                UserProfile userProfile = new UserProfile();
+                UserProfile userProfile =
+                        new UserProfile(account.getEmail(), "null", account.getDisplayName(),
+                                "null", "null", "null");
 
-                userProfile.userID = account.getEmail();
-                userProfile.userPW = "null";
-                userProfile.nickname = account.getDisplayName();
-                userProfile.city = "null";
-                userProfile.gu = "null";
-                userProfile.dong = "null";
-                userProfile.women = false;
-                firebaseDatabase.getReference().child("userProfile").child(uid).setValue(userProfile);
+                FirestoreManager fsManager = new FirestoreManager();
+                fsManager.addUserProfile(uid, userProfile);
 
+                //?????
                 Intent intent = new Intent(this, RegisterEtcActivity.class);
                 startActivity(intent);
             } else {
@@ -187,10 +187,10 @@ public class LogInActivity extends AppCompatActivity {
                             Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(LogInActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }

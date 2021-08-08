@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShowWriting">
+
+    <LinearLayout
+        android:id="@+id/show_writing_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/notice_border">
+
+        <TextView
+            android:id="@+id/show_writing_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TITLE"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/show_writing_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2021-08-06 17:45"
+            android:textSize="12dp"
+            android:textColor="#AAAAAA"/>
+
+        <TextView
+            android:id="@+id/show_writing_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="content"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/show_writing_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="태그이름"
+            android:textSize="12dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/show_writing_liked_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_baseline_liked_no"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/show_writing_liked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="100"
+                android:textSize="12dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="6dp"/>
+
+            <ImageView
+                android:id="@+id/show_writing_scraped_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_baseline_scraped_no"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/show_writing_scraped"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="100"
+                android:textSize="12dp"
+                android:layout_marginLeft="3dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/show_writing_comment_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/show_writing_editLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/show_writing_layout" />
+
+    <LinearLayout
+        android:id="@+id/show_writing_editLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#55ff"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <EditText
+            android:id="@+id/show_writing_edt_comment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="8"
+            android:background="@drawable/conversation_border"
+            android:hint="댓글을 입력해주세요."
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/show_writing_btnSend_comment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="2"
+            android:text="전송" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

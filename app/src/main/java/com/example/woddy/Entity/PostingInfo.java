@@ -2,36 +2,18 @@ package com.example.woddy.Entity;
 
 // 게시물 정보
 public class PostingInfo {
-    private String posing; // 글 번호 [ FK : Posting ]
-    private String postedTime;    // 작성된 시간
     private int numberOfViews; // 조회수
     private int numberOfLiked;  // 좋아요 갯수
     private int numberOfScraped;    // 스크랩수
     private int numberOfComment;    // 댓글 수
+    private int reported; // 신고 여부 (신고된 횟수)
 
-    public PostingInfo(String posing, String postedTime) {
-        this.posing = posing;
-        this.postedTime = postedTime;
+    public PostingInfo() {
         this.numberOfViews = 0;
         this.numberOfLiked = 0;
         this.numberOfScraped = 0;
         this.numberOfComment = 0;
-    }
-
-    public String getPosing() {
-        return posing;
-    }
-
-    public void setPosing(String posing) {
-        this.posing = posing;
-    }
-
-    public String getPostedTime() {
-        return postedTime;
-    }
-
-    public void setPostedTime(String postedTime) {
-        this.postedTime = postedTime;
+        this.reported = 0;
     }
 
     public int getNumberOfViews() {
@@ -64,5 +46,13 @@ public class PostingInfo {
 
     public void setNumberOfComment(int numberOfComment) {
         this.numberOfComment = numberOfComment;
+    }
+
+    public int getReported() {
+        return reported;
+    }
+
+    public void setReported(int reported) {
+        this.reported = reported;
     }
 }

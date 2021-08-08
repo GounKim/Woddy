@@ -14,18 +14,15 @@ public class User {
     private String local;   // 지역(동)
     private String introduce;   // 한줄소개
     private String userImage;   // 사용자 이미지(사진)    // private ArrayList<String> chattingList;    // 채팅목록
-    //private ArrayList<String> myPostings;  // 작성한 게시물
-    //private ArrayList<String> likedPostings;   // 좋아요 누른글
-    //private ArrayList<String> scrappedPostings;    // 스크랩한글
-    //private ArrayList<String> favoriteBoards;  // 즐겨찾기한 게시판
+    private ArrayList<String> myPostings;  // 작성한 게시물
+    private ArrayList<String> likedPostings;   // 좋아요 누른글
+    private ArrayList<String> scrappedPostings;    // 스크랩한글
+    private ArrayList<String> favoriteBoards;  // 즐겨찾기한 게시판
 
     public User() {}
 
     public User(String nickName) {
         this.nickName = nickName;
-        this.local = "";
-        this.introduce = "";
-        this.userImage = "";
     }
 
     public User(String nickName, String local, String introduce, String userImage) {

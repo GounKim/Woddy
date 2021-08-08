@@ -123,7 +123,7 @@ public class AddWritingsActivity extends AppCompatActivity {
                 if (!titleTV.getText().toString().isEmpty() && !plotTV.getText().toString().isEmpty()) {
                     final String title = titleTV.getText().toString();
                     final String content = plotTV.getText().toString();
-                    Posting post = new Posting(tag, "writer", title, content, pictures);
+                    Posting post = new Posting(tag, "writer", title, content, pictures, new Date());
                     firestoreManager.PostingUpload(post);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);

@@ -46,23 +46,23 @@ public class PostFragment extends Fragment {
         addPosting = view.findViewById(R.id.add_new_posting);
         textView = view.findViewById(R.id.testTextView);
 
-//        FirestoreManager manager = new FirestoreManager();
-//        manager.addBoard(new BoardTag("자유게시판", "인테리어 공유"));
-//
-//        FirebaseFirestore fsDB = FirebaseFirestore.getInstance();
-//
-//        fsDB.collectionGroup("postings").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        Log.d(TAG, document.getId() + " => " + document.getData());
-//                    }
-//                } else {
-//                    Log.d(TAG, "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
+        FirestoreManager manager = new FirestoreManager();
+        manager.addBoard(new BoardTag("자유게시판", "인테리어 공유"));
+
+        FirebaseFirestore fsDB = FirebaseFirestore.getInstance();
+
+        fsDB.collectionGroup("postings").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
 
         addPosting.setOnClickListener(new View.OnClickListener() {
             @Override

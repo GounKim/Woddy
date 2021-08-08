@@ -26,6 +26,8 @@ public class HomePBAdapter extends BaseAdapter {
 
     private ArrayList<Posting> writings;
 
+    HomePBAdapter() {}
+
     HomePBAdapter(ArrayList<Posting> writing) {
         this.writings = writing;
     }

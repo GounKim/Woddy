@@ -94,6 +94,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((VerticalScrollHolder) holder).boardName.setText(homeBoards[position]);
             ((VerticalScrollHolder) holder).itemMore.setId(position);
 
+
             // 각 ListView에 adapter 연결
             try {
                 Object obj = adapterList.get(position);

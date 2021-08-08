@@ -10,7 +10,6 @@ import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.MemberInfo;
 import com.example.woddy.Entity.Posting;
-import com.example.woddy.Entity.PostingInfo;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
@@ -146,6 +145,11 @@ public class FirestoreManager {
                         Log.w(TAG, "Error deleting user", e);
                     }
                 });
+    }
+
+    // User 추가
+    public Task<QuerySnapshot> findUser(String userNick) {
+        return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
     }
 
     // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
@@ -352,14 +356,22 @@ public class FirestoreManager {
     }
 
 
-    // 게시물 삭제 (docID는 userNick) VER1
-    public void delPosting(String boardName, String tagName, String docID) {
+    // 게시물 삭제 VER1
+    public void delPosting(String boardName, String tagName, Posting posting) {
+        StorageManager storage = new StorageManager();
+
         CollectionReference colRef = postCollectionRef(boardName, tagName);
-        colRef.document(docID).delete()
+        colRef.document(posting.getPostingNumber()).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Posting has successfully deleted!");
+
+                        // 사진 파일도 지우기
+                        int numOfPic = posting.getPicture().size();
+                        for (int index = 0; index < numOfPic; index++) {
+                            storage.delPostingImage(posting.getPicture().get(index));
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -370,9 +382,11 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 삭제 (docID는 userNick) VER2
-    public void delPostings(String postingNum) {
-        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
+    // 게시물 삭제 VER2
+    public void delPostings(Posting posting) {
+        StorageManager storage = new StorageManager();
+
+        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", posting.getPostingNumber()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -384,6 +398,12 @@ public class FirestoreManager {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 Log.d(TAG, "Posting has successfully updated!");
+
+                                                // 사진 파일도 지우기
+                                                int numOfPic = posting.getPicture().size();
+                                                for (int index = 0; index < numOfPic; index++) {
+                                                    storage.delPostingImage(posting.getPicture().get(index));
+                                                }
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {

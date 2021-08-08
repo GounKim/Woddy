@@ -34,9 +34,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     private String[] homeBoards = new String[]{"알려드려요", "현재 인기글", "최신글", "즐겨찾기한 게시판"};
-    private ArrayList<Object> adapterList = new ArrayList<>();
+    private ArrayList<Object> adapterList;
 
     public HomeAdapter(Context context) {
+        adapterList = new ArrayList<>();
         this.context = context;
     }
 
@@ -90,62 +91,64 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof VerticalScrollHolder) {
-            ((VerticalScrollHolder) holder).boardName.setText(homeBoards[position]);
-            ((VerticalScrollHolder) holder).itemMore.setId(position);
+        if (position < adapterList.size()) {
+            if (holder instanceof VerticalScrollHolder) {
+                ((VerticalScrollHolder) holder).boardName.setText(homeBoards[position]);
+                ((VerticalScrollHolder) holder).itemMore.setId(position);
 
-
-            // 각 ListView에 adapter 연결
-            try {
-                Object obj = adapterList.get(position);
-                String objName = obj.getClass().getSimpleName().trim();
-                if (objName.equals("HomeNBAdapter")) {
-                    HomeNBAdapter nbAdapter = (HomeNBAdapter) obj;
-                    ((VerticalScrollHolder) holder).listView.setAdapter(nbAdapter);
-                } else if (objName.equals("HomePBAdapter")) {
-                    HomePBAdapter pbAdapter = (HomePBAdapter) obj;
-                    ((VerticalScrollHolder) holder).listView.setAdapter(pbAdapter);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            setListViewHeight(((VerticalScrollHolder) holder).listView);
-
-            ((VerticalScrollHolder)holder).itemMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    switch (view.getId()) {
-                        case NOTICE:
-                            Toast.makeText(context, "공지", Toast.LENGTH_SHORT).show();
-                            break;
-                        case POPULAR:
-                            Toast.makeText(context, "인기글", Toast.LENGTH_SHORT).show();
-                            break;
-                        case RECENT:
-                            Toast.makeText(context, "최신글", Toast.LENGTH_SHORT).show();
-                            break;
-                        default:
-                            break;
+                // 각 ListView에 adapter 연결
+                try {
+                    Object obj = adapterList.get(position);
+                    String objName = obj.getClass().getSimpleName().trim();
+                    if (objName.equals("HomeNBAdapter")) {
+                        HomeNBAdapter nbAdapter = (HomeNBAdapter) obj;
+                        ((VerticalScrollHolder) holder).listView.setAdapter(nbAdapter);
+                    } else if (objName.equals("HomePBAdapter")) {
+                        HomePBAdapter pbAdapter = (HomePBAdapter) obj;
+                        ((VerticalScrollHolder) holder).listView.setAdapter(pbAdapter);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
+                setListViewHeight(((VerticalScrollHolder) holder).listView);
 
-        } else {
-            ((HorizontalScrollHolder) holder).boardName.setText(homeBoards[position]);
-            try {
-                Object obj = adapterList.get(position);
-                HomeFBAdapter fbAdapter = (HomeFBAdapter) obj;
-                ((HorizontalScrollHolder) holder).horiView
-                        .setLayoutManager(new LinearLayoutManager(context, ((HorizontalScrollHolder) holder).horiView.HORIZONTAL, false)); // 상하 스크롤
-                ((HorizontalScrollHolder) holder).horiView.setAdapter(fbAdapter);
-            } catch (Exception e) {
-                e.printStackTrace();
+                ((VerticalScrollHolder) holder).itemMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switch (view.getId()) {
+                            case NOTICE:
+                                Toast.makeText(context, "공지", Toast.LENGTH_SHORT).show();
+                                break;
+                            case POPULAR:
+                                Toast.makeText(context, "인기글", Toast.LENGTH_SHORT).show();
+                                break;
+                            case RECENT:
+                                Toast.makeText(context, "최신글", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+
+            } else {
+                ((HorizontalScrollHolder) holder).boardName.setText(homeBoards[position]);
+                try {
+                    Object obj = adapterList.get(position);
+                    HomeFBAdapter fbAdapter = (HomeFBAdapter) obj;
+                    ((HorizontalScrollHolder) holder).horiView
+                            .setLayoutManager(new LinearLayoutManager(context, ((HorizontalScrollHolder) holder).horiView.HORIZONTAL, false)); // 상하 스크롤
+                    ((HorizontalScrollHolder) holder).horiView.setAdapter(fbAdapter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, homeBoards.length + "--------------------");
         return homeBoards.length;
     }
 

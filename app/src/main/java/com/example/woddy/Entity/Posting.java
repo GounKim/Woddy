@@ -1,5 +1,6 @@
 package com.example.woddy.Entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,9 @@ public class Posting {
     private int numberOfScraped;    // 스크랩수
     private int numberOfComment;    // 댓글 수
     private int reported; // 신고 여부 (신고된 횟수)
+
+    // test용
+    private ArrayList<String> picture = new ArrayList<>();
 
     public Posting() {
     }
@@ -49,6 +53,21 @@ public class Posting {
         this.numberOfScraped = 0;
         this.numberOfComment = 0;
         this.reported = 0;
+    }
+
+    public Posting(String postingNumber, String tag, String writer, String title, String content, int reported, ArrayList<String> picture, Date postedTime, int numberOfViews, int numberOfLiked, int numberOfScraped, int numberOfComment) {
+        this.postingNumber = postingNumber;
+        this.tag = tag;
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
+        this.postedTime = postedTime;
+        this.numberOfViews = numberOfViews;
+        this.numberOfLiked = numberOfLiked;
+        this.numberOfScraped = numberOfScraped;
+        this.numberOfComment = numberOfComment;
+        this.reported = reported;
+        this.picture = picture;
     }
 
     public Map<String, Object> toMap() {
@@ -156,5 +175,13 @@ public class Posting {
 
     public void setReported(int reported) {
         this.reported = reported;
+    }
+
+    public ArrayList<String> getPicture() {
+        return picture;
+    }
+
+    public void setPicture(ArrayList<String> picture) {
+        this.picture = picture;
     }
 }

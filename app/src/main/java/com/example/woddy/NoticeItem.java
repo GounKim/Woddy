@@ -21,11 +21,9 @@ public class NoticeItem {
 
     public String getMessage() { return message; }
 
-
     public String getBoardName() {
         return boardName;
     }
-
 
 }
 

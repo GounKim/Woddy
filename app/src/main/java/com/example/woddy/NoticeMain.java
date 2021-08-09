@@ -28,6 +28,8 @@ public class NoticeMain extends TabActivity {
     // int max_button = 3; // 버튼 갯수 받아와 넣기
     LinearLayout View;
 
+    ArrayList<NoticeItem> data = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +74,7 @@ public class NoticeMain extends TabActivity {
 
         tabHost.setCurrentTab(0);
 
-        ArrayList<NoticeItem> data = new ArrayList<>();
+
 
         mVerticalView = (RecyclerView) findViewById(R.id.vertical_list1);
 

@@ -23,6 +23,7 @@
         <activity android:name=".Login.FemaleCertActivity" />
         <activity android:name=".Login.SignUpActivity" />
         <activity android:name=".Login.SignUpSuccessActivity" />
+        <activity android:name=".NoticeMain" />
         <activity
             android:name=".Login.LogInActivity"
             android:theme="@style/SplashTheme">

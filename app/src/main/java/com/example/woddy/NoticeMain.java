@@ -137,7 +137,7 @@ public class NoticeMain extends TabActivity {
                             "퇴근각","퇴근퇴근퇴근퇴근퇴근퇴근퇴근",tabHost.getCurrentTabTag()));
                     i++;
                 }
-                mLayoutManager = new LinearLayoutManager(MainActivity.this);
+                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
                 mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
 
                 // setLayoutManager

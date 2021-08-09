@@ -1,4 +1,4 @@
-package com.example.recycle;
+package com.example.woddy;
 
 import android.view.View;
 import android.widget.TextView;

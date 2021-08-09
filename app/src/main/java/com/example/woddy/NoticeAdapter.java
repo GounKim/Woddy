@@ -37,7 +37,6 @@ class NoticeAdapter extends RecyclerView.Adapter<NoticeView> {
         holder.message.setText(data.getMessage());
         holder.boardName.setText(data.getBoardName());
 
-
     }
 
     @Override

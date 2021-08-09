@@ -24,7 +24,6 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
     private ArrayList<ChattingInfo> chattingInfos;
     private String user;
 
-
     ChattingListAdapter(String user) {
         this.user = user;
         this.chattingInfos = new ArrayList<>();
@@ -33,6 +32,10 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
     public void addItem(ChattingInfo chattingInfo) {
         chattingInfos.add(chattingInfo);
         notifyDataSetChanged();
+    }
+
+    public void setItem(ArrayList<ChattingInfo> chattingInfos){
+        this.chattingInfos = chattingInfos;
     }
 
     public class clHolder extends ViewHolder {
@@ -92,7 +95,7 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
     public void onBindViewHolder(@NonNull @NotNull clHolder holder, int position) {
         holder.getChatterName().setText(getChatter(position, user));
         holder.getRecentChatt().setText(chattingInfos.get(position).getRecentMsg());
-        //holder.getChatterImage().setImageURI(chattingInfos.get(position).getChatterImg());
+//        holder.getChatterImage().setImageURI(chattingInfos.get(position).getChatterImg());
     }
 
     @Override

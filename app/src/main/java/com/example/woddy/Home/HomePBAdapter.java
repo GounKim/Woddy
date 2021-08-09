@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
-import com.example.woddy.ShowWriting;
+import com.example.woddy.Posting.ShowPosting;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
@@ -94,7 +94,7 @@ public class HomePBAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(view.getContext(), getItem(position) + "", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(view.getContext(), ShowWriting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             view.getContext().startActivity(intent);
                         }
                     });
@@ -142,7 +142,7 @@ public class HomePBAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(view.getContext(), getItem(position) + "", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(view.getContext(), ShowWriting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             view.getContext().startActivity(intent);
                         }
                     });

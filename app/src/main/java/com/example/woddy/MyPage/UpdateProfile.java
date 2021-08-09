@@ -11,16 +11,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.content.CursorLoader;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,25 +23,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.woddy.BaseActivity;
-import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.StorageManager;
-import com.example.woddy.Entity.User;
-import com.example.woddy.Login.UserProfile;
 import com.example.woddy.R;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class UpdateProfile extends BaseActivity {
     ImageView profileImage;

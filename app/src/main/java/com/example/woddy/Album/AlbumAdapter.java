@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.woddy.ImgPost.ImgPost;
+import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.R;
 
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                     //포지션이 recylerView의 아이템인지 확인
                     if(pos != RecyclerView.NO_POSITION){
                         //액티비티 전환
-                        Intent intent = new Intent(v.getContext(), ImgPost.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         intent.putExtra("postingNumber", String.valueOf(items.get(pos)));
                         v.getContext().startActivity(intent);

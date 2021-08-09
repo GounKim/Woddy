@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Posting;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,17 +8,17 @@ import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Comment;
+import com.example.woddy.R;
 
-import java.util.Date;
-
-public class ShowWriting extends BaseActivity implements View.OnClickListener {
+public class ShowPosting extends BaseActivity implements View.OnClickListener {
     RecyclerView recyclerView;
     EditText edtComment;
     Button btnSend;
 
-    ShowWritingAdapter adapter;
+    ShowPostingAdapter adapter;
     FirestoreManager manager;
 
     @Override
@@ -37,7 +37,7 @@ public class ShowWriting extends BaseActivity implements View.OnClickListener {
 
         manager = new FirestoreManager();
 
-        adapter = new ShowWritingAdapter();
+        adapter = new ShowPostingAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(adapter);
 

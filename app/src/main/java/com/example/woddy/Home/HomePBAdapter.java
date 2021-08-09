@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.Posting;
@@ -68,29 +69,54 @@ public class HomePBAdapter extends BaseAdapter {
         Context context = viewGroup.getContext();
         int viewType = getItemViewType(position) ;
 
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
+        if(view == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             switch (viewType) {
                 case WRITING_SIMPLE:    // 기본형
                     view = inflater.inflate(R.layout.home_item_posting_simple, viewGroup, false);
+                    SimpleViewHolder sHolder = new SimpleViewHolder();
 
-                    LinearLayout layoutS = view.findViewById(R.id.home_postingS_layout);
-                    TextView writerS = view.findViewById(R.id.home_postingS_title);
-                    TextView contentS = view.findViewById(R.id.home_postingS_content);
-                    TextView boardNameS = view.findViewById(R.id.home_postingS_board_name);
-                    TextView timeS = view.findViewById(R.id.home_postingS_time);
-                    TextView likedS = view.findViewById(R.id.home_postingS_liked);
+                    sHolder.sLayout = view.findViewById(R.id.home_postingS_layout);
+                    sHolder.sTitle = view.findViewById(R.id.home_postingS_title);
+                    sHolder.sContent = view.findViewById(R.id.home_postingS_content);
+                    sHolder.sBoardName = view.findViewById(R.id.home_postingS_board_name);
+                    sHolder.sTime = view.findViewById(R.id.home_postingS_time);
+                    sHolder.sLiked = view.findViewById(R.id.home_postingS_liked);
 
-                    Posting writing = getItem(position);
+                    view.setTag(sHolder);
+                    break;
 
-                    writerS.setText(writing.getTitle());
-                    contentS.setText(writing.getContent());
-                    boardNameS.setText(writing.getTag());
-                    timeS.setText(timestamp(writing.getPostedTime()));
-                    likedS.setText(""+writing.getNumberOfLiked());
+                case WRITING_WITH_IMAGE:    // 이미지 포함형
+                    view = inflater.inflate(R.layout.home_item_posting_image, viewGroup, false);
+                    ImageViewHolder iHolder = new ImageViewHolder();
 
-                    layoutS.setOnClickListener(new View.OnClickListener() {
+                    iHolder.iLayout = view.findViewById(R.id.home_postingI_layout);
+                    iHolder.iTitle = view.findViewById(R.id.home_postingI_title);
+                    iHolder.iContent = view.findViewById(R.id.home_postingI_content);
+                    iHolder.iBoardName = view.findViewById(R.id.home_postingI_board_name);
+                    iHolder.iTime = view.findViewById(R.id.home_postingI_time);
+                    iHolder.iLiked = view.findViewById(R.id.home_postingI_liked);
+                    iHolder.iImageView = view.findViewById(R.id.home_postingI_image);
+
+                    view.setTag(iHolder);
+                    break;
+            }
+        }
+
+        Posting writing = getItem(position);
+
+        if (writing != null) {
+            switch (viewType) {
+                case WRITING_SIMPLE:    // 기본형
+                    SimpleViewHolder sHolder = (SimpleViewHolder) view.getTag();
+                    sHolder.sTitle.setText(writing.getTitle());
+                    sHolder.sContent.setText(writing.getContent());
+                    sHolder.sBoardName.setText(writing.getTag());
+                    sHolder.sTime.setText(timestamp(writing.getPostedTime()));
+                    sHolder.sLiked.setText(""+writing.getNumberOfLiked());
+
+                    sHolder.sLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(view.getContext(), getItem(position) + "", Toast.LENGTH_SHORT).show();
@@ -102,23 +128,12 @@ public class HomePBAdapter extends BaseAdapter {
                     break;
 
                 case WRITING_WITH_IMAGE:    // 이미지 포함형
-                    view = inflater.inflate(R.layout.home_item_posting_image, viewGroup, false);
-
-                    LinearLayout layoutI = view.findViewById(R.id.home_postingI_layout);
-                    TextView writerI = view.findViewById(R.id.home_postingI_title);
-                    TextView contentI = view.findViewById(R.id.home_postingI_content);
-                    TextView boardNameI = view.findViewById(R.id.home_postingI_board_name);
-                    TextView timeI = view.findViewById(R.id.home_postingI_time);
-                    TextView likedI = view.findViewById(R.id.home_postingI_liked);
-                    ImageView imageViewI = view.findViewById(R.id.home_postingI_image);
-
-                    writing = getItem(position);
-
-                    writerI.setText(writing.getTitle());
-                    contentI.setText(writing.getContent());
-                    boardNameI.setText(writing.getTag());
-                    timeI.setText(timestamp(writing.getPostedTime()));
-                    likedI.setText(""+writing.getNumberOfLiked());
+                    ImageViewHolder iHolder = (ImageViewHolder) view.getTag();
+                    iHolder.iTitle.setText(writing.getTitle());
+                    iHolder.iContent.setText(writing.getContent());
+                    iHolder.iBoardName.setText(writing.getTag());
+                    iHolder.iTime.setText(timestamp(writing.getPostedTime()));
+                    iHolder.iLiked.setText(""+writing.getNumberOfLiked());
 
                     if (writing.getPictures() != "" | writing.getPictures() != null) {
                         FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
@@ -128,9 +143,9 @@ public class HomePBAdapter extends BaseAdapter {
                             @Override
                             public void onComplete(@NonNull Task<Uri> task) {
                                 if (task.isSuccessful()) {
-                                    Glide.with(context)
+                                    Glide.with(viewGroup.getContext())
                                             .load(task.getResult())
-                                            .into(imageViewI);
+                                            .into(iHolder.iImageView);
                                 } else {
                                     Log.d(TAG, "Image Load in MyPage failed.", task.getException());
                                 }
@@ -138,7 +153,7 @@ public class HomePBAdapter extends BaseAdapter {
                         });
                     }
 
-                    layoutI.setOnClickListener(new View.OnClickListener() {
+                    iHolder.iLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(view.getContext(), getItem(position) + "", Toast.LENGTH_SHORT).show();
@@ -156,21 +171,21 @@ public class HomePBAdapter extends BaseAdapter {
 
     static class ImageViewHolder {
         LinearLayout iLayout;
-        TextView iWriter;
+        TextView iTitle;
         TextView iContent;
         TextView iBoardName;
         TextView iTime;
         TextView iLiked;
+        ImageView iImageView;
     }
 
     static class SimpleViewHolder {
         LinearLayout sLayout;
-        TextView sWriter;
+        TextView sTitle;
         TextView sContent;
         TextView sBoardName;
         TextView sTime;
         TextView sLiked;
-        ImageView sImageView;
     }
 
 

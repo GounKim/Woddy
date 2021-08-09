@@ -40,8 +40,8 @@
 
                 <ImageView
                     android:id="@+id/myPage_userImage"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     app:srcCompat="@drawable/init_user_image" />
 
                 <LinearLayout
@@ -52,25 +52,49 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="닉네임"
+                        android:textSize="8dp" />
+
+                    <TextView
                         android:id="@+id/myPage_userNick"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:padding="3dp"
                         android:text="닉네임"
                         android:textSize="15dp" />
 
                     <TextView
-                        android:id="@+id/myPage_userIntroduce"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="한줄소개"
+                        android:textSize="8dp" />
+
+                    <TextView
+                        android:id="@+id/myPage_userIntroduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:padding="3dp"
                         android:text="한줄소개"
                         android:textSize="15dp" />
 
                     <TextView
-                        android:id="@+id/myPage_userLocal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="지역(구)"
+                        android:textSize="8dp" />
+
+                    <TextView
+                        android:id="@+id/myPage_userLocal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:padding="3dp"
                         android:text="지역(구)"
                         android:textSize="15dp" />

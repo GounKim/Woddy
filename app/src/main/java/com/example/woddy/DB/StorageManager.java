@@ -21,19 +21,20 @@ import java.util.Map;
 public class StorageManager {
     private final FirebaseStorage stroage;
     private final StorageReference storageRef;
-    private final FirestoreManager manager;
+//    private final FirestoreManager manager;
 
     public StorageManager()  {
-        this.manager = new FirestoreManager();
+//        this.manager = new FirestoreManager();
         this.stroage = FirebaseStorage.getInstance();
         this.storageRef = stroage.getReference();
     }
 
-    public void setProfileImage(String userNick, String uriPath) {
+    public String setProfileImage(String userNick, String uriPath) {
         String filename = userNick + "_profile.jpg"; // 파일명 생성: 사용자의 NickName_profile.jpg
+        String fileUri = "UserProfileImages/" + userNick + "/" + filename;
 
         Uri file = Uri.fromFile(new File(uriPath));     // 절대경로(uri)를 file에 할당
-        StorageReference riversRef = storageRef.child("UserProfileImages/" + filename);
+        StorageReference riversRef = storageRef.child(fileUri);
         UploadTask uploadTask = riversRef.putFile(file);
 
         delPostingImade(userNick);  // 이미지가 존재하면 기존 이미지 삭제 후 진행할 수 있도록 삭제해준다.
@@ -48,11 +49,13 @@ public class StorageManager {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG, "Uploading Image to stroage has successed!");
 
-                Map<String, Object> uriData = new HashMap<>();
-                uriData.put("userImage", "UserProfileImages/" + filename);
-                manager.updateUser(userNick, uriData);
+//                Map<String, Object> uriData = new HashMap<>();
+//                uriData.put("userImage", "UserProfileImages/" + userNick + "/" + filename);
+//                manager.updateUser(userNick, uriData);
             }
         });
+
+        return fileUri;
     }
 
     public void delPostingImade(String fileUri) {

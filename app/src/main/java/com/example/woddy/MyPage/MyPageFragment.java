@@ -2,12 +2,14 @@ package com.example.woddy.MyPage;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.woddy.DB.FirestoreManager;
@@ -45,6 +48,8 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     ImageView userImage;
     Button updateProfile;
 
+    private int UPDATE = 200;
+
     public static MyPageFragment newInstance(Bundle ble) {
         Bundle bundle = ble;
 
@@ -66,6 +71,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         userImage = view.findViewById(R.id.myPage_userImage);
         updateProfile = view.findViewById(R.id.myPage_btn_update_myProfile);
 
+
         FirestoreManager manager = new FirestoreManager();
         manager.findUser("user1")
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -75,6 +81,10 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
                             QuerySnapshot document = task.getResult();
 
                             User user = document.toObjects(User.class).get(0);
+
+                            nickName.setText(user.getNickName());
+                            introduce.setText(user.getIntroduce());
+                            local.setText(user.getLocal());
 
                             FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
                             StorageReference storageRef = storage.getReference(user.getUserImage()); // 스토리지 공간을 참조해서 이미지를 가져옴
@@ -103,9 +113,6 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
 
         updateProfile.setOnClickListener(this);
 
-        if (getArguments() != null) {
-            Bundle bundle = getArguments().getBundle("");
-        }
 
         return view;
     }
@@ -115,7 +122,23 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.myPage_btn_update_myProfile:
                 Intent intent = new Intent(getContext(), UpdateProfile.class);
-                startActivity(intent);
+                startActivityForResult(intent , UPDATE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(getContext(), "취소되었습니다.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (requestCode == UPDATE) {
+            introduce.setText(data.getStringExtra("introduce"));
+            local.setText(data.getStringExtra("local"));
+            userImage.setImageURI(Uri.parse(data.getStringExtra("userImage")));
         }
     }
 }

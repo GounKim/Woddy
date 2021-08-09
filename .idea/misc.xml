@@ -18,11 +18,15 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/notice_border.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/text_view_rect_shape.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_img_post.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_pw_reset.xml" value="0.11927083333333334" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_update_profile.xml" value="0.4" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/add_writings_main.xml" value="0.1" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/chat_list_recycler.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/chat_room_recycler_user.xml" value="0.10625" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_albumm_board.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_my.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_my_page.xml" value="0.134375" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_my_page.xml" value="0.536" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_post.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_image.xml" value="0.134375" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.134375" />

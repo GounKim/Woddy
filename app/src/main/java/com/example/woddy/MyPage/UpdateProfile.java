@@ -31,7 +31,6 @@ import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.User;
-import com.example.woddy.Login.UserProfile;
 import com.example.woddy.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.internal.Storage;

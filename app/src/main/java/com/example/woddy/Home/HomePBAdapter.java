@@ -154,6 +154,26 @@ public class HomePBAdapter extends BaseAdapter {
         return view;
     }
 
+    static class ImageViewHolder {
+        LinearLayout iLayout;
+        TextView iWriter;
+        TextView iContent;
+        TextView iBoardName;
+        TextView iTime;
+        TextView iLiked;
+    }
+
+    static class SimpleViewHolder {
+        LinearLayout sLayout;
+        TextView sWriter;
+        TextView sContent;
+        TextView sBoardName;
+        TextView sTime;
+        TextView sLiked;
+        ImageView sImageView;
+    }
+
+
     @Override
     public int getViewTypeCount() {
         return ITEM_VIEW_TYPE_MAX;

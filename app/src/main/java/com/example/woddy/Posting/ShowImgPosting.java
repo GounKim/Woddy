@@ -84,7 +84,7 @@ public class ShowImgPosting extends AppCompatActivity {
         imgpost_slider = findViewById(R.id.imgpost_slider);
 
         imgpost_slider.setOffscreenPageLimit(1);
-        imgpost_slider.setAdapter(new ImageSliderAdapter(this, images));
+        imgpost_slider.setAdapter(new ShowImgPostingAdapter(images));
 
         imgpost_slider.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

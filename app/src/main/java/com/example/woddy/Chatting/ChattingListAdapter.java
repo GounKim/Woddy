@@ -21,13 +21,11 @@ import java.util.List;
 import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapter.clHolder> {
-    private Context clContext;  //ChattingList Context
     private ArrayList<ChattingInfo> chattingInfos;
     private String user;
 
 
-    ChattingListAdapter(Context context, String user) {
-        this.clContext = context;
+    ChattingListAdapter(String user) {
         this.user = user;
         this.chattingInfos = new ArrayList<>();
     }
@@ -54,13 +52,14 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        Intent intent = new Intent(clContext, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Context context = itemView.getContext();
+                        Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         intent.putExtra("USER", user);
                         intent.putExtra("CHATTER", getChatter(pos, user));
                         intent.putExtra("ROOMNUM", chattingInfos.get(pos).getRoomNumber());
 
-                        clContext.startActivity(intent);
+                        context.startActivity(intent);
                     }
                 }
             });

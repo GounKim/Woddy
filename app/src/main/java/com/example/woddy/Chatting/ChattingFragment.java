@@ -52,7 +52,7 @@ public class ChattingFragment extends Fragment {
                 // getDB
                 getChatList(user);
 
-                clAdapter = new ChattingListAdapter(view.getContext(), user);
+                clAdapter = new ChattingListAdapter(user);
                 recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
                 recyclerView.setAdapter(clAdapter);
             }

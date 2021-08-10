@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_button);
 
         idAvailTextView = findViewById(R.id.id_avail_text_view);
-        pwAvailTextView = findViewById(R.id.pw_avail_text_view);
+        pwAvailTextView = findViewById(R.id.pw_check_text_view);
         nickAvailTextView = findViewById(R.id.nick_avail_text_view);
 
         firebaseAuth = FirebaseAuth.getInstance();

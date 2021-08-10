@@ -1,200 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyPage.MyPageFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="17dp"
+        android:text="마이페이지"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="2dp"
+        android:layout_marginTop="17dp"
+        android:background="#E8E8E8"
+        app:layout_constraintTop_toBottomOf="@id/textView16" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+    <ScrollView
+        android:id="@+id/scroll1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/conversation_border"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="나의 프로필"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/myPage_userImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="13dp"
+                android:src="@drawable/ic_baseline_account_circle_24_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:id="@+id/linear1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@id/myPage_userImage"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/myPage_userImage"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    app:srcCompat="@drawable/ic_baseline_account_circle_24_1" />
+                <TextView
+                    android:id="@+id/myPage_userNick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="닉네임"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/myPage_userNick"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="3dp"
-                        android:text="닉네임"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:id="@+id/myPage_userIntroduce"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="3dp"
-                        android:text="한줄소개"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:id="@+id/myPage_userLocal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="3dp"
-                        android:text="지역(구)"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/myPage_userLocal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="노원구 공릉동"
+                    android:textSize="12dp" />
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/myPage_userIntroduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:text="한 줄 소개를 입력하면 됩니다 됩니다 돼."
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@id/myPage_userImage"
+                app:layout_constraintTop_toBottomOf="@id/linear1"
+                tools:layout_editor_absoluteX="126dp"
+                tools:layout_editor_absoluteY="162dp" />
 
             <Button
                 android:id="@+id/myPage_btn_update_myProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="프로필 수정" />
-        </LinearLayout>
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_no_background"
+                android:text="프로필 수정"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myPage_userImage"
+                tools:layout_editor_absoluteY="186dp" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/conversation_border"
-            android:orientation="vertical"
-            android:padding="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="20dp"
+                android:background="#E8E8E8"
+                app:layout_constraintTop_toBottomOf="@id/myPage_btn_update_myProfile" />
+
+            <LinearLayout
+                android:id="@+id/linear2"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/view2">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/ic_baseline_edit_24" />
+
+                <Button
+                    android:id="@+id/myPage_userWritings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00ffffff"
+                    android:gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:text="내가 쓴 글"
+                    android:textSize="16dp"
+                    tools:layout_editor_absoluteX="27dp"
+                    tools:layout_editor_absoluteY="280dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear3"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/linear2">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/ic_baseline_thumb_up_alt_24" />
+
+                <Button
+                    android:id="@+id/myPage_likedWritings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00ffffff"
+                    android:gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:text="내가 좋아요 누른 글"
+                    android:textSize="16dp"
+                    tools:layout_editor_absoluteX="27dp"
+                    tools:layout_editor_absoluteY="280dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear4"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/linear3">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/ic_baseline_bookmark_24" />
+
+                <Button
+                    android:id="@+id/myPage_scrappedWritings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00ffffff"
+                    android:gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:text="스크랩한 글"
+                    android:textSize="16dp"
+                    tools:layout_editor_absoluteX="27dp"
+                    tools:layout_editor_absoluteY="280dp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="8dp"
+                android:background="#E8E8E8"
+                app:layout_constraintTop_toBottomOf="@id/linear4" />
 
             <TextView
-                android:id="@+id/myPage_userWritings"
-                android:layout_width="match_parent"
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="내가 쓴 글"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/myPage_likedWritings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="내가 좋아요 누른 글"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/myPage_scrappedWritings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="스크랩한 글"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:background="@drawable/conversation_border"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="15dp"
                 android:text="설정"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view3" />
 
-            <TextView
-                android:id="@+id/myPage_notices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="공지사항"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/myPage_setAlarm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="알림 설정"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/myPage_Ask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="문의하기"
-                android:textSize="15dp" />
-
-            <TextView
+            <Button
                 android:id="@+id/myPage_setAccount"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="5dp"
+                android:background="#00ffffff"
+                android:gravity="left|center"
+                android:paddingStart="17dp"
+                android:text="계정 관리"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView20" />
+
+            <Button
+                android:id="@+id/myPage_setAlarm"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:background="#00ffffff"
+                android:gravity="left|center"
+                android:paddingStart="17dp"
+                android:text="알림 설정"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myPage_setAccount" />
+
+            <View
+                android:id="@+id/view4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="계정 설정"
-                android:textSize="15dp" />
+                android:layout_height="10dp"
+                android:layout_marginTop="8dp"
+                android:background="#E8E8E8"
+                app:layout_constraintTop_toBottomOf="@id/myPage_setAlarm" />
 
             <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="15dp"
+                android:text="기타"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view4" />
+
+            <Button
+                android:id="@+id/myPage_notices"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="5dp"
+                android:background="#00ffffff"
+                android:gravity="left|center"
+                android:paddingStart="17dp"
+                android:text="공지사항"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView21" />
+
+            <Button
+                android:id="@+id/myPage_Ask"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:background="#00ffffff"
+                android:gravity="left|center"
+                android:paddingStart="17dp"
+                android:text="문의하기"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myPage_notices" />
+
+            <Button
                 android:id="@+id/myPage_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:background="#00ffffff"
+                android:gravity="left|center"
+                android:paddingStart="17dp"
                 android:text="로그아웃"
-                android:textSize="15dp" />
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myPage_Ask" />
 
-            <TextView
+            <Button
                 android:id="@+id/myPage_deleteAccount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:background="#00ffffff"
+                android:gravity="left|center"
+                android:paddingStart="17dp"
                 android:text="회원탈퇴"
-                android:textSize="15dp" />
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myPage_logout" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

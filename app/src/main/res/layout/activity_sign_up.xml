@@ -103,7 +103,7 @@
         tools:layout_editor_absoluteY="245dp" />
 
     <TextView
-        android:id="@+id/pw_avail_text_view"
+        android:id="@+id/pw_check_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"

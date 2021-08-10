@@ -24,6 +24,8 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     ImageView userImage;
     Button updateProfile;
 
+    Button setAccount;
+
     public static MyPageFragment newInstance(Bundle ble) {
         Bundle bundle = ble;
 
@@ -37,7 +39,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_my_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_page, container, false);
 
         nickName = view.findViewById(R.id.myPage_userNick);
         introduce = view.findViewById(R.id.myPage_userIntroduce);
@@ -45,7 +47,10 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         userImage = view.findViewById(R.id.chatroom_user_image);
         updateProfile = view.findViewById(R.id.myPage_btn_update_myProfile);
 
+        setAccount = view.findViewById(R.id.myPage_setAccount);
+
         updateProfile.setOnClickListener(this);
+        setAccount.setOnClickListener(this);
 
         if (getArguments() != null) {
             Bundle bundle = getArguments().getBundle("");
@@ -60,6 +65,9 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
             case R.id.myPage_btn_update_myProfile:
                 Intent intent = new Intent(getContext(), UpdateProfile.class);
                 startActivity(intent);
+            case R.id.myPage_setAccount:
+                Intent setAccountIntent = new Intent(getContext(), SetAccountActivity.class);
+                startActivity(setAccountIntent);
         }
     }
 }

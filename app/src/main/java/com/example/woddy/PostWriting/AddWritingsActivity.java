@@ -53,8 +53,7 @@ public class AddWritingsActivity extends AppCompatActivity {
 
     Button cancelBtn, finishBtn, addImageBtn;
     EditText titleTV, plotTV;
-    TextView testTV;
-    Spinner spinner;
+    TextView boardInfoTV;
     static int writing_index = 1;
     int image_index = 1;
     String tag = "";
@@ -65,8 +64,6 @@ public class AddWritingsActivity extends AppCompatActivity {
     FirestoreManager firestoreManager;
 
     InputMethodManager imm;
-
-    String[] tags = {"태그1", "태그2", "태그3", "태그4", "태그5"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,29 +78,15 @@ public class AddWritingsActivity extends AppCompatActivity {
 
         firestoreManager = new FirestoreManager();
 
-        spinner = (Spinner) findViewById(R.id.spinner);
         addImageBtn = (Button) findViewById(R.id.addImages);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         finishBtn = (Button) findViewById(R.id.finishBtn);
         titleTV = (EditText) findViewById(R.id.titleTextView);
         plotTV = (EditText) findViewById(R.id.plotTextView);
-        testTV = (TextView) findViewById(R.id.testTextView);
+        boardInfoTV = (TextView) findViewById(R.id.board_info);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tags);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        // boardInfoTV에 게시판 / 태그 정보 가져와서 나타내도록 해야 함
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tag = tags[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                tag = tags[0];
-            }
-        });
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override

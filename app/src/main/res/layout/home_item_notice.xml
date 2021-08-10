@@ -31,7 +31,7 @@
             android:maxWidth="370dp"
             android:maxHeight="14dp"
             android:text="----공지내용----"
-            android:textSize="10dp"
+            android:textSize="12dp"
             android:layout_marginTop="2dp"/>
     </LinearLayout>
 </LinearLayout>

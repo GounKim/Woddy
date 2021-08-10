@@ -27,6 +27,7 @@ import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.LoadingActivity;
+import com.example.woddy.NoticeMain;
 import com.example.woddy.PostWriting.AddWritingsActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
     Button btnLogin;
+    Button btnshow;
 
     FirestoreManager manager = new FirestoreManager();
 
@@ -61,6 +63,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), LoadingActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnshow = view.findViewById(R.id.button3);
+        btnshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), NoticeMain.class);
                 startActivity(intent);
             }
         });

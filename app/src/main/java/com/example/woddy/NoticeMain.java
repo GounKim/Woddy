@@ -28,7 +28,7 @@ public class NoticeMain extends TabActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_notice_board);
 
         final String btnName1[] = { "#친구찾기", "#도움요청", "#퇴근메이트" };
         final String btnName2[] = { "#DIY", "#인테리어", "#동네정보" };

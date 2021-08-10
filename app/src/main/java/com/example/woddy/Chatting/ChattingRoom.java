@@ -62,6 +62,7 @@ public class ChattingRoom extends BaseActivity {
         setMyTitle(chatter);
         String roomNum = intent.getStringExtra("ROOMNUM");
         String user = intent.getStringExtra("USER");
+        String chatterImage = intent.getStringExtra("IMAGE");
 
 
         initDatabase(roomNum);
@@ -74,7 +75,7 @@ public class ChattingRoom extends BaseActivity {
         btnSend = findViewById(R.id.btn_send);
 
         // ChattingRoomAdapter연결
-        crAdapter = new ChattingRoomAdapter(chatter, user);
+        crAdapter = new ChattingRoomAdapter(user, chatter, chatterImage);
         crRecyclerView.setLayoutManager(new LinearLayoutManager(this, crRecyclerView.VERTICAL, false)); // 상하 스크롤
         crRecyclerView.setAdapter(crAdapter);
         if(crAdapter.getItemCount() != 0) {

@@ -10,17 +10,19 @@ import java.util.Map;
 public class ChattingInfo {
     private String roomNumber;  // 채팅방 번호 ( CR0000001부터 )
     private List<String> participant;
+    private List<String> participantImg;
     private String recentMsg;
-    private String chatterImg;
 
     public ChattingInfo() {
     }
 
-    public ChattingInfo(List<String> participant) {
+    public ChattingInfo(List<String> participant, List<String> participantImg) {
         this.roomNumber = "";
         this.participant = participant;
+        this.participantImg = participantImg;
         this.recentMsg = "";
     }
+
 
     public String getRoomNumber() {
         return roomNumber;
@@ -47,11 +49,11 @@ public class ChattingInfo {
         this.recentMsg = recentMsg;
     }
 
-    public String getChatterImg() {
-        return chatterImg;
+    public List<String> getParticipantImg() {
+        return participantImg;
     }
 
-    public void setChatterImg(String chatterImg) {
-        this.chatterImg = chatterImg;
+    public void setParticipantImg(List<String> participantImg) {
+        this.participantImg = participantImg;
     }
 }

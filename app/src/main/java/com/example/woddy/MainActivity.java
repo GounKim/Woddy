@@ -32,11 +32,11 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            InitDBdata initDB = new InitDBdata();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            InitDBdata initDB = new InitDBdata();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        btnLogin = findViewById(R.id.btn_Login);
 //        btnMoveToChatt = findViewById(R.id.btn_move_to_chatt);

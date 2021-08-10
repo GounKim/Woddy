@@ -20,6 +20,7 @@ import com.example.woddy.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,7 +31,7 @@ public class ChattingFragment extends Fragment {
     FirestoreManager manager = new FirestoreManager();
 
     RecyclerView recyclerView;
-    ChattingListAdapter clAdapter;
+    ChattingAdapter clAdapter;
     Button button;
     EditText editText;
 
@@ -52,7 +53,7 @@ public class ChattingFragment extends Fragment {
                 // getDB
                 getChatList(user);
 
-                clAdapter = new ChattingListAdapter(user);
+                clAdapter = new ChattingAdapter(user);
                 recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
                 recyclerView.setAdapter(clAdapter);
             }
@@ -72,12 +73,11 @@ public class ChattingFragment extends Fragment {
                             return;
                         }
 
-                        for (QueryDocumentSnapshot doc: value) {
+                        for (QueryDocumentSnapshot doc : value) {
                             try {
                                 ChattingInfo chatInfo = doc.toObject(ChattingInfo.class);
                                 setCurrentMsg(chatInfo);
-                                Log.d(TAG, "!!!!!!" + chatInfo.getRoomNumber());
-                            } catch (RuntimeException e){
+                            } catch (RuntimeException e) {
                                 Log.d(TAG, "Error getting chatList: ", e);
                             }
                         }

@@ -1,16 +1,26 @@
 package com.example.woddy.Chatting;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,10 +39,12 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     ArrayList<ChattingMsg> chatItemList;
     String chatter;
     String user;
+    String chatterImg;
 
-    public ChattingRoomAdapter(String chatter, String user) {
-        this.chatter = chatter;
+    public ChattingRoomAdapter(String user, String chatter, String chatterImg) {
         this.user = user;
+        this.chatter = chatter;
+        this.chatterImg = chatterImg;
         this.chatItemList = new ArrayList<>();
     }
 
@@ -72,6 +84,24 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof ChatterMessageHolder) {
             ((ChatterMessageHolder)holder).chatterMsg.setText(chatItemList.get(position).getMessage());
             ((ChatterMessageHolder)holder).getTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
+            // 이미지 설정
+            if (chatterImg != null | chatterImg != "") {
+                FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+                StorageReference storageRef = storage.getReference(chatterImg); // 스토리지 공간을 참조해서 이미지를 가져옴
+
+                storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Glide.with(((ChatterMessageHolder)holder).itemView.getContext())
+                                    .load(task.getResult())
+                                    .into(((ChatterMessageHolder)holder).imageView);
+                        } else {
+                            Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+                        }
+                    }
+                });
+            }
         } else if (holder instanceof DateMarkHolder) {
             ((DateMarkHolder)holder).dateMark.setText(datestamp(chatItemList.get(position).getWrittenTime())); // 요일로 변경 필요
         } else {
@@ -116,11 +146,13 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public class ChatterMessageHolder extends RecyclerView.ViewHolder {
         TextView chatterMsg;    // 상대방이 보낸 메시지
         TextView getTime;   // 메시지 받은 시간
+        ImageView imageView;
 
         public ChatterMessageHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             chatterMsg = itemView.findViewById(R.id.chatter_message);
             getTime = itemView.findViewById(R.id.receive_time);
+            imageView = itemView.findViewById(R.id.chatroom_chatter_image);
         }
     }
 
@@ -149,7 +181,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return sdf.format(date);
     }
 
-    private String datestamp(Date date) {    // 타임스탬프 생성
+    private String datestamp(Date date) {    // 자정에 생성되는 타임스탬프 생성
         TimeZone timeZone;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.KOREAN);
         timeZone = TimeZone.getTimeZone("Asia/Seoul");

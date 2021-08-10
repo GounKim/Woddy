@@ -68,6 +68,7 @@ public class AddWritingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("글 작성");
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 

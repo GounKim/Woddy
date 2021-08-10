@@ -18,7 +18,7 @@
             android:name=".MyPage.UpdateProfile"
             android:exported="true" />
         <activity
-            android:name=".ShowWriting"
+            android:name=".Posting.ShowPosting"
             android:exported="true" />
         <activity android:name=".Login.FemaleCertActivity" />
         <activity android:name=".Login.SignUpActivity" />
@@ -27,7 +27,7 @@
         <activity
             android:name=".Login.LogInActivity"
             android:theme="@style/SplashTheme">
-
+            
         </activity>
         <activity android:name=".Login.PwResetSuccessActivity" />
         <activity android:name=".Login.PwResetActivity" />
@@ -42,8 +42,7 @@
         </activity>
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".PostWriting.AddWritingsActivity" />
-        <activity android:name=".ImgPost.ImgPost" />
-        <activity android:name=".LoadingActivity" />
+        <activity android:name=".Posting.ShowImgPosting" />
     </application>
 
 </manifest>

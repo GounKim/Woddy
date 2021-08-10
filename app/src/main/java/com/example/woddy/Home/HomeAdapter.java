@@ -32,13 +32,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int RECENT = 2;
     private final int FAVORITE = 3;
 
-    Context context;
     private String[] homeBoards = new String[]{"알려드려요", "현재 인기글", "최신글", "즐겨찾기한 게시판"};
     private ArrayList<Object> adapterList;
 
     public HomeAdapter(Context context) {
         adapterList = new ArrayList<>();
-        this.context = context;
     }
 
     public void addItem(Object adapter) {
@@ -91,6 +89,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
+
         if (position < adapterList.size()) {
             if (holder instanceof VerticalScrollHolder) {
                 ((VerticalScrollHolder) holder).boardName.setText(homeBoards[position]);

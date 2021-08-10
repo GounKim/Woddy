@@ -44,8 +44,8 @@ public class InitDBdata {
         //tv.setText("");
 
         //testUser();
-        testPosting();
-        //testChatList();
+//        testPosting();
+        testChatList();
 
         /*
         // update 사용법
@@ -219,7 +219,7 @@ public class InitDBdata {
         //manager.addChatRoom(chatInfo3);
         //ChattingInfo chatInfo4 = new ChattingInfo("CR0000004", Arrays.asList("user1", "user5"));
         //manager.addChatRoom(chatInfo4);
-        ChattingInfo chatInfo5 = new ChattingInfo(Arrays.asList("user6", "user1"));
+        ChattingInfo chatInfo5 = new ChattingInfo(Arrays.asList("user6", "user3"), Arrays.asList("UserProfileImages/user2_profile.jpg","UserProfileImages/user2_profile.jpg"));
         manager.addChatRoom(chatInfo5);
     }
 }

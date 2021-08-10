@@ -35,11 +35,11 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
 
-        try {
-            InitDBdata initDB = new InitDBdata();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            InitDBdata initDB = new InitDBdata();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        btnLogin = findViewById(R.id.btn_Login);
 //        btnMoveToChatt = findViewById(R.id.btn_move_to_chatt);

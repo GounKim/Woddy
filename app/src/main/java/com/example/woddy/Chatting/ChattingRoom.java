@@ -20,8 +20,6 @@ import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -42,9 +40,7 @@ public class ChattingRoom extends BaseActivity {
     Button btnSend;
 
     // DB
-    DatabaseReference db;
     FirestoreManager manager;
-    private ChildEventListener childEL; // 실시간 작업에 응답하기 위해 필요
 
     //private ArrayList<ChattingMsg> itemList;
 
@@ -66,6 +62,7 @@ public class ChattingRoom extends BaseActivity {
         setMyTitle(chatter);
         String roomNum = intent.getStringExtra("ROOMNUM");
         String user = intent.getStringExtra("USER");
+        String chatterImage = intent.getStringExtra("IMAGE");
 
 
         initDatabase(roomNum);
@@ -78,7 +75,7 @@ public class ChattingRoom extends BaseActivity {
         btnSend = findViewById(R.id.btn_send);
 
         // ChattingRoomAdapter연결
-        crAdapter = new ChattingRoomAdapter(chatter, user);
+        crAdapter = new ChattingRoomAdapter(user, chatter, chatterImage);
         crRecyclerView.setLayoutManager(new LinearLayoutManager(this, crRecyclerView.VERTICAL, false)); // 상하 스크롤
         crRecyclerView.setAdapter(crAdapter);
         if(crAdapter.getItemCount() != 0) {
@@ -143,34 +140,4 @@ public class ChattingRoom extends BaseActivity {
                     }
                 });
     }
-
-/*
-    private ChattingInfo initInfo() {
-        ChattingInfo chatInfo = new ChattingInfo("CR0000001", "userA", "userB");
-        return chatInfo;
-    }
-
-    private void initChatdb() {
-        ChattingMsg chatChat1 = new ChattingMsg("CR0000001", "userA", "A의 메시지입니다.", "15:30");
-        firebaseManager.addChattingChat(chatChat1);
-        ChattingMsg chatChat2 = new ChattingMsg("CR0000001", "userB", "B의 메시지입니다.", "15:30");
-        firebaseManager.addChattingChat(chatChat2);
-        ChattingMsg chatChat3 = new ChattingMsg("CR0000001", "userA", "A의 대화입니다..", "15:30");
-        firebaseManager.addChattingChat(chatChat3);
-    }
-
-    private void initChat() {
-        itemList = new ArrayList<>();
-        itemList.add(new ChattingRoomItem("상대방의 대화입니다.", "7:15", 1));
-        itemList.add(new ChattingRoomItem("당신의 대화입니다.", "8:40", 0));
-        itemList.add(new ChattingRoomItem("상대방이 말하고 있습니다.", "17:05", 1));
-        itemList.add(new ChattingRoomItem("2021-07-23"));
-        itemList.add(new ChattingRoomItem("상대방이 채팅치고 있습니다.", "8:23", 1));
-        itemList.add(new ChattingRoomItem("당신이 채팅하였습니다.", "8:24", 0));
-        itemList.add(new ChattingRoomItem("상대방의 대화입니다.", "7:15", 1));
-        itemList.add(new ChattingRoomItem("당신의 대화입니다.", "8:40", 0));
-        itemList.add(new ChattingRoomItem("상대방이 말하고 있습니다.", "17:05", 1));
-        itemList.add(new ChattingRoomItem("상대방이 채팅치고 있습니다.", "8:23", 1));
-        itemList.add(new ChattingRoomItem("당신이 채팅하였습니다.", "8:24", 0));
-    } */
 }

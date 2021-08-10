@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowWriting">
+    tools:context=".Posting.ShowPosting">
 
     <LinearLayout
         android:id="@+id/show_writing_layout"

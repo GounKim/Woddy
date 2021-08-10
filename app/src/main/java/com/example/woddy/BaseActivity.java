@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
                         setMyTitle("홈");
                         break;
                     case R.id.bottom_menu_post:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new AlbummBoardFragment()).commit();
                         setMyTitle("게시판");
                         break;
                     case R.id.bottom_menu_chatting:

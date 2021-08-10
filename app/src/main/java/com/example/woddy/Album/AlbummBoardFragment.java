@@ -1,6 +1,7 @@
 package com.example.woddy.Album;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.example.woddy.PostWriting.AddWritingsActivity;
+import com.example.woddy.Posting.ShowPosting;
 import com.example.woddy.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AlbummBoardFragment extends Fragment {
-
+    ImageView addPosting;
 
 
     @Override
@@ -29,8 +33,17 @@ public class AlbummBoardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_albumm_board, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.album_recycler_view);
+        addPosting = view.findViewById(R.id.add_new_posting);
 
         new AlbumData().getItems(recyclerView);
+
+        addPosting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddWritingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

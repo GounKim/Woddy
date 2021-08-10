@@ -448,7 +448,7 @@ public class FirestoreManager {
 
     // 태그로 게시물 불러오기
     public Query getPostWithTag(String tagName) {
-        return fsDB.collectionGroup("postings").whereEqualTo("tag", tagName);
+        return fsDB.collectionGroup("postings").whereEqualTo("tag", tagName).orderBy("postedTime", Query.Direction.DESCENDING);
     }
 
     // 최근 게시물 불러오기 (docID는 postingNumber)

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.woddy.BaseActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ChangePwActivity extends AppCompatActivity {
+public class ChangePwActivity extends BaseActivity {
 
     static final String TAG = "ChangePwAct";
 
@@ -34,9 +35,15 @@ public class ChangePwActivity extends AppCompatActivity {
     FirebaseUser user;
 
     @Override
+    protected boolean useBottomNavi() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pw);
+        setMyTitle("비밀번호 변경");
 
         newPwEditTExt = findViewById(R.id.new_pw_edit_text);
         newPw2EditTExt = findViewById(R.id.new_pw2_edit_text);

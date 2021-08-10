@@ -42,27 +42,6 @@
                         android:id="@+id/talk_notice"
                         android:padding="2dp">
 
-                        <Button
-                            android:id="@+id/btn1_friend"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#친구찾기" />
-
-                        <Button
-                            android:id="@+id/btn1_help"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#도움요청" />
-
-                        <Button
-                            android:id="@+id/btn1_mate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#퇴근메이트" />
-
                     </LinearLayout>
 
                 </HorizontalScrollView>
@@ -90,27 +69,6 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:padding="2dp">
-
-                        <Button
-                            android:id="@+id/btn2_diy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#DIY" />
-
-                        <Button
-                            android:id="@+id/btn2_interior"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#인테리어" />
-
-                        <Button
-                            android:id="@+id/btn2_towninfo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#동네정보" />
 
                     </LinearLayout>
 
@@ -140,34 +98,6 @@
                         android:orientation="horizontal"
                         android:padding="2dp">
 
-                        <Button
-                            android:id="@+id/btn3_share"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#물품공유" />
-
-                        <Button
-                            android:id="@+id/btn3_home"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#홈" />
-
-                        <Button
-                            android:id="@+id/btn3_tgbuy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#공동구매" />
-
-                        <Button
-                            android:id="@+id/btn3_free"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#무료나눔" />
-
                     </LinearLayout>
 
                 </HorizontalScrollView>
@@ -195,34 +125,6 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:padding="2dp">
-
-                        <Button
-                            android:id="@+id/btn4_freedom"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#자유" />
-
-                        <Button
-                            android:id="@+id/btn4_daily"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#일상" />
-
-                        <Button
-                            android:id="@+id/btn4_fandom"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#덕질" />
-
-                        <Button
-                            android:id="@+id/btn4_boast"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:text="#자랑" />
 
                     </LinearLayout>
 

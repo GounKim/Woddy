@@ -23,35 +23,27 @@ public class NoticeMain extends TabActivity {
     private NoticeAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    private int MAX_ITEM_COUNT = 50;
-
-    // int max_button = 3; // 버튼 갯수 받아와 넣기
-    LinearLayout View;
-
-    ArrayList<NoticeItem> data = new ArrayList<>();
+    private int MAX_ITEM_COUNT = 10;// 정보 횟수 받아서 넣으면 됨
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_notice_board);
+        setContentView(R.layout.activity_main);
 
-        final Button btn1_Friend = (Button) findViewById(R.id.btn1_friend);
-        final Button btn1_Help = (Button) findViewById(R.id.btn1_help);
-        final Button btn1_Mate = (Button) findViewById(R.id.btn1_mate);
+        final String btnName1[] = { "#친구찾기", "#도움요청", "#퇴근메이트" };
+        final String btnName2[] = { "#DIY", "#인테리어", "#동네정보" };
+        final String btnName3[] = { "#물품공유", "#홈", "#공동구매","#무료나눔" };
+        final String btnName4[] = { "#자유", "#일상", "#덕질","#자랑" };
 
-        final Button btn2_Diy = (Button) findViewById(R.id.btn2_diy);
-        final Button btn2_Interior = (Button) findViewById(R.id.btn2_interior);
-        final Button btn2_Towninfo = (Button) findViewById(R.id.btn2_towninfo);
+        Integer btnID1[] = { 0,1,2 };
+        Integer btnID2[] = { 3,4,5 };
+        Integer btnID3[] = { 6,7,8,9 };
+        Integer btnID4[] = { 10,11,12,13 };
 
-        final Button btn3_Free = (Button) findViewById(R.id.btn3_free);
-        final Button btn3_Home = (Button) findViewById(R.id.btn3_home);
-        final Button btn3_Share = (Button) findViewById(R.id.btn3_share);
-        final Button btn3_TGbuy = (Button) findViewById(R.id.btn3_tgbuy);
-
-        final Button btn4_Daily = (Button) findViewById(R.id.btn4_daily);
-        final Button btn4_Fandom = (Button) findViewById(R.id.btn4_fandom);
-        final Button btn4_Freedom = (Button) findViewById(R.id.btn4_freedom);
-        final Button btn4_Boast = (Button) findViewById(R.id.btn4_boast);
+        LinearLayout View_Talk = (LinearLayout) findViewById(R.id.talk_notice);
+        LinearLayout View_Info = (LinearLayout) findViewById(R.id.info_notice);
+        LinearLayout View_Share = (LinearLayout) findViewById(R.id.share_notice);
+        LinearLayout View_Free = (LinearLayout) findViewById(R.id.free_notice);
 
         TabHost tabHost = getTabHost();
 
@@ -74,474 +66,354 @@ public class NoticeMain extends TabActivity {
 
         tabHost.setCurrentTab(0);
 
-
+        ArrayList<NoticeItem> data = new ArrayList<>();
 
         mVerticalView = (RecyclerView) findViewById(R.id.vertical_list1);
+        int i = 0;
+        while (i < MAX_ITEM_COUNT) {
+            data.add(new NoticeItem(
+                    "hello","nice to meet you",tabHost.getCurrentTabTag()));
+            i++;
+        }
+        mLayoutManager = new LinearLayoutManager(NoticeMain.this);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
 
-        btn1_Friend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
+        // setLayoutManager
+        mVerticalView.setLayoutManager(mLayoutManager);
 
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list1);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "hello","nice to meet you",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
+        // init Adapter
+        mAdapter = new NoticeAdapter();
 
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
+        // set Data
+        mAdapter.setData(data);
 
-                // init Adapter
-                mAdapter = new NoticeAdapter();
+        // set Adapter
+        mVerticalView.setAdapter(mAdapter);
 
-                // set Data
-                mAdapter.setData(data);
+        mAdapter.notifyDataSetChanged();
 
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-// 우선 하나에만 붙여놓고 나중에 다 즐겨찾기 넣기
-        btn1_Friend.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(android.view.View view) {
-                AlertDialog.Builder dlg = new AlertDialog.Builder(NoticeMain.this);
-                dlg.setTitle("즐겨찾기");
-                dlg.setMessage("즐겨찾기에 등록하시겠습니까?");
-                dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getApplicationContext(),
-                                "즐겨찾기하시겠습니까?", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                dlg.setPositiveButton("취소",null);
-                return true;
-            }
-
-        });
-
-
-        btn1_Mate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list1);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "퇴근각","퇴근퇴근퇴근퇴근퇴근퇴근퇴근",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-
-            }
-        });
-
-        btn1_Help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mAdapter.notifyDataSetChanged();
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list1);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "help","Would you help me?",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-            }
-        });
-
-        btn2_Diy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list2);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "DIY","이쁘게 만들기//앨범형",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn2_Interior.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list2);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "앨범형 넣어야함","앨범형 넣기",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn2_Towninfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list2);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "동네정보","동네정보",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn3_Free.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list3);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "자유나눔","나눠ㅓㅓㅓ",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        btn3_Home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list3);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "홈","집 팔아요//앨범형",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        btn3_Share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list3);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "공유","나랑 물건 공유할사람?//앨범형",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        btn3_TGbuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list3);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "공구","공구합니다//앨범형",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn4_Freedom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list4);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "freedom","도비는 자유에요",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn4_Boast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list4);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "내새끼 자랑","앨범형이 들어가야해요",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn4_Daily.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list4);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "일상","일상공유",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn4_Fandom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-
-                mVerticalView = (RecyclerView) findViewById(R.id.vertical_list4);
-                int i = 0;
-                while (i < MAX_ITEM_COUNT) {
-                    data.add(new NoticeItem(
-                            "덕질","내새끼도 사랑이에요",tabHost.getCurrentTabTag()));
-                    i++;
-                }
-                mLayoutManager = new LinearLayoutManager(NoticeMain.this);
-                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
-
-                // setLayoutManager
-                mVerticalView.setLayoutManager(mLayoutManager);
-
-                // init Adapter
-                mAdapter = new NoticeAdapter();
-
-                // set Data
-                mAdapter.setData(data);
-
-                // set Adapter
-                mVerticalView.setAdapter(mAdapter);
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        // init LayoutManager
-
-
-        /*
-
-
-
-        for(int id = 0; id < max_button; id++){
+        for(int id = 0; id < 3; id++){
             int num = id;
+
             Button button = new Button(this);
-            button.setId(id);
-            View.addView(button);
+            button.setText(btnName1[num]);
+            View_Talk.addView(button);
+
+            try {
+                button.setId(btnID1[num]);
+            }catch (NumberFormatException e) {
+
+            }
 
             button.setOnClickListener(new android.view.View.OnClickListener() {
 
                 public void onClick(android.view.View v) {
+                    mVerticalView = (RecyclerView) findViewById(R.id.vertical_list1);
+                    int i = 0;
+                    data.clear();
+                    switch (v.getId()){
+                        case 0:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "hello","nice to meet you",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 1:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "help","help me please",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 2:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "mate","your my mate",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        default:
+                            Toast.makeText(getApplicationContext(), "오류발생", Toast.LENGTH_SHORT).show();
+                    }
+                    mLayoutManager = new LinearLayoutManager(NoticeMain.this);
+                    mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
 
-                    Toast.makeText(getApplicationContext(), num+"클릭", Toast.LENGTH_LONG).show();
+                    // setLayoutManager
+                    mVerticalView.setLayoutManager(mLayoutManager);
+
+                    // init Adapter
+                    mAdapter = new NoticeAdapter();
+
+                    // set Data
+                    mAdapter.setData(data);
+
+                    // set Adapter
+                    mVerticalView.setAdapter(mAdapter);
+
+                    Toast.makeText(getApplicationContext(), btnName1[num] +"클릭", Toast.LENGTH_SHORT).show();
                 }
             });
+
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(android.view.View view) {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(NoticeMain.this);
+                    dlg.setTitle("즐겨찾기");
+                    dlg.setMessage("즐겨찾기에 등록하시겠습니까?");
+                    dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getApplicationContext(),
+                                    btnName1[num] + "즐겨찾기하시겠습니까?", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dlg.setPositiveButton("취소",null);
+                    return false;
+                }
+
+            });
         }
-         */
+
+        for(int id = 0; id < 3; id++){
+            int num = id;
+            Button button = new Button(this);
+            try {
+                button.setId(btnID2[num]);
+            }catch (NumberFormatException e) {
+
+            }
+            button.setText(btnName2[num]);
+            View_Info.addView(button);
+
+            button.setOnClickListener(new android.view.View.OnClickListener() {
+
+                public void onClick(android.view.View v) {
+                    mVerticalView = (RecyclerView) findViewById(R.id.vertical_list2);
+                    int i = 0;
+                    data.clear();
+                    switch (v.getId()){
+                        case 3:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "diy","앨범형을 넣어야합니다",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 4:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "inteior","앨범형을 넣어야합니다ㅏ",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 5:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "town_info","동네 정보를 얻어가세요",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        default:
+                            Toast.makeText(getApplicationContext(), "오류발생", Toast.LENGTH_SHORT).show();
+                    }
+                    mLayoutManager = new LinearLayoutManager(NoticeMain.this);
+                    mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
+
+                    // setLayoutManager
+                    mVerticalView.setLayoutManager(mLayoutManager);
+
+                    // init Adapter
+                    mAdapter = new NoticeAdapter();
+
+                    // set Data
+                    mAdapter.setData(data);
+
+                    // set Adapter
+                    mVerticalView.setAdapter(mAdapter);
+
+                    Toast.makeText(getApplicationContext(), btnName2[num]+"클릭", Toast.LENGTH_SHORT).show();
+                }
+            });
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(android.view.View view) {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(NoticeMain.this);
+                    dlg.setTitle("즐겨찾기");
+                    dlg.setMessage("즐겨찾기에 등록하시겠습니까?");
+                    dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getApplicationContext(),
+                                    btnName2[num] + "즐겨찾기하시겠습니까?", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dlg.setPositiveButton("취소",null);
+                    return false;
+                }
+
+            });
+        }
+
+        for(int id = 0; id < 4; id++){
+            int num = id;
+            Button button = new Button(this);
+            try {
+                button.setId(btnID3[num]);
+            }catch (NumberFormatException e) {
+
+            }
+            button.setText(btnName3[num]);
+            View_Share.addView(button);
+
+            button.setOnClickListener(new android.view.View.OnClickListener() {
+
+                public void onClick(android.view.View v) {
+                    mVerticalView = (RecyclerView) findViewById(R.id.vertical_list3);
+                    int i = 0;
+                    data.clear();
+                    switch (v.getId()){
+                        case 6:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "물품공유","앨범형 넣어야해요",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 7:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "홈","앨범형",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 8:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "공동구매","공구구합니다ㅏㅏ",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 9:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "무료나눔","무나해요",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        default:
+                            Toast.makeText(getApplicationContext(), "오류발생", Toast.LENGTH_SHORT).show();
+                    }
+                    mLayoutManager = new LinearLayoutManager(NoticeMain.this);
+                    mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
+
+                    // setLayoutManager
+                    mVerticalView.setLayoutManager(mLayoutManager);
+
+                    // init Adapter
+                    mAdapter = new NoticeAdapter();
+
+                    // set Data
+                    mAdapter.setData(data);
+
+                    // set Adapter
+                    mVerticalView.setAdapter(mAdapter);
+                    Toast.makeText(getApplicationContext(), btnName3[num]+"클릭", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(android.view.View view) {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(NoticeMain.this);
+                    dlg.setTitle("즐겨찾기");
+                    dlg.setMessage("즐겨찾기에 등록하시겠습니까?");
+                    dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getApplicationContext(),
+                                    btnName3[num] + "즐겨찾기하시겠습니까?", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dlg.setPositiveButton("취소",null);
+                    return false;
+                }
+
+            });
+        }
+
+        for(int id = 0; id < 4; id++){
+            int num = id;
+            Button button = new Button(this);
+            try {
+                button.setId(btnID4[num]);
+            }catch (NumberFormatException e) {
+
+            }
+            button.setText(btnName4[num]);
+            View_Free.addView(button);
+
+            button.setOnClickListener(new android.view.View.OnClickListener() {
+
+                public void onClick(android.view.View v) {
+                    mVerticalView = (RecyclerView) findViewById(R.id.vertical_list4);
+                    int i = 0;
+                    data.clear();
+                    switch (v.getId()){
+                        case 10:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "자유","난 자유다ㅏㅏㅏ",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 11:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "일상","저녁이 뭘까요",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 12:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "덕질","내새끼 이뻐",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        case 13:
+                            while (i < MAX_ITEM_COUNT) {
+                                data.add(new NoticeItem(
+                                        "자랑","고양이 키우고 싶다ㅏ",tabHost.getCurrentTabTag()));
+                                i++;
+                            }
+                        default:
+                            Toast.makeText(getApplicationContext(), "오류발생", Toast.LENGTH_SHORT).show();
+                    }
+                    mLayoutManager = new LinearLayoutManager(NoticeMain.this);
+                    mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 기본값이 VERTICAL
+
+                    // setLayoutManager
+                    mVerticalView.setLayoutManager(mLayoutManager);
+
+                    // init Adapter
+                    mAdapter = new NoticeAdapter();
+
+                    // set Data
+                    mAdapter.setData(data);
+
+                    // set Adapter
+                    mVerticalView.setAdapter(mAdapter);
+                    Toast.makeText(getApplicationContext(), btnName4[num]+"클릭", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(android.view.View view) {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(NoticeMain.this);
+                    dlg.setTitle("즐겨찾기");
+                    dlg.setMessage("즐겨찾기에 등록하시겠습니까?");
+                    dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getApplicationContext(),
+                                    btnName4[num] + "즐겨찾기하시겠습니까?", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dlg.setPositiveButton("취소",null);
+                    return false;
+                }
+
+            });
+        }
     }
+
 }

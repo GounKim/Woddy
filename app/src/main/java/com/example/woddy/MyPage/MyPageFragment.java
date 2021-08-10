@@ -48,6 +48,8 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     ImageView userImage;
     Button updateProfile;
 
+    Button setAccount;
+
     private int UPDATE = 200;
 
     public static MyPageFragment newInstance(Bundle ble) {
@@ -63,13 +65,15 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_my_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_page, container, false);
 
         nickName = view.findViewById(R.id.myPage_userNick);
         introduce = view.findViewById(R.id.myPage_userIntroduce);
         local = view.findViewById(R.id.myPage_userLocal);
         userImage = view.findViewById(R.id.myPage_userImage);
         updateProfile = view.findViewById(R.id.myPage_btn_update_myProfile);
+
+        setAccount = view.findViewById(R.id.myPage_setAccount);
 
 
         FirestoreManager manager = new FirestoreManager();
@@ -97,8 +101,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
                                                 .load(task.getResult())
                                                 .circleCrop()
                                                 .into(userImage);
-                                    }
-                                    else {
+                                    } else {
                                         Log.d(TAG, "Image Load in MyPage failed.", task.getException());
                                     }
                                 }
@@ -112,6 +115,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
 
 
         updateProfile.setOnClickListener(this);
+        setAccount.setOnClickListener(this);
 
 
         return view;
@@ -122,7 +126,10 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.myPage_btn_update_myProfile:
                 Intent intent = new Intent(getContext(), UpdateProfile.class);
-                startActivityForResult(intent , UPDATE);
+                startActivityForResult(intent, UPDATE);
+            case R.id.myPage_setAccount:
+                Intent setAccountIntent = new Intent(getContext(), SetAccountActivity.class);
+                startActivity(setAccountIntent);
         }
     }
 

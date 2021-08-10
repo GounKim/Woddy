@@ -615,9 +615,9 @@ public class FirestoreManager {
 
     /* ************* 검색 ************* */
     public void search(String colPath, String field, String value) {
-        CollectionReference ref = fsDB.collection(colPath);
+        CollectionReference ref = fsDB.collection("user");
 
-        ref.whereEqualTo(field, value).get()
+        ref.whereEqualTo("nickName", value).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {

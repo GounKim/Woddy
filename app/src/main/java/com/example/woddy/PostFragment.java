@@ -1,37 +1,17 @@
 package com.example.woddy;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.Entity.BoardTag;
-import com.example.woddy.Entity.Posting;
-import com.example.woddy.PostWriting.AddWritingsActivity;
-import com.example.woddy.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
+import com.example.woddy.Posting.ShowPosting;
 
 public class PostFragment extends Fragment {
     ImageView addPosting;
@@ -67,7 +47,7 @@ public class PostFragment extends Fragment {
         addPosting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ShowWriting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

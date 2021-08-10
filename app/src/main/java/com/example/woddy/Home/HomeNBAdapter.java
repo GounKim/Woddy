@@ -18,22 +18,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
 
+import java.util.ArrayList;
+
 // Home Notice Board Adapter
 public class HomeNBAdapter extends BaseAdapter {
-    private Posting[] notices;
+    private ArrayList<Posting> notices;
 
-    HomeNBAdapter(Posting[] notice) {
+    HomeNBAdapter(ArrayList<Posting> notice) {
         this.notices = notice;
     }
 
     @Override
     public int getCount() {
-        return notices.length;
+        return notices.size();
     }
 
     @Override
     public Posting getItem(int index) {
-        return notices[index];
+        return notices.get(index);
     }
 
     @Override

@@ -7,10 +7,9 @@ import androidx.annotation.NonNull;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
+import com.example.woddy.Entity.UserProfile;
 import com.example.woddy.Entity.Comment;
-import com.example.woddy.Entity.MemberInfo;
 import com.example.woddy.Entity.Posting;
-import com.example.woddy.Entity.PostingInfo;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
@@ -42,57 +41,53 @@ public class FirestoreManager {
         fsDB = FirebaseFirestore.getInstance();
     }
 
-    // Member 정보 추가 (회원가입용 사용자 정보 -> 접근 보안 上)
-    public void addMember(MemberInfo member) {
-        fsDB.collection("memberInfo").document(member.getNickname()).set(member)
+    // User Profile 추가 - 회원가입 시 유저 정보
+    public void addUserProfile(String uid, UserProfile userProfile) {
+        fsDB.collection("userProfile").document(uid).set(userProfile)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        User user = new User(member.getNickname());
-                        addUser(user);
-                        Log.d(TAG, "User has successfully Added!");
+                        Log.d(TAG, "User Profile has successfully Added!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
+                        Log.w(TAG, "Error adding document in userProfile collection", e);
                     }
                 });
     }
 
-
-    // Member 정보 수정 (docID는 userNick)
-    public void updateMember(String docID, Map<String, Object> newData) {
-        fsDB.collection("memberInfo").document(docID).update(newData)
+    // User Profile 업데이트 (docID는 uid - 계정 생성 시 자동 부여되는 값)
+    public void updateUserProfile(String uid, Map<String, Object> newData) {
+        fsDB.collection("userProfile").document(uid).update(newData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully updated!");
+                        Log.d(TAG, "User Profile has successfully updated!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error updating user", e);
+                        Log.w(TAG, "Error adding document in userProfile collection", e);
                     }
                 });
     }
 
-    // Member 정보 삭제 (docID는 userNick)
-    public void deleteMember(String docID) {
-        fsDB.collection("memberInfo").document(docID).delete()
+    // User Profile 삭제 (docID는 uid - 계정 생성 시 자동 부여되는 값)
+    public void deleteUserProfile(String uid) {
+        fsDB.collection("userProfile").document(uid).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        deleteUser(docID);
-                        Log.d(TAG, "user has successfully deleted!");
+                        Log.d(TAG, "userProfile has successfully deleted!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error deleting user", e);
+                        Log.w(TAG, "Error deleting userProfile", e);
                     }
                 });
     }
@@ -148,6 +143,11 @@ public class FirestoreManager {
                 });
     }
 
+    // User 추가
+    public Task<QuerySnapshot> findUser(String userNick) {
+        return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
+    }
+
     // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
     public void addUserActivity(String docID, UserActivity activity) {
         DocumentReference userRef = fsDB.collection("user").document(docID);
@@ -172,8 +172,7 @@ public class FirestoreManager {
             // 목록에서 삭제 + 전체 posting에서 삭제 + 다른 사용자에게도 삭제된 메시지라고 떠야함
 
 
-        }
-        else {
+        } else {
             // 목록에서 삭제 구현 필요
         }
     }
@@ -195,7 +194,7 @@ public class FirestoreManager {
                     }
                 });
     }
-
+  
     // 게시판 & 테그 추가 (중복찾기 추가 필요)
     public void addBoard(BoardTag boardTag) {
         DocumentReference docRef = fsDB.collection("postBoard").document(boardTag.getBoardName());
@@ -290,17 +289,17 @@ public class FirestoreManager {
     private void searchPosting(String postingNum) {
         fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
                     }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
+                });
     }
 
     // 게시물 내용 수정 (docID는 Posting Number)_VER1
@@ -352,14 +351,22 @@ public class FirestoreManager {
     }
 
 
-    // 게시물 삭제 (docID는 userNick) VER1
-    public void delPosting(String boardName, String tagName, String docID) {
+    // 게시물 삭제 VER1
+    public void delPosting(String boardName, String tagName, Posting posting) {
+        StorageManager storage = new StorageManager();
+
         CollectionReference colRef = postCollectionRef(boardName, tagName);
-        colRef.document(docID).delete()
+        colRef.document(posting.getPostingNumber()).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Posting has successfully deleted!");
+
+                        // 사진 파일도 지우기
+                        int numOfPic = posting.getPicture().size();
+                        for (int index = 0; index < numOfPic; index++) {
+                            storage.delPostingImage(posting.getPicture().get(index));
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -370,9 +377,11 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 삭제 (docID는 userNick) VER2
-    public void delPostings(String postingNum) {
-        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
+    // 게시물 삭제 VER2
+    public void delPostings(Posting posting) {
+        StorageManager storage = new StorageManager();
+
+        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", posting.getPostingNumber()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -384,6 +393,12 @@ public class FirestoreManager {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 Log.d(TAG, "Posting has successfully updated!");
+
+                                                // 사진 파일도 지우기
+                                                int numOfPic = posting.getPicture().size();
+                                                for (int index = 0; index < numOfPic; index++) {
+                                                    storage.delPostingImage(posting.getPicture().get(index));
+                                                }
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -429,6 +444,11 @@ public class FirestoreManager {
                         Log.w(TAG, "Error updating postInfo", e);
                     }
                 });
+    }
+
+    // 태그로 게시물 불러오기
+    public Query getPostWithTag(String tagName) {
+        return fsDB.collectionGroup("postings").whereEqualTo("tag", tagName).orderBy("postedTime", Query.Direction.DESCENDING);
     }
 
     // 최근 게시물 불러오기 (docID는 postingNumber)
@@ -595,9 +615,9 @@ public class FirestoreManager {
 
     /* ************* 검색 ************* */
     public void search(String colPath, String field, String value) {
-        CollectionReference ref = fsDB.collection(colPath);
+        CollectionReference ref = fsDB.collection("user");
 
-        ref.whereEqualTo(field, value).get()
+        ref.whereEqualTo("nickName", value).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
@@ -605,7 +625,7 @@ public class FirestoreManager {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 try {
                                     Posting posting = document.toObject(Posting.class);
-                                } catch (RuntimeException e){
+                                } catch (RuntimeException e) {
                                     Log.d(TAG, "Error getting Objset: ", e);
                                 }
                             }
@@ -618,28 +638,3 @@ public class FirestoreManager {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

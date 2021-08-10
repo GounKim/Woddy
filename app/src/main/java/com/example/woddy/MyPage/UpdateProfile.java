@@ -29,8 +29,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.User;
-import com.example.woddy.Login.UserProfile;
 import com.example.woddy.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.internal.Storage;
@@ -54,7 +54,7 @@ public class UpdateProfile extends BaseActivity {
     private int GALLEY_CODE = 100;
     private String imageUrl = "";
 
-    FirestoreManager manager = new FirestoreManager();
+    StorageManager sManager = new StorageManager();
 
     @Override
     protected boolean useBottomNavi() {
@@ -122,10 +122,11 @@ public class UpdateProfile extends BaseActivity {
                 imageUrl = getRealPathFromUri(data.getData());
 
                 // DBtest부분
-                putImgIntoStroage(imageUrl);    // ****** 위치 여기서 이동해야함 : 작성 완료 눌렀을 때 추가되도록! ******
+                sManager.setProfileImage("user4", imageUrl);    // ****** 위치 여기서 이동해야함 : 작성 완료 눌렀을 때 추가되도록! ******
 
                 Glide.with(getApplicationContext())
                         .load(imageUrl)
+                        .circleCrop()
                         .into(profileImage);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -135,29 +136,6 @@ public class UpdateProfile extends BaseActivity {
         }
     }
 
-    // 파이어베이스 Stroage에 절대경로파일 저장
-    public void putImgIntoStroage(String UriPath) {
-        FirebaseStorage stroage = FirebaseStorage.getInstance();
-        StorageReference storageRef = stroage.getReference();
-
-        String filename = "user4" + "_profile.jpg"; // 파일명 생성: 사용자의 NickName_profile.jpg
-
-        Uri file = Uri.fromFile(new File(UriPath));     // 절대경로(uri)를 file에 할당
-        StorageReference riversRef = storageRef.child("UserProfileImages/" + filename);
-        UploadTask uploadTask = riversRef.putFile(file);
-
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Uploading Image to stroage has failed!");
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG, "Uploading Image to stroage has successed!");
-            }
-        });
-    }
 
     /* ---- 권한 동의 부분 (수정 필요, 뭔가 이상함..) -- */
 /*
@@ -205,38 +183,3 @@ public class UpdateProfile extends BaseActivity {
 
  */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

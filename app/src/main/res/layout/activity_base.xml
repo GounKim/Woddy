@@ -12,7 +12,7 @@
         android:id="@+id/chatting_room_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200">
+        android:background="@color/main_color">
 
         <TextView
             android:id="@+id/toolbar_title"

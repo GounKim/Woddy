@@ -2,7 +2,9 @@ package com.example.woddy;
 
 import androidx.annotation.NonNull;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -32,11 +34,12 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            InitDBdata initDB = new InitDBdata();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+//        try {
+//            InitDBdata initDB = new InitDBdata();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        btnLogin = findViewById(R.id.btn_Login);
 //        btnMoveToChatt = findViewById(R.id.btn_move_to_chatt);
@@ -99,7 +102,7 @@ public class MainActivity extends BaseActivity {
                     //tvDBTest.append(dataSnapshot.getValue().toString());
                     alist.add(dataSnapshot.getValue().toString());
                     //Toast.makeText(getApplicationContext(), name + "  " + key, Toast.LENGTH_LONG);
-                                    
+
                 }
             }
 

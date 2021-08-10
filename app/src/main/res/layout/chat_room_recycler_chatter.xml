@@ -7,11 +7,11 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/chatroom_chatter_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:srcCompat="@drawable/ic_baseline_account_circle_24_1"
+        app:srcCompat="@drawable/init_user_image"
         android:layout_margin="10dp"/>
 
     <LinearLayout

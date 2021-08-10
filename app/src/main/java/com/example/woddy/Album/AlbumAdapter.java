@@ -1,7 +1,11 @@
 package com.example.woddy.Album;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +16,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.woddy.ImgPost.ImgPost;
+import com.example.woddy.Entity.Posting;
+import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
-    private ArrayList<AlbumItem> items;
+    private ArrayList<Posting> items;
     private Context mContext;
 
     private String postingNumber;
@@ -41,13 +50,27 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder viewHolder, int position) {
 
-        AlbumItem item = items.get(position);
+        Posting posting = items.get(position);
 
-        Glide.with(viewHolder.itemView.getContext())
-                .load(item.getUrl())
-                .into(viewHolder.album_img);
+        if (posting.getPictures() != null | posting.getPictures() != "") {
+            FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+            StorageReference storageRef = storage.getReference(posting.getPictures()); // 스토리지 공간을 참조해서 이미지를 가져옴
 
-        viewHolder.album_text.setText(item.getTitle());
+            storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Glide.with(viewHolder.itemView.getContext())
+                                .load(task.getResult())
+                                .into(viewHolder.album_img);
+                    } else {
+                        Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+                    }
+                }
+            });
+        }
+
+        viewHolder.album_text.setText(posting.getTitle());
     }
 
     @Override
@@ -55,7 +78,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         return items.size();
     }
 
-    public void setItems(ArrayList<AlbumItem> items) {
+    public void setItems(ArrayList<Posting> items) {
         this.items = items;
     }
 
@@ -81,7 +104,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                     //포지션이 recylerView의 아이템인지 확인
                     if(pos != RecyclerView.NO_POSITION){
                         //액티비티 전환
-                        Intent intent = new Intent(v.getContext(), ImgPost.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         intent.putExtra("postingNumber", String.valueOf(items.get(pos)));
                         v.getContext().startActivity(intent);

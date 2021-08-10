@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowWriting">
+    tools:context=".Posting.ShowPosting">
 
     <LinearLayout
         android:id="@+id/show_writing_layout"
@@ -26,6 +26,8 @@
             android:layout_height="wrap_content"
             android:text="TITLE"
             android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
             android:textStyle="bold" />
 
         <TextView
@@ -34,6 +36,7 @@
             android:layout_height="wrap_content"
             android:text="2021-08-06 17:45"
             android:textSize="12dp"
+            android:layout_marginLeft="10dp"
             android:textColor="#AAAAAA"/>
 
         <TextView
@@ -41,20 +44,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="content"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:id="@+id/show_writing_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="태그이름"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp" >
 
             <ImageView
                 android:id="@+id/show_writing_liked_image"
@@ -99,20 +107,21 @@
         android:id="@+id/show_writing_comment_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/show_writing_editLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/show_writing_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/show_writing_layout"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/show_writing_editLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#55ff"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,11 +133,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="8"
             android:background="@drawable/conversation_border"
             android:hint="댓글을 입력해주세요."
+            android:paddingLeft="7dp"
             android:inputType="text" />
 
         <Button
@@ -138,6 +148,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="2"
+            android:backgroundTint="@color/main_color"
             android:text="전송" />
 
     </LinearLayout>

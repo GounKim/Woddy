@@ -26,6 +26,8 @@ import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.LoadingActivity;
+import com.example.woddy.NoticeMain;
 import com.example.woddy.PostWriting.AddWritingsActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +46,8 @@ import java.util.Date;
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
+    Button btnLogin;
+    Button btnshow;
 
     FirestoreManager manager = new FirestoreManager();
 
@@ -52,6 +56,25 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // test용(로그인화면)
+        btnLogin = view.findViewById(R.id.button2);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LoadingActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnshow = view.findViewById(R.id.button3);
+        btnshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), NoticeMain.class);
+                startActivity(intent);
+            }
+        });
+
 
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
@@ -67,58 +90,69 @@ public class HomeFragment extends Fragment {
 
     void setHomeAdapter() {
         // 공지 Board
-        Posting notice = new Posting("notice","administrator","공지 제목","공지 내용 입니다.",new Date());
-        HomeNBAdapter nAdapter = new HomeNBAdapter(new Posting[]{notice, notice, notice});
-        homeAdapter.addItem(nAdapter);
-
-
-        // 인기글 Board
-        manager.getPopularPost().get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                HomePBAdapter pbAdapter = new HomePBAdapter();
-                ArrayList<Posting> popPosts = new ArrayList<>();
-                for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-//                    popPosts.add(snap.toObject(Posting.class));
-                    pbAdapter.addItem(snap.toObject(Posting.class));
-                }
-                Log.d(TAG, popPosts.get(1).getPostingNumber() + "-------------------------------------------");
-                homeAdapter.addItem(pbAdapter);
-
-                // 최신글 Board
-                manager.getCurrentPost().get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        manager.getPostWithTag("notice").limit(3).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        ArrayList<Posting> curPosts = new ArrayList<>();
-                        for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                            curPosts.add(snap.toObject(Posting.class));
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Posting> notices = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                notices.add(document.toObject(Posting.class));
+                            }
+
+                            HomeNBAdapter nAdapter = new HomeNBAdapter(notices);
+                            homeAdapter.addItem(nAdapter);
+
+                            manager.getPopularPost().get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                ArrayList<Posting> popPosts = new ArrayList<>();
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    popPosts.add(document.toObject(Posting.class));
+                                                }
+
+                                                HomePBAdapter pbAdapter = new HomePBAdapter(popPosts);
+                                                homeAdapter.addItem(pbAdapter);
+
+                                                // 최신글 Board
+                                                manager.getCurrentPost().get()
+                                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                                ArrayList<Posting> curPosts = new ArrayList<>();
+                                                                for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                                                                    curPosts.add(snap.toObject(Posting.class));
+                                                                }
+                                                                HomePBAdapter rbAdapter = new HomePBAdapter(curPosts);
+                                                                homeAdapter.addItem(rbAdapter);
+
+                                                                // 즐겨찾기한 게시판 Board
+                                                                BoardTag boardTag = new BoardTag("집 소개", "자유게시판");
+                                                                HomeFBAdapter fbAdapter = new HomeFBAdapter();
+                                                                fbAdapter.addItem(boardTag);
+                                                                fbAdapter.addItem(boardTag);
+                                                                fbAdapter.addItem(boardTag);
+                                                                fbAdapter.addItem(boardTag);
+                                                                homeAdapter.addItem(fbAdapter);
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Finding RecentPost failed.", e);
+                                                    }
+                                                });
+                                            } else {
+                                                Log.d(TAG, "Finding PopularPost failed.", task.getException());
+                                            }
+                                        }
+                                    });
+
+                        } else {
+                            Log.d(TAG, "Finding notice failed.", task.getException());
                         }
-                        HomePBAdapter rbAdapter = new HomePBAdapter(curPosts);
-                        homeAdapter.addItem(rbAdapter);
-
-                        // 즐겨찾기한 게시판 Board
-                        BoardTag boardTag = new BoardTag("집 소개", "자유게시판");
-                        HomeFBAdapter fbAdapter = new HomeFBAdapter();
-                        fbAdapter.addItem(boardTag);
-                        fbAdapter.addItem(boardTag);
-                        fbAdapter.addItem(boardTag);
-                        fbAdapter.addItem(boardTag);
-                        homeAdapter.addItem(fbAdapter);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Finding RecentPost failed.", e);
                     }
                 });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Finding PopularPost failed.", e);
-            }
-        });
     }
 }

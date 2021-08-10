@@ -10,13 +10,14 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.Entity.UserProfile;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
+    final String TAG = "SignUp";
     EditText emailEditText;
     EditText pw1EditText;
     EditText pw2EditText;
@@ -68,12 +70,12 @@ public class SignUpActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_button);
 
         idAvailTextView = findViewById(R.id.id_avail_text_view);
-        pwAvailTextView = findViewById(R.id.pw_avail_text_view);
+        pwAvailTextView = findViewById(R.id.pw_check_text_view);
         nickAvailTextView = findViewById(R.id.nick_avail_text_view);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance(); //realtime
+        firebaseFirestore = FirebaseFirestore.getInstance(); //firestore - dbmanager 써서 필요 없어짐
 
         pw2EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -88,6 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
                     pwAvailTextView.setTextColor(Color.GRAY);
                     pwAvailTextView.setText("비밀번호가 일치합니다.");
                     pwCheck = true;
+                    Log.d(TAG, "pwCheck" + pwCheck.toString());
                 } else {
                     pwAvailTextView.setTextColor(Color.RED);
                     pwAvailTextView.setText("비밀번호가 일치하지않습니다.");
@@ -118,25 +121,30 @@ public class SignUpActivity extends AppCompatActivity {
                 signUp();
             }
         });
+        addressEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                nextButton.setBackground(getDrawable(R.drawable.button_round_shape_grayish));
+            }
 
-//        if (idCheck && pwCheck && nickCheck) {
-//            Log.d("taggg", "ggggg");
-//            addressEditText.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    nextButton.setBackground(getDrawable(R.drawable.button_round_shape));
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                }
-//            });
-//        }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d(TAG, "dggg");
+                if (idCheck && pwCheck && nickCheck) {
+                    Log.d(TAG, "id, pw, nick check completed.");
+                    if (TextUtils.isEmpty(addressEditText.getText().toString())) {
+                        nextButton.setBackground(getDrawable(R.drawable.button_round_shape_grayish));
+                    } else {
+                        nextButton.setBackground(getDrawable(R.drawable.button_round_shape));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
     }
 
     void checkID() {
@@ -164,12 +172,14 @@ public class SignUpActivity extends AppCompatActivity {
                     idAvailTextView.setTextColor(Color.GRAY);
                     idAvailTextView.setText("사용 가능한 이메일입니다.");
                     idCheck = true;
+                    Log.d(TAG, "idCheck" + idCheck.toString());
+
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.w(TAG, databaseError.getMessage());
             }
         });
     }
@@ -196,12 +206,14 @@ public class SignUpActivity extends AppCompatActivity {
                     nickAvailTextView.setTextColor(Color.GRAY);
                     nickAvailTextView.setText("사용 가능한 닉네임입니다.");
                     nickCheck = true;
+                    Log.d(TAG, "nickCheck" + nickCheck.toString());
+
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.w(TAG, databaseError.getMessage());
             }
         });
     }
@@ -211,42 +223,48 @@ public class SignUpActivity extends AppCompatActivity {
         String pw1 = pw1EditText.getText().toString();
         String pw2 = pw2EditText.getText().toString();
         String nickname = nicknameEditText.getText().toString();
+        //address
+        String address = addressEditText.getText().toString();
+        String city = "", gu = "", dong = "";
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pw1) ||
-                TextUtils.isEmpty(pw2) || TextUtils.isEmpty(nickname) || TextUtils.isEmpty(addressEditText.getText().toString())) {
+                TextUtils.isEmpty(pw2) || TextUtils.isEmpty(nickname) ||
+                TextUtils.isEmpty(address)) {
             Toast.makeText(this, "빈칸을 모두 채워주세요.", Toast.LENGTH_LONG).show();
             return;
         }
 
+        String[] tmpStrArr = address.split(" ");
+        if (tmpStrArr.length != 3) {
+            Toast.makeText(SignUpActivity.this, "주소를 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        city = tmpStrArr[0];
+        gu = tmpStrArr[1];
+        dong = tmpStrArr[2];
+
         try {
+            String finalCity = city;
+            String finalGu = gu;
+            String finalDong = dong;
             firebaseAuth.createUserWithEmailAndPassword(email, pw1)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 final String uid = task.getResult().getUser().getUid();
-                                UserProfile userProfile = new UserProfile();
+                                UserProfile userProfile = new UserProfile(email, pw1, nickname, finalCity, finalGu, finalDong);
 
-                                userProfile.userID = email;
-                                userProfile.userPW = pw1;
-                                userProfile.nickname = nickname;
-                                userProfile.women = false;
-                                //address
-                                String tmpStr = addressEditText.getText().toString();
-                                String[] tmpStrArr = tmpStr.split(" ");
-                                userProfile.city = tmpStrArr[0];
-                                userProfile.gu = tmpStrArr[1];
-                                userProfile.dong = tmpStrArr[2];
+                                FirestoreManager fsManager = new FirestoreManager();
+                                fsManager.addUserProfile(uid, userProfile);
 
-                                firebaseDatabase.getReference().child("userProfile").child(uid).setValue(userProfile);
-
-                                //중복 체크를 위한 데이터베이스에 저장 - email
+                                //중복 체크를 위한 데이터베이스(realtime)에 저장 - email
                                 String tmpEmail = email.replaceAll("\\.", "1");
                                 Map<String, String> chkemail = new HashMap<>();
                                 chkemail.put(tmpEmail, "true");
                                 firebaseDatabase.getReference().child("checkOnly").child("email").child(tmpEmail).setValue(chkemail);
 
-                                //중복 체크를 위한 데이터베이스에 저장 - nickname
+                                //중복 체크를 위한 데이터베이스(realtime)에 저장 - nickname
                                 String tmpNick = nickname;
                                 Map<String, String> chkNick = new HashMap<>();
                                 chkNick.put(tmpNick, "true");
@@ -260,28 +278,13 @@ public class SignUpActivity extends AppCompatActivity {
                             } else {
                                 if (task.getException() != null) {
                                     Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_LONG).show();
-
                                 }
                             }
                         }
                     });
         } catch (Exception e) {
-            Log.d("error", e.getMessage().toString());
+            Log.w(TAG, e.getMessage().toString());
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                Log.d("tag", "clicked");
-                //Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
-                //startActivity(intent);
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

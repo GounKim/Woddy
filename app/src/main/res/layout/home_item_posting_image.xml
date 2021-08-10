@@ -11,13 +11,14 @@
     android:paddingBottom="10dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:background="@drawable/button_round_shape_no_background">
+    android:background="@drawable/button_gray_background">
 
     <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="53dp"
         android:layout_weight="9"
-        android:paddingRight="5dp">
+        android:paddingRight="5dp"
+        android:layout_gravity="center">
         <TextView
             android:id="@+id/home_postingI_title"
             android:layout_width="wrap_content"
@@ -37,7 +38,6 @@
             android:maxHeight="28dp"
             android:text="mmmmmmmmmmmmmbbbbbbbbbbbmmmmmmmmmmnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
             android:textSize="10dp"
-            android:layout_marginTop="3dp"
             android:layout_gravity="left|center_vertical"/>
 
         <TextView
@@ -48,6 +48,7 @@
             android:maxHeight="14dp"
             android:text="게시판 이름"
             android:textSize="10dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="left|bottom"/>
 
         <TextView
@@ -71,6 +72,7 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_baseline_thumb_up_24"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="2dp"/>
 
             <TextView
@@ -80,6 +82,7 @@
                 android:maxWidth="60dp"
                 android:text="40000"
                 android:textSize="10dp"
+                android:layout_marginTop="5dp"
                 android:textColor="#FF6B6B"/>
 
         </LinearLayout>
@@ -91,7 +94,6 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginLeft="3dp"
-
         android:layout_weight="3"
         android:layout_gravity="center_vertical|center_horizontal"
         tools:srcCompat="@drawable/sample_image" />

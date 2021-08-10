@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Posting;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,13 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.Entity.Comment;
+import com.example.woddy.R;
 
 import java.util.ArrayList;
 
-public class ShowWritingAdapter extends RecyclerView.Adapter<ShowWritingAdapter.swHolder> {
+public class ShowPostingAdapter extends RecyclerView.Adapter<ShowPostingAdapter.swHolder> {
     ArrayList<Comment> commentList;
 
-    ShowWritingAdapter() {
+    ShowPostingAdapter() {
         this.commentList = new ArrayList<>();
     }
 

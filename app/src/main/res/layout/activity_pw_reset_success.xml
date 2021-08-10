@@ -52,7 +52,7 @@
         android:layout_marginStart="120dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="120dp"
-        android:background="@drawable/button_round_shape_darkgray"
+        android:background="@drawable/button_round_shape"
         android:text="로그인 하러가기"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

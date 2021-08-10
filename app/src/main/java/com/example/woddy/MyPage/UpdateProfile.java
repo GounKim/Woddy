@@ -7,23 +7,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.content.CursorLoader;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -31,30 +32,28 @@ import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.User;
+import com.example.woddy.MainActivity;
 import com.example.woddy.R;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateProfile extends BaseActivity {
     ImageView profileImage;
+    //    EditText newNickName;
+    EditText newIntrodice;
+    EditText newLocal;
     Button btnUpdate;
 
     private int GALLEY_CODE = 100;
+    private Boolean isPermission = true;
     private String imageUrl = "";
 
     StorageManager sManager = new StorageManager();
+    FirestoreManager manager = new FirestoreManager();
 
     @Override
     protected boolean useBottomNavi() {
@@ -65,34 +64,55 @@ public class UpdateProfile extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
-        setTitle("마이페이지");
+        setTitle("프로필 수정");
 
         profileImage = findViewById(R.id.updateProfile_userImage);
         btnUpdate = findViewById(R.id.updateProfile_btn_complete);
+//        newNickName = findViewById(R.id.updateProfile_edt_nickName);
+        newIntrodice = findViewById(R.id.updateProfile_edt_introduce);
+        newLocal = findViewById(R.id.updateProfile_edt_local);
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 로컬 사진첩으로 이동
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent, GALLEY_CODE);
+                tedPermission();
+                if (isPermission) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, GALLEY_CODE);
+                } else {
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
+        // 프로필 설정 버튼 클릭시
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("profileImage", profileImage.toString());
+                // Storage에 이미지 저장
+                String fileUri = sManager.setProfileImage("user1", imageUrl);
 
-                Toast.makeText(getBaseContext(), profileImage.getResources().toString(), Toast.LENGTH_SHORT).show();
+                String local = newLocal.getText().toString();
+                String introduce = newIntrodice.getText().toString();
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.activity_content, MyPageFragment.newInstance(bundle)).commit();
+                // DBtest에 수정된 정보 추가
+                Map<String, Object> newData = new HashMap<>();
+                newData.put("local", local);
+                newData.put("introduce", introduce);
+                newData.put("userImage", fileUri);
+                manager.updateUser("user1", newData);
 
-                finish();   /* ---- 화면 비정상적으로 종료되는 현상 수정 필요 ---- */
+                // MyPage에 넘길 정보 Intent에 담기
+                Intent result = new Intent();
+                result.putExtra("local", local);
+                result.putExtra("introduce", introduce);
+                result.putExtra("userImage", imageUrl);
+
+                setResult(RESULT_OK, result);   // 액티비티가 종료됨을 알림정보 넘기기
+                finish();   //액티비티 종료
             }
         });
 
@@ -117,12 +137,15 @@ public class UpdateProfile extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLEY_CODE && resultCode == RESULT_OK) {
+
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, "취소되었습니다.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (requestCode == GALLEY_CODE) {
             try {
                 imageUrl = getRealPathFromUri(data.getData());
-
-                // DBtest부분
-                sManager.setProfileImage("user4", imageUrl);    // ****** 위치 여기서 이동해야함 : 작성 완료 눌렀을 때 추가되도록! ******
 
                 Glide.with(getApplicationContext())
                         .load(imageUrl)
@@ -131,13 +154,35 @@ public class UpdateProfile extends BaseActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (requestCode == GALLEY_CODE && resultCode == RESULT_CANCELED) {
-            Toast.makeText(this, "갤러리 접근 권한을 허용되지 않았습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    /* ---- 권한 동의 부분 (수정 필요, 뭔가 이상함..) -- */
+    /* ---- 권한 동의 부분 -- */
+    private void tedPermission() {
+        // 접근 권한 요청
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                // 권한 요청 성공
+                isPermission = true;
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                // 권한 요청 실패
+                isPermission = false;
+            }
+        };
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(getResources().getString(R.string.permission_2))
+                .setDeniedMessage(getResources().getString(R.string.permission_1))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+    }
+
 /*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

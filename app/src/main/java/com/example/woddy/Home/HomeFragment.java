@@ -26,6 +26,7 @@ import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.LoadingActivity;
 import com.example.woddy.PostWriting.AddWritingsActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +45,7 @@ import java.util.Date;
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
+    Button btnLogin;
 
     FirestoreManager manager = new FirestoreManager();
 
@@ -52,6 +54,17 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // test용(로그인화면)
+        btnLogin = view.findViewById(R.id.button2);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LoadingActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤

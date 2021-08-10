@@ -127,9 +127,12 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
             case R.id.myPage_btn_update_myProfile:
                 Intent intent = new Intent(getContext(), UpdateProfile.class);
                 startActivityForResult(intent, UPDATE);
+                break;
+
             case R.id.myPage_setAccount:
                 Intent setAccountIntent = new Intent(getContext(), SetAccountActivity.class);
                 startActivity(setAccountIntent);
+                break;
         }
     }
 

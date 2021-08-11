@@ -12,16 +12,13 @@ public class Posting {
     private String writer;  // User의 nickName [ FK : MemberInfo ]
     private String title;   // 글의 제목
     private String content; // 글의 내용
-    private String pictures;    // 첨부된 사진
+    private ArrayList<String> pictures;    // 첨부된 사진
     private Date postedTime;    // 작성된 시간
-    private int numberOfViews; // 조회수
-    private int numberOfLiked;  // 좋아요 갯수
-    private int numberOfScraped;    // 스크랩수
-    private int numberOfComment;    // 댓글 수
-    private int reported; // 신고 여부 (신고된 횟수)
-
-    // test용
-    private ArrayList<String> picture = new ArrayList<>();
+    private int numberOfViews = 0; // 조회수
+    private int numberOfLiked = 0;  // 좋아요 갯수
+    private int numberOfScraped = 0;    // 스크랩수
+    private int numberOfComment = 0;    // 댓글 수
+    private int reported = 0; // 신고 여부 (신고된 횟수)
 
     public Posting() {
     }
@@ -33,14 +30,10 @@ public class Posting {
         this.title = title;
         this.content = content;
         this.postedTime = postedTime;
-        this.numberOfViews = 0;
-        this.numberOfLiked = 0;
-        this.numberOfScraped = 0;
-        this.numberOfComment = 0;
-        this.reported = 0;
+        this.pictures = new ArrayList<>();
     }
 
-    public Posting(String tag, String writer, String title, String content, String pictures, Date postedTime) {
+    public Posting(String tag, String writer, String title, String content, ArrayList<String> pictures, Date postedTime) {
         this.postingNumber = "";
         this.tag = tag;
         this.writer = writer;
@@ -48,26 +41,6 @@ public class Posting {
         this.content = content;
         this.pictures = pictures;
         this.postedTime = postedTime;
-        this.numberOfViews = 0;
-        this.numberOfLiked = 0;
-        this.numberOfScraped = 0;
-        this.numberOfComment = 0;
-        this.reported = 0;
-    }
-
-    public Posting(String postingNumber, String tag, String writer, String title, String content, int reported, ArrayList<String> picture, Date postedTime, int numberOfViews, int numberOfLiked, int numberOfScraped, int numberOfComment) {
-        this.postingNumber = postingNumber;
-        this.tag = tag;
-        this.writer = writer;
-        this.title = title;
-        this.content = content;
-        this.postedTime = postedTime;
-        this.numberOfViews = numberOfViews;
-        this.numberOfLiked = numberOfLiked;
-        this.numberOfScraped = numberOfScraped;
-        this.numberOfComment = numberOfComment;
-        this.reported = reported;
-        this.picture = picture;
     }
 
     public Map<String, Object> toMap() {
@@ -121,14 +94,6 @@ public class Posting {
         this.content = content;
     }
 
-    public String getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(String pictures) {
-        this.pictures = pictures;
-    }
-
     public Date getPostedTime() {
         return postedTime;
     }
@@ -177,11 +142,11 @@ public class Posting {
         this.reported = reported;
     }
 
-    public ArrayList<String> getPicture() {
-        return picture;
+    public ArrayList<String> getPictures() {
+        return pictures;
     }
 
-    public void setPicture(ArrayList<String> picture) {
-        this.picture = picture;
+    public void setPictures(ArrayList<String> pictures) {
+        this.pictures = pictures;
     }
 }

@@ -265,10 +265,16 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        String pNum = documentReference.getId();
+                        // 이미지 Storage에 넣기
+                        StorageManager storageManager = new StorageManager();
+                        posting.setPictures(storageManager.addPostingImage(pNum, posting.getPictures()));
+
                         // postingNumber를 docID로 설정하기
-                        Map<String, Object> id = new HashMap<>();
-                        id.put("postingNumber", documentReference.getId());
-                        updatePosting(boardName, tagName, documentReference.getId(), id);
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("postingNumber", documentReference.getId());
+                        data.put("pictures", posting.getPictures());
+                        updatePosting(boardName, tagName, documentReference.getId(), data);
 
 //                        // 게시글 정보 추가
 //                        PostingInfo postingInfo = new PostingInfo();
@@ -363,9 +369,9 @@ public class FirestoreManager {
                         Log.d(TAG, "Posting has successfully deleted!");
 
                         // 사진 파일도 지우기
-                        int numOfPic = posting.getPicture().size();
+                        int numOfPic = posting.getPictures().size();
                         for (int index = 0; index < numOfPic; index++) {
-                            storage.delPostingImage(posting.getPicture().get(index));
+                            storage.delPostingImage(posting.getPictures().get(index));
                         }
                     }
                 })
@@ -395,9 +401,9 @@ public class FirestoreManager {
                                                 Log.d(TAG, "Posting has successfully updated!");
 
                                                 // 사진 파일도 지우기
-                                                int numOfPic = posting.getPicture().size();
+                                                int numOfPic = posting.getPictures().size();
                                                 for (int index = 0; index < numOfPic; index++) {
-                                                    storage.delPostingImage(posting.getPicture().get(index));
+                                                    storage.delPostingImage(posting.getPictures().get(index));
                                                 }
                                             }
                                         })

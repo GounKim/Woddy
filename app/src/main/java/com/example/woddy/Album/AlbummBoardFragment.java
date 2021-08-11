@@ -1,26 +1,18 @@
 package com.example.woddy.Album;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.woddy.PostWriting.AddWritingsActivity;
-import com.example.woddy.Posting.ShowPosting;
 import com.example.woddy.R;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AlbummBoardFragment extends Fragment {
     ImageView addPosting;

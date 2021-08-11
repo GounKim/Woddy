@@ -1,13 +1,19 @@
 package com.example.woddy.PostWriting;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -24,8 +30,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.MainActivity;
+import com.example.woddy.NoticeMain;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,14 +62,15 @@ public class AddWritingsActivity extends AppCompatActivity {
     Button cancelBtn, finishBtn, addImageBtn;
     EditText titleTV, plotTV;
     TextView boardInfoTV;
-    static int writing_index = 1;
     int image_index = 1;
-    String tag = "";
-    String pictures = "";
+//    String pictures = "";
+
+    ArrayList<String> uriList = new ArrayList<>();
 
     FirebaseStorage storage;
     StorageReference storageRef;
     FirestoreManager firestoreManager;
+    StorageManager sManager;
 
     InputMethodManager imm;
 
@@ -78,6 +87,7 @@ public class AddWritingsActivity extends AppCompatActivity {
         setContentView(R.layout.add_writings_main);
 
         firestoreManager = new FirestoreManager();
+        sManager = new StorageManager();
 
         addImageBtn = (Button) findViewById(R.id.addImages);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
@@ -101,13 +111,17 @@ public class AddWritingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!titleTV.getText().toString().isEmpty() && !plotTV.getText().toString().isEmpty()) {
+                    Posting post;
                     final String title = titleTV.getText().toString();
                     final String content = plotTV.getText().toString();
-                    Posting post = new Posting(tag, "writer", title, content, pictures, new Date());
-                    firestoreManager.addPosting("자유게시판",tag, post);
+                    if (uriList == null) {
+                        post = new Posting("자랑하기", "user1", title, content, new Date());
+                    } else {
+                        post = new Posting("자랑하기", "user1", title, content, uriList, new Date());
+                    }
+                    firestoreManager.addPosting("자유게시판","자랑하기", post);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
-                    writing_index++;
                 } else {
                     Toast.makeText(getApplicationContext(), "제목과 내용 모두를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
@@ -143,6 +157,7 @@ public class AddWritingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // 이미지를 하나도 선택하지 않은 경우
         if (resultCode != Activity.RESULT_OK) {
             Toast.makeText(this, "취소되었습니다.", Toast.LENGTH_SHORT).show();
             if (tempFile != null) {
@@ -156,32 +171,41 @@ public class AddWritingsActivity extends AppCompatActivity {
         }
 
         if (requestCode == PICK_FROM_ALBUM) {
-            Uri photoUri = data.getData();
-            StorageReference storageRef = storage.getReference();
-            StorageReference attachedImage = storageRef.child("user/myPostings/postNumbers/postNum" + writing_index + "/image/imageNum" + image_index + ".png");
-            UploadTask uploadTask = attachedImage.putFile(photoUri);
-            Bitmap bitmap = null;
+            if (data.getClipData() == null) {
+                Toast.makeText(this, "다중선택이 불가능한 기기입니다.", Toast.LENGTH_LONG).show();
+            } else {
+                // 이미지를 하나만 선택한 경우
+                if (data.getClipData().getItemCount() == 1 && uriList.size() <= 10) {
+                    Uri photoUri = data.getData();
+                    uriList.add(photoUri.toString());
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
+                        setImage(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
-                setImage(bitmap);
-//                pictures = photoUri.toString();
-                pictures = attachedImage.getPath();
-            } catch (IOException e) {
-                e.printStackTrace();
+                } else if (data.getClipData().getItemCount() < 10
+                        && data.getClipData().getItemCount() + uriList.size() <= 10) {
+                    // 이미지를 여러개 선택한 경우
+                    ClipData clipData = data.getClipData();
+                    for (int item = 0; item < clipData.getItemCount(); item++) {
+                        Uri imageUri = clipData.getItemAt(item).getUri();
+                        try {
+                            uriList.add(imageUri.toString());
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                            setImage(bitmap);
+
+                        } catch (Exception e) {
+                            Log.e(TAG, "File select error", e);
+                        }
+                    }
+
+                } else {
+                    // 이미지가 10장을 초과한 경우 제한
+                    Toast.makeText(getApplicationContext(), "사진은 10장까지 추가 가능합니다.", Toast.LENGTH_LONG).show();
+                }
             }
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull @NotNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "사진이 정상적으로 업로드되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getApplicationContext(), "사진이 정상적으로 업로드되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
 
@@ -236,7 +260,23 @@ public class AddWritingsActivity extends AppCompatActivity {
         iv.setAdjustViewBounds(true);
         iv.setImageBitmap(img);
         iv.setMaxWidth(250);
-        imageLayout.addView(iv);
+        imageLayout.addView(iv, 0);
+
+        iv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder dlg = new AlertDialog.Builder(getApplicationContext());
+                dlg.setMessage("삭제하시겠습니까?");
+                dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        iv.setVisibility(View.GONE);
+                    }
+                });
+                dlg.setPositiveButton("취소",null);
+                return false;
+            }
+        });
 
         tempFile = null;
         image_index = image_index + 1;

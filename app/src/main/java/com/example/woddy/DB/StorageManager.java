@@ -37,7 +37,7 @@ public class StorageManager {
         StorageReference riversRef = storageRef.child(fileUri);
         UploadTask uploadTask = riversRef.putFile(file);
 
-        delPostingImade(userNick);  // 이미지가 존재하면 기존 이미지 삭제 후 진행할 수 있도록 삭제해준다.
+        delProfileImage(userNick);  // 이미지가 존재하면 기존 이미지 삭제 후 진행할 수 있도록 삭제해준다.
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -58,7 +58,7 @@ public class StorageManager {
         return fileUri;
     }
 
-    public void delPostingImade(String fileUri) {
+    public void delProfileImage(String fileUri) {
         StorageReference desertRef = storageRef.child(fileUri);
 
         desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -74,13 +74,17 @@ public class StorageManager {
         });
     }
 
-    public void addPostingImage(String postingNum, ArrayList<String> uriPath) {
-        String stroagePath = "BoardName/TagName/PostingImages/" + postingNum + "/";
+    public ArrayList<String> addPostingImage(String postingNum, ArrayList<String> uriPath) {
+        String storagePath = "BoardName/TagName/PostingImages/" + postingNum + "/";
+        ArrayList<String> newUri = new ArrayList<>();
 
         for (int index = 0; index < uriPath.size(); index++) {
-            Uri file = Uri.fromFile(new File(uriPath.get(index)));     // 절대경로(uri)를 file에 할당
-            StorageReference riversRef = storageRef.child(stroagePath + file.getLastPathSegment());
+            String fileName = "picture" + index + ".jpg";
+
+            Uri file = Uri.parse(uriPath.get(index));     // 절대경로(uri)를 file에 할당
+            StorageReference riversRef = storageRef.child(storagePath + fileName);
             UploadTask uploadTask = riversRef.putFile(file);
+            newUri.add(storagePath + fileName);
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -94,6 +98,8 @@ public class StorageManager {
                 }
             });
         }
+
+        return newUri;
     }
 
     public void delPostingImage(String fileUri) {

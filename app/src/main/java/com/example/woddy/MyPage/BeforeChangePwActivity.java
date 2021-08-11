@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.woddy.BaseActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
-public class BeforeChangePwActivity extends AppCompatActivity {
+public class BeforeChangePwActivity extends BaseActivity {
     static final String TAG = "BeforePwResetAct";
     TextView idTextView;
     EditText pwEditText;
@@ -31,9 +32,15 @@ public class BeforeChangePwActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     @Override
+    protected boolean useBottomNavi() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_pw_reset);
+        setMyTitle("비밀번호 변경");
 
         idTextView = findViewById(R.id.id_text_view);
         pwEditText = findViewById(R.id.pw_edit_text);

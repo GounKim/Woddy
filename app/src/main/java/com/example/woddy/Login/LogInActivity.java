@@ -71,12 +71,12 @@ public class LogInActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-//        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
-//        if (gsa != null) {
-//            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-//            startActivity(intent);
-//        }
+        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
+        if (gsa != null) {
+            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
 
         //login button click listener
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -165,8 +165,7 @@ public class LogInActivity extends AppCompatActivity {
                 FirestoreManager fsManager = new FirestoreManager();
                 fsManager.addUserProfile(uid, userProfile);
 
-                //?????
-                Intent intent = new Intent(this, RegisterEtcActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_LONG).show();

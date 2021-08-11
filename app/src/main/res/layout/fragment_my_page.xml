@@ -6,34 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MyPage.MyPageFragment">
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="17dp"
-        android:text="마이페이지"
-        android:textSize="18dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="17dp"
-        android:background="#E8E8E8"
-        app:layout_constraintTop_toBottomOf="@id/textView16" />
-
     <ScrollView
         android:id="@+id/scroll1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view1">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -41,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/myPage_userImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="13dp"
                 android:src="@drawable/init_user_image"
@@ -62,16 +42,16 @@
                     android:id="@+id/myPage_userNick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="10dp"
                     android:text="닉네임"
-                    android:textSize="20dp"
+                    android:textSize="23dp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/myPage_userLocal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="7dp"
                     android:text="노원구 공릉동"
                     android:textSize="12dp" />
             </LinearLayout>
@@ -81,10 +61,10 @@
                 android:id="@+id/myPage_userIntroduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:text="한 줄 소개를 입력하면 됩니다 됩니다 돼."
-                android:textSize="15dp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toBottomOf="@id/linear1"
                 tools:layout_editor_absoluteX="126dp"
@@ -107,7 +87,7 @@
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="8dp"
                 android:layout_marginTop="20dp"
                 android:background="#E8E8E8"
                 app:layout_constraintTop_toBottomOf="@id/myPage_btn_update_myProfile" />
@@ -150,7 +130,7 @@
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
-                    android:src="@drawable/ic_baseline_thumb_up_alt_24" />
+                    android:src="@drawable/ic_baseline_favorite_24" />
 
                 <Button
                     android:id="@+id/myPage_likedWritings"
@@ -194,7 +174,7 @@
             <View
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="8dp"
                 android:layout_marginTop="8dp"
                 android:background="#E8E8E8"
                 app:layout_constraintTop_toBottomOf="@id/linear4" />
@@ -241,7 +221,7 @@
             <View
                 android:id="@+id/view4"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="8dp"
                 android:layout_marginTop="8dp"
                 android:background="#E8E8E8"
                 app:layout_constraintTop_toBottomOf="@id/myPage_setAlarm" />

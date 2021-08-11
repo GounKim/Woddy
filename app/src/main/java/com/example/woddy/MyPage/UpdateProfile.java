@@ -41,6 +41,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+
+    닉네임 중복확인 코드
+    SingUpActivity.java 안에 checkNickname() 함수 코드 활용하시면 돼요
+    이것도 realtime에서 firestore로 바꿔놨고
+    whereequalto로 찾는 방식입니다
+
+ */
 public class UpdateProfile extends BaseActivity {
     ImageView profileImage;
     //    EditText newNickName;
@@ -120,8 +128,8 @@ public class UpdateProfile extends BaseActivity {
 
     /* --- 앨범애서 사진을 골라 사용자 이미지로 설정하기 --- */
     // 사진의 절대경로 구하지
-    private String getRealPathFromUri (Uri uri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
+    private String getRealPathFromUri(Uri uri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
         CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
 
         Cursor cursor = cursorLoader.loadInBackground();

@@ -17,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserProfile;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +33,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,8 +59,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
-    private FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +79,6 @@ public class SignUpActivity extends AppCompatActivity {
         nickAvailTextView = findViewById(R.id.nick_avail_text_view);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance(); //realtime
-        firebaseFirestore = FirebaseFirestore.getInstance(); //firestore - dbmanager 써서 필요 없어짐
 
         pw2EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -149,73 +152,48 @@ public class SignUpActivity extends AppCompatActivity {
 
     void checkID() {
         String email_str = emailEditText.getText().toString();
-        email_str = email_str.replaceAll("\\.", "1");
-        String finalEmail_str = email_str;
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("checkOnly").child("email");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> child = dataSnapshot.getChildren().iterator();
-                Boolean check = false;
-                while (child.hasNext()) {
-                    if (child.next().getKey().equals(finalEmail_str)) {
-                        check = true;
+        FirestoreManager fsManager = new FirestoreManager();
+        fsManager.findEmail(email_str)
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.getResult().size() == 0) {
+                            idAvailTextView.setVisibility(View.VISIBLE);
+                            idAvailTextView.setTextColor(Color.GRAY);
+                            idAvailTextView.setText("사용 가능한 이메일입니다.");
+                            idCheck = true;
+                            Log.d(TAG, "idCheck" + idCheck.toString());
+                        } else {
+                            idAvailTextView.setVisibility(View.VISIBLE);
+                            idAvailTextView.setTextColor(Color.rgb(255, 105, 105));
+                            idAvailTextView.setText("중복된 이메일입니다.");
+                        }
                     }
-                }
-                if (check) {
-                    idAvailTextView.setVisibility(View.VISIBLE);
-                    idAvailTextView.setTextColor(Color.rgb(255, 105, 105));
-                    idAvailTextView.setText("중복된 이메일입니다.");
-                } else {
-                    idAvailTextView.setVisibility(View.VISIBLE);
-                    idAvailTextView.setTextColor(Color.GRAY);
-                    idAvailTextView.setText("사용 가능한 이메일입니다.");
-                    idCheck = true;
-                    Log.d(TAG, "idCheck" + idCheck.toString());
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, databaseError.getMessage());
-            }
-        });
+                });
     }
 
     void checkNickname() {
         String nick_str = nicknameEditText.getText().toString();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("checkOnly").child("nickname");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> child = dataSnapshot.getChildren().iterator();
-                Boolean check = false;
-                while (child.hasNext()) {
-                    if (child.next().getKey().equals(nick_str)) {
-                        check = true;
+
+        FirestoreManager fsManager = new FirestoreManager();
+        fsManager.findNickname(nick_str)
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.getResult().size() == 0) {
+                            nickAvailTextView.setVisibility(View.VISIBLE);
+                            nickAvailTextView.setTextColor(Color.GRAY);
+                            nickAvailTextView.setText("사용 가능한 닉네임입니다.");
+                            nickCheck = true;
+                            Log.d(TAG, "nickCheck" + nickCheck.toString());
+                        } else {
+                            nickAvailTextView.setVisibility(View.VISIBLE);
+                            nickAvailTextView.setTextColor(Color.rgb(255, 105, 105));
+                            nickAvailTextView.setText("중복된 닉네임입니다.");
+                        }
                     }
-                }
-                if (check) {
-                    nickAvailTextView.setVisibility(View.VISIBLE);
-                    nickAvailTextView.setTextColor(Color.rgb(255, 105, 105));
-                    nickAvailTextView.setText("중복된 닉네임입니다.");
-                } else {
-                    nickAvailTextView.setVisibility(View.VISIBLE);
-                    nickAvailTextView.setTextColor(Color.GRAY);
-                    nickAvailTextView.setText("사용 가능한 닉네임입니다.");
-                    nickCheck = true;
-                    Log.d(TAG, "nickCheck" + nickCheck.toString());
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, databaseError.getMessage());
-            }
-        });
+                });
     }
 
     void signUp() {
@@ -247,28 +225,20 @@ public class SignUpActivity extends AppCompatActivity {
             String finalCity = city;
             String finalGu = gu;
             String finalDong = dong;
+            String finalLocal = city + " " + gu + " " + dong;
             firebaseAuth.createUserWithEmailAndPassword(email, pw1)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 final String uid = task.getResult().getUser().getUid();
+
                                 UserProfile userProfile = new UserProfile(email, pw1, nickname, finalCity, finalGu, finalDong);
+                                User user = new User(nickname, finalLocal, "", "UserProfileImages/user.png");
 
                                 FirestoreManager fsManager = new FirestoreManager();
-                                fsManager.addUserProfile(uid, userProfile);
-
-                                //중복 체크를 위한 데이터베이스(realtime)에 저장 - email
-                                String tmpEmail = email.replaceAll("\\.", "1");
-                                Map<String, String> chkemail = new HashMap<>();
-                                chkemail.put(tmpEmail, "true");
-                                firebaseDatabase.getReference().child("checkOnly").child("email").child(tmpEmail).setValue(chkemail);
-
-                                //중복 체크를 위한 데이터베이스(realtime)에 저장 - nickname
-                                String tmpNick = nickname;
-                                Map<String, String> chkNick = new HashMap<>();
-                                chkNick.put(tmpNick, "true");
-                                firebaseDatabase.getReference().child("checkOnly").child("nickname").child(tmpNick).setValue(chkNick);
+                                fsManager.addUserProfile(uid, userProfile); //userProfile 컬렉션에 저장
+                                fsManager.addUser(user); //user 컬렉션에 저장
 
                                 //SignUpSuccessActivity로 화면전환, SignUpActivity는 아예 종료시켜야함.
                                 Intent intent = new Intent(SignUpActivity.this, SignUpSuccessActivity.class);

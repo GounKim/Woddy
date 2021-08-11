@@ -143,6 +143,16 @@ public class FirestoreManager {
                 });
     }
 
+    // 이메일 중복 확인
+    public Task<QuerySnapshot> findEmail(String email) {
+        return fsDB.collection("userProfile").whereEqualTo("userID", email).get();
+    }
+
+    // 닉네임 중복 확인
+    public Task<QuerySnapshot> findNickname(String nickname) {
+        return fsDB.collection("userProfile").whereEqualTo("nickname", nickname).get();
+    }
+
     // User 추가
     public Task<QuerySnapshot> findUser(String userNick) {
         return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
@@ -194,7 +204,7 @@ public class FirestoreManager {
                     }
                 });
     }
-  
+
     // 게시판 & 테그 추가 (중복찾기 추가 필요)
     public void addBoard(BoardTag boardTag) {
         DocumentReference docRef = fsDB.collection("postBoard").document(boardTag.getBoardName());
@@ -424,6 +434,7 @@ public class FirestoreManager {
     // 게시물 정보 수정
     final private int INCRESE = 0;
     final private int DECRESE = 1;
+
     final public void updatePostInfo(String postingNumber, String field, int inORdecrese) {
         // 조회수, 스크랩 수 등 원하는 필드의 숫자 +1 하기
         Map<String, Object> data = new HashMap<>();
@@ -477,7 +488,7 @@ public class FirestoreManager {
                         // postingNumber를 docID로 설정하기
                         Map<String, Object> id = new HashMap<>();
                         id.put("docID", documentReference.getId());
-                        updateComment(postingNumber,documentReference.getId(), id);
+                        updateComment(postingNumber, documentReference.getId(), id);
 
                         updatePostInfo(postingNumber, "numberOfComment", INCRESE);
 

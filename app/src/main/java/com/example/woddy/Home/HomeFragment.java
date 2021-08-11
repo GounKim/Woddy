@@ -27,6 +27,7 @@ import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.LoadingActivity;
+import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.NoticeMain;
 import com.example.woddy.PostWriting.AddWritingsActivity;
 import com.example.woddy.R;
@@ -62,7 +63,7 @@ public class HomeFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), LoadingActivity.class);
+                Intent intent = new Intent(getContext(), LogInActivity.class);
                 startActivity(intent);
             }
         });

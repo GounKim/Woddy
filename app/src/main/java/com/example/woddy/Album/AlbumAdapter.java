@@ -52,7 +52,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         Posting posting = items.get(position);
 
-        if (posting.getPictures() != null) {
+        if (!posting.getPictures().isEmpty()) {
             FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
             StorageReference storageRef = storage.getReference(posting.getPictures().get(0)); // 스토리지 공간을 참조해서 이미지를 가져옴
 

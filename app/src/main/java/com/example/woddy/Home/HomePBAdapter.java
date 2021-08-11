@@ -5,6 +5,8 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,16 +41,18 @@ public class HomePBAdapter extends BaseAdapter {
     private final int WRITING_WITH_IMAGE = 1;
     private final int ITEM_VIEW_TYPE_MAX = 2;
 
-    private ArrayList<Posting> writings;
-
-    HomePBAdapter() {}
-
-    HomePBAdapter(ArrayList<Posting> writing) {
-        this.writings = writing;
-    }
+    private ArrayList<Posting> writings =  new ArrayList<>();
 
     public void addItem(Posting posting) {
         writings.add(posting);
+    }
+
+    public void setItem(ArrayList<Posting> writings) {
+        this.writings = writings;
+    }
+
+    public ArrayList<Posting> getItem() {
+        return writings;
     }
 
     @Override
@@ -213,5 +217,4 @@ public class HomePBAdapter extends BaseAdapter {
         sdf.setTimeZone(timeZone);
         return sdf.format(date);
     }
-
 }

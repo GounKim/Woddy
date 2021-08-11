@@ -2,6 +2,8 @@ package com.example.woddy.Home;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Parcelable {
     private final int NOTICE = 0;
     private final int POPULAR = 1;
     private final int RECENT = 2;
@@ -35,13 +37,22 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String[] homeBoards = new String[]{"알려드려요", "현재 인기글", "최신글", "즐겨찾기한 게시판"};
     private ArrayList<Object> adapterList;
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter() {
         adapterList = new ArrayList<>();
     }
 
     public void addItem(Object adapter) {
         adapterList.add(adapter);
         notifyDataSetChanged();
+    }
+
+    public void setItem(ArrayList<Object> adapterList) {
+        this.adapterList = adapterList;
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Object> getItem() {
+        return adapterList;
     }
 
     public class VerticalScrollHolder extends RecyclerView.ViewHolder {
@@ -176,5 +187,34 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         params.height = height + (listView.getDividerHeight() * (listAdapter.getCount() -1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    // Parcel
+    protected HomeAdapter(Parcel in) {
+        homeBoards = in.createStringArray();
+    }
+
+    public static final Creator<HomeAdapter> CREATOR = new Creator<HomeAdapter>() {
+        @Override
+        public HomeAdapter createFromParcel(Parcel in) {
+            return new HomeAdapter(in);
+        }
+
+        @Override
+        public HomeAdapter[] newArray(int size) {
+            return new HomeAdapter[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeStringArray(homeBoards);
+        dest.writeValue(adapterList);
     }
 }

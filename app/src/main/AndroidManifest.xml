@@ -32,7 +32,6 @@
             android:theme="@style/SplashTheme" />
         <activity android:name=".Login.PwResetSuccessActivity" />
         <activity android:name=".Login.PwResetActivity" />
-        <activity android:name=".Login.RegisterEtcActivity" />
         <activity android:name=".Chatting.ChattingRoom" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -44,6 +43,7 @@
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".PostWriting.AddWritingsActivity" />
         <activity android:name=".Posting.ShowImgPosting" />
+        <activity android:name=".LoadingActivity" />
     </application>
 
 </manifest>

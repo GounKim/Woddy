@@ -4,16 +4,14 @@ package com.example.woddy.Entity;
 public class UserProfile {
 
     private String userID; // id(email)
-    private String userPW; // password
     private String nickname; // nickname
     private String city; // 시
     private String gu; // 구
     private String dong; // 동
     private boolean women; // 여성 인증 여부
 
-    public UserProfile(String userID, String userPW, String nickname, String city, String gu, String dong) {
+    public UserProfile(String userID, String nickname, String city, String gu, String dong) {
         this.userID = userID;
-        this.userPW = userPW;
         this.nickname = nickname;
         this.city = city;
         this.gu = gu;
@@ -24,14 +22,6 @@ public class UserProfile {
     public String getUserID() {
         return userID;
     } //set은 필요 없을듯
-
-    public String getUserPW() {
-        return userPW;
-    }
-
-    public void setUserPW(String password) {
-        this.userPW = password;
-    }
 
     public String getNickname() {
         return nickname;

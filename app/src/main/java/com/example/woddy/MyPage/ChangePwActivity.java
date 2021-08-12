@@ -16,8 +16,12 @@ import android.widget.Toast;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,6 +31,7 @@ public class ChangePwActivity extends BaseActivity {
 
     static final String TAG = "ChangePwAct";
 
+    EditText curPwEditText;
     EditText newPwEditTExt;
     EditText newPw2EditTExt;
     TextView pwCheckTextView;
@@ -45,6 +50,7 @@ public class ChangePwActivity extends BaseActivity {
         setContentView(R.layout.activity_change_pw);
         setMyTitle("비밀번호 변경");
 
+        curPwEditText = findViewById(R.id.cur_pw_edit_text);
         newPwEditTExt = findViewById(R.id.new_pw_edit_text);
         newPw2EditTExt = findViewById(R.id.new_pw2_edit_text);
         pwCheckTextView = findViewById(R.id.pw_check_text_view);
@@ -52,8 +58,7 @@ public class ChangePwActivity extends BaseActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String newPw = newPwEditTExt.getText().toString();
-        //String newPw2 = newPw2EditTExt.getText().toString();
+        String emailID = user.getEmail();
 
         newPw2EditTExt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -84,23 +89,37 @@ public class ChangePwActivity extends BaseActivity {
         pwChangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.updatePassword(newPw)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                //변경 완료
-                                Toast.makeText(ChangePwActivity.this, "비밀번호가 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                                //스택의 액티비티 모두 종료하고 로그인 화면으로 이동? or 마이페이지로 이동
+                String curPw = curPwEditText.getText().toString();
+                String newPw = newPwEditTExt.getText().toString();
+                AuthCredential authCredential = EmailAuthProvider.getCredential(emailID, curPw);
+                user.reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            user.updatePassword(newPw)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            //변경 완료
+                                            Toast.makeText(ChangePwActivity.this, "비밀번호가 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                                            //스택의 액티비티 모두 종료하고 로그인 화면으로 이동? or 마이페이지로 이동
+                                            finish();
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull @NotNull Exception e) {
-                                Toast.makeText(ChangePwActivity.this, "비밀번호 변경에 실패하였습니다", Toast.LENGTH_SHORT).show();
-                                Log.w(TAG, e.getMessage());
-                            }
-                        });
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull @NotNull Exception e) {
+                                            Toast.makeText(ChangePwActivity.this, "비밀번호 변경에 실패하였습니다", Toast.LENGTH_SHORT).show();
+                                            Log.w(TAG, e.getMessage());
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(ChangePwActivity.this, "현재 비밀번호를 다시 확인해주세요", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
             }
         });
     }

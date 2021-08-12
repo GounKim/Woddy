@@ -16,7 +16,6 @@
         android:theme="@style/Theme.Woddy">
         <activity android:name=".MyPage.DelAccountActivity"></activity>
         <activity android:name=".MyPage.ChangePwActivity" />
-        <activity android:name=".MyPage.BeforeChangePwActivity" />
         <activity android:name=".MyPage.SetAccountActivity" />
         <activity
             android:name=".MyPage.UpdateProfile"

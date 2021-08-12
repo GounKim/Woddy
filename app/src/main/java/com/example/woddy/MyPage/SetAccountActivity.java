@@ -30,7 +30,7 @@ public class SetAccountActivity extends BaseActivity {
         pwChangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SetAccountActivity.this, BeforeChangePwActivity.class);
+                Intent intent = new Intent(SetAccountActivity.this, ChangePwActivity.class);
                 startActivity(intent);
             }
         });

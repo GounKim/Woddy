@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -233,7 +234,7 @@ public class SignUpActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 final String uid = task.getResult().getUser().getUid();
 
-                                UserProfile userProfile = new UserProfile(email, pw1, nickname, finalCity, finalGu, finalDong);
+                                UserProfile userProfile = new UserProfile(email, nickname, finalCity, finalGu, finalDong);
                                 User user = new User(nickname, finalLocal, "", "UserProfileImages/user.png");
 
                                 FirestoreManager fsManager = new FirestoreManager();
@@ -246,8 +247,13 @@ public class SignUpActivity extends AppCompatActivity {
                                 finish();
                                 Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             } else {
-                                if (task.getException() != null) {
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthWeakPasswordException e) {
+                                    Toast.makeText(SignUpActivity.this, "6자리 이상의 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
+                                } catch (Exception e) {
                                     Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_LONG).show();
+                                    Log.d(TAG, e.toString());
                                 }
                             }
                         }

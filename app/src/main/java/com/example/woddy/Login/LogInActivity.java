@@ -72,11 +72,11 @@ public class LogInActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
-        if (gsa != null) {
-            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
+//        if (gsa != null) {
+//            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+//            startActivity(intent);
+//        }
 
         //login button click listener
         loginButton.setOnClickListener(new View.OnClickListener() {

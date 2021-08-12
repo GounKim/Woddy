@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,22 +22,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.DB.StorageManager;
-import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
-import com.example.woddy.PostWriting.AddWritingsActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.Objects;
 
 
 public class MyPageFragment extends Fragment implements View.OnClickListener {
@@ -49,6 +39,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     Button updateProfile;
 
     Button setAccount;
+    Button delAccount;
 
     private int UPDATE = 200;
 
@@ -65,6 +56,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         updateProfile = view.findViewById(R.id.myPage_btn_update_myProfile);
 
         setAccount = view.findViewById(R.id.myPage_setAccount);
+        delAccount = view.findViewById(R.id.myPage_deleteAccount);
 
 
         FirestoreManager manager = new FirestoreManager();
@@ -107,6 +99,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
 
         updateProfile.setOnClickListener(this);
         setAccount.setOnClickListener(this);
+        delAccount.setOnClickListener(this);
 
 
         return view;
@@ -122,6 +115,10 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
             case R.id.myPage_setAccount:
                 Intent setAccountIntent = new Intent(getContext(), SetAccountActivity.class);
                 startActivity(setAccountIntent);
+                break;
+            case R.id.myPage_deleteAccount:
+                Intent delAccountIntent = new Intent(getContext(), DelAccountActivity.class);
+                startActivity(delAccountIntent);
                 break;
         }
     }

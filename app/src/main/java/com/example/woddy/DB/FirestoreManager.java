@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -432,9 +433,13 @@ public class FirestoreManager {
     }
 
     // 게시물 정보 수정
-    final private int INCRESE = 0;
-    final private int DECRESE = 1;
-
+    public final static int INCRESE = 0;
+    public final static int DECRESE = 1;
+    public final static String LIKE = "numberOfLiked";
+    public final static String SCRAP = "numberOfScraped";
+    public final static String VIEW = "numberOfViews";
+    public final static String COMMEND = "numberOfComment";
+    public final static String REPORT = "reported";
     final public void updatePostInfo(String postingNumber, String field, int inORdecrese) {
         // 조회수, 스크랩 수 등 원하는 필드의 숫자 +1 하기
         Map<String, Object> data = new HashMap<>();
@@ -447,20 +452,36 @@ public class FirestoreManager {
             return;
         }
 
-        DocumentReference colRef = fsDB.collection("posting").document(postingNumber);
-        colRef.update(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "postInfo has successfully updated!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error updating postInfo", e);
-                    }
-                });
+        getPostWithNum(postingNumber).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                    DocumentReference docRef = document.getReference();
+                    docRef.update(data)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d(TAG, "postInfo has successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull @NotNull Exception e) {
+                                    Log.w(TAG, "Error updating postInfo", e);
+                                }
+                            });
+                } else {
+                    Log.w(TAG, "Nothing found in postings");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error updating postInfo", e);
+            }
+        });
     }
 
     // 태그로 게시물 불러오기

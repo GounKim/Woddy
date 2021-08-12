@@ -34,6 +34,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -44,22 +45,15 @@ public class ShowImgPosting extends BaseActivity {
 
     private ViewPager2 imgpost_slider;
     private LinearLayout layoutIndicator;
-    private TextView title, writer, time, content;
-    private TextView tag1, tag2, tag3, tag4, tag5;
+    private TextView title, writer, time, content, tag;
     private ImageView liked;
     private TextView likedCount;
     private ImageView scrap;
     private TextView scrapCount;
 
+    String postingNumber;
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
-
-    //db에서 이미지 가져오기
-    private String[] images = new String[] {
-            "https://i.ibb.co/gPTbSfG/sample-image.jpg",
-            "https://i.ibb.co/gjh1fNR/sample-image2.jpg",
-            "https://i.ibb.co/yg93jD9/sample-image4.jpg"
-    };
 
     @Override
     protected boolean useBottomNavi() {
@@ -73,17 +67,13 @@ public class ShowImgPosting extends BaseActivity {
         setTitle("게시판이름");
 
         Intent intent = getIntent();
-        String postingNumber = intent.getStringExtra("postingNumber");
+        postingNumber = intent.getStringExtra("postingNumber");
 
         title = findViewById(R.id.show_img_posting_title);
         writer = findViewById(R.id.show_img_posting_writer);
         time = findViewById(R.id.show_img_posting_time);
         content = findViewById(R.id.show_img_posting_content);
-        tag1 = findViewById(R.id.tag1);
-        tag2 = findViewById(R.id.tag2);
-        tag3 = findViewById(R.id.tag3);
-        tag4 = findViewById(R.id.tag4);
-        tag5 = findViewById(R.id.tag5);
+        tag = findViewById(R.id.show_img_posting_tag);
 
         liked = findViewById(R.id.show_img_posting_liked);
         likedCount = findViewById(R.id.show_img_posting_likedCount);
@@ -93,18 +83,6 @@ public class ShowImgPosting extends BaseActivity {
         //이미지 슬라이더
         layoutIndicator = findViewById(R.id.show_img_posting_layoutIndicators);
         imgpost_slider = findViewById(R.id.show_img_posting_slider);
-
-        imgpost_slider.setOffscreenPageLimit(1);
-        imgpost_slider.setAdapter(new ShowImgPostingAdapter(images));
-
-        imgpost_slider.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                setCurrentIndicator(position);
-            }
-        });
-        setupIndicators(images.length);
 
         manager = new FirestoreManager();
         manager.getPostWithNum(postingNumber).get()
@@ -120,9 +98,24 @@ public class ShowImgPosting extends BaseActivity {
                                 writer.setText(posting.getWriter());
                                 time.setText(datestamp(posting.getPostedTime()));
                                 content.setText(posting.getContent());
-                                tag1.setText(posting.getTag());
+                                tag.setText("#" + posting.getTag());
                                 likedCount.setText(posting.getNumberOfLiked() + "");
                                 scrapCount.setText(posting.getNumberOfScraped() + "");
+
+                                // 이미지 설정
+                                String[] imageList = posting.getPictures().toArray(new String[0]);
+                                imgpost_slider.setOffscreenPageLimit(1);
+                                imgpost_slider.setAdapter(new ShowImgPostingAdapter(imageList));
+
+                                imgpost_slider.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                                    @Override
+                                    public void onPageSelected(int position) {
+                                        super.onPageSelected(position);
+                                        setCurrentIndicator(position);
+                                    }
+                                });
+                                setupIndicators(imageList.length);
+
                             } else {
                                 Log.d(TAG, "fail to find ", task.getException());
                             }
@@ -146,10 +139,13 @@ public class ShowImgPosting extends BaseActivity {
         int num = Integer.parseInt((String) likedCount.getText());
         if(i == -1) {
             liked.setImageResource(R.drawable.heart_on);
-            likedCount.setText(Integer.toString(num+1));
+            likedCount.setText(Integer.toString(num + 1));
+            Toast.makeText(getApplicationContext(), postingNumber, Toast.LENGTH_SHORT).show();
+            manager.updatePostInfo(postingNumber, FirestoreManager.LIKE, FirestoreManager.INCRESE);
         }else{
             liked.setImageResource(R.drawable.heart_off);
-            likedCount.setText(Integer.toString(num-1));
+            likedCount.setText(Integer.toString(num - 1));
+            manager.updatePostInfo(postingNumber, FirestoreManager.LIKE, FirestoreManager.DECRESE);
         }
     }
 
@@ -159,21 +155,12 @@ public class ShowImgPosting extends BaseActivity {
         if(y == -1) {
             scrap.setImageResource(R.drawable.clip_on);
             scrapCount.setText(Integer.toString(num+1));
+            manager.updatePostInfo(postingNumber, FirestoreManager.SCRAP, FirestoreManager.INCRESE);
         }else{
             scrap.setImageResource(R.drawable.clip_off);
             scrapCount.setText(Integer.toString(num-1));
+            manager.updatePostInfo(postingNumber, FirestoreManager.SCRAP, FirestoreManager.DECRESE);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setupIndicators(int count) {

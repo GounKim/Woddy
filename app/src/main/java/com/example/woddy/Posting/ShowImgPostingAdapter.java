@@ -1,6 +1,10 @@
 package com.example.woddy.Posting;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.woddy.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class ShowImgPostingAdapter extends RecyclerView.Adapter<ShowImgPostingAdapter.MyViewHolder> {
     private String[] sliderImage;
@@ -47,9 +55,22 @@ public class ShowImgPostingAdapter extends RecyclerView.Adapter<ShowImgPostingAd
         }
 
         public void bindSliderImage(String imageURL, Context context) {
-            Glide.with(context)
-                    .load(imageURL)
-                    .into(mImageView);
+            FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+            StorageReference storageRef = storage.getReference(imageURL); // 스토리지 공간을 참조해서 이미지를 가져옴
+
+            storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Glide.with(context)
+                                .load(task.getResult())
+                                .into(mImageView);
+                    } else {
+                        Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+                    }
+                }
+            });
+
         }
     }
 }

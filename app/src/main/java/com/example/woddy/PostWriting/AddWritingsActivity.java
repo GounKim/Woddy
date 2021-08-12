@@ -51,7 +51,6 @@ public class AddWritingsActivity extends AppCompatActivity {
     EditText titleTV, plotTV;
     TextView boardInfoTV;
     int image_index = 1;
-//    String pictures = "";
 
     ArrayList<String> uriList = new ArrayList<>();
 

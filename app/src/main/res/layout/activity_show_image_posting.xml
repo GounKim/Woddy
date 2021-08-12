@@ -101,43 +101,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tag1"
+                        android:id="@+id/show_img_posting_boardName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:text="#태그1"
+                        android:text="보드이름"
                         android:visibility="visible" />
 
                     <TextView
-                        android:id="@+id/tag2"
+                        android:id="@+id/show_img_posting_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:text="#태그2"
-                        android:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/tag3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="#태그3"
-                        android:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/tag4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="#태그4"
-                        android:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/tag5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="#태그5"
+                        android:text="#태그"
                         android:visibility="visible" />
 
                 </LinearLayout>

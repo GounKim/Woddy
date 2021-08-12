@@ -39,7 +39,7 @@ public class AlbumData {
 
 //        Query query = productsRef.orderBy("postedTime", Query.Direction.DESCENDING);
 
-        manager.getPostWithTag("태그3").get()
+        manager.getPostWithTag("자랑하기").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

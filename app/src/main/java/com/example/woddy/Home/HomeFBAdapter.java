@@ -1,6 +1,8 @@
 package com.example.woddy.Home;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,5 +78,6 @@ public class HomeFBAdapter extends RecyclerView.Adapter<HomeFBAdapter.fbaHolder>
     public int getItemCount() {
         return boardTags.size();
     }
+
 }
 

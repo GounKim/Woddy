@@ -7,7 +7,7 @@
     tools:context=".Posting.ShowPosting">
 
     <LinearLayout
-        android:id="@+id/show_writing_layout"
+        android:id="@+id/show_posting_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -21,7 +21,7 @@
         android:background="@drawable/notice_border">
 
         <TextView
-            android:id="@+id/show_writing_title"
+            android:id="@+id/show_posting_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TITLE"
@@ -31,7 +31,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/show_writing_time"
+            android:id="@+id/show_posting_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2021-08-06 17:45"
@@ -40,7 +40,7 @@
             android:textColor="#AAAAAA"/>
 
         <TextView
-            android:id="@+id/show_writing_content"
+            android:id="@+id/show_posting_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="content"
@@ -49,7 +49,7 @@
             android:layout_marginLeft="10dp" />
 
         <TextView
-            android:id="@+id/show_writing_tag"
+            android:id="@+id/show_posting_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="태그이름"
@@ -65,7 +65,7 @@
             android:layout_marginLeft="10dp" >
 
             <ImageView
-                android:id="@+id/show_writing_liked_image"
+                android:id="@+id/show_posting_liked_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -73,7 +73,7 @@
                 android:layout_marginTop="2dp"/>
 
             <TextView
-                android:id="@+id/show_writing_liked"
+                android:id="@+id/show_posting_liked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -83,7 +83,7 @@
                 android:layout_marginRight="6dp"/>
 
             <ImageView
-                android:id="@+id/show_writing_scraped_image"
+                android:id="@+id/show_posting_scraped_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -91,7 +91,7 @@
                 android:layout_marginTop="2dp" />
 
             <TextView
-                android:id="@+id/show_writing_scraped"
+                android:id="@+id/show_posting_scraped"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -104,22 +104,22 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/show_writing_comment_view"
+        android:id="@+id/show_posting_comment_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/show_writing_editLayout"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/show_posting_editLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/show_writing_layout"
+        app:layout_constraintTop_toBottomOf="@+id/show_posting_layout"
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
-        android:id="@+id/show_writing_editLayout"
+        android:id="@+id/show_posting_editLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -129,7 +129,7 @@
 
 
         <EditText
-            android:id="@+id/show_writing_edt_comment"
+            android:id="@+id/show_posting_edt_comment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -142,7 +142,7 @@
             android:inputType="text" />
 
         <Button
-            android:id="@+id/show_writing_btnSend_comment"
+            android:id="@+id/show_posting_btnSend_comment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"

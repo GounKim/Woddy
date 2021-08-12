@@ -2,6 +2,8 @@ package com.example.woddy.Home;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,13 +37,22 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String[] homeBoards = new String[]{"알려드려요", "현재 인기글", "최신글", "즐겨찾기한 게시판"};
     private ArrayList<Object> adapterList;
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter() {
         adapterList = new ArrayList<>();
     }
 
     public void addItem(Object adapter) {
         adapterList.add(adapter);
         notifyDataSetChanged();
+    }
+
+    public void setItem(ArrayList<Object> adapterList) {
+        this.adapterList = adapterList;
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Object> getItem() {
+        return adapterList;
     }
 
     public class VerticalScrollHolder extends RecyclerView.ViewHolder {
@@ -148,7 +159,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, homeBoards.length + "--------------------");
         return homeBoards.length;
     }
 
@@ -177,4 +187,5 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
 }

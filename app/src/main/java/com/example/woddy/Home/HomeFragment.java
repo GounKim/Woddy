@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,19 @@ public class HomeFragment extends Fragment {
     Button btnshow;
 
     FirestoreManager manager = new FirestoreManager();
+    HomePBAdapter popAdapter = new HomePBAdapter();
+    HomePBAdapter reAdapter = new HomePBAdapter();
+
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//
+//        ArrayList<Posting> popList = popAdapter.getItem();
+//        ArrayList<Posting> recentList = reAdapter.getItem();
+//        outState.putParcelableArrayList("popularPosting", popList);
+//        outState.putParcelableArrayList("recentPosting", recentList);
+//
+//        Toast.makeText(getContext(), "저장완료", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,29 +81,31 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
-        homeAdapter = new HomeAdapter(getContext());
-        recyclerView.setAdapter(homeAdapter);
+//        if(savedInstanceState != null) {
+//            Toast.makeText(getContext(), "======i=========", Toast.LENGTH_SHORT).show();
+//        } else {
+            homeAdapter = new HomeAdapter();
+            recyclerView.setAdapter(homeAdapter);
 
-        setHomeAdapter();
-
+            setHomeAdapter();
+//        }
 
         return view;
     }
 
-    void setHomeAdapter() {
+    private void setHomeAdapter() {
         // 공지 Board
         manager.getPostWithTag("notice").limit(3).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            ArrayList<Object> adapter = new ArrayList<>();
                             ArrayList<Posting> notices = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 notices.add(document.toObject(Posting.class));
                             }
-
-                            HomeNBAdapter nAdapter = new HomeNBAdapter(notices);
-                            homeAdapter.addItem(nAdapter);
+                            adapter.add(new HomeNBAdapter(notices));
 
                             manager.getPopularPost().get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -100,21 +116,20 @@ public class HomeFragment extends Fragment {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     popPosts.add(document.toObject(Posting.class));
                                                 }
-
-                                                HomePBAdapter pbAdapter = new HomePBAdapter(popPosts);
-                                                homeAdapter.addItem(pbAdapter);
+                                                popAdapter.setItem(popPosts);
+                                                adapter.add(popAdapter);
 
                                                 // 최신글 Board
                                                 manager.getCurrentPost().get()
                                                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                                             @Override
                                                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                                                ArrayList<Posting> curPosts = new ArrayList<>();
+                                                                ArrayList<Posting> recentPosts = new ArrayList<>();
                                                                 for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                                                                    curPosts.add(snap.toObject(Posting.class));
+                                                                    recentPosts.add(snap.toObject(Posting.class));
                                                                 }
-                                                                HomePBAdapter rbAdapter = new HomePBAdapter(curPosts);
-                                                                homeAdapter.addItem(rbAdapter);
+                                                                reAdapter.setItem(recentPosts);
+                                                                adapter.add(reAdapter);
 
                                                                 // 즐겨찾기한 게시판 Board
                                                                 BoardTag boardTag = new BoardTag("집 소개", "자유게시판");
@@ -123,7 +138,9 @@ public class HomeFragment extends Fragment {
                                                                 fbAdapter.addItem(boardTag);
                                                                 fbAdapter.addItem(boardTag);
                                                                 fbAdapter.addItem(boardTag);
-                                                                homeAdapter.addItem(fbAdapter);
+                                                                adapter.add(fbAdapter);
+
+                                                                homeAdapter.setItem(adapter);
                                                             }
                                                         }).addOnFailureListener(new OnFailureListener() {
                                                     @Override

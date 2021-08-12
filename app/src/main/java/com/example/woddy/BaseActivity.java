@@ -59,30 +59,33 @@ public class BaseActivity extends AppCompatActivity {
         // BottomNavi 사용 여부
         if (useBottomNavi()) {
             // 첫 화면 설정
+            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
             setMyTitle("홈");
-            getSupportFragmentManager().beginTransaction().add(R.id.activity_content, new HomeFragment()).commit();
 
             // BottomNavigationView 내부 아이템 설정
-            bottomNavi.setOnItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) item -> {
-                switch (item.getItemId()) {
-                    case R.id.bottom_menu_home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
-                        setMyTitle("홈");
-                        break;
-                    case R.id.bottom_menu_post:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new AlbummBoardFragment()).commit();
-                        setMyTitle("게시판");
-                        break;
-                    case R.id.bottom_menu_chatting:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new ChattingFragment()).commit();
-                        setMyTitle("채팅");
-                        break;
-                    case R.id.bottom_menu_myPage:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new MyPageFragment()).commit();
-                        setMyTitle("마이페이지");
-                        break;
+            bottomNavi.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.bottom_menu_home:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
+                            setMyTitle("홈");
+                            return true;
+                        case R.id.bottom_menu_post:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new AlbummBoardFragment()).commit();
+                            setMyTitle("게시판");
+                            return true;
+                        case R.id.bottom_menu_chatting:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new ChattingFragment()).commit();
+                            setMyTitle("채팅");
+                            return true;
+                        case R.id.bottom_menu_myPage:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new MyPageFragment()).commit();
+                            setMyTitle("마이페이지");
+                            return true;
+                    }
+                    return false;
                 }
-                return true;
             });
         } else {
             bottomNavi.setVisibility(View.GONE);

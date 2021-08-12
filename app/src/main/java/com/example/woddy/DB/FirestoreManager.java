@@ -457,6 +457,11 @@ public class FirestoreManager {
         return fsDB.collectionGroup("postings").whereEqualTo("tag", tagName).orderBy("postedTime", Query.Direction.DESCENDING);
     }
 
+    // postingNumber로 게시물 불러오기
+    public Query getPostWithNum(String postingNum) {
+        return fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum);
+    }
+
     // 최근 게시물 불러오기 (docID는 postingNumber)
     public Query getCurrentPost() {
         return fsDB.collectionGroup("postings").orderBy("postedTime", Query.Direction.DESCENDING).limit(3);

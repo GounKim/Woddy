@@ -29,11 +29,11 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_writing);
+        setContentView(R.layout.activity_show_posting);
 
-        recyclerView = findViewById(R.id.show_writing_comment_view);
-        edtComment = findViewById(R.id.show_writing_edt_comment);
-        btnSend = findViewById(R.id.show_writing_btnSend_comment);
+        recyclerView = findViewById(R.id.show_posting_comment_view);
+        edtComment = findViewById(R.id.show_posting_edt_comment);
+        btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
         manager = new FirestoreManager();
 

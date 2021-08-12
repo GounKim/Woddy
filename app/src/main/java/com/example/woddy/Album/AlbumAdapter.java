@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -106,7 +107,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                         //액티비티 전환
                         Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        intent.putExtra("postingNumber", String.valueOf(items.get(pos)));
+                        intent.putExtra("postingNumber", items.get(pos).getPostingNumber());
+                        Log.d(TAG, "postingNumber: " + items.get(pos).getPostingNumber());
                         v.getContext().startActivity(intent);
                     }
 

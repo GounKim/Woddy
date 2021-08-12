@@ -3,6 +3,8 @@ package com.example.woddy.MyPage;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,9 +25,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.User;
+import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,6 +44,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
 
     Button setAccount;
     Button delAccount;
+    Button logOut;
 
     private int UPDATE = 200;
 
@@ -57,7 +62,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
 
         setAccount = view.findViewById(R.id.myPage_setAccount);
         delAccount = view.findViewById(R.id.myPage_deleteAccount);
-
+        logOut = view.findViewById(R.id.myPage_logout);
 
         FirestoreManager manager = new FirestoreManager();
         manager.findUser("user1")
@@ -100,6 +105,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         updateProfile.setOnClickListener(this);
         setAccount.setOnClickListener(this);
         delAccount.setOnClickListener(this);
+        logOut.setOnClickListener(this);
 
 
         return view;
@@ -120,6 +126,9 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
                 Intent delAccountIntent = new Intent(getContext(), DelAccountActivity.class);
                 startActivity(delAccountIntent);
                 break;
+            case R.id.myPage_logout:
+                showDialog();
+                break;
         }
     }
 
@@ -137,5 +146,29 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
             local.setText(data.getStringExtra("local"));
             userImage.setImageURI(Uri.parse(data.getStringExtra("userImage")));
         }
+    }
+
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                .setTitle("로그아웃")
+                .setMessage("로그아웃 하시겠습니까?")
+                .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(getContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), LogInActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

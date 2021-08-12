@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Parcelable {
+public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int NOTICE = 0;
     private final int POPULAR = 1;
     private final int RECENT = 2;
@@ -159,7 +159,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, homeBoards.length + "--------------------");
         return homeBoards.length;
     }
 
@@ -189,32 +188,4 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         listView.requestLayout();
     }
 
-    // Parcel
-    protected HomeAdapter(Parcel in) {
-        homeBoards = in.createStringArray();
-    }
-
-    public static final Creator<HomeAdapter> CREATOR = new Creator<HomeAdapter>() {
-        @Override
-        public HomeAdapter createFromParcel(Parcel in) {
-            return new HomeAdapter(in);
-        }
-
-        @Override
-        public HomeAdapter[] newArray(int size) {
-            return new HomeAdapter[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeStringArray(homeBoards);
-        dest.writeValue(adapterList);
-    }
 }

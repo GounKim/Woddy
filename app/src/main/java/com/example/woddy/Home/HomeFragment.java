@@ -66,11 +66,6 @@ public class HomeFragment extends Fragment {
 //    }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -110,7 +105,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    void setHomeAdapter() {
+    private void setHomeAdapter() {
         // 공지 Board
         manager.getPostWithTag("notice").limit(3).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

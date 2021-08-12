@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,7 @@ import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Login.LogInActivity;
-import com.example.woddy.NoticeMain;
+import com.example.woddy.Notice.NoticeMain;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

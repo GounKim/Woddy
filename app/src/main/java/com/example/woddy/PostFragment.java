@@ -1,28 +1,17 @@
 package com.example.woddy;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.Entity.BoardTag;
+import com.example.woddy.Notice.NoticeMain;
 import com.example.woddy.Posting.ShowPosting;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class PostFragment extends Fragment {
     ImageView addPosting;
@@ -37,7 +26,7 @@ public class PostFragment extends Fragment {
         addPosting = view.findViewById(R.id.add_new_posting);
 
 
-        Intent intent = new Intent(getActivity(),NoticeMain.class);
+        Intent intent = new Intent(getActivity(), NoticeMain.class);
         startActivity(intent);
 
 //        textView = view.findViewById(R.id.testTextView);

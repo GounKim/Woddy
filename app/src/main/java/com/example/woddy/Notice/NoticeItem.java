@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Notice;
 
 public class NoticeItem {
 

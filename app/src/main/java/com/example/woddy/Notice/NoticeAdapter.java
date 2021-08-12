@@ -1,4 +1,4 @@
-package com.example.woddy;
+package com.example.woddy.Notice;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.woddy.R;
 
 import java.util.ArrayList;
 

@@ -16,6 +16,7 @@ import com.example.woddy.Album.AlbummBoardFragment;
 import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.MyPage.MyPageFragment;
+import com.example.woddy.Notice.NoticeMain;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -72,7 +73,7 @@ public class BaseActivity extends AppCompatActivity {
                             setMyTitle("홈");
                             return true;
                         case R.id.bottom_menu_post:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new AlbummBoardFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new NoticeMain()).commit();
                             setMyTitle("게시판");
                             return true;
                         case R.id.bottom_menu_chatting:

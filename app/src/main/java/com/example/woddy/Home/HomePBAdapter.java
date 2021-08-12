@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.R;
 import com.example.woddy.Posting.ShowPosting;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,28 +42,28 @@ public class HomePBAdapter extends BaseAdapter {
     private final int WRITING_WITH_IMAGE = 1;
     private final int ITEM_VIEW_TYPE_MAX = 2;
 
-    private ArrayList<Posting> writings =  new ArrayList<>();
+    private ArrayList<Posting> writingList =  new ArrayList<>();
 
     public void addItem(Posting posting) {
-        writings.add(posting);
+        writingList.add(posting);
     }
 
     public void setItem(ArrayList<Posting> writings) {
-        this.writings = writings;
+        this.writingList = writings;
     }
 
     public ArrayList<Posting> getItem() {
-        return writings;
+        return writingList;
     }
 
     @Override
     public int getCount() {
-        return writings.size();
+        return writingList.size();
     }
 
     @Override
     public Posting getItem(int position) {
-        return writings.get(position);
+        return writingList.get(position);
     }
 
     @Override
@@ -162,8 +163,9 @@ public class HomePBAdapter extends BaseAdapter {
                     iHolder.iLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(view.getContext(), getItem(position) + "", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                            intent.putExtra("postingNumber", writingList.get(position).getPostingNumber());
                             view.getContext().startActivity(intent);
                         }
                     });

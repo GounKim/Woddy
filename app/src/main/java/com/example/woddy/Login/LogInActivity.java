@@ -159,7 +159,7 @@ public class LogInActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 final String uid = firebaseAuth.getCurrentUser().getUid();
                 UserProfile userProfile =
-                        new UserProfile(account.getEmail(), "null", account.getDisplayName(),
+                        new UserProfile(account.getEmail(), account.getDisplayName(),
                                 "null", "null", "null");
 
                 FirestoreManager fsManager = new FirestoreManager();

@@ -21,7 +21,7 @@
             android:layout_height="40dp"
             android:layout_gravity="left"
             android:layout_marginLeft="20dp"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/button_no_background"
             android:text="취소"
             android:textColor="@color/black" />
 

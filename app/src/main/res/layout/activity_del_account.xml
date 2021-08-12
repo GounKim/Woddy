@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:text="회원탈퇴 시 유의사항"
         android:textSize="16dp"
         android:textStyle="bold"
@@ -21,8 +21,8 @@
     <View
         android:id="@+id/view6"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
         android:background="#DCDCDC"
         app:layout_constraintTop_toBottomOf="@id/textView17" />
 
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/view6">
 
@@ -53,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearlayout1">
 
@@ -74,6 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearlayout2">
 
@@ -93,8 +95,8 @@
     <View
         android:id="@+id/view5"
         android:layout_width="0dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
         android:background="#DCDCDC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,10 +127,10 @@
 
     <Button
         android:id="@+id/back_button"
-        android:layout_width="240dp"
+        android:layout_width="250dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/button_round_shape"
         android:text="취소하기"
@@ -141,7 +143,7 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/button_round_shape_darkgray"
         android:text="회원 탈퇴하기"

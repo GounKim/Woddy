@@ -24,7 +24,7 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/init_user_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
                 android:id="@+id/linear1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="23dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toTopOf="parent">
@@ -42,9 +42,9 @@
                     android:id="@+id/myPage_userNick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:text="닉네임"
-                    android:textSize="23dp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -61,7 +61,7 @@
                 android:id="@+id/myPage_userIntroduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:text="한 줄 소개를 입력하면 됩니다 됩니다 돼."
                 android:textSize="16dp"
@@ -75,7 +75,7 @@
                 android:layout_width="0dp"
                 android:layout_height="38dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button_no_background"
                 android:text="프로필 수정"
@@ -88,7 +88,7 @@
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="#E8E8E8"
                 app:layout_constraintTop_toBottomOf="@id/myPage_btn_update_myProfile" />
 
@@ -101,7 +101,7 @@
                 app:layout_constraintTop_toBottomOf="@id/view2">
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
                     android:src="@drawable/ic_baseline_edit_24" />
@@ -127,7 +127,7 @@
                 app:layout_constraintTop_toBottomOf="@id/linear2">
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
                     android:src="@drawable/ic_baseline_favorite_24" />
@@ -153,7 +153,7 @@
                 app:layout_constraintTop_toBottomOf="@id/linear3">
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
                     android:src="@drawable/ic_baseline_bookmark_24" />

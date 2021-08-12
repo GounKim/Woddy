@@ -25,18 +25,18 @@ public class SQLiteManager extends SQLiteOpenHelper {
         db.execSQL(sql);
 
         // 글(포스팅)
-        sql = "CREATE TABLE posting_picture (picture_id INTEGER PRIMARY KEY, picture BLOB NOT NULL);";
-        db.execSQL(sql);
-
         sql = "CREATE TABLE posting (posting_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                     "tag_name TEXT NOT NULL, " +
                                     "writer TEXT NOT NULL, " +
                                     "title TEXT NOT NULL, " +
                                     "content TEXT NOT NULL, " +
-                                    "pictures INTEGER, " +
-                                    "posted_time TEXT NOT NULL," +
-                                    "CONSTRAINT pictures_fk FOREIGN KEY (pictures) " +
-                                            "REFERENCES posting_picture(picture_id));";
+                                    "posted_time TEXT NOT NULL);";
+        db.execSQL(sql);
+        // 글 사진들
+        sql = "CREATE TABLE posting_picture (location INTEGER NOT NULL, " +
+                "picture BLOB NOT NULL, " +
+                "CONSTRAINT posting_picture_fk FOREIGN KEY (location) " +
+                "REFERENCES posting(posting_id));";
         db.execSQL(sql);
 
         // 포스팅 활동 목록 (글작성 / 좋아요 / 스크랩 / 즐겨찾기)

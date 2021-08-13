@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.Posting;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     HomeAdapter homeAdapter;
     Button btnLogin;
     Button btnshow;
+    Button btnalarm;
 
     FirestoreManager manager = new FirestoreManager();
     HomePBAdapter popAdapter = new HomePBAdapter();
@@ -72,6 +74,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), NoticeMain.class);
+                startActivity(intent);
+            }
+        });
+        btnalarm = view.findViewById(R.id.button4);
+        btnalarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AlarmActivity.class);
                 startActivity(intent);
             }
         });

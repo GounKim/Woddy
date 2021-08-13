@@ -8,10 +8,13 @@ import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woddy.Alarm.AlarmDTO;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ShowPosting extends BaseActivity implements View.OnClickListener {
     RecyclerView recyclerView;
@@ -53,5 +56,4 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         adapter.addItem(comment);
         manager.addComment("rQl1Kt8M1KNPPsciD3ah",comment);
     }
-
 }

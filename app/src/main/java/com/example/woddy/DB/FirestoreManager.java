@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.woddy.Alarm.AlarmDTO;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -518,6 +520,8 @@ public class FirestoreManager {
 
                         updatePostInfo(postingNumber, "numberOfComment", INCRESE);
 
+                        CommentAlarm(documentReference.getId(),comment.toString());
+
                         Log.d(TAG, "Comment has successfully Added!");
                     }
                 })
@@ -677,6 +681,25 @@ public class FirestoreManager {
                         }
                     }
                 });
+    }
+
+    public void likeAlarm(String destinationUid){
+        AlarmDTO alarmDTO = new AlarmDTO();
+        alarmDTO.setDestinationUid(destinationUid);
+        alarmDTO.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        alarmDTO.setKind(0);
+        alarmDTO.setTimestamp(System.currentTimeMillis());
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
+    }
+
+    public void CommentAlarm(String destinationUid, String message){
+        AlarmDTO alarmDTO = new AlarmDTO();
+        alarmDTO.setDestinationUid(destinationUid);
+        alarmDTO.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        alarmDTO.setKind(1);
+        alarmDTO.setMessage(message);
+        alarmDTO.setTimestamp(System.currentTimeMillis());
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
     }
 
 

@@ -69,10 +69,15 @@ public class UpdateProfile extends BaseActivity {
     }
 
     @Override
+    protected boolean useBackButton() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
-        setTitle("프로필 수정");
+        setMyTitle("프로필 수정");
 
         profileImage = findViewById(R.id.updateProfile_userImage);
         btnUpdate = findViewById(R.id.updateProfile_btn_complete);

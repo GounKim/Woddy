@@ -50,7 +50,7 @@ public class LogInActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
+        //setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
@@ -77,6 +77,13 @@ public class LogInActivity extends AppCompatActivity {
 //            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
 //            startActivity(intent);
 //        }
+
+        //이미 로그인 된 경우 Main으로 이동
+        if (firebaseAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         //login button click listener
         loginButton.setOnClickListener(new View.OnClickListener() {

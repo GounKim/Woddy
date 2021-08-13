@@ -14,16 +14,20 @@ import com.example.woddy.R;
 
 import java.util.ArrayList;
 
-public class ShowPostingAdapter extends RecyclerView.Adapter<ShowPostingAdapter.swHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.swHolder> {
     ArrayList<Comment> commentList;
 
-    ShowPostingAdapter() {
+    CommentAdapter() {
         this.commentList = new ArrayList<>();
     }
 
     public void addItem(Comment comment) {
         commentList.add(comment);
         notifyDataSetChanged();
+    }
+
+    public void setItem(ArrayList<Comment> commentList) {
+        this.commentList = commentList;
     }
 
     public class swHolder extends RecyclerView.ViewHolder {
@@ -51,7 +55,7 @@ public class ShowPostingAdapter extends RecyclerView.Adapter<ShowPostingAdapter.
     public swHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.show_writing_recycler_comment, parent, false);
+        View view = inflater.inflate(R.layout.show_writing_comment_recycler, parent, false);
 
         return new swHolder(view);
     }

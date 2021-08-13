@@ -506,10 +506,23 @@ public class FirestoreManager {
         return fsDB.collectionGroup("postings").orderBy("numberOfLiked", Query.Direction.DESCENDING).limit(3);
     }
 
+    // 게시물의 댓글 경로 찾기
+    public DocumentReference getCommentRef(String postingNum) {
+        DocumentReference docRef = null;
+        try {
+            QuerySnapshot querySnapshot = getPostWithNum(postingNum).get().getResult();
+            docRef = querySnapshot.getDocuments().get(0).getReference();
+        } catch (Exception e){
+            Log.w(TAG, "Error finding posting for comments", e);
+        }
+
+        return docRef;
+    }
+
     // 게시물 댓글 추가 (postingNumber은 게시물 번호)
     public void addComment(String postingNumber, Comment comment) {
-        CollectionReference colRef = fsDB.collection("posting").document(postingNumber).collection("comment");
-        colRef.add(comment)
+        DocumentReference docRef = getCommentRef(postingNumber);
+        docRef.collection("comments").add(comment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -551,7 +564,7 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 삭제 (postingNumber은 게시물 번호, docID는 comment의 댓글 번호)
+    // 게시물 댓글 삭제 (postingNumber은 게시물 번호, docID는 comment의 댓글 번호)
     public void delComment(String postingNumber, String docID) {
         CollectionReference colRef = fsDB.collection("posting").document(postingNumber).collection("comment");
         colRef.document(docID).delete()
@@ -568,6 +581,13 @@ public class FirestoreManager {
                         Log.w(TAG, "Error deleting user", e);
                     }
                 });
+    }
+
+    // 댓글 불러오기
+    public Query getComments(String postingNum) {
+        DocumentReference docRef = getCommentRef(postingNum);
+        
+        return docRef.collection("comments");
     }
 
 

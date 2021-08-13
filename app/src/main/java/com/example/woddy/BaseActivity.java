@@ -27,6 +27,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private Boolean useToolbar = true;
     private Boolean useBottomNavi = true;
+    private Boolean useBackButton = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,16 @@ public class BaseActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.chatting_room_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
-        bottomNavi = findViewById(R.id.bottomNavi);;
+        bottomNavi = findViewById(R.id.bottomNavi);
+        ;
 
         // 툴바 사용 여부 결정
-        if(useToolbar()) {
+        if (useToolbar()) {
             setSupportActionBar(mToolbar);
             ActionBar actionBar = getSupportActionBar();
             actionBar.setDisplayShowCustomEnabled(true);    // 커스터마이징하기
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(true);  // 뒤로가기 버튼
+            actionBar.setDisplayHomeAsUpEnabled(useBackButton);  // 뒤로가기 버튼
         } else {
             mToolbar.setVisibility(View.GONE);
         }
@@ -70,19 +72,22 @@ public class BaseActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.bottom_menu_home:
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
+                            mToolbar.setVisibility(View.VISIBLE);
                             setMyTitle("홈");
                             return true;
                         case R.id.bottom_menu_post:
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new NoticeMain()).commit();
-                            setMyTitle("게시판");
+                            mToolbar.setVisibility(View.GONE);
                             return true;
                         case R.id.bottom_menu_chatting:
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new ChattingFragment()).commit();
                             setMyTitle("채팅");
+                            mToolbar.setVisibility(View.VISIBLE);
                             return true;
                         case R.id.bottom_menu_myPage:
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new MyPageFragment()).commit();
                             setMyTitle("마이페이지");
+                            mToolbar.setVisibility(View.VISIBLE);
                             return true;
                     }
                     return false;
@@ -91,6 +96,11 @@ public class BaseActivity extends AppCompatActivity {
         } else {
             bottomNavi.setVisibility(View.GONE);
         }
+    }
+
+    // 타이틀 설정
+    protected void setMyTitle(String title) {
+        toolbarTitle.setText(title);
     }
 
     // 툴바 사용여부 (사용 기본)
@@ -103,14 +113,15 @@ public class BaseActivity extends AppCompatActivity {
         return useBottomNavi;
     }
 
-    protected void setMyTitle(String title) {
-        toolbarTitle.setText(title);
+    // 뒤로가기 버튼 사용여부 (사용 기본)
+    protected boolean useBackButton() {
+        return useBackButton;
     }
 
     // 앱바 메뉴 클릭
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
                 return true;
@@ -119,4 +130,5 @@ public class BaseActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

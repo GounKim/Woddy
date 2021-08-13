@@ -13,21 +13,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Woddy">
-        <activity
-            android:name=".Alarm.AlarmActivity"
-            android:exported="true" />
-        <activity android:name=".MyPage.ChangePwActivity" />
-        <activity android:name=".MyPage.SetAccountActivity" />
+        android:theme="@style/SplashTheme">
+        <activity android:name=".MyPage.ChangePwActivity"></activity>
+        <activity android:name=".MyPage.SetAccountActivity"></activity>
         <activity
             android:name=".MyPage.UpdateProfile"
             android:exported="true" />
         <activity
             android:name=".Posting.ShowPosting"
             android:exported="true" />
+        <activity android:name=".Login.LogInActivity" />
         <activity android:name=".Login.FemaleCertActivity" />
         <activity android:name=".Login.SignUpActivity" />
         <activity android:name=".Login.SignUpSuccessActivity" />
+        <activity android:name=".Login.PwResetSuccessActivity" />
+        <activity android:name=".Login.PwResetActivity" />
+        <activity android:name=".Chatting.ChattingRoom" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"

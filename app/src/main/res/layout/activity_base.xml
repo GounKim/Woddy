@@ -38,7 +38,7 @@
         android:layout_gravity="bottom"
         android:background="@drawable/bottom_navi_shape"
         app:itemIconTint="@drawable/bottom_navi_color"
-        app:itemTextColor="@drawable/bottom_navi_color"
+        app:itemTextColor="#3C3C6B"
         app:menu="@menu/menu_bottom" />
 
 </LinearLayout>

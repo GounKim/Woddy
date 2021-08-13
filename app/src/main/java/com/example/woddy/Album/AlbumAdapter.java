@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     private ArrayList<Posting> items;
+    private ArrayList<String> documentReferences;
     private Context mContext;
 
     private String postingNumber;
@@ -79,8 +82,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         return items.size();
     }
 
-    public void setItems(ArrayList<Posting> items) {
+    public void setItems(ArrayList<Posting> items, ArrayList<String> docRef) {
         this.items = items;
+        this.documentReferences = docRef;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -108,7 +112,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                         Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         intent.putExtra("postingNumber", items.get(pos).getPostingNumber());
-                        Log.d(TAG, "postingNumber: " + items.get(pos).getPostingNumber());
+                        intent.putExtra("documentReferences", documentReferences.get(pos));
+                        Log.d(TAG, "documentReferences: " + documentReferences.get(pos));
                         v.getContext().startActivity(intent);
                     }
 

@@ -76,7 +76,7 @@ public class BaseActivity extends AppCompatActivity {
                             setMyTitle("홈");
                             return true;
                         case R.id.bottom_menu_post:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new NoticeMain()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new AlbummBoardFragment()).commit();
                             mToolbar.setVisibility(View.GONE);
                             return true;
                         case R.id.bottom_menu_chatting:

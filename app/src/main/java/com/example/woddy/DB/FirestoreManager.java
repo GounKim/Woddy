@@ -518,18 +518,18 @@ public class FirestoreManager {
     }
 
     // 게시물 댓글 추가 (postingNumber은 게시물 번호)
-    public void addComment(String postingNumber, Comment comment) {
-        DocumentReference docRef = getCommentRef(postingNumber);
-        docRef.collection("comments").add(comment)
+    public void addComment(String docRef, Comment comment) {
+        fsDB.collection(docRef).document()
+                .collection("comments").add(comment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         // postingNumber를 docID로 설정하기
-                        Map<String, Object> id = new HashMap<>();
-                        id.put("docID", documentReference.getId());
-                        updateComment(postingNumber, documentReference.getId(), id);
-
-                        updatePostInfo(postingNumber, "numberOfComment", INCRESE);
+//                        Map<String, Object> id = new HashMap<>();
+//                        id.put("docID", documentReference.getId());
+//                        updateComment(postingNumber, documentReference.getId(), id);
+//
+//                        updatePostInfo(postingNumber, "numberOfComment", INCRESE);
 
                         Log.d(TAG, "Comment has successfully Added!");
                     }

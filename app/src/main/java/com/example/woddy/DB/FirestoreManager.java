@@ -222,7 +222,6 @@ public class FirestoreManager {
     }
 
     /* ---------------------- Posting용 DB ---------------------- */
-
     // posting collectionRef
     public CollectionReference postCollectionRef(String boardName, String tagName) {
         CollectionReference postColRef = fsDB.collection("postBoard").document(boardName)

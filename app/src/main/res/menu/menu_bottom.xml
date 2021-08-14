@@ -10,6 +10,10 @@
         android:icon="@drawable/bottom_navi_post"
         android:title="게시판" />
     <item
+        android:id="@+id/bottom_menu_info"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="정보" />
+    <item
         android:id="@+id/bottom_menu_chatting"
         android:icon="@drawable/bottom_navi_chatting"
         android:title="채팅" />

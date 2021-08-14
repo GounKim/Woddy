@@ -86,6 +86,10 @@ public class BaseActivity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new NoticeMain()).commit();
                             mToolbar.setVisibility(View.GONE);
                             return true;
+                        case R.id.bottom_menu_info:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new InfomationFragment()).commit();
+                            mToolbar.setVisibility(View.GONE);
+                            return true;
                         case R.id.bottom_menu_chatting:
                             toolbarLogo.setVisibility(View.GONE);
                             toolbarTitle.setVisibility(View.VISIBLE);

@@ -52,7 +52,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         edtComment = findViewById(R.id.show_posting_edt_comment);
         btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
-        manager = new FirestoreManager();
+        manager = new FirestoreManager(getApplicationContext());
 
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤

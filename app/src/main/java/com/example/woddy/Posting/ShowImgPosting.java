@@ -84,7 +84,7 @@ public class ShowImgPosting extends BaseActivity {
         layoutIndicator = findViewById(R.id.show_img_posting_layoutIndicators);
         imgpost_slider = findViewById(R.id.show_img_posting_slider);
 
-        manager = new FirestoreManager();
+        manager = new FirestoreManager(getApplicationContext());
         manager.getPostWithNum(postingNumber).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     Button btnLogin;
     Button btnshow;
 
-    FirestoreManager manager = new FirestoreManager();
+    FirestoreManager manager = new FirestoreManager(getContext());
     HomePBAdapter popAdapter = new HomePBAdapter();
     HomePBAdapter reAdapter = new HomePBAdapter();
 

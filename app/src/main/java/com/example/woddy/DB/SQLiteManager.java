@@ -17,10 +17,9 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("PRAGMA foreign_keys = ON;");
 
-        // 사용자 테이블(본인의 정보만 들어감
-        sql = "CREATE TABLE user_profile (user_nickname TEXT PRIMARY KEY , " +
+        // 사용자 테이블(본인의 정보만 들어감)
+        sql = "CREATE TABLE user (user_nickname TEXT PRIMARY KEY , " +
                                             "user_local TEXT, " +
-                                            "introduce TEXT, " +
                                             "user_image BLOB);";
         db.execSQL(sql);
 

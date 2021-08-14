@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.Entity.UserProfile;
+import com.example.woddy.Entity.Profile;
 import com.example.woddy.MainActivity;
 import com.example.woddy.R;
 import com.google.android.gms.auth.api.Auth;
@@ -165,12 +165,12 @@ public class LogInActivity extends AppCompatActivity {
             assert task != null;
             if (task.isSuccessful()) {
                 final String uid = firebaseAuth.getCurrentUser().getUid();
-                UserProfile userProfile =
-                        new UserProfile(account.getEmail(), account.getDisplayName(),
+                Profile profile =
+                        new Profile(account.getEmail(), account.getDisplayName(),
                                 "null", "null", "null");
 
                 FirestoreManager fsManager = new FirestoreManager();
-                fsManager.addUserProfile(uid, userProfile);
+                fsManager.addProfile(uid, profile);
 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);

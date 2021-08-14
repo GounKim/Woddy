@@ -61,11 +61,11 @@ public class InitDBdata {
     }
 
     private void testUser() throws Exception {
-        User user1 = new User("user1", "사는 지역", "한줄 자기소개", "이미지");
+        User user1 = new User("user1", "사는 지역", "이미지");
         manager.addUser(user1);
-        User user2 = new User("user2", "local", "introduce", "image");
+        User user2 = new User("user2", "local", "image");
         manager.addUser(user2);
-        User user3 = new User("user3", "local3", "introduce3", "image3");
+        User user3 = new User("user3", "local3", "image3");
         manager.addUser(user3);
 /*
         // 작성한 글
@@ -219,7 +219,7 @@ public class InitDBdata {
         //manager.addChatRoom(chatInfo3);
         //ChattingInfo chatInfo4 = new ChattingInfo("CR0000004", Arrays.asList("user1", "user5"));
         //manager.addChatRoom(chatInfo4);
-        ChattingInfo chatInfo5 = new ChattingInfo(Arrays.asList("user6", "user3"), Arrays.asList("UserProfileImages/user2_profile.jpg","UserProfileImages/user2_profile.jpg"));
+        ChattingInfo chatInfo5 = new ChattingInfo(Arrays.asList("user6", "user3"), Arrays.asList("UserProfileImages/user2_profile.jpg", "UserProfileImages/user2_profile.jpg"));
         manager.addChatRoom(chatInfo5);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.woddy.MyPage;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,12 +58,13 @@ public class DelAccountActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (agreeCheckBox.isChecked()) {
+                    FirebaseAuth.getInstance().signOut();
                     firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "User account delete completed.");
-                                fsManager.deleteUserProfile(uid);
+                                fsManager.deleteProfile(uid);
                                 //fsManager.deleteUser();
                                 //sqlite에서도 삭제
 

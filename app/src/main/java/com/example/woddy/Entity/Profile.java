@@ -1,7 +1,7 @@
 package com.example.woddy.Entity;
 
 // 회원 정보
-public class UserProfile {
+public class Profile {
 
     private String userID; // id(email)
     private String nickname; // nickname
@@ -10,7 +10,7 @@ public class UserProfile {
     private String dong; // 동
     private boolean women; // 여성 인증 여부
 
-    public UserProfile(String userID, String nickname, String city, String gu, String dong) {
+    public Profile(String userID, String nickname, String city, String gu, String dong) {
         this.userID = userID;
         this.nickname = nickname;
         this.city = city;

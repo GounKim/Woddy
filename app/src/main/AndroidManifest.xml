@@ -16,6 +16,7 @@
         android:theme="@style/SplashTheme">
         <activity android:name=".MyPage.ChangePwActivity"></activity>
         <activity android:name=".MyPage.SetAccountActivity"></activity>
+        <activity android:name=".MyPage.DelAccountActivity"/>
         <activity
             android:name=".MyPage.UpdateProfile"
             android:exported="true" />

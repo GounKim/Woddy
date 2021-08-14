@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
-import com.example.woddy.Entity.UserProfile;
+import com.example.woddy.Entity.Profile;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -42,9 +43,9 @@ public class FirestoreManager {
         fsDB = FirebaseFirestore.getInstance();
     }
 
-    // User Profile 추가 - 회원가입 시 유저 정보
-    public void addUserProfile(String uid, UserProfile userProfile) {
-        fsDB.collection("userProfile").document(uid).set(userProfile)
+    // Profile 추가 - 회원가입 시 유저 정보
+    public void addProfile(String uid, Profile profile) {
+        fsDB.collection("userProfile").document(uid).set(profile)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -59,8 +60,8 @@ public class FirestoreManager {
                 });
     }
 
-    // User Profile 업데이트 (docID는 uid - 계정 생성 시 자동 부여되는 값)
-    public void updateUserProfile(String uid, Map<String, Object> newData) {
+    // Profile 업데이트 (docID는 uid - 계정 생성 시 자동 부여되는 값)
+    public void updateProfile(String uid, Map<String, Object> newData) {
         fsDB.collection("userProfile").document(uid).update(newData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -76,8 +77,8 @@ public class FirestoreManager {
                 });
     }
 
-    // User Profile 삭제 (docID는 uid - 계정 생성 시 자동 부여되는 값)
-    public void deleteUserProfile(String uid) {
+    // Profile 삭제 (docID는 uid - 계정 생성 시 자동 부여되는 값)
+    public void deleteProfile(String uid) {
         fsDB.collection("userProfile").document(uid).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -142,6 +143,16 @@ public class FirestoreManager {
                         Log.w(TAG, "Error deleting user", e);
                     }
                 });
+    }
+
+    // uid로 사용자 닉네임 찾기
+    public Task<DocumentSnapshot> findUserWithUid(String uid) {
+        return fsDB.collection("userProfile").document(uid).get();
+    }
+
+    // 닉네임으로 user컬렉션의 document 가져오기
+    public Task<DocumentSnapshot> findUserWithNick(String nickname) {
+        return fsDB.collection("user").document(nickname).get();
     }
 
     // 이메일 중복 확인
@@ -440,6 +451,7 @@ public class FirestoreManager {
     public final static String VIEW = "numberOfViews";
     public final static String COMMEND = "numberOfComment";
     public final static String REPORT = "reported";
+
     final public void updatePostInfo(String postingNumber, String field, int inORdecrese) {
         // 조회수, 스크랩 수 등 원하는 필드의 숫자 +1 하기
         Map<String, Object> data = new HashMap<>();
@@ -454,29 +466,29 @@ public class FirestoreManager {
 
         getPostWithNum(postingNumber).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                    DocumentReference docRef = document.getReference();
-                    docRef.update(data)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d(TAG, "postInfo has successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-                                    Log.w(TAG, "Error updating postInfo", e);
-                                }
-                            });
-                } else {
-                    Log.w(TAG, "Nothing found in postings");
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                            DocumentReference docRef = document.getReference();
+                            docRef.update(data)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.d(TAG, "postInfo has successfully updated!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull @NotNull Exception e) {
+                                            Log.w(TAG, "Error updating postInfo", e);
+                                        }
+                                    });
+                        } else {
+                            Log.w(TAG, "Nothing found in postings");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.w(TAG, "Error updating postInfo", e);
@@ -510,7 +522,7 @@ public class FirestoreManager {
         try {
             QuerySnapshot querySnapshot = getPostWithNum(postingNum).get().getResult();
             docRef = querySnapshot.getDocuments().get(0).getReference();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.w(TAG, "Error finding posting for comments", e);
         }
 
@@ -582,7 +594,7 @@ public class FirestoreManager {
     // 댓글 불러오기
     public Query getComments(String postingNum) {
         DocumentReference docRef = getCommentRef(postingNum);
-        
+
         return docRef.collection("comments");
     }
 

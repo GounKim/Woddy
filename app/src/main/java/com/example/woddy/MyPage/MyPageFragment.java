@@ -28,16 +28,28 @@ import com.example.woddy.Entity.User;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MyPageFragment extends Fragment implements View.OnClickListener {
     TextView nickName;
-    TextView introduce;
     TextView local;
     ImageView userImage;
     Button updateProfile;
@@ -46,7 +58,15 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     Button delAccount;
     Button logOut;
 
+    FirebaseUser firebaseUser;
+    FirestoreManager fsManager;
     private int UPDATE = 200;
+    static final String TAG = "MypageFragment";
+
+    String nick_str;
+    String tmp_nick;
+    String tmp_local;
+    String tmp_imguri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +75,6 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_my_page, container, false);
 
         nickName = view.findViewById(R.id.myPage_userNick);
-        introduce = view.findViewById(R.id.myPage_userIntroduce);
         local = view.findViewById(R.id.myPage_userLocal);
         userImage = view.findViewById(R.id.myPage_userImage);
         updateProfile = view.findViewById(R.id.myPage_btn_update_myProfile);
@@ -64,22 +83,31 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         delAccount = view.findViewById(R.id.myPage_deleteAccount);
         logOut = view.findViewById(R.id.myPage_logout);
 
-        FirestoreManager manager = new FirestoreManager();
-        manager.findUser("user1")
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String firebaseUserUID = firebaseUser.getUid();
+        Log.d(TAG, firebaseUserUID);
+
+        //현재 로그인한 사용자의 닉네임 가져오기 + 가져온 닉네임으로 화면에 띄울 유저 정보 세팅(닉네임, 지역, 사진)
+        fsManager = new FirestoreManager();
+        fsManager.findUserWithUid(firebaseUserUID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                nick_str = (String) task.getResult().get("nickname");
+                Log.d(TAG, nick_str);
+                fsManager.findUserWithNick(nick_str).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot document = task.getResult();
+                    public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                        if (task.getResult() != null) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            tmp_nick = documentSnapshot.getString("nickName");
+                            tmp_local = documentSnapshot.getString("local");
+                            tmp_imguri = documentSnapshot.getString("userImage");
 
-                            User user = document.toObjects(User.class).get(0);
-
-                            nickName.setText(user.getNickName());
-                            introduce.setText(user.getIntroduce());
-                            local.setText(user.getLocal());
+                            nickName.setText(tmp_nick);
+                            local.setText(tmp_local);
 
                             FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
-                            StorageReference storageRef = storage.getReference(user.getUserImage()); // 스토리지 공간을 참조해서 이미지를 가져옴
+                            StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
 
                             storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                                 @Override
@@ -94,39 +122,40 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
                                     }
                                 }
                             });
-
-                        } else {
-                            Log.d(TAG, "Finding user has failed.", task.getException());
                         }
                     }
                 });
-
+            }
+        });
 
         updateProfile.setOnClickListener(this);
         setAccount.setOnClickListener(this);
         delAccount.setOnClickListener(this);
         logOut.setOnClickListener(this);
 
-
         return view;
     }
 
+    //버튼 클릭 이벤트 리스너
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.myPage_btn_update_myProfile:
+            case R.id.myPage_btn_update_myProfile: //프로필 수정
                 Intent intent = new Intent(getContext(), UpdateProfile.class);
-                startActivityForResult(intent, UPDATE);
+                intent.putExtra("nickname", tmp_nick);
+                intent.putExtra("local", tmp_local);
+                intent.putExtra("imguri", tmp_imguri);
+                startActivity(intent);
                 break;
-            case R.id.myPage_setAccount:
+            case R.id.myPage_setAccount: //계정 관리
                 Intent setAccountIntent = new Intent(getContext(), SetAccountActivity.class);
                 startActivity(setAccountIntent);
                 break;
-            case R.id.myPage_deleteAccount:
+            case R.id.myPage_deleteAccount: //회원탈퇴
                 Intent delAccountIntent = new Intent(getContext(), DelAccountActivity.class);
                 startActivity(delAccountIntent);
                 break;
-            case R.id.myPage_logout:
+            case R.id.myPage_logout: //로그아웃
                 showDialog();
                 break;
         }
@@ -141,13 +170,13 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
             return;
         }
 
-        if (requestCode == UPDATE) {
-            introduce.setText(data.getStringExtra("introduce"));
-            local.setText(data.getStringExtra("local"));
-            userImage.setImageURI(Uri.parse(data.getStringExtra("userImage")));
-        }
+//        if (requestCode == UPDATE) {
+//            local.setText(data.getStringExtra("local"));
+//            userImage.setImageURI(Uri.parse(data.getStringExtra("userImage")));
+//        }
     }
 
+    //로그아웃 대화상자
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle("로그아웃")

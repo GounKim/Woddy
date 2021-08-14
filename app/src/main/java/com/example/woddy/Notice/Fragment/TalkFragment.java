@@ -70,7 +70,7 @@ public class TalkFragment extends Fragment {
                         initDataset();
                         items.add(new NoticeItem("help", "화장실에 갇혔어요.. 도와주세요", "소통게시판 ","16:30","1000000"));
                         Toast.makeText(context,  "도움요청 클릭", Toast.LENGTH_SHORT).show();
-                        
+
                     case R.id.chipMate:
                         initDataset();
                         items.add(new NoticeItem("mate", "중랑구 서울여대에서 같이 집에가실 분 구해요", "소통게시판 ","16:30","1000000"));

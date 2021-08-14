@@ -33,7 +33,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     EditText edtComment;
     Button btnSend;
 
-    ShowPostingAdapter adapter;
+    CommentAdapter adapter;
     FirestoreManager manager;
 
     String postingNumber;

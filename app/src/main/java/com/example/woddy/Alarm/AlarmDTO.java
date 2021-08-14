@@ -1,9 +1,11 @@
 package com.example.woddy.Alarm;
 
-public class AlarmDTO {
+public class AlarmDTO { //알림 데이터
     String destinationUid = null;
     String userId = null;
     String uid = null;
+    String postingNumber = null;
+    String click_action = null;
 
     Integer kind = null;
     //0 : like alarm
@@ -14,6 +16,10 @@ public class AlarmDTO {
     Long timestamp = null;
 
     public AlarmDTO(){
+    }
+
+    public String getClick_action() {
+        return click_action;
     }
 
     public String getDestinationUid(){
@@ -40,6 +46,10 @@ public class AlarmDTO {
         return timestamp;
     }
 
+    public String getPostingNumber() {
+        return postingNumber;
+    }
+
     public void setDestinationUid(String destinationUid) {
         this.destinationUid = destinationUid;
     }
@@ -48,9 +58,7 @@ public class AlarmDTO {
         this.userId = userId;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
+    public void setUid(String uid) { this.uid = uid; }
 
     public void setKind(Integer kind) {
         this.kind = kind;
@@ -62,5 +70,13 @@ public class AlarmDTO {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setPostingNumber(String postingNumber) {
+        this.postingNumber = postingNumber;
+    }
+
+    public void setClick_action(String click_action) {
+        this.click_action = click_action;
     }
 }

@@ -12,12 +12,20 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.woddy.Album.AlbummBoardFragment;
+import com.example.woddy.Alarm.FcmPush;
 import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.MyPage.MyPageFragment;
 import com.example.woddy.Notice.NoticeMain;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -33,6 +41,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        registerPushToken();
     }
 
     // 툴바 기본 설정
@@ -131,4 +140,26 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void registerPushToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            System.out.println("Failed to get token");
+                            return;
+                        }
+                        String token = task.getResult();
+                        String uid = FirebaseAuth.getInstance().getUid();
+                        Map<String, String> map = new HashMap<>();
+                        map.put("pushToken",token);
+
+                        FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
+                    }
+                });
+    }
+    public void OnStop(){ //확인용
+        super.onStop();
+        FcmPush.instance.sendMessage("D4CIchRC1EMJhhDX227pxnaLVAI2","hi","msg","");
+    }
 }

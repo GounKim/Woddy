@@ -87,17 +87,20 @@ public class AlarmActivity extends AppCompatActivity {
 
             switch (alarmDTOList.get(position).kind){
                 case 0 :
+                    //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str0 = alarmDTOList.get(position).userId + getString(R.string.alarm_like);
                     text_message.setText(str0);
                 case 1 :
+                    //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str1 = alarmDTOList.get(position).userId + getString(R.string.alarm_comment)
                             +" of "+alarmDTOList.get(position).message;
                     text_message.setText(str1);
                 case 2 :
+                    //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str2 = alarmDTOList.get(position).userId + getString(R.string.alarm_chatting);
                     text_message.setText(str2);
-
             }
+            text_id.setVisibility(View.INVISIBLE);
 
         }
 

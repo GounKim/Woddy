@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.woddy.Alarm.AlarmDTO;
+import com.example.woddy.Alarm.FcmPush;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
@@ -14,6 +15,7 @@ import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
+import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -447,6 +449,9 @@ public class FirestoreManager {
         Map<String, Object> data = new HashMap<>();
         if (inORdecrese == INCRESE) {
             data.put(field, FieldValue.increment(1));
+            if(field == LIKE){
+                likeAlarm(getCommentRef(postingNumber).getId(),postingNumber);
+            }
         } else if (inORdecrese == DECRESE) {
             data.put(field, FieldValue.increment(-1));
         } else {
@@ -533,7 +538,7 @@ public class FirestoreManager {
 
                         updatePostInfo(postingNumber, "numberOfComment", INCRESE);
 
-                        CommentAlarm(documentReference.getId(),comment.toString());
+                        commentAlarm(documentReference.getId(),comment.toString(),postingNumber);
 
                         Log.d(TAG, "Comment has successfully Added!");
                     }
@@ -703,24 +708,47 @@ public class FirestoreManager {
                 });
     }
 
-    public void likeAlarm(String destinationUid){
+    public void likeAlarm(String destinationUid, String postingNum){
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
         alarmDTO.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        alarmDTO.setPostingNumber(postingNum);
         alarmDTO.setKind(0);
+        alarmDTO.setClick_action("ShowPosting");
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
+
+        String message = (FirebaseAuth.getInstance().getCurrentUser().getUid()) + "당신의 게시물에 좋아요가 눌렸습니다.";
+        FcmPush.instance.sendMessage(destinationUid, "Woddy",message,postingNum);
     }
 
-    public void CommentAlarm(String destinationUid, String message){
+    public void commentAlarm(String destinationUid, String message, String postingNum){
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
         alarmDTO.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        alarmDTO.setPostingNumber(postingNum);
         alarmDTO.setKind(1);
+        alarmDTO.setClick_action("ShowPosting");
         alarmDTO.setMessage(message);
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
+
+        String msg = (FirebaseAuth.getInstance().getCurrentUser().getUid()) + "당신의 게시물에 댓글이 달렸습니다." +" of "+ message;
+        FcmPush.instance.sendMessage(destinationUid, "Woddy",msg,postingNum);
     }
 
+    public void chattingAlarm(String destinationUid, String message){
+        AlarmDTO alarmDTO = new AlarmDTO();
+        alarmDTO.setDestinationUid(destinationUid);
+        alarmDTO.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        alarmDTO.setKind(2);
+        alarmDTO.setClick_action("ChattingFragment");
+        alarmDTO.setMessage(message);
+        alarmDTO.setTimestamp(System.currentTimeMillis());
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
+
+        String msg = (FirebaseAuth.getInstance().getCurrentUser().getUid()) + "새로운 채팅이 왔습니다.";
+        FcmPush.instance.sendMessage(destinationUid, "Woddy",msg,"");
+    }
 
 }

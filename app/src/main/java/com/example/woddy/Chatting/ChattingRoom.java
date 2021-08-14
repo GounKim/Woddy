@@ -87,6 +87,7 @@ public class ChattingRoom extends BaseActivity {
             public void onClick(View view) {
                 String chat = edtInputCon.getText().toString();
                 manager.addMessage(roomNum, new ChattingMsg(user, chat, new Date()));
+                manager.chattingAlarm(user, chat);
                 edtInputCon.setText(null);
             }
         });

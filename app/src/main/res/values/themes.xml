@@ -31,4 +31,15 @@
         <!-- background -->
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+    <style name="Widget.Woody.Chip" parent= "Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeColor">@color/purple_500</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">@color/bg_filter_chip_state_list</item>
+        <item name="android:textColor">@color/text_filter_chip_state_list</item>
+        <item name="textStartPadding">8dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="iconStartPadding">6dp</item>
+        <item name="chipEndPadding">2dp</item>
+    </style>
 </resources>

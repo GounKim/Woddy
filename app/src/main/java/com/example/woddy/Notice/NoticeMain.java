@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.woddy.Notice.Fragment.FreeFragment;
-import com.example.woddy.Notice.Fragment.InfoFragment;
 import com.example.woddy.Notice.Fragment.ShareFragment;
 import com.example.woddy.Notice.Fragment.TalkFragment;
 import com.example.woddy.R;

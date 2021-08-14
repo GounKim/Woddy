@@ -222,17 +222,14 @@ public class SignUpActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 final String uid = task.getResult().getUser().getUid();
 
-                                Profile profile = new Profile(email, nickname, finalCity, finalGu, finalDong);
-                                User user = new User(nickname, finalLocal, "UserProfileImages/user.png");
+                                Profile profile = new Profile(email, nickname, finalCity, finalGu, finalDong, finalLocal);
+                                //User user = new User(nickname, finalLocal, "UserProfileImages/user.png");
 
                                 FirestoreManager fsManager = new FirestoreManager();
                                 fsManager.addProfile(uid, profile); //userProfile 컬렉션에 저장
-                                fsManager.addUser(user); //user 컬렉션에 저장
+                                //fsManager.addUser(user); //user 컬렉션에 저장
 
                                 FirebaseAuth.getInstance().signOut();
-//
-//                                SQLiteManager sqLiteManager = new SQLiteManager(getApplicationContext(), "woddyDB", null, 1);
-//                                sqLiteManager
 
                                 //SignUpSuccessActivity로 화면전환, SignUpActivity는 아예 종료시켜야함.
                                 Intent intent = new Intent(SignUpActivity.this, SignUpSuccessActivity.class);

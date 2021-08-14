@@ -71,7 +71,7 @@ public class LogInActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
+//        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
 //        if (gsa != null) {
 //            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
 //            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
@@ -167,7 +167,7 @@ public class LogInActivity extends AppCompatActivity {
                 final String uid = firebaseAuth.getCurrentUser().getUid();
                 Profile profile =
                         new Profile(account.getEmail(), account.getDisplayName(),
-                                "null", "null", "null");
+                                "null", "null", "null", "null");
 
                 FirestoreManager fsManager = new FirestoreManager();
                 fsManager.addProfile(uid, profile);

@@ -58,11 +58,11 @@ public class DelAccountActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (agreeCheckBox.isChecked()) {
-                    FirebaseAuth.getInstance().signOut();
                     firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                FirebaseAuth.getInstance().signOut();
                                 Log.d(TAG, "User account delete completed.");
                                 fsManager.deleteProfile(uid);
                                 //fsManager.deleteUser();

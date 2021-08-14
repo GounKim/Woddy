@@ -92,39 +92,40 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         fsManager.findUserWithUid(firebaseUserUID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if (task.getResult() != null) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    tmp_nick = documentSnapshot.getString("nickname");
+                    tmp_local = documentSnapshot.getString("local");
+                    tmp_imguri = documentSnapshot.getString("userImage");
+
+                    nickName.setText(tmp_nick);
+                    local.setText(tmp_local);
+
+                    FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+                    StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
+
+                    storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                Glide.with(view)
+                                        .load(task.getResult())
+                                        .circleCrop()
+                                        .into(userImage);
+                            } else {
+                                Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        fsManager.findUserWithUid(firebaseUserUID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
                 nick_str = (String) task.getResult().get("nickname");
                 Log.d(TAG, nick_str);
-                fsManager.findUserWithNick(nick_str).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                        if (task.getResult() != null) {
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            tmp_nick = documentSnapshot.getString("nickName");
-                            tmp_local = documentSnapshot.getString("local");
-                            tmp_imguri = documentSnapshot.getString("userImage");
 
-                            nickName.setText(tmp_nick);
-                            local.setText(tmp_local);
-
-                            FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
-                            StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
-
-                            storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
-                                    if (task.isSuccessful()) {
-                                        Glide.with(view)
-                                                .load(task.getResult())
-                                                .circleCrop()
-                                                .into(userImage);
-                                    } else {
-                                        Log.d(TAG, "Image Load in MyPage failed.", task.getException());
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
             }
         });
 

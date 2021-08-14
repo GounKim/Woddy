@@ -8,14 +8,18 @@ public class Profile {
     private String city; // 시
     private String gu; // 구
     private String dong; // 동
+    private String local; //전체 주소
+    private String userImage; //프로필 사진
     private boolean women; // 여성 인증 여부
 
-    public Profile(String userID, String nickname, String city, String gu, String dong) {
+    public Profile(String userID, String nickname, String city, String gu, String dong, String local) {
         this.userID = userID;
         this.nickname = nickname;
         this.city = city;
         this.gu = gu;
         this.dong = dong;
+        this.local = local;
+        this.userImage = "UserProfileImages/user.png";
         this.women = false;
     }
 
@@ -53,6 +57,22 @@ public class Profile {
 
     public void setDong(String dong) {
         this.dong = dong;
+    }
+
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     public boolean isWomen() {

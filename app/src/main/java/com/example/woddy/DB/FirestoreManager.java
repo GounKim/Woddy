@@ -221,60 +221,6 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시판 & 테그 추가 (중복찾기 추가 필요)
-    public void addBoard(BoardTag boardTag) {
-        DocumentReference docRef = fsDB.collection("postBoard").document(boardTag.getBoardName());
-        docRef.collection("postTag").document(boardTag.getTagName()).set(boardTag.tagToMap())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-    }
-    // 수정필요
-/*
-    // 게시판 & 테그 수정
-    public void updateBoard(String docID, Map<String, Object> newData) {
-        fsDB.collection("memberInfo").document(docID).update(newData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully updated!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error updating user", e);
-                    }
-                });
-    }
-
-    // 게시판 & 테그 삭제
-    public void deleteBoard(String tagName) {
-        fsDB.collection("memberInfo").document(tagName).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "user has successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error deleting user", e);
-                    }
-                });
-    }
-*/
-
     /* ---------------------- Posting용 DB ---------------------- */
 
     // posting collectionRef

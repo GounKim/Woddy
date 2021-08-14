@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 import com.example.woddy.R;
 
-public class InfoFragment extends Fragment {
+public class HabitFragment extends Fragment {
 
-    
-    public InfoFragment() {
+
+    public HabitFragment() {
         // Required empty public constructor
     }
 
@@ -22,6 +22,6 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_info, container, false);
+        return inflater.inflate(R.layout.notice_page_habit, container, false);
     }
 }

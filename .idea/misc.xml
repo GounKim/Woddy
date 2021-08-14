@@ -53,7 +53,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_hscroll.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_notice.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_image.xml" value="0.134375" />
-        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.134375" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.4" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/img_slider.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/notice_item.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/search_main.xml" value="0.24818840579710144" />
@@ -78,5 +78,5 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

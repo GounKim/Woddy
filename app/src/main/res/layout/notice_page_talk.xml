@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Notice.Fragment.TalkFragment">
+
+    <HorizontalScrollView
+        android:id="@+id/filterScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filterChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="4dp"
+            app:chipSpacingVertical="6dp"
+            app:singleLine="true"
+            app:singleSelection="true"
+            app:checkedChip="@id/chipFriend"
+            android:paddingHorizontal="12dp"
+            app:selectionRequired="true"
+            tools:visibility="visible">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/frind"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/help"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mate"
+                style="@style/Widget.Woody.Chip" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="5dp"
+        android:id="@+id/recyclerView_Talk"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

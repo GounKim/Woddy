@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ShareFragment extends Fragment {
+public class HabitFragment extends Fragment {
 
     private RecyclerView mVerticalView;
     private NoticeAdapter mAdapter;
@@ -31,7 +31,7 @@ public class ShareFragment extends Fragment {
 
     ChipGroup chipGroup;
 
-    public ShareFragment() {
+    public HabitFragment() {
         // Required empty public constructor
     }
 
@@ -42,10 +42,10 @@ public class ShareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.notice_page_share, container, false);
+        View view = inflater.inflate(R.layout.notice_page_habit, container, false);
         context = container.getContext();
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_share);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_habit);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -55,7 +55,7 @@ public class ShareFragment extends Fragment {
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
         //default 부분 - 시작 시
         initDataset();
-        items.add(new NoticeItem("share", "물건을 나눔합니다.", "쉐어게시판 ","16:30","1000000"));
+        items.add(new NoticeItem("club", "같이 java 공부하실 분 찾아요", "쉐어게시판 ","16:30","1000000"));
         Toast.makeText(context,  "친구찾기 클릭", Toast.LENGTH_SHORT).show();
 
         mAdapter = new NoticeAdapter(context, items);
@@ -66,41 +66,24 @@ public class ShareFragment extends Fragment {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
                 switch (checkedId){
-                    case R.id.chipShare:
+                    case R.id.chipClub:
                         initDataset();
-                        items.add(new NoticeItem("share", "고데기 빌려주실분 찾아요", "쉐어게시판 ","16:30","1000000"));
-                        Toast.makeText(context,  "친구찾기 클릭", Toast.LENGTH_SHORT).show();
+                        items.add(new NoticeItem("club", "같이 java 공부하실 분 찾아요", "취미게시판 ","16:30","1000000"));
+                        Toast.makeText(context,  "동호회 클릭", Toast.LENGTH_SHORT).show();
 
                         mAdapter = new NoticeAdapter(context, items);
                         recyclerView.setAdapter(mAdapter);
                         break;
 
-                    case R.id.chipHome:
+                    case R.id.chipMeeting:
                         initDataset();
-                        items.add(new NoticeItem("home", "쉐어하우스", "쉐어게시판 ","16:30","1000000"));
-                        Toast.makeText(context,  "홈 클릭", Toast.LENGTH_SHORT).show();
+                        items.add(new NoticeItem("meeting", "태릉입구에서 번개모임하실분?", "취미게시판 ","16:30","1000000"));
+                        Toast.makeText(context,  "번개모임 클릭", Toast.LENGTH_SHORT).show();
 
                         mAdapter = new NoticeAdapter(context, items);
                         recyclerView.setAdapter(mAdapter);
                         break;
 
-                    case R.id.chipBuy:
-                        initDataset();
-                        items.add(new NoticeItem("buy", "공구구해요", "쉐어게시판 ","16:30","1000000"));
-                        Toast.makeText(context,  "공동구매 클릭", Toast.LENGTH_SHORT).show();
-
-                        mAdapter = new NoticeAdapter(context, items);
-                        recyclerView.setAdapter(mAdapter);
-                        break;
-                        
-                    case R.id.chipFreeShare:
-                        initDataset();
-                        items.add(new NoticeItem("freeshare", "무나합니다", "쉐어게시판 ","16:30","1000000"));
-                        Toast.makeText(context,  "무료나눔 클릭", Toast.LENGTH_SHORT).show();
-
-                        mAdapter = new NoticeAdapter(context, items);
-                        recyclerView.setAdapter(mAdapter);
-                        break;
                 }
             }
         });

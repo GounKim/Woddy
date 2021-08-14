@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     Button btnLogin;
     Button btnshow;
 
-    FirestoreManager manager = new FirestoreManager();
+    FirestoreManager manager = new FirestoreManager(getContext());
     HomePBAdapter popAdapter = new HomePBAdapter();
     HomePBAdapter reAdapter = new HomePBAdapter();
 
@@ -99,12 +99,13 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            ArrayList<Object> adapter = new ArrayList<>();
+                            ArrayList<Object> adapterList = new ArrayList<>();
                             ArrayList<Posting> notices = new ArrayList<>();
+                            ArrayList<String> noticeDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 notices.add(document.toObject(Posting.class));
                             }
-                            adapter.add(new HomeNBAdapter(notices));
+                            adapterList.add(new HomeNBAdapter(notices));
 
                             manager.getPopularPost().get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -112,11 +113,13 @@ public class HomeFragment extends Fragment {
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 ArrayList<Posting> popPosts = new ArrayList<>();
+                                                ArrayList<String> popDocPath = new ArrayList<>();
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     popPosts.add(document.toObject(Posting.class));
+                                                    popDocPath.add(document.getReference().getPath());
                                                 }
-                                                popAdapter.setItem(popPosts);
-                                                adapter.add(popAdapter);
+                                                popAdapter.setItem(popPosts, popDocPath);
+                                                adapterList.add(popAdapter);
 
                                                 // 최신글 Board
                                                 manager.getCurrentPost().get()
@@ -124,22 +127,16 @@ public class HomeFragment extends Fragment {
                                                             @Override
                                                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                                                 ArrayList<Posting> recentPosts = new ArrayList<>();
+                                                                ArrayList<String> recDocPath = new ArrayList<>();
                                                                 for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
                                                                     recentPosts.add(snap.toObject(Posting.class));
+                                                                    recDocPath.add(snap.getReference().getPath());
                                                                 }
-                                                                reAdapter.setItem(recentPosts);
-                                                                adapter.add(reAdapter);
+                                                                reAdapter.setItem(recentPosts, recDocPath);
+                                                                adapterList.add(reAdapter);
 
-                                                                // 즐겨찾기한 게시판 Board
-                                                                BoardTag boardTag = new BoardTag("집 소개", "자유게시판");
-                                                                HomeFBAdapter fbAdapter = new HomeFBAdapter();
-                                                                fbAdapter.addItem(boardTag);
-                                                                fbAdapter.addItem(boardTag);
-                                                                fbAdapter.addItem(boardTag);
-                                                                fbAdapter.addItem(boardTag);
-                                                                adapter.add(fbAdapter);
 
-                                                                homeAdapter.setItem(adapter);
+                                                                homeAdapter.setItem(adapterList);
                                                             }
                                                         }).addOnFailureListener(new OnFailureListener() {
                                                     @Override

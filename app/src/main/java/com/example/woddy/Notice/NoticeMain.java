@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.woddy.Notice.Fragment.FreeFragment;
-import com.example.woddy.Notice.Fragment.InfoFragment;
+import com.example.woddy.Notice.Fragment.HabitFragment;
 import com.example.woddy.Notice.Fragment.ShareFragment;
 import com.example.woddy.Notice.Fragment.TalkFragment;
 import com.example.woddy.R;
@@ -73,7 +73,7 @@ public class NoticeMain extends Fragment {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
 
         adapter.addFragment(new TalkFragment(),"소통게시판");
-        adapter.addFragment(new InfoFragment(),"정보게시판");
+        adapter.addFragment(new HabitFragment(),"취미게시판");
         adapter.addFragment(new ShareFragment(),"쉐어게시판");
         adapter.addFragment(new FreeFragment(),"자유게시판");
 

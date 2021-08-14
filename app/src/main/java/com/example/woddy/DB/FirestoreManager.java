@@ -1,7 +1,6 @@
 package com.example.woddy.DB;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -423,7 +421,7 @@ public class FirestoreManager {
     public final static String VIEW = "numberOfViews";
     public final static String COMMEND = "numberOfComment";
     public final static String REPORT = "reported";
-    final public void updatePostInfo(String postingNumber, String field, int inORdecrese) {
+    final public void updatePostInfo(String postingPath, String field, int inORdecrese) {
         // 조회수, 스크랩 수 등 원하는 필드의 숫자 +1 하기
         Map<String, Object> data = new HashMap<>();
         if (inORdecrese == INCRESE) {
@@ -435,36 +433,25 @@ public class FirestoreManager {
             return;
         }
 
-        getPostWithNum(postingNumber).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                    DocumentReference docRef = document.getReference();
-                    docRef.update(data)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d(TAG, "postInfo has successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-                                    Log.w(TAG, "Error updating postInfo", e);
-                                }
-                            });
-                } else {
-                    Log.w(TAG, "Nothing found in postings");
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error updating postInfo", e);
-            }
-        });
+        fsDB.document(postingPath).update(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "postInfo has successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error updating postInfo", e);
+                    }
+                });
+
+    }
+
+    // Path로 게시물 불러오기
+    public DocumentReference getdocRefWithPath(String postingPath) {
+        return fsDB.document(postingPath);
     }
 
     // 태그로 게시물 불러오기
@@ -487,33 +474,13 @@ public class FirestoreManager {
         return fsDB.collectionGroup("postings").orderBy("numberOfLiked", Query.Direction.DESCENDING).limit(3);
     }
 
-    // 게시물의 댓글 경로 찾기
-    public DocumentReference getCommentRef(String postingNum) {
-        DocumentReference docRef = null;
-        try {
-            QuerySnapshot querySnapshot = getPostWithNum(postingNum).get().getResult();
-            docRef = querySnapshot.getDocuments().get(0).getReference();
-        } catch (Exception e){
-            Log.w(TAG, "Error finding posting for comments", e);
-        }
-
-        return docRef;
-    }
-
     // 게시물 댓글 추가 (postingNumber은 게시물 번호)
-    public void addComment(String docRef, Comment comment) {
-        fsDB.collection(docRef).document()
+    public void addComment(String postingPath, Comment comment) {
+        fsDB.document(postingPath)
                 .collection("comments").add(comment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        // postingNumber를 docID로 설정하기
-//                        Map<String, Object> id = new HashMap<>();
-//                        id.put("docID", documentReference.getId());
-//                        updateComment(postingNumber, documentReference.getId(), id);
-//
-//                        updatePostInfo(postingNumber, "numberOfComment", INCRESE);
-
                         Log.d(TAG, "Comment has successfully Added!");
                     }
                 })
@@ -544,13 +511,11 @@ public class FirestoreManager {
     }
 
     // 게시물 댓글 삭제 (postingNumber은 게시물 번호, docID는 comment의 댓글 번호)
-    public void delComment(String postingNumber, String docID) {
-        CollectionReference colRef = fsDB.collection("posting").document(postingNumber).collection("comment");
-        colRef.document(docID).delete()
+    public void delComment(DocumentReference postingRef, String docID) {
+        postingRef.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        updatePostInfo(postingNumber, "numberOfComment", DECRESE);
                         Log.d(TAG, "user has successfully deleted!");
                     }
                 })
@@ -563,10 +528,9 @@ public class FirestoreManager {
     }
 
     // 댓글 불러오기
-    public Query getComments(String postingNum) {
-        DocumentReference docRef = getCommentRef(postingNum);
-        
-        return docRef.collection("comments");
+    public Query getComments(String postingPath) {
+        CollectionReference colRef = getdocRefWithPath(postingPath).collection("comments");
+        return colRef.orderBy("postedTime", Query.Direction.ASCENDING);
     }
 
 

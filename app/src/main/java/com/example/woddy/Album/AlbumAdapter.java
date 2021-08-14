@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     private ArrayList<Posting> items;
-    private ArrayList<String> documentReferences;
+    private ArrayList<String> documentPath;
     private Context mContext;
 
     private String postingNumber;
@@ -82,9 +81,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         return items.size();
     }
 
-    public void setItems(ArrayList<Posting> items, ArrayList<String> docRef) {
+    public void setItems(ArrayList<Posting> items, ArrayList<String> documentPath) {
         this.items = items;
-        this.documentReferences = docRef;
+        this.documentPath = documentPath;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,9 +110,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                         //액티비티 전환
                         Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        intent.putExtra("postingNumber", items.get(pos).getPostingNumber());
-                        intent.putExtra("documentReferences", documentReferences.get(pos));
-                        Log.d(TAG, "documentReferences: " + documentReferences.get(pos));
+                        intent.putExtra("documentPath", documentPath.get(pos));
                         v.getContext().startActivity(intent);
                     }
 

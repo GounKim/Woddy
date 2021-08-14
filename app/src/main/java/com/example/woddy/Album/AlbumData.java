@@ -6,22 +6,15 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.DB.SQLiteHelper;
 import com.example.woddy.Entity.Posting;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -29,7 +22,7 @@ import java.util.ArrayList;
 public class AlbumData {
 
     ArrayList<Posting> items = new ArrayList<>();
-    ArrayList<String> docRef = new ArrayList<>();
+    ArrayList<String> docPath = new ArrayList<String>();
 
     FirestoreManager manager;
     private AlbumAdapter adapter = new AlbumAdapter();
@@ -54,11 +47,11 @@ public class AlbumData {
                     if (task.getResult().size() > 0) {
                         for (DocumentSnapshot document : task.getResult()) {
                             Posting posting = document.toObject(Posting.class);
-                            docRef.add(document.getReference().toString());
+                            docPath.add(document.getReference().getPath());
                             items.add(posting);
                         }
                         //아이템 로드
-                        adapter.setItems(items, docRef);
+                        adapter.setItems(items, docPath);
 
                         StaggeredGridLayoutManager staggeredGridLayoutManager
                                 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

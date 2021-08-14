@@ -21,6 +21,7 @@ import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.Notice.NoticeMain;
+import com.example.woddy.PostWriting.AddWritingsActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,7 +72,7 @@ public class HomeFragment extends Fragment {
         btnshow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), NoticeMain.class);
+                Intent intent = new Intent(getContext(), AddWritingsActivity.class);
                 startActivity(intent);
             }
         });

@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
@@ -80,7 +78,7 @@ public class AddWritingsActivity extends BaseActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
-        setContentView(R.layout.add_writings_main);
+        setContentView(R.layout.activity_add_writings);
 
         firestoreManager = new FirestoreManager(getApplicationContext());
         sManager = new StorageManager();
@@ -88,7 +86,7 @@ public class AddWritingsActivity extends BaseActivity {
         addImageBtn = (ImageView) findViewById(R.id.addPhotoImage);
         titleTV = (EditText) findViewById(R.id.titleTextView);
         plotTV = (EditText) findViewById(R.id.plotTextView);
-        boardInfoTV = (TextView) findViewById(R.id.board_info);
+        boardInfoTV = (TextView) findViewById(R.id.add_writing_board_name);
 
         // 툴바 설정
         setSupportActionBar(getmToolbar());

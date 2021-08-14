@@ -17,6 +17,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/notice_border.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/text_view_rect_shape.xml" value="0.12239583333333333" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_add_writings.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_base.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_before_pw_reset.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_change_pw.xml" value="0.24818840579710144" />
@@ -55,7 +56,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_notice.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_image.xml" value="0.134375" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.4" />
-        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/img_slider.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/img_slider.xml" value="0.176" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/notice_item.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/search_main.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_writing_recycler_comment.xml" value="0.24818840579710144" />

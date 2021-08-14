@@ -17,7 +17,7 @@
             android:id="@+id/filterChipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:chipSpacingHorizontal="8dp"
+            app:chipSpacingHorizontal="4dp"
             app:chipSpacingVertical="6dp"
             app:singleLine="true"
             app:singleSelection="true"
@@ -52,7 +52,7 @@
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:id="@+id/recyclerView_Talk"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

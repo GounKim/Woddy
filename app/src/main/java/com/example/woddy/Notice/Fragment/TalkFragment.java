@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import com.example.woddy.Notice.NoticeAdapter;
 import com.example.woddy.Notice.NoticeItem;
+import com.example.woddy.Notice.NoticeMain;
 import com.example.woddy.R;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import android.content.Context;
@@ -33,7 +35,6 @@ public class TalkFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     private ArrayList<NoticeItem> items = new ArrayList<>();
     private Context context;
 
@@ -44,7 +45,6 @@ public class TalkFragment extends Fragment {
         View view = inflater.inflate(R.layout.notice_page_talk, container, false);
         context = container.getContext();
 
-        Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_Talk);
         recyclerView.setHasFixedSize(true);
 
@@ -52,11 +52,16 @@ public class TalkFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
+        chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
+        //default 부분 - 시작 시
+        initDataset();
+        items.add(new NoticeItem("frined", "제 친구를 소개합니다.", "소통게시판 ","16:30","1000000"));
+        Toast.makeText(context,  "친구찾기 클릭", Toast.LENGTH_SHORT).show();
+
         mAdapter = new NoticeAdapter(context, items);
         recyclerView.setAdapter(mAdapter);
 
-        chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
-
+        // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
@@ -64,18 +69,29 @@ public class TalkFragment extends Fragment {
                     case R.id.chipFriend:
                         initDataset();
                         items.add(new NoticeItem("frined", "제 친구를 소개합니다.", "소통게시판 ","16:30","1000000"));
-                        Toast.makeText(context,  " 친구찾기 클릭", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,  "친구찾기 클릭", Toast.LENGTH_SHORT).show();
+
+                        mAdapter = new NoticeAdapter(context, items);
+                        recyclerView.setAdapter(mAdapter);
+                        break;
 
                     case R.id.chipHelp:
                         initDataset();
                         items.add(new NoticeItem("help", "화장실에 갇혔어요.. 도와주세요", "소통게시판 ","16:30","1000000"));
                         Toast.makeText(context,  "도움요청 클릭", Toast.LENGTH_SHORT).show();
 
+                        mAdapter = new NoticeAdapter(context, items);
+                        recyclerView.setAdapter(mAdapter);
+                        break;
+
                     case R.id.chipMate:
                         initDataset();
                         items.add(new NoticeItem("mate", "중랑구 서울여대에서 같이 집에가실 분 구해요", "소통게시판 ","16:30","1000000"));
-                        Toast.makeText(context, "퇴근 메이트 클릭", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(context,  "퇴근메이트 클릭", Toast.LENGTH_SHORT).show();
 
+                        mAdapter = new NoticeAdapter(context, items);
+                        recyclerView.setAdapter(mAdapter);
+                        break;
                 }
             }
         });
@@ -83,7 +99,7 @@ public class TalkFragment extends Fragment {
         return view;
     }
 
-    private void initDataset() {
+    private void initDataset() { //들어갈 데이터
         //초기화
         items.clear();
         items.add(new NoticeItem("writer", "hello", "소통게시판 ","15:10","10000"));

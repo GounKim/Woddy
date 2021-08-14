@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -23,8 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.Posting;
@@ -41,13 +46,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AddWritingsActivity extends AppCompatActivity {
+public class AddWritingsActivity extends BaseActivity {
     private File tempFile;
     private Boolean isPermission = true;
 
     private static final int PICK_FROM_ALBUM = 1;
 
-    Button cancelBtn, finishBtn, addImageBtn;
+    ImageView addImageBtn;
     EditText titleTV, plotTV;
     TextView boardInfoTV;
     int image_index = 1;
@@ -62,9 +67,13 @@ public class AddWritingsActivity extends AppCompatActivity {
     InputMethodManager imm;
 
     @Override
+    protected boolean useBottomNavi() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("글 작성");
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
@@ -76,27 +85,48 @@ public class AddWritingsActivity extends AppCompatActivity {
         firestoreManager = new FirestoreManager(getApplicationContext());
         sManager = new StorageManager();
 
-        addImageBtn = (Button) findViewById(R.id.addImages);
-        cancelBtn = (Button) findViewById(R.id.cancelBtn);
-        finishBtn = (Button) findViewById(R.id.finishBtn);
+        addImageBtn = (ImageView) findViewById(R.id.addPhotoImage);
         titleTV = (EditText) findViewById(R.id.titleTextView);
         plotTV = (EditText) findViewById(R.id.plotTextView);
         boardInfoTV = (TextView) findViewById(R.id.board_info);
 
+        // 툴바 설정
+        setSupportActionBar(getmToolbar());
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_clear_24);
+        actionBar.setDisplayShowCustomEnabled(true);    // 커스터마이징하기
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);  // 뒤로가기 버튼
+        setMyTitle("글 작성");
+
         // boardInfoTV에 게시판 / 태그 정보 가져와서 나타내도록 해야 함
 
-
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+        addImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {
+                tedPermission();
+                if (isPermission) {
+                    goToAlbum();
+                } else
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
             }
         });
+    }
 
-        finishBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_writing, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            case R.id.menu_add_writing:
                 if (!titleTV.getText().toString().isEmpty() && !plotTV.getText().toString().isEmpty()) {
                     Posting post;
                     final String title = titleTV.getText().toString();
@@ -112,19 +142,10 @@ public class AddWritingsActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "제목과 내용 모두를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+                break;
+        }
 
-        addImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tedPermission();
-                if (isPermission) {
-                    goToAlbum();
-                } else
-                    Toast.makeText(view.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
-            }
-        });
+        return super.onOptionsItemSelected(item);
     }
 
     // 키보드 자동 올라오기 막기

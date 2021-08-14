@@ -21,9 +21,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class BaseActivity extends AppCompatActivity {
-    Toolbar mToolbar;
-    TextView toolbarTitle;
-    BottomNavigationView bottomNavi;
+    private Toolbar mToolbar;
+    private TextView toolbarTitle;
+    private BottomNavigationView bottomNavi;
 
     private Boolean useToolbar = true;
     private Boolean useBottomNavi = true;
@@ -131,4 +131,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public Toolbar getmToolbar() {
+        return mToolbar;
+    }
 }

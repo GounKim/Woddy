@@ -104,7 +104,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         commentAdapter = new CommentAdapter();
         commentView.setAdapter(commentAdapter);
 
-        manager = new FirestoreManager();
+        manager = new FirestoreManager(getApplicationContext());
         manager.getPostWithNum(postingNumber).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

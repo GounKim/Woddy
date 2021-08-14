@@ -28,7 +28,7 @@ import static android.content.ContentValues.TAG;
 
 
 public class ChattingFragment extends Fragment {
-    FirestoreManager manager = new FirestoreManager();
+    FirestoreManager manager = new FirestoreManager(getContext());
 
     RecyclerView recyclerView;
     ChattingAdapter clAdapter;

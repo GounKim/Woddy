@@ -64,7 +64,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         delAccount = view.findViewById(R.id.myPage_deleteAccount);
         logOut = view.findViewById(R.id.myPage_logout);
 
-        FirestoreManager manager = new FirestoreManager();
+        FirestoreManager manager = new FirestoreManager(getContext());
         manager.findUser("user1")
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

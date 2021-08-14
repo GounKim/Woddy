@@ -1,5 +1,7 @@
 package com.example.woddy.DB;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -37,9 +39,11 @@ import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 public class FirestoreManager {
 
     private FirebaseFirestore fsDB;
+    private SQLiteManager sqlManager;
 
-    public FirestoreManager() {
+    public FirestoreManager(Context context) {
         fsDB = FirebaseFirestore.getInstance();
+        sqlManager = new SQLiteManager(context);
     }
 
     // User Profile 추가 - 회원가입 시 유저 정보
@@ -159,9 +163,9 @@ public class FirestoreManager {
         return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
     }
 
-    // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
-    public void addUserActivity(String docID, UserActivity activity) {
-        DocumentReference userRef = fsDB.collection("user").document(docID);
+    // 사용자 활동(좋아요, 스크랩) 추가
+    public void getUserActivity(String docID, UserActivity activity) {
+        DocumentReference userRef = fsDB.collection("user").document(sqlManager.USER);
         userRef.collection("posting").add(activity)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -178,7 +182,7 @@ public class FirestoreManager {
     }
 
     // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
-    public void delUserActivity(String docID, int activityName, DocumentReference userRef) {
+    public void setUserActivity(String docID, int activityName, DocumentReference userRef) {
         if (activityName == WRITEARTICLE) {
             // 목록에서 삭제 + 전체 posting에서 삭제 + 다른 사용자에게도 삭제된 메시지라고 떠야함
 
@@ -272,24 +276,20 @@ public class FirestoreManager {
     // 게시물 추가
     public void addPosting(String boardName, String tagName, Posting posting) {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
+        // postingNum찾기
+        String postingNum = "P" + sqlManager.USER + "_" + sqlManager.postingCount();
+        posting.setPostingNumber(postingNum);
+
+        // 이미지 Storage에 넣기
+        StorageManager storageManager = new StorageManager();
+        posting.setPictures(storageManager.addPostingImage(boardName, tagName, posting.getPostingNumber(), posting.getPictures()));
+
         colRef.add(posting)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        String pNum = documentReference.getId();
-                        // 이미지 Storage에 넣기
-                        StorageManager storageManager = new StorageManager();
-                        posting.setPictures(storageManager.addPostingImage(pNum, posting.getPictures()));
-
-                        // postingNumber를 docID로 설정하기
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("postingNumber", documentReference.getId());
-                        data.put("pictures", posting.getPictures());
-                        updatePosting(boardName, tagName, documentReference.getId(), data);
-
-//                        // 게시글 정보 추가
-//                        PostingInfo postingInfo = new PostingInfo();
-//                        documentReference.collection("postingInfo").add(postingInfo);
+                        // sqlite에 내 포스팅 추가
+                        sqlManager.insertPosting(posting);
 
                         Log.d(TAG, "Posting has successfully Added!");
                     }
@@ -298,23 +298,6 @@ public class FirestoreManager {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
                         Log.w(TAG, "Error adding document in posting collection", e);
-                    }
-                });
-    }
-
-    // 게시물 찾기(docID는 Posting Number)
-    private void searchPosting(String postingNum) {
-        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
                     }
                 });
     }

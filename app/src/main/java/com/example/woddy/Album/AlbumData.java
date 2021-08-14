@@ -2,6 +2,7 @@ package com.example.woddy.Album;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteHelper;
 import com.example.woddy.Entity.Posting;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,9 +31,12 @@ public class AlbumData {
     ArrayList<Posting> items = new ArrayList<>();
     ArrayList<String> docRef = new ArrayList<>();
 
-    FirestoreManager manager = new FirestoreManager();
-    FirebaseFirestore db;
+    FirestoreManager manager;
     private AlbumAdapter adapter = new AlbumAdapter();
+
+    public AlbumData(Context context) {
+        this.manager = new FirestoreManager(context);
+    }
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView) {
 

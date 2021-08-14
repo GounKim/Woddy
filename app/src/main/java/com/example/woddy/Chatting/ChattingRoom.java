@@ -94,7 +94,7 @@ public class ChattingRoom extends BaseActivity {
     }
 
     private void initDatabase(String roomNum) {
-        manager = new FirestoreManager();
+        manager = new FirestoreManager(getApplicationContext());
 
         manager.getMessage(roomNum).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

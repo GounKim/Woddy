@@ -73,7 +73,7 @@ public class AddWritingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.add_writings_main);
 
-        firestoreManager = new FirestoreManager();
+        firestoreManager = new FirestoreManager(getApplicationContext());
         sManager = new StorageManager();
 
         addImageBtn = (Button) findViewById(R.id.addImages);

@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import com.example.woddy.Notice.NoticeAdapter;
 import com.example.woddy.Notice.NoticeItem;
 import com.example.woddy.R;
+import com.google.android.material.chip.ChipGroup;
 
 import android.content.Context;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,13 +27,7 @@ public class TalkFragment extends Fragment {
     private NoticeAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    private int MAX_ITEM_COUNT = 10;// 정보 횟수 받아서 넣으면 됨
-
-    final String btnName1[] = { "#친구찾기", "#도움요청", "#퇴근메이트" };
-
-    Integer btnID1[] = { 0,1,2 };
-
-
+    ChipGroup chipGroup;
 
     public TalkFragment() {
         // Required empty public constructor
@@ -38,14 +35,37 @@ public class TalkFragment extends Fragment {
 
 
     private ArrayList<NoticeItem> items = new ArrayList<>();
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.notice_talk, container, false);
+        View view = inflater.inflate(R.layout.notice_page_talk, container, false);
+        context = container.getContext();
 
-        initDataset();
+        chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
+
+        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.chipFriend:
+                        items.add(new NoticeItem("frined", "제 친구를 소개합니다.", "소통게시판 ","16:30","1000000"));
+                        initDataset();
+                        Toast.makeText(context,  R.string.frind +"클릭", Toast.LENGTH_SHORT).show();
+                    case R.id.chipHelp:
+                        items.add(new NoticeItem("help", "화장실에 갇혔어요.. 도와주세요", "소통게시판 ","16:30","1000000"));
+                        initDataset();
+                        Toast.makeText(context,  R.string.help +"클릭", Toast.LENGTH_SHORT).show();
+                    case R.id.chipMate:
+                        items.add(new NoticeItem("mate", "중랑구 서울여대에서 같이 집에가실 분 구해요", "소통게시판 ","16:30","1000000"));
+                        initDataset();
+                        Toast.makeText(context,  R.string.mate +"클릭", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
 
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_Talk);

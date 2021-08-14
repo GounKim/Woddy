@@ -39,7 +39,6 @@
         <item name="android:textColor">@color/text_filter_chip_state_list</item>
         <item name="textStartPadding">8dp</item>
         <item name="android:textStyle">bold</item>
-        <item name="iconStartPadding">6dp</item>
         <item name="chipEndPadding">2dp</item>
     </style>
 </resources>

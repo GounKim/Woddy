@@ -38,14 +38,14 @@
                 android:id="@+id/chipHelp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/help"
+                android:text="#도움요청"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mate"
+                android:text="#퇴근메이트"
                 style="@style/Widget.Woody.Chip" />
 
         </com.google.android.material.chip.ChipGroup>

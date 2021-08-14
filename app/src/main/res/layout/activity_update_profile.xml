@@ -114,6 +114,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/button_round_shape"
+            android:textColor="@color/white"
             android:text="프로필 설정" />
 
     </LinearLayout>

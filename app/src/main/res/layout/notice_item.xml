@@ -18,7 +18,7 @@
             android:maxHeight="20dp"
             android:text="닉네임"
             android:textStyle="bold"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:layout_margin="10dp"
             android:layout_gravity="left|top"/>
 
@@ -40,7 +40,7 @@
             android:maxWidth="300dp"
             android:maxHeight="20dp"
             android:text="게시판 이름"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:layout_gravity="left|bottom"
             android:layout_margin="10dp"/>
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar mToolbar;
     TextView toolbarTitle;
     BottomNavigationView bottomNavi;
+    ImageView toolbarLogo;
 
     private Boolean useToolbar = true;
     private Boolean useBottomNavi = true;
@@ -45,8 +47,8 @@ public class BaseActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.chatting_room_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarLogo = findViewById(R.id.toolbar_logo);
         bottomNavi = findViewById(R.id.bottomNavi);
-        ;
 
         // 툴바 사용 여부 결정
         if (useToolbar()) {
@@ -64,6 +66,8 @@ public class BaseActivity extends AppCompatActivity {
             // 첫 화면 설정
             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
             setMyTitle("홈");
+            toolbarLogo.setVisibility(View.VISIBLE);
+            toolbarTitle.setVisibility(View.GONE);
 
             // BottomNavigationView 내부 아이템 설정
             bottomNavi.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -71,6 +75,8 @@ public class BaseActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.bottom_menu_home:
+                            toolbarLogo.setVisibility(View.VISIBLE);
+                            toolbarTitle.setVisibility(View.GONE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeFragment()).commit();
                             mToolbar.setVisibility(View.VISIBLE);
                             setMyTitle("홈");
@@ -80,11 +86,15 @@ public class BaseActivity extends AppCompatActivity {
                             mToolbar.setVisibility(View.GONE);
                             return true;
                         case R.id.bottom_menu_chatting:
+                            toolbarLogo.setVisibility(View.GONE);
+                            toolbarTitle.setVisibility(View.VISIBLE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new ChattingFragment()).commit();
                             setMyTitle("채팅");
                             mToolbar.setVisibility(View.VISIBLE);
                             return true;
                         case R.id.bottom_menu_myPage:
+                            toolbarLogo.setVisibility(View.GONE);
+                            toolbarTitle.setVisibility(View.VISIBLE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new MyPageFragment()).commit();
                             setMyTitle("마이페이지");
                             mToolbar.setVisibility(View.VISIBLE);

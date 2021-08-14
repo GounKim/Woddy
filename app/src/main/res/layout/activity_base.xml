@@ -12,15 +12,24 @@
         android:id="@+id/chatting_room_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_color">
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/toolbar_logo"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/logos_02"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:text="ToolbarTitle"
-            android:textSize="20dp"
+            android:textColor="@color/main_color"
+            android:textSize="18dp"
             android:textStyle="bold"/>
 
     </androidx.appcompat.widget.Toolbar>
@@ -37,8 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/bottom_navi_shape"
-        app:itemIconTint="@drawable/bottom_navi_color"
-        app:itemTextColor="#3C3C6B"
+        app:itemIconTint="@color/main_color"
+        app:itemTextColor="@color/main_color"
         app:menu="@menu/menu_bottom" />
 
 </LinearLayout>

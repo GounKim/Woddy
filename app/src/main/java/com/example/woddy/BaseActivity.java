@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
@@ -173,7 +174,8 @@ public class BaseActivity extends AppCompatActivity {
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken",token);
 
-                        FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
+                        FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
+                        //FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
                     }
                 });
     }

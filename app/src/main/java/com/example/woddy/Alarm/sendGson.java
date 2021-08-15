@@ -23,7 +23,7 @@ public class sendGson {
 
     public static void sendGson(String title, String message) {
 
-        DocumentReference docRef = fsDB.collection("pushtokens").document(FirebaseAuth.getInstance().getUid());
+        DocumentReference docRef = fsDB.collection("userProfile").document(FirebaseAuth.getInstance().getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

@@ -374,14 +374,7 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        // postingNumber를 docID로 설정하기
-                        Map<String, Object> id = new HashMap<>();
-                        id.put("docID", documentReference.getId());
-                        updateComment(postingNumber, documentReference.getId(), id);
-
-                        updatePostInfo(postingNumber, "numberOfComment", INCRESE);
-
-                        commentAlarm(FirebaseAuth.getInstance().getUid(),comment.toString());
+                        //commentAlarm(get,comment.toString());
 
                         Log.d(TAG, "Comment has successfully Added!");
                     }

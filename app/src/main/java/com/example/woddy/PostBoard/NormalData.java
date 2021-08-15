@@ -1,4 +1,4 @@
-package com.example.woddy.Album;
+package com.example.woddy.PostBoard;
 
 import static android.content.ContentValues.TAG;
 
@@ -11,35 +11,28 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.PostBoard.Album.AlbumAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class AlbumData {
+public class NormalData {
 
     ArrayList<Posting> items = new ArrayList<>();
     ArrayList<String> docPath = new ArrayList<String>();
 
     FirestoreManager manager;
-    private AlbumAdapter adapter = new AlbumAdapter();
+    private PostBoardAdapter adapter = new PostBoardAdapter();
 
-    public AlbumData(Context context) {
+    public NormalData(Context context) {
         this.manager = new FirestoreManager(context);
     }
 
-    public ArrayList<Posting> getItems(RecyclerView recyclerView) {
-
-        //여기서 파이어스토어에서 정보 가져와서 items.add(positingNumber, 이미지주소, 게시글제목, 좋아요수);
-//        db = FirebaseFirestore.getInstance();
-//        CollectionReference productsRef = db.collection("postings");
-
-//        Query query = productsRef.orderBy("postedTime", Query.Direction.DESCENDING);
-
-        manager.getPostWithTag("자랑하기").get()
+    public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName) {
+        manager.getPost(boardName, tagName).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

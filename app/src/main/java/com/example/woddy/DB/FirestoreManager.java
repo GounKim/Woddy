@@ -250,7 +250,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         // sqlite에 내 포스팅 추가
-                        sqlManager.insertPosting(posting);
+                        sqlManager.insertPosting(boardName, tagName, posting);
 
                         Log.d(TAG, "Posting has successfully Added!");
                     }
@@ -342,14 +342,14 @@ public class FirestoreManager {
 
     }
 
+    // 일반적인 경로로 게시물 불러오기
+    public Query getPost(String boardName, String tagName) {
+        return postCollectionRef(boardName, tagName).orderBy("postedTime", Query.Direction.DESCENDING);
+    }
+
     // Path로 게시물 불러오기
     public DocumentReference getdocRefWithPath(String postingPath) {
         return fsDB.document(postingPath);
-    }
-
-    // 태그로 게시물 불러오기
-    public Query getPostWithTag(String tagName) {
-        return fsDB.collectionGroup("postings").whereEqualTo("tag", tagName).orderBy("postedTime", Query.Direction.DESCENDING);
     }
 
     // postingNumber로 게시물 불러오기

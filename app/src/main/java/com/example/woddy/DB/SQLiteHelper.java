@@ -26,6 +26,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         // 글(포스팅)
         sql = "CREATE TABLE postings (posting_num TEXT PRIMARY KEY, " +
+                                    "board_name TEXT NOT NULL, " +
                                     "tag_name TEXT NOT NULL, " +
                                     "writer TEXT NOT NULL, " +
                                     "title TEXT NOT NULL, " +

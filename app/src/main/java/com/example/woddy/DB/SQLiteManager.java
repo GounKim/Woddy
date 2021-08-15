@@ -19,12 +19,13 @@ public class SQLiteManager {
         this.helper = new SQLiteHelper(context, "woodyDB", null, 1);
     }
 
-    public void insertPosting(Posting posting) {
+    public void insertPosting(String boardName, String tagName, Posting posting) {
         sqlite = helper.getWritableDatabase();
         sqlite.execSQL("INSERT INTO postings " +
                 "VALUES ('"
                 + posting.getPostingNumber() + "', '"
-                + posting.getTag() + "', '"
+                + boardName + "', '"
+                + tagName + "', '"
                 + posting.getWriter() + "', '"
                 + posting.getTitle() + "', '"
                 + posting.getContent() + "','"

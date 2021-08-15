@@ -72,7 +72,7 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((SimpleHolder) holder).sContent.setText(posting.getContent());
             ((SimpleHolder) holder).sTitle.setText(posting.getTitle());
             ((SimpleHolder) holder).sContent.setText(posting.getContent());
-            ((SimpleHolder) holder).sBoardName.setText(posting.getTag());
+//            ((SimpleHolder) holder).sBoardName.setText(posting.getTag());
             ((SimpleHolder) holder).sTime.setText(timestamp(posting.getPostedTime()));
             ((SimpleHolder) holder).sLiked.setText(""+posting.getNumberOfLiked());
 
@@ -81,7 +81,7 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ((ImageHolder) holder).iTitle.setText(posting.getTitle());
             ((ImageHolder) holder).iContent.setText(posting.getContent());
-            ((ImageHolder) holder).iBoardName.setText(posting.getTag());
+//            ((ImageHolder) holder).iBoardName.setText(posting.getTag());
             ((ImageHolder) holder).iTime.setText(timestamp(posting.getPostedTime()));
             ((ImageHolder) holder).iLiked.setText(""+posting.getNumberOfLiked());
 

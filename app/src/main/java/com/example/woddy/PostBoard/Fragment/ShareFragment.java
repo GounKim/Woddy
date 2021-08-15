@@ -65,6 +65,7 @@ public class ShareFragment extends Fragment {
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
 
         //default 부분 - 시작 시
+        chipGroup.check(0);
         tagName = "물품공유";
         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
         givePathToParent(tagName);

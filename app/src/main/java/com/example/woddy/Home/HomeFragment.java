@@ -121,8 +121,8 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
-            homeAdapter = new HomeAdapter();
-            recyclerView.setAdapter(homeAdapter);
+        homeAdapter = new HomeAdapter();
+        recyclerView.setAdapter(homeAdapter);
 
             //setHomeAdapter();
 

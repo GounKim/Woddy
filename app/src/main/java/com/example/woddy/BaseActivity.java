@@ -21,7 +21,6 @@ import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.MyPage.MyPageFragment;
 import com.example.woddy.PostBoard.PostBoardMain;
-import com.example.woddy.Notice.NoticeMain;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -184,7 +183,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
         //FcmPush.instance.sendMessage("DmtUmsMEv5fEHNU5CIXNXvibyhl1","hi","msg");
         //sendNotification("DmtUmsMEv5fEHNU5CIXNXvibyhl1", "hi", "Is it working?");
-        sendGson("title","message");
+        sendGson(FirebaseAuth.getInstance().getUid(), "title","message");
     }
     public Toolbar getmToolbar() {
         return mToolbar;

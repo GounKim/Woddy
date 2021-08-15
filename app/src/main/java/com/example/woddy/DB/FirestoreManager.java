@@ -1,9 +1,11 @@
 package com.example.woddy.DB;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.woddy.Alarm.AlarmDTO;
 import com.example.woddy.Alarm.FcmPush;
@@ -16,6 +18,7 @@ import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
+import com.example.woddy.Posting.ShowImgPostingAdapter;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -38,6 +42,7 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 import static com.example.woddy.Alarm.sendGson.sendGson;
 import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class FirestoreManager {
 
@@ -374,7 +379,8 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        //commentAlarm(get,comment.toString());
+
+                        commentAlarm(getDestinationUid(postingPath),comment.toString());
 
                         Log.d(TAG, "Comment has successfully Added!");
                     }
@@ -512,6 +518,46 @@ public class FirestoreManager {
         return docRef.collection("messages").orderBy("writtenTime", Query.Direction.ASCENDING);
     }
 
+    //해당 게시물의 writer의 uid 얻기
+    public String getDestinationUid(String postpath){
+        final String[] destinationUid = {null};
+        @SuppressLint("RestrictedApi") FirestoreManager manager = new FirestoreManager(getApplicationContext());
+        manager.getdocRefWithPath(postpath).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Posting posting = document.toObject(Posting.class);
+
+                                String writer= posting.getWriter();
+                                FirebaseFirestore.getInstance().collection("userProfile")
+                                        .whereEqualTo("nickname", writer)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    QuerySnapshot document = task.getResult();
+                                                    destinationUid[0] = document.toString();
+                                                } else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
+
+                            } else {
+                                Log.d(TAG, "fail to find ", task.getException());
+                            }
+                        } else {
+                            Log.d(TAG, "finding posting task failed. error: " , task.getException());
+                        }
+                    }
+                });
+        return destinationUid[0];
+    }
+
     /* ************* 검색 ************* */
     public void search(String colPath, String field, String value) {
         CollectionReference ref = fsDB.collection("user");
@@ -546,7 +592,7 @@ public class FirestoreManager {
 
         String message = (FirebaseAuth.getInstance().getCurrentUser().getUid()) + "당신의 게시물에 좋아요가 눌렸습니다.";
         //FcmPush.instance.sendMessage(destinationUid, "Woddy",message);
-        sendGson("Woddy",message);
+        sendGson(destinationUid,"Woddy",message);
     }
 
     public void commentAlarm(String destinationUid, String message){
@@ -560,7 +606,7 @@ public class FirestoreManager {
 
         String msg = (FirebaseAuth.getInstance().getCurrentUser().getUid()) + "당신의 게시물에 댓글이 달렸습니다." +" of "+ message;
         //FcmPush.instance.sendMessage(destinationUid, "Woddy",msg);
-        sendGson("Woddy",msg);
+        sendGson(destinationUid,"Woddy",msg);
     }
 
     public void chattingAlarm(String destinationUid, String message){
@@ -574,7 +620,7 @@ public class FirestoreManager {
 
         String msg = (FirebaseAuth.getInstance().getCurrentUser().getUid()) + "새로운 채팅이 왔습니다.";
         //FcmPush.instance.sendMessage(destinationUid, "Woddy",msg);
-        sendGson("Woddy",msg);
+        sendGson(destinationUid,"Woddy",msg);
     }
 
 }

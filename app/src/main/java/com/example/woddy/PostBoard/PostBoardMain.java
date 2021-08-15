@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +83,8 @@ public class PostBoardMain extends Fragment {
 
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#494C7C"));
+        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#494C7C")));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

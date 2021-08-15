@@ -1,4 +1,4 @@
-package com.example.woddy.Album;
+package com.example.woddy.PostBoard.Album;
 //앨범게시판 아이템에 저장할 데이터
 public class AlbumItem {
 

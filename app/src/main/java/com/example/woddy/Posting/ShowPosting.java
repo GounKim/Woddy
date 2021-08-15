@@ -100,7 +100,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                 writer.setText(posting.getWriter());
                                 time.setText(datestamp(posting.getPostedTime()));
                                 content.setText(posting.getContent());
-                                tag.setText("#" + posting.getTag());
+//                                tag.setText("#" + posting.getTag());
                                 likedCount.setText(posting.getNumberOfLiked() + "");
                                 scrapCount.setText(posting.getNumberOfScraped() + "");
 

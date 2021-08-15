@@ -11,7 +11,7 @@ import java.util.Map;
 // 게시글
 public class Posting {
     private String postingNumber;  // P0000001부터 시작
-    private String tag; // 태그 이름 [ FK : BoardTag ]
+//    private String tag; // 태그 이름 [ FK : BoardTag ]
     private String writer;  // User의 nickName [ FK : MemberInfo ]
     private String title;   // 글의 제목
     private String content; // 글의 내용
@@ -26,9 +26,9 @@ public class Posting {
     public Posting() {
     }
 
-    public Posting(String tag, String writer, String title, String content, Date postedTime) {
+    public Posting(String writer, String title, String content, Date postedTime) {
         this.postingNumber = "";
-        this.tag = tag;
+//        this.tag = tag;
         this.writer = writer;
         this.title = title;
         this.content = content;
@@ -36,9 +36,9 @@ public class Posting {
         this.pictures = new ArrayList<>();
     }
 
-    public Posting(String tag, String writer, String title, String content, ArrayList<String> pictures, Date postedTime) {
+    public Posting(String writer, String title, String content, ArrayList<String> pictures, Date postedTime) {
         this.postingNumber = "";
-        this.tag = tag;
+//        this.tag = tag;
         this.writer = writer;
         this.title = title;
         this.content = content;
@@ -52,7 +52,7 @@ public class Posting {
         post.put("title", title);
         post.put("content", content);
         post.put("writer", writer);
-        post.put("tag", tag);
+//        post.put("tag", tag);
 
         return post;
     }
@@ -65,13 +65,13 @@ public class Posting {
         this.postingNumber = postingNumber;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
+//    public String getTag() {
+//        return tag;
+//    }
+//
+//    public void setTag(String tag) {
+//        this.tag = tag;
+//    }
 
     public String getWriter() {
         return writer;

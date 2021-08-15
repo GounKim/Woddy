@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".Notice.Fragment.TalkFragment">
+    tools:context=".PostBoard.Fragment.TalkFragment">
 
     <HorizontalScrollView
         android:id="@+id/filterScrollView"

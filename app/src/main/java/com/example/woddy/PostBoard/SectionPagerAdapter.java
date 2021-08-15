@@ -1,4 +1,4 @@
-package com.example.woddy.Notice;
+package com.example.woddy.PostBoard;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

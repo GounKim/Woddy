@@ -52,7 +52,8 @@ public class AddWritingsActivity extends BaseActivity {
 
     ImageView addImageBtn;
     EditText titleTV, plotTV;
-    TextView boardInfoTV;
+    TextView tvBoarName, tvTagName;
+
     int image_index = 1;
 
     ArrayList<String> uriList = new ArrayList<>();
@@ -61,6 +62,10 @@ public class AddWritingsActivity extends BaseActivity {
     StorageReference storageRef;
     FirestoreManager firestoreManager;
     StorageManager sManager;
+
+    String boardName;
+    String tagName;
+    String USER = "user1";
 
     InputMethodManager imm;
 
@@ -72,13 +77,15 @@ public class AddWritingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_writings);
+        Intent intent = getIntent();
+        boardName = intent.getStringExtra("boardName");
+        tagName = intent.getStringExtra("tagName");
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-
-        setContentView(R.layout.activity_add_writings);
 
         firestoreManager = new FirestoreManager(getApplicationContext());
         sManager = new StorageManager();
@@ -86,7 +93,8 @@ public class AddWritingsActivity extends BaseActivity {
         addImageBtn = (ImageView) findViewById(R.id.addPhotoImage);
         titleTV = (EditText) findViewById(R.id.titleTextView);
         plotTV = (EditText) findViewById(R.id.plotTextView);
-        boardInfoTV = (TextView) findViewById(R.id.add_writing_board_name);
+        tvBoarName = (TextView) findViewById(R.id.add_writing_board_name);
+        tvTagName = (TextView) findViewById(R.id.add_writing_tag_name);
 
         // 툴바 설정
         setSupportActionBar(getmToolbar());
@@ -97,7 +105,10 @@ public class AddWritingsActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);  // 뒤로가기 버튼
         setMyTitle("글 작성");
 
-        // boardInfoTV에 게시판 / 태그 정보 가져와서 나타내도록 해야 함
+        // 게시판 & 태그 정보 가져와서 나타냄
+        tvBoarName.setText(boardName + "게시판");
+        tvTagName.setText("#" + tagName);
+
 
         addImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,11 +141,11 @@ public class AddWritingsActivity extends BaseActivity {
                     final String title = titleTV.getText().toString();
                     final String content = plotTV.getText().toString();
                     if (uriList == null) {
-                        post = new Posting("자랑하기", "user1", title, content, new Date());
+                        post = new Posting(USER, title, content, new Date());
                     } else {
-                        post = new Posting("자랑하기", "user1", title, content, uriList, new Date());
+                        post = new Posting(USER, title, content, uriList, new Date());
                     }
-                    firestoreManager.addPosting("자유게시판","자랑하기", post);
+                    firestoreManager.addPosting(boardName, tagName, post);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                 } else {

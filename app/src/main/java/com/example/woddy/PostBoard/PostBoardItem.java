@@ -1,6 +1,6 @@
-package com.example.woddy.Notice;
+package com.example.woddy.PostBoard;
 
-public class NoticeItem {
+public class PostBoardItem {
 
     private String writer;
     private String message;
@@ -9,7 +9,7 @@ public class NoticeItem {
     private String likeNum;
 
 
-    public NoticeItem(String writer, String message, String boardName,String writtenTime, String likeNum){
+    public PostBoardItem(String writer, String message, String boardName, String writtenTime, String likeNum){
 
         this.writer = writer;
         this.message = message;

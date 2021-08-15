@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Notice.Fragment.ShareFragment">
+    tools:context=".PostBoard.Fragment.ShareFragment">
 
     <HorizontalScrollView
         android:id="@+id/filterScrollView"

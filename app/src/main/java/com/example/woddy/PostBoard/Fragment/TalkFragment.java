@@ -96,10 +96,4 @@ public class TalkFragment extends Fragment {
 
         return view;
     }
-
-    private void initDataset() { //들어갈 데이터
-        //초기화
-
-    }
-
 }

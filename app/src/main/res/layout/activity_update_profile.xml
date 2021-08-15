@@ -4,118 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPage.UpdateProfile"
-    android:padding="10dp">
+    tools:context=".MyPage.UpdateProfile">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <ImageView
+        android:id="@+id/update_profile_image_view"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/init_user_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/updateProfile_userImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/init_user_image" />
+    <Button
+        android:id="@+id/update_profile_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="164dp"
+        android:background="#00ffffff"
+        android:text="프로필 사진 바꾸기"
+        android:textColor="@color/main_color"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="닉네임"
-                android:gravity="center"/>
+    <TextView
+        android:id="@+id/textview22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="250dp"
+        android:text="닉네임"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/updateProfile_edt_nickName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:background="@drawable/button_round_shape_no_background"
-                android:ems="10"
-                android:gravity="center"
-                android:padding="6dp"
-                android:inputType="textPersonName"
-                android:hint="닉네임을 입력하세요." />
-        </LinearLayout>
+    <EditText
+        android:id="@+id/update_nick_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edit_text_box"
+        android:hint="닉네임 입력"
+        android:text="현재 닉네임"
+        app:layout_constraintEnd_toStartOf="@id/update_nick_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview22" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
+    <Button
+        android:id="@+id/update_nick_button"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/button_round_shape"
+        android:text="변경"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview22" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="한줄 소개"
-                android:gravity="center"/>
+    <TextView
+        android:id="@+id/update_nick_check_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="right"
+        android:text="사용 가능한 닉네임입니다."
+        android:textSize="13dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/update_nick_button" />
 
-            <EditText
-                android:id="@+id/updateProfile_edt_introduce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:background="@drawable/button_round_shape_no_background"
-                android:ems="10"
-                android:gravity="center"
-                android:padding="6dp"
-                android:inputType="textPersonName"
-                android:hint="한줄 소개를 입력하세요." />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/textview23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="주소"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/update_nick_edit_text" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
+    <EditText
+        android:id="@+id/update_local_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edit_text_box"
+        android:hint="주소 입력 (서울시 노원구 공릉동)"
+        android:text="현재 주소"
+        app:layout_constraintEnd_toStartOf="@id/update_local_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview23" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.5"
-                android:text="지역(구)"
-                android:gravity="center"/>
+    <Button
+        android:id="@+id/update_local_button"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/button_round_shape"
+        android:text="변경"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview23" />
 
-            <EditText
-                android:id="@+id/updateProfile_edt_local"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="7.5"
-                android:background="@drawable/button_round_shape_no_background"
-                android:ems="10"
-                android:gravity="center"
-                android:padding="6dp"
-                android:inputType="textPersonName"
-                android:hint="지역(구)를 입력하세요" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:text="반드시 형식에 맞춰 입력해 주세요."
+        android:textSize="13dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/update_local_button" />
 
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/updateProfile_btn_complete"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/button_round_shape"
-            android:textColor="@color/white"
-            android:text="프로필 설정" />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

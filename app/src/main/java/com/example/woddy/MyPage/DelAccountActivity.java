@@ -1,7 +1,6 @@
 package com.example.woddy.MyPage;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,10 +62,9 @@ public class DelAccountActivity extends BaseActivity {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                FirebaseAuth.getInstance().signOut();
                                 Log.d(TAG, "User account delete completed.");
-                                fsManager.deleteUserProfile(uid);
-                                //fsManager.deleteUser();
-                                //sqlite에서도 삭제
+                                fsManager.deleteProfile(uid);
 
                                 Toast.makeText(DelAccountActivity.this, "탈퇴가 완료되었습니다", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(DelAccountActivity.this, LogInActivity.class);

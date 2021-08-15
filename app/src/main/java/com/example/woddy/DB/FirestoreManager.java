@@ -49,6 +49,8 @@ public class FirestoreManager {
     private FirebaseFirestore fsDB;
     private SQLiteManager sqlManager;
 
+    String destinationUid; //푸시전달할 uid
+
     public FirestoreManager(Context context) {
         fsDB = FirebaseFirestore.getInstance();
         sqlManager = new SQLiteManager(context);
@@ -324,6 +326,9 @@ public class FirestoreManager {
         Map<String, Object> data = new HashMap<>();
         if (inORdecrese == INCRESE) {
             data.put(field, FieldValue.increment(1));
+            if (field == "LIKE"){
+                likeAlarm(getDestinationUid(postingPath));
+            }
         } else if (inORdecrese == DECRESE) {
             data.put(field, FieldValue.increment(-1));
         } else {
@@ -520,42 +525,32 @@ public class FirestoreManager {
 
     //해당 게시물의 writer의 uid 얻기
     public String getDestinationUid(String postpath){
-        final String[] destinationUid = {null};
-        @SuppressLint("RestrictedApi") FirestoreManager manager = new FirestoreManager(getApplicationContext());
-        manager.getdocRefWithPath(postpath).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Posting posting = document.toObject(Posting.class);
 
-                                String writer= posting.getWriter();
-                                FirebaseFirestore.getInstance().collection("userProfile")
-                                        .whereEqualTo("nickname", writer)
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    QuerySnapshot document = task.getResult();
-                                                    destinationUid[0] = document.toString();
-                                                } else {
-                                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                                }
-                                            }
-                                        });
+        fsDB.document(postpath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
 
-                            } else {
-                                Log.d(TAG, "fail to find ", task.getException());
-                            }
-                        } else {
-                            Log.d(TAG, "finding posting task failed. error: " , task.getException());
-                        }
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Posting posting = document.toObject(Posting.class);
+
+                        String writer=posting.getWriter();
+                        String Uid = userProFileColRef(writer).whereEqualTo("nickname",writer).toString();
+                        destinationUid = Uid;
+                        Log.d("getDestination",destinationUid);
                     }
-                });
-        return destinationUid[0];
+                }
+            }
+        });
+        return destinationUid;
+    }
+
+    public String getDestinationUid2(String postpath) {
+
+//        getdocRefWithPath(postpath).whereEqul
+//        whereEqualTo().addOncompleteListener
+        return null;
     }
 
     /* ************* 검색 ************* */

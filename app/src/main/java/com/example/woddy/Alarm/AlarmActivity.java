@@ -76,6 +76,11 @@ public class AlarmActivity extends AppCompatActivity {
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm,parent,false);
             return null;
+//            return CustomViewHolder(view);
+//
+//            class CustomViewHolder(View view) extends RecyclerView.ViewHolder(view){
+//
+//            }
         }
 
         @Override

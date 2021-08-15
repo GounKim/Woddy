@@ -8,7 +8,6 @@ import com.example.woddy.Posting.ShowPosting;
 public class PushDTO { //푸시 데이터
     String to = null;
     Notification notification = new Notification();
-    String click_action = "ShowPosting";
 
     public String getTo() {
         return to;
@@ -18,9 +17,6 @@ public class PushDTO { //푸시 데이터
         return notification;
     }
 
-    public String getClick_action() {
-        return click_action;
-    }
 
     public void setNotification(Notification notification) {
         this.notification = notification;
@@ -30,9 +26,6 @@ public class PushDTO { //푸시 데이터
         this.to = to;
     }
 
-    public void setClick_action(String click_action) {
-        this.click_action = click_action;
-    }
 
     class Notification{
         String body = null;

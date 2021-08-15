@@ -1,11 +1,14 @@
 package com.example.woddy;
 
+import static com.example.woddy.Alarm.sendGson.sendGson;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -150,6 +153,7 @@ public class BaseActivity extends AppCompatActivity {
                             return;
                         }
                         String token = task.getResult();
+                        Log.d("sys",token);
                         String uid = FirebaseAuth.getInstance().getUid();
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken",token);
@@ -158,8 +162,10 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 });
     }
-    public void OnStop(){ //확인용
+    public void onStop(){ //확인용
         super.onStop();
-        FcmPush.instance.sendMessage("D4CIchRC1EMJhhDX227pxnaLVAI2","hi","msg","");
+        //FcmPush.instance.sendMessage("DmtUmsMEv5fEHNU5CIXNXvibyhl1","hi","msg");
+        //sendNotification("DmtUmsMEv5fEHNU5CIXNXvibyhl1", "hi", "Is it working?");
+        sendGson("title","message");
     }
 }

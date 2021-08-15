@@ -8,4 +8,5 @@
     <string name="alarm_like">당신의 게시물에 좋아요가 눌렸습니다.</string>
     <string name="alarm_comment">당신의 게시물에 댓글이 달렸습니다.</string>
     <string name="alarm_chatting">채팅을 보냈습니다.</string>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
 </resources>

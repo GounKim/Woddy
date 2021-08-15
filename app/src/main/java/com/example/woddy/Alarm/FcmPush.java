@@ -34,20 +34,22 @@ import okhttp3.Response;
 
 public class FcmPush { //푸시 보내기
     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    String url ="https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send";
+    String url ="https://fcm.googleapis.com/fcm/send";
     String serverKey = "AIzaSyDSEptV5uYWh0W3qCKWUwbYYrw9DxmuMOU";
-    Gson gson = null;
-    OkHttpClient okHttpClient = null;
+    //String serverKey = "AAAAt6rIneU:APA91bHEm4_X52q6SP4HHl8Io5Htm_9C_DLmWkBF-7UAAhZVLRp4uiIIzh9o1quYBGYGfEetQdkTmQ7UNFxS6sdojbbg8q3uoU5utTFApEjw0kdT9XYrGO2-5hHSBdP-HEBato9ApxX_";
+    Gson gson = new Gson();
+    OkHttpClient okHttpClient = new OkHttpClient();
 
     public static final FcmPush instance = new FcmPush();
     static Context context = FcmPush.context;
+
 
     FcmPush(){
         gson = new Gson();
         okHttpClient = new OkHttpClient();
     }
 
-    public void sendMessage(String destinationUid, String title, String message, String PostingNum) {
+    public void sendMessage(String destinationUid, String title, String message) {
         FirebaseFirestore.getInstance().collection("pushtokens").document(destinationUid).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -55,10 +57,9 @@ public class FcmPush { //푸시 보내기
                         if(task.isSuccessful()){
                             String token = task.getResult().get("pushToken").toString();
                             PushDTO pushDTO = new PushDTO();
-                            pushDTO.to = token;
-                            pushDTO.notification.title = title;
-                            pushDTO.notification.body = message;
-                            pushDTO.click_action = pushDTO.getClick_action();
+                            pushDTO.setTo(token);
+                            pushDTO.notification.setTitle(title);
+                            pushDTO.notification.setBody(message);
 
                             RequestBody body = RequestBody.create(JSON, gson.toJson(pushDTO));
                             Request request;
@@ -69,33 +70,39 @@ public class FcmPush { //푸시 보내기
                                     .post(body)
                                     .build();
 
-                            Intent intent = null;
-                            if (pushDTO.click_action =="ShowPosting"){
-                                    intent = new Intent(context, ShowPosting.class);
-                                    intent.getStringExtra(PostingNum);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            Intent intent = null;
+//                            if (pushDTO.click_action =="ShowPosting"){
+//                                    intent = new Intent(context, ShowPosting.class);
+//                                    intent.getStringExtra(PostingNum);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            }
+//                            else if (pushDTO.click_action =="ChattingFragment"){
+//                                intent = new Intent(context, ChattingFragment.class);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            }
+//
+//                            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
+//                                    PendingIntent.FLAG_ONE_SHOT);
+
+                            //NetworkOnMainThreadException 해결해야함
+                            try (Response response = okHttpClient.newCall(request).execute()) {
+                            }catch(Exception e){
+                                e.printStackTrace();
                             }
-                            else if (pushDTO.click_action =="ChattingFragment"){
-                                intent = new Intent(context, ChattingFragment.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            }
 
-                            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
-                                    PendingIntent.FLAG_ONE_SHOT);
-
-                            okHttpClient.newCall(request).enqueue(new Callback() {
-                                @Override
-                                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-                                }
-
-                                @Override
-                                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                    println(response.body().string());
-                                }
-                            });
-                        }
+//                            okHttpClient.newCall(request).enqueue(new Callback() {
+//                                @Override
+//                                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+//                                }
+//
+//                                @Override
+//                                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+//                                    println(response.toString());
+//                                }
+//                            });
+//                        }
                     }
-                });
+                }
+        });
     }
 }

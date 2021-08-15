@@ -31,7 +31,7 @@ public class ShowImgPostingAdapter extends RecyclerView.Adapter<ShowImgPostingAd
     @Override
     public ShowImgPostingAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.img_slider, parent, false);
+                .inflate(R.layout.show_img_posting_img_slider, parent, false);
         return new ShowImgPostingAdapter.MyViewHolder(view);
     }
 

@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class AlbumData {
 
     ArrayList<Posting> items = new ArrayList<>();
-    ArrayList<String> docPath = new ArrayList<String>();
+    ArrayList<String> docPath = new ArrayList<>();
 
     FirestoreManager manager;
     private AlbumAdapter adapter = new AlbumAdapter();

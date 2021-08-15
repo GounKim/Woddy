@@ -26,13 +26,15 @@ public class NormalData {
     ArrayList<String> docPath = new ArrayList<String>();
 
     FirestoreManager manager;
-    private PostBoardAdapter adapter = new PostBoardAdapter();
+    private PostBoardAdapter adapter;
 
     public NormalData(Context context) {
         this.manager = new FirestoreManager(context);
     }
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName) {
+        adapter = new PostBoardAdapter(boardName, tagName);
+
         manager.getPost(boardName, tagName).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

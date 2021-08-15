@@ -61,7 +61,7 @@ public class UpdateProfile extends BaseActivity {
     String tmp_imguri;
 
     StorageManager sManager = new StorageManager();
-    FirestoreManager fsManager = new FirestoreManager();
+    FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
 
     @Override
     protected boolean useBottomNavi() {
@@ -235,7 +235,7 @@ public class UpdateProfile extends BaseActivity {
 
     public void checkNick() {
         String nick_str = newNickEditText.getText().toString();
-        FirestoreManager fsManager = new FirestoreManager();
+        FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
         fsManager.findNickname(nick_str)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

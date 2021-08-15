@@ -1,5 +1,6 @@
 package com.example.woddy.DB;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -38,10 +39,25 @@ import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 public class FirestoreManager {
 
     private FirebaseFirestore fsDB;
+    private SQLiteManager sqlManager;
 
-    public FirestoreManager() {
+    public FirestoreManager(Context context) {
         fsDB = FirebaseFirestore.getInstance();
+        sqlManager = new SQLiteManager(context);
     }
+
+    // 현재 사용자 CollectionReference
+    public CollectionReference userColRef(String userNick) {
+        CollectionReference userColRef = fsDB.collection("users");
+        return userColRef;
+    }
+
+    // 현재 사용자 프로필 CollectionReference
+    public CollectionReference userProFileColRef(String userNick) {
+        CollectionReference userProFileColRef = fsDB.collection("userProfiles");
+        return userProFileColRef;
+    }
+
 
     // Profile 추가 - 회원가입 시 유저 정보
     public void addProfile(String uid, Profile profile) {
@@ -170,9 +186,9 @@ public class FirestoreManager {
         return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
     }
 
-    // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
-    public void addUserActivity(String docID, UserActivity activity) {
-        DocumentReference userRef = fsDB.collection("user").document(docID);
+    // 사용자 활동(좋아요, 스크랩) 추가
+    public void getUserActivity(String docID, UserActivity activity) {
+        DocumentReference userRef = fsDB.collection("user").document(sqlManager.USER);
         userRef.collection("posting").add(activity)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -189,7 +205,7 @@ public class FirestoreManager {
     }
 
     // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
-    public void delUserActivity(String docID, int activityName, DocumentReference userRef) {
+    public void setUserActivity(String docID, int activityName, DocumentReference userRef) {
         if (activityName == WRITEARTICLE) {
             // 목록에서 삭제 + 전체 posting에서 삭제 + 다른 사용자에게도 삭제된 메시지라고 떠야함
 
@@ -217,62 +233,7 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시판 & 테그 추가 (중복찾기 추가 필요)
-    public void addBoard(BoardTag boardTag) {
-        DocumentReference docRef = fsDB.collection("postBoard").document(boardTag.getBoardName());
-        docRef.collection("postTag").document(boardTag.getTagName()).set(boardTag.tagToMap())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-    }
-    // 수정필요
-/*
-    // 게시판 & 테그 수정
-    public void updateBoard(String docID, Map<String, Object> newData) {
-        fsDB.collection("memberInfo").document(docID).update(newData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "User has successfully updated!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error updating user", e);
-                    }
-                });
-    }
-
-    // 게시판 & 테그 삭제
-    public void deleteBoard(String tagName) {
-        fsDB.collection("memberInfo").document(tagName).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "user has successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error deleting user", e);
-                    }
-                });
-    }
-*/
-
     /* ---------------------- Posting용 DB ---------------------- */
-
     // posting collectionRef
     public CollectionReference postCollectionRef(String boardName, String tagName) {
         CollectionReference postColRef = fsDB.collection("postBoard").document(boardName)
@@ -283,24 +244,20 @@ public class FirestoreManager {
     // 게시물 추가
     public void addPosting(String boardName, String tagName, Posting posting) {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
+        // postingNum찾기
+        String postingNum = "P" + sqlManager.USER + "_" + sqlManager.postingCount();
+        posting.setPostingNumber(postingNum);
+
+        // 이미지 Storage에 넣기
+        StorageManager storageManager = new StorageManager();
+        posting.setPictures(storageManager.addPostingImage(boardName, tagName, posting.getPostingNumber(), posting.getPictures()));
+
         colRef.add(posting)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        String pNum = documentReference.getId();
-                        // 이미지 Storage에 넣기
-                        StorageManager storageManager = new StorageManager();
-                        posting.setPictures(storageManager.addPostingImage(pNum, posting.getPictures()));
-
-                        // postingNumber를 docID로 설정하기
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("postingNumber", documentReference.getId());
-                        data.put("pictures", posting.getPictures());
-                        updatePosting(boardName, tagName, documentReference.getId(), data);
-
-//                        // 게시글 정보 추가
-//                        PostingInfo postingInfo = new PostingInfo();
-//                        documentReference.collection("postingInfo").add(postingInfo);
+                        // sqlite에 내 포스팅 추가
+                        sqlManager.insertPosting(boardName, tagName, posting);
 
                         Log.d(TAG, "Posting has successfully Added!");
                     }
@@ -313,27 +270,9 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 찾기(docID는 Posting Number)
-    private void searchPosting(String postingNum) {
-        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    // 게시물 내용 수정 (docID는 Posting Number)_VER1
-    public void updatePosting(String boardName, String tagName, String docID, Map<String, Object> newData) {
-        CollectionReference colRef = postCollectionRef(boardName, tagName);
-        colRef.document(docID).update(newData)
+    // 게시물 내용 수정
+    public void updatePosting(String postingPath, Map<String, Object> newData) {
+        fsDB.document(postingPath).update(newData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -348,43 +287,11 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 내용 수정 VER2
-    public void updatePostings(String postingNum, Map<String, Object> newData) {
-        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                DocumentReference docRef = document.getReference();
-                                docRef.update(newData)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                Log.d(TAG, "Posting has successfully updated!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull @NotNull Exception e) {
-                                                Log.w(TAG, "Error updating posting", e);
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-
-    // 게시물 삭제 VER1
-    public void delPosting(String boardName, String tagName, Posting posting) {
+    // 게시물 삭제
+    public void delPosting(String postingPath, Posting posting) {
         StorageManager storage = new StorageManager();
 
-        CollectionReference colRef = postCollectionRef(boardName, tagName);
-        colRef.document(posting.getPostingNumber()).delete()
+        fsDB.document(postingPath).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -405,43 +312,6 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 삭제 VER2
-    public void delPostings(Posting posting) {
-        StorageManager storage = new StorageManager();
-
-        fsDB.collectionGroup("postings").whereEqualTo("postingNumber", posting.getPostingNumber()).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                DocumentReference docRef = document.getReference();
-                                docRef.delete()
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                Log.d(TAG, "Posting has successfully updated!");
-
-                                                // 사진 파일도 지우기
-                                                int numOfPic = posting.getPictures().size();
-                                                for (int index = 0; index < numOfPic; index++) {
-                                                    storage.delPostingImage(posting.getPictures().get(index));
-                                                }
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull @NotNull Exception e) {
-                                                Log.w(TAG, "Error updating posting", e);
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
 
     // 게시물 정보 수정
     public final static int INCRESE = 0;
@@ -451,8 +321,7 @@ public class FirestoreManager {
     public final static String VIEW = "numberOfViews";
     public final static String COMMEND = "numberOfComment";
     public final static String REPORT = "reported";
-
-    final public void updatePostInfo(String postingNumber, String field, int inORdecrese) {
+    final public void updatePostInfo(String postingPath, String field, int inORdecrese) {
         // 조회수, 스크랩 수 등 원하는 필드의 숫자 +1 하기
         Map<String, Object> data = new HashMap<>();
         if (inORdecrese == INCRESE) {
@@ -464,41 +333,30 @@ public class FirestoreManager {
             return;
         }
 
-        getPostWithNum(postingNumber).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fsDB.document(postingPath).update(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                            DocumentReference docRef = document.getReference();
-                            docRef.update(data)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            Log.d(TAG, "postInfo has successfully updated!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull @NotNull Exception e) {
-                                            Log.w(TAG, "Error updating postInfo", e);
-                                        }
-                                    });
-                        } else {
-                            Log.w(TAG, "Nothing found in postings");
-                        }
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "postInfo has successfully updated!");
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error updating postInfo", e);
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error updating postInfo", e);
+                    }
+                });
+
     }
 
-    // 태그로 게시물 불러오기
-    public Query getPostWithTag(String tagName) {
-        return fsDB.collectionGroup("postings").whereEqualTo("tag", tagName).orderBy("postedTime", Query.Direction.DESCENDING);
+    // 일반적인 경로로 게시물 불러오기
+    public Query getPost(String boardName, String tagName) {
+        return postCollectionRef(boardName, tagName).orderBy("postedTime", Query.Direction.DESCENDING);
+    }
+
+    // Path로 게시물 불러오기
+    public DocumentReference getdocRefWithPath(String postingPath) {
+        return fsDB.document(postingPath);
     }
 
     // postingNumber로 게시물 불러오기
@@ -516,33 +374,13 @@ public class FirestoreManager {
         return fsDB.collectionGroup("postings").orderBy("numberOfLiked", Query.Direction.DESCENDING).limit(3);
     }
 
-    // 게시물의 댓글 경로 찾기
-    public DocumentReference getCommentRef(String postingNum) {
-        DocumentReference docRef = null;
-        try {
-            QuerySnapshot querySnapshot = getPostWithNum(postingNum).get().getResult();
-            docRef = querySnapshot.getDocuments().get(0).getReference();
-        } catch (Exception e) {
-            Log.w(TAG, "Error finding posting for comments", e);
-        }
-
-        return docRef;
-    }
-
     // 게시물 댓글 추가 (postingNumber은 게시물 번호)
-    public void addComment(String postingNumber, Comment comment) {
-        DocumentReference docRef = getCommentRef(postingNumber);
-        docRef.collection("comments").add(comment)
+    public void addComment(String postingPath, Comment comment) {
+        fsDB.document(postingPath)
+                .collection("comments").add(comment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        // postingNumber를 docID로 설정하기
-                        Map<String, Object> id = new HashMap<>();
-                        id.put("docID", documentReference.getId());
-                        updateComment(postingNumber, documentReference.getId(), id);
-
-                        updatePostInfo(postingNumber, "numberOfComment", INCRESE);
-
                         Log.d(TAG, "Comment has successfully Added!");
                     }
                 })
@@ -554,10 +392,9 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 댓글 수정 (postingNumber은 게시물 번호)
-    public void updateComment(String postingNumber, String docID, Map<String, Object> newData) {
-        CollectionReference colRef = fsDB.collection("posting").document(postingNumber).collection("comment");
-        colRef.document(docID).update(newData)
+    // 게시물 댓글 수정
+    public void updateComment(String commentPath, Map<String, Object> newData) {
+        fsDB.document(commentPath).update(newData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -572,14 +409,12 @@ public class FirestoreManager {
                 });
     }
 
-    // 게시물 댓글 삭제 (postingNumber은 게시물 번호, docID는 comment의 댓글 번호)
-    public void delComment(String postingNumber, String docID) {
-        CollectionReference colRef = fsDB.collection("posting").document(postingNumber).collection("comment");
-        colRef.document(docID).delete()
+    // 게시물 댓글 삭제
+    public void delComment(String commentPath) {
+        fsDB.document(commentPath).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        updatePostInfo(postingNumber, "numberOfComment", DECRESE);
                         Log.d(TAG, "user has successfully deleted!");
                     }
                 })
@@ -592,10 +427,9 @@ public class FirestoreManager {
     }
 
     // 댓글 불러오기
-    public Query getComments(String postingNum) {
-        DocumentReference docRef = getCommentRef(postingNum);
-
-        return docRef.collection("comments");
+    public Query getComments(String postingPath) {
+        DocumentReference docRef = getdocRefWithPath(postingPath);  // 포스팅으로 이동
+        return docRef.collection("comments").orderBy("postedTime", Query.Direction.ASCENDING);  // 포스팅의 댓글 가져오기
     }
 
 
@@ -606,11 +440,6 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Map<String, Object> id = new HashMap<>();
-                        id.put("roomNumber", documentReference.getId());
-                        updateChatRoom(documentReference.getId(), id);
-                        addMessage(documentReference.getId(), new ChattingMsg(chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다."));
-
                         Log.d(TAG, "chattingRoom has successfully Added!");
                     }
                 })

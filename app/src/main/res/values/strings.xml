@@ -5,4 +5,22 @@
     <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="frind">#친구찾기</string>
+    <string name="help">#도움요청</string>
+    <string name="mate">#퇴근메이트</string>
+
+    <string name="club">#동호회</string>
+    <string name="meeting">#번개모임</string>
+
+    <string name="share">#물품공유</string>
+    <string name="home">#홈</string>
+    <string name="tgbuy">#공동구매</string>
+    <string name="free_share">#무료나눔</string>
+
+    <string name="free_talk">#자유</string>
+    <string name="diy">#DIY</string>
+    <string name="interior">#인테리어</string>
+    <string name="town_info">#동네정보</string>
+
 </resources>

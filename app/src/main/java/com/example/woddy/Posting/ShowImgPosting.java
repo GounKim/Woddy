@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -14,6 +15,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,9 +44,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class ShowImgPosting extends BaseActivity {
+public class ShowImgPosting extends BaseActivity implements View.OnClickListener {
 
     FirestoreManager manager;
+    CommentAdapter commentAdapter;
 
     private ViewPager2 imgpost_slider;
     private LinearLayout layoutIndicator;
@@ -50,8 +56,12 @@ public class ShowImgPosting extends BaseActivity {
     private TextView likedCount;
     private ImageView scrap;
     private TextView scrapCount;
+    private EditText edtComment;
+    private Button btnSend;
+    private RecyclerView commentView;
 
-    String postingNumber;
+    String postingPath;
+
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
 
@@ -67,7 +77,7 @@ public class ShowImgPosting extends BaseActivity {
         setTitle("게시판이름");
 
         Intent intent = getIntent();
-        postingNumber = intent.getStringExtra("postingNumber");
+        postingPath = intent.getStringExtra("documentPath");
 
         title = findViewById(R.id.show_img_posting_title);
         writer = findViewById(R.id.show_img_posting_writer);
@@ -84,21 +94,32 @@ public class ShowImgPosting extends BaseActivity {
         layoutIndicator = findViewById(R.id.show_img_posting_layoutIndicators);
         imgpost_slider = findViewById(R.id.show_img_posting_slider);
 
-        manager = new FirestoreManager();
-        manager.getPostWithNum(postingNumber).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // 댓글
+        commentView = findViewById(R.id.show_img_posting_commentView);
+        edtComment = findViewById(R.id.show_img_posting_edt_comment);
+        btnSend = findViewById(R.id.show_img_posting_btnSend_comment);
+
+        btnSend.setOnClickListener(this);
+        commentAdapter = new CommentAdapter();
+//        getComments(commentAdapter);
+        commentView.setAdapter(commentAdapter);
+//        commentView.setNestedScrollingEnabled(false); // 리사이클러뷰 스크롤 불가능하게함
+
+        manager = new FirestoreManager(getApplicationContext());
+        manager.getdocRefWithPath(postingPath).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            QuerySnapshot document = task.getResult();
-                            if (!document.isEmpty()) {
-                                Posting posting = document.toObjects(Posting.class).get(0);
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Posting posting = document.toObject(Posting.class);
 
                                 title.setText(posting.getTitle());
                                 writer.setText(posting.getWriter());
                                 time.setText(datestamp(posting.getPostedTime()));
                                 content.setText(posting.getContent());
-                                tag.setText("#" + posting.getTag());
+//                                tag.setText("#" + posting.getTag());
                                 likedCount.setText(posting.getNumberOfLiked() + "");
                                 scrapCount.setText(posting.getNumberOfScraped() + "");
 
@@ -124,6 +145,42 @@ public class ShowImgPosting extends BaseActivity {
                         }
                     }
                 });
+
+    }
+
+
+    // 댓글 달기
+    @Override
+    public void onClick(View view) {
+        String text = edtComment.getText().toString();
+        Comment comment = new Comment("user1", text, "");
+        commentAdapter.addItem(comment);
+        manager.addComment(postingPath, comment);
+
+        edtComment.setText(""); // 입력창 초기화
+        // 키보드 내리기
+        InputMethodManager mInputMethodManager = (InputMethodManager)getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(edtComment.getWindowToken(), 0);
+    }
+
+    private void getComments(CommentAdapter adapter) {
+        manager.getComments(postingPath).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty() && task.getResult() != null) {
+                                ArrayList<Comment> commentList = new ArrayList<>();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    commentList.add(document.toObject(Comment.class));
+                                }
+                                adapter.setItem(commentList);
+                            }
+                        } else {
+                            Log.d(TAG, "Finding comments failed.", task.getException());
+                        }
+                    }
+                });
     }
 
     private String datestamp(Date date) {    // 자정에 생성되는 타임스탬프 생성
@@ -140,12 +197,11 @@ public class ShowImgPosting extends BaseActivity {
         if(i == -1) {
             liked.setImageResource(R.drawable.heart_on);
             likedCount.setText(Integer.toString(num + 1));
-            Toast.makeText(getApplicationContext(), postingNumber, Toast.LENGTH_SHORT).show();
-            manager.updatePostInfo(postingNumber, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+            manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
         }else{
             liked.setImageResource(R.drawable.heart_off);
             likedCount.setText(Integer.toString(num - 1));
-            manager.updatePostInfo(postingNumber, FirestoreManager.LIKE, FirestoreManager.DECRESE);
+            manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.DECRESE);
         }
     }
 
@@ -155,11 +211,11 @@ public class ShowImgPosting extends BaseActivity {
         if(y == -1) {
             scrap.setImageResource(R.drawable.clip_on);
             scrapCount.setText(Integer.toString(num+1));
-            manager.updatePostInfo(postingNumber, FirestoreManager.SCRAP, FirestoreManager.INCRESE);
+            manager.updatePostInfo(postingPath, FirestoreManager.SCRAP, FirestoreManager.INCRESE);
         }else{
             scrap.setImageResource(R.drawable.clip_off);
             scrapCount.setText(Integer.toString(num-1));
-            manager.updatePostInfo(postingNumber, FirestoreManager.SCRAP, FirestoreManager.DECRESE);
+            manager.updatePostInfo(postingPath, FirestoreManager.SCRAP, FirestoreManager.DECRESE);
         }
     }
 

@@ -60,6 +60,7 @@
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/button_no_background"
                 android:text="프로필 수정"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_userImage"
@@ -85,6 +86,7 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
+                    android:padding="1dp"
                     android:src="@drawable/ic_baseline_edit_24" />
 
                 <Button
@@ -95,7 +97,8 @@
                     android:gravity="left|center"
                     android:paddingLeft="10dp"
                     android:text="내가 쓴 글"
-                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -111,6 +114,7 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
+                    android:padding="1dp"
                     android:src="@drawable/ic_baseline_favorite_24" />
 
                 <Button
@@ -121,7 +125,8 @@
                     android:gravity="left|center"
                     android:paddingLeft="10dp"
                     android:text="내가 좋아요 누른 글"
-                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -137,7 +142,8 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
-                    android:src="@drawable/ic_baseline_bookmark_24" />
+                    android:padding="1dp"
+                    android:src="@drawable/ic_baseline_scrap_24" />
 
                 <Button
                     android:id="@+id/myPage_scrappedWritings"
@@ -147,7 +153,8 @@
                     android:gravity="left|center"
                     android:paddingLeft="10dp"
                     android:text="스크랩한 글"
-                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -165,9 +172,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:text="설정"
-                android:textSize="14dp"
+                android:textColor="@color/main_color"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view3" />
@@ -179,9 +187,10 @@
                 android:layout_marginTop="5dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
-                android:paddingStart="17dp"
+                android:paddingStart="27dp"
                 android:text="계정 관리"
-                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView20" />
@@ -192,9 +201,10 @@
                 android:layout_height="43dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
-                android:paddingStart="17dp"
+                android:paddingStart="27dp"
                 android:text="알림 설정"
-                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_setAccount" />
@@ -212,9 +222,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:text="기타"
-                android:textSize="14dp"
+                android:textColor="@color/main_color"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view4" />
@@ -226,9 +237,10 @@
                 android:layout_marginTop="5dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
-                android:paddingStart="17dp"
+                android:paddingStart="27dp"
                 android:text="공지사항"
-                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView21" />
@@ -239,9 +251,10 @@
                 android:layout_height="43dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
-                android:paddingStart="17dp"
+                android:paddingStart="27dp"
                 android:text="문의하기"
-                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_notices" />
@@ -252,9 +265,10 @@
                 android:layout_height="43dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
-                android:paddingStart="17dp"
+                android:paddingStart="27dp"
                 android:text="로그아웃"
-                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_Ask" />
@@ -265,9 +279,10 @@
                 android:layout_height="43dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
-                android:paddingStart="17dp"
+                android:paddingStart="27dp"
                 android:text="회원탈퇴"
-                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_logout" />

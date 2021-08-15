@@ -142,7 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
     void checkID() {
         String email_str = emailEditText.getText().toString();
 
-        FirestoreManager fsManager = new FirestoreManager();
+        FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
         fsManager.findEmail(email_str)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -165,7 +165,7 @@ public class SignUpActivity extends AppCompatActivity {
     void checkNickname() {
         String nick_str = nicknameEditText.getText().toString();
 
-        FirestoreManager fsManager = new FirestoreManager();
+        FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
         fsManager.findNickname(nick_str)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

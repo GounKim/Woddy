@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.woddy.Notice.NoticeMain;
+import com.example.woddy.PostBoard.PostBoardMain;
 import com.example.woddy.Posting.ShowPosting;
 
 public class PostFragment extends Fragment {
@@ -26,7 +26,7 @@ public class PostFragment extends Fragment {
         addPosting = view.findViewById(R.id.add_new_posting);
 
 
-        Intent intent = new Intent(getActivity(), NoticeMain.class);
+        Intent intent = new Intent(getActivity(), PostBoardMain.class);
         startActivity(intent);
 
 //        textView = view.findViewById(R.id.testTextView);

@@ -63,6 +63,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public VerticalScrollHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             boardName = itemView.findViewById(R.id.home_board_name);
+            boardName.bringToFront();
             itemMore = itemView.findViewById(R.id.home_item_more);
             listView = itemView.findViewById(R.id.home_board_listView);
         }
@@ -75,6 +76,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public HorizontalScrollHolder(@NonNull View itemView) {
             super(itemView);
             boardName = itemView.findViewById(R.id.home_board_nameR);
+            boardName.bringToFront();
             horiView = itemView.findViewById(R.id.home_board_hori_recycler);
         }
     }

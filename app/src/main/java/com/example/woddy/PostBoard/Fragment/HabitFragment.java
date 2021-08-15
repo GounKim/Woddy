@@ -12,6 +12,7 @@ import com.example.woddy.Entity.Posting;
 import com.example.woddy.PostBoard.NormalData;
 import com.example.woddy.PostBoard.PostBoardAdapter;
 import com.example.woddy.R;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import android.content.Context;
@@ -29,6 +30,7 @@ public class HabitFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
 
     ChipGroup chipGroup;
+    Chip club, meeting;
 
     private ArrayList<Posting> postingList = new ArrayList<>();
     private ArrayList<String> postingPath = new ArrayList<>();
@@ -62,6 +64,14 @@ public class HabitFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
+        meeting = (Chip) view.findViewById(R.id.chipMeeting);
+        club = (Chip) view.findViewById(R.id.chipClub);
+
+        club.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+        club.setChipBackgroundColorResource(R.color.main_color);
+        club.setChipStrokeColorResource(R.color.main_color);
+
+        meeting.setChipStrokeColorResource(R.color.main_color);
 
         //default 부분 - 시작 시
         tagName = "동호회";
@@ -77,12 +87,20 @@ public class HabitFragment extends Fragment {
                         tagName = "동호회";
                         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
+                        club.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+                        meeting.setTextAppearanceResource(R.style.ChipTextStyle);
+                        club.setChipBackgroundColorResource(R.color.main_color);
+                        meeting.setChipBackgroundColorResource(R.color.white);
                         break;
 
                     case R.id.chipMeeting:
                         tagName = "번개모임";
                         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
+                        meeting.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+                        club.setTextAppearanceResource(R.style.ChipTextStyle);
+                        meeting.setChipBackgroundColorResource(R.color.main_color);
+                        club.setChipBackgroundColorResource(R.color.white);
                         break;
                 }
             }

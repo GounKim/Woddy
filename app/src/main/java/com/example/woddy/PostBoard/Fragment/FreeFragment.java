@@ -1,5 +1,6 @@
 package com.example.woddy.PostBoard.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import com.example.woddy.PostBoard.Album.AlbumData;
 import com.example.woddy.PostBoard.NormalData;
 import com.example.woddy.PostBoard.PostBoardAdapter;
 import com.example.woddy.R;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import android.content.Context;
@@ -30,6 +32,7 @@ public class FreeFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
 
     ChipGroup chipGroup;
+    Chip free, diy, interior, townInfo;
 
     private ArrayList<Posting> postingList = new ArrayList<>();
     private ArrayList<String> postingPath = new ArrayList<>();
@@ -64,6 +67,18 @@ public class FreeFragment extends Fragment {
 
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
 
+        free = (Chip) view.findViewById(R.id.chipFreeTalk);
+        diy = (Chip) view.findViewById(R.id.chipDIY);
+        interior = (Chip) view.findViewById(R.id.chipInterior);
+        townInfo = (Chip) view.findViewById(R.id.chipTownInfo);
+
+        free.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+        free.setChipBackgroundColorResource(R.color.main_color);
+        free.setChipStrokeColorResource(R.color.main_color);
+        diy.setChipStrokeColorResource(R.color.main_color);
+        interior.setChipStrokeColorResource(R.color.main_color);
+        townInfo.setChipStrokeColorResource(R.color.main_color);
+
         //default 부분 - 시작 시
         tagName = "자유";
         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
@@ -78,24 +93,56 @@ public class FreeFragment extends Fragment {
                         tagName = "자유";
                         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
+                        free.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+                        diy.setTextAppearanceResource(R.style.ChipTextStyle);
+                        interior.setTextAppearanceResource(R.style.ChipTextStyle);
+                        townInfo.setTextAppearanceResource(R.style.ChipTextStyle);
+                        free.setChipBackgroundColorResource(R.color.main_color);
+                        diy.setChipBackgroundColorResource(R.color.white);
+                        interior.setChipBackgroundColorResource(R.color.white);
+                        townInfo.setChipBackgroundColorResource(R.color.white);
                         break;
 
                     case R.id.chipDIY:
                         tagName = "DIY";
                         new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
+                        diy.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+                        free.setTextAppearanceResource(R.style.ChipTextStyle);
+                        interior.setTextAppearanceResource(R.style.ChipTextStyle);
+                        townInfo.setTextAppearanceResource(R.style.ChipTextStyle);
+                        diy.setChipBackgroundColorResource(R.color.main_color);
+                        free.setChipBackgroundColorResource(R.color.white);
+                        interior.setChipBackgroundColorResource(R.color.white);
+                        townInfo.setChipBackgroundColorResource(R.color.white);
                         break;
 
                     case R.id.chipInterior:
                         tagName = "인테리어";
                         new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
+                        interior.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+                        free.setTextAppearanceResource(R.style.ChipTextStyle);
+                        diy.setTextAppearanceResource(R.style.ChipTextStyle);
+                        townInfo.setTextAppearanceResource(R.style.ChipTextStyle);
+                        interior.setChipBackgroundColorResource(R.color.main_color);
+                        free.setChipBackgroundColorResource(R.color.white);
+                        diy.setChipBackgroundColorResource(R.color.white);
+                        townInfo.setChipBackgroundColorResource(R.color.white);
                         break;
 
                     case R.id.chipTownInfo:
                         tagName = "동네정보";
                         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
+                        townInfo.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+                        free.setTextAppearanceResource(R.style.ChipTextStyle);
+                        diy.setTextAppearanceResource(R.style.ChipTextStyle);
+                        interior.setTextAppearanceResource(R.style.ChipTextStyle);
+                        townInfo.setChipBackgroundColorResource(R.color.main_color);
+                        free.setChipBackgroundColorResource(R.color.white);
+                        diy.setChipBackgroundColorResource(R.color.white);
+                        interior.setChipBackgroundColorResource(R.color.white);
                         break;
 
                 }

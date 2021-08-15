@@ -32,40 +32,28 @@
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/free_talk"
-                android:textColor="@color/white"
-                app:chipBackgroundColor="@color/main_color"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/free_talk" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDIY"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/diy"
-                android:textColor="@color/black"
-                app:chipBackgroundColor="#FFFFFF"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/diy" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipInterior"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/interior"
-                android:textColor="@color/black"
-                app:chipBackgroundColor="#FFFFFF"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/interior" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipTownInfo"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/town_info"
-                android:textColor="@color/black"
-                app:chipBackgroundColor="#FFFFFF"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/town_info" />
         </com.google.android.material.chip.ChipGroup>
 
     </HorizontalScrollView>

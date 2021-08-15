@@ -32,40 +32,28 @@
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/share"
-                android:textColor="@color/white"
-                app:chipBackgroundColor="@color/main_color"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/share" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipHome"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
-                android:textColor="@color/black"
-                app:chipBackgroundColor="#FFFFFF"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/home" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipBuy"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tgbuy"
-                android:textColor="@color/black"
-                app:chipBackgroundColor="#FFFFFF"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/tgbuy" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFreeShare"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/free_share"
-                android:textColor="@color/black"
-                app:chipBackgroundColor="#FFFFFF"
-                app:chipStrokeColor="@color/main_color" />
+                android:text="@string/free_share" />
         </com.google.android.material.chip.ChipGroup>
 
     </HorizontalScrollView>

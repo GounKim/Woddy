@@ -5,8 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.Posting;
@@ -43,13 +40,11 @@ public class HomePBAdapter extends BaseAdapter {
     private final int ITEM_VIEW_TYPE_MAX = 2;
 
     private ArrayList<Posting> writingList =  new ArrayList<>();
+    private ArrayList<String> postingPath = new ArrayList<>();
 
-    public void addItem(Posting posting) {
-        writingList.add(posting);
-    }
-
-    public void setItem(ArrayList<Posting> writings) {
+    public void setItem(ArrayList<Posting> writings, ArrayList<String> postingPath) {
         this.writingList = writings;
+        this.postingPath = postingPath;
     }
 
     public ArrayList<Posting> getItem() {
@@ -126,8 +121,8 @@ public class HomePBAdapter extends BaseAdapter {
                     sHolder.sLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(view.getContext(), getItem(position) + "", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("documentPath", postingPath.get(position));
                             view.getContext().startActivity(intent);
                         }
                     });
@@ -163,9 +158,8 @@ public class HomePBAdapter extends BaseAdapter {
                     iHolder.iLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                            intent.putExtra("postingNumber", writingList.get(position).getPostingNumber());
+                            Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("documentPath", postingPath.get(position));
                             view.getContext().startActivity(intent);
                         }
                     });

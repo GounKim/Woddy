@@ -1,16 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Notice.Fragment.InfoFragment">
+    tools:context=".Notice.Fragment.HabitFragment">
 
-    <TextView
+    <HorizontalScrollView
+        android:id="@+id/filterScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filterChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="4dp"
+            app:chipSpacingVertical="6dp"
+            app:singleLine="true"
+            app:singleSelection="true"
+            app:checkedChip="@id/chipClub"
+            android:paddingHorizontal="12dp"
+            app:selectionRequired="true"
+            tools:visibility="visible">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipClub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/club"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMeeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meeting"
+                style="@style/Widget.Woody.Chip"/>
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="5dp"
+        android:id="@+id/recyclerView_habit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Info Fragment"
-        android:textAlignment="center"
-        android:gravity="center_horizontal"
-        android:textSize="30dp"/>
+        android:layout_height="match_parent" />
 
-</FrameLayout>
+</LinearLayout>

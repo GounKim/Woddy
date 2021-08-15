@@ -74,8 +74,8 @@ public class StorageManager {
         });
     }
 
-    public ArrayList<String> addPostingImage(String postingNum, ArrayList<String> uriPath) {
-        String storagePath = "BoardName/TagName/PostingImages/" + postingNum + "/";
+    public ArrayList<String> addPostingImage(String boardName, String tagName, String postingNum, ArrayList<String> uriPath) {
+        String storagePath = boardName +"/" + tagName + "/PostingImages/" + postingNum + "/";
         ArrayList<String> newUri = new ArrayList<>();
 
         for (int index = 0; index < uriPath.size(); index++) {

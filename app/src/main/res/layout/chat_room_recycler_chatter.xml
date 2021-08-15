@@ -9,8 +9,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/chatroom_chatter_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         app:srcCompat="@drawable/init_user_image"
         android:layout_margin="10dp"/>
 
@@ -24,10 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/conversation_border"
+            android:background="@drawable/conversation_border_chatter"
             android:maxWidth="200dp"
             android:padding="10dp"
-            android:text="Conversation" />
+            android:text="Conversation"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/receive_time"

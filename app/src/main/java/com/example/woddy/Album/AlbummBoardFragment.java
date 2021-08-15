@@ -27,7 +27,7 @@ public class AlbummBoardFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.album_recycler_view);
         addPosting = view.findViewById(R.id.add_new_posting);
 
-        new AlbumData().getItems(recyclerView);
+        new AlbumData(getContext()).getItems(recyclerView);
 
         addPosting.setOnClickListener(new View.OnClickListener() {
             @Override

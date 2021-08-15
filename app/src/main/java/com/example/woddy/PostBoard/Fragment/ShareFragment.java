@@ -65,7 +65,9 @@ public class ShareFragment extends Fragment {
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
 
         //default 부분 - 시작 시
-        chipGroup.getChildAt(0).callOnClick();
+        tagName = "물품공유";
+        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {

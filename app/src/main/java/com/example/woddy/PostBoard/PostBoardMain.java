@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.woddy.PostBoard.Fragment.FreeFragment;
 import com.example.woddy.PostBoard.Fragment.HabitFragment;
@@ -83,6 +84,7 @@ public class PostBoardMain extends Fragment {
 
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+        boardName = "소통";
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#494C7C"));
         tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#494C7C")));
 

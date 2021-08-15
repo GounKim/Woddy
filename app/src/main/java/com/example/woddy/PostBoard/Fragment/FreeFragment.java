@@ -65,7 +65,9 @@ public class FreeFragment extends Fragment {
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
 
         //default 부분 - 시작 시
-        chipGroup.getChildAt(0).callOnClick();
+        tagName = "자유";
+        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
@@ -97,6 +99,31 @@ public class FreeFragment extends Fragment {
                         break;
 
                 }
+            }
+        });
+
+        chipGroup.isLongClickable();
+        chipGroup.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                switch (v.getId()){
+                    case R.id.chipFreeTalk:
+                        Toast.makeText(getContext(), "자유", Toast.LENGTH_LONG).show();
+                        return true;
+
+                    case R.id.chipDIY:
+                        Toast.makeText(getContext(), "DIY", Toast.LENGTH_LONG).show();
+                        return true;
+
+                    case R.id.chipInterior:
+                        Toast.makeText(getContext(), "인테리어", Toast.LENGTH_LONG).show();
+                        return true;
+
+                    case R.id.chipTownInfo:
+                        Toast.makeText(getContext(), "동네정보", Toast.LENGTH_LONG).show();
+                        return true;
+                }
+                return true;
             }
         });
 

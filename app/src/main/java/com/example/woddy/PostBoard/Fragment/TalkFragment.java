@@ -64,7 +64,9 @@ public class TalkFragment extends Fragment {
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
 
         //default 부분 - 시작 시
-        chipGroup.getChildAt(0).callOnClick();
+        tagName = "친구찾기";
+        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
@@ -94,10 +96,4 @@ public class TalkFragment extends Fragment {
 
         return view;
     }
-
-    private void initDataset() { //들어갈 데이터
-        //초기화
-
-    }
-
 }

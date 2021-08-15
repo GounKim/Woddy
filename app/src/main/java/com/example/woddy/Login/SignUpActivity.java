@@ -225,7 +225,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 Profile profile = new Profile(email, nickname, finalCity, finalGu, finalDong, finalLocal);
                                 //User user = new User(nickname, finalLocal, "UserProfileImages/user.png");
 
-                                FirestoreManager fsManager = new FirestoreManager();
+                                FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
                                 fsManager.addProfile(uid, profile); //userProfile 컬렉션에 저장
                                 //fsManager.addUser(user); //user 컬렉션에 저장
 

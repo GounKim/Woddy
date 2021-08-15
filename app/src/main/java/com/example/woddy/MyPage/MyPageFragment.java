@@ -1,6 +1,7 @@
 package com.example.woddy.MyPage;
 
 import static android.content.ContentValues.TAG;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -88,7 +89,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         Log.d(TAG, firebaseUserUID);
 
         //현재 로그인한 사용자의 닉네임 가져오기 + 가져온 닉네임으로 화면에 띄울 유저 정보 세팅(닉네임, 지역, 사진)
-        fsManager = new FirestoreManager();
+        fsManager = new FirestoreManager(getContext());
         fsManager.findUserWithUid(firebaseUserUID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {

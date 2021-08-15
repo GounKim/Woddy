@@ -1,6 +1,7 @@
 package com.example.woddy.DB;
 
 import static android.content.ContentValues.TAG;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 import android.net.Uri;
 import android.util.Log;
@@ -75,7 +76,7 @@ public class StorageManager {
     }
 
     public ArrayList<String> addPostingImage(String boardName, String tagName, String postingNum, ArrayList<String> uriPath) {
-        String storagePath = boardName +"/" + tagName + "/PostingImages/" + postingNum + "/";
+        String storagePath = boardName + "/" + tagName + "/PostingImages/" + postingNum + "/";
         ArrayList<String> newUri = new ArrayList<>();
 
         for (int index = 0; index < uriPath.size(); index++) {

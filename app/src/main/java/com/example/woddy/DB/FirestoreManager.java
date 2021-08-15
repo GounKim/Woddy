@@ -46,6 +46,10 @@ public class FirestoreManager {
         sqlManager = new SQLiteManager(context);
     }
 
+    public FirestoreManager() {
+        fsDB = FirebaseFirestore.getInstance();
+    }
+
     // 현재 사용자 CollectionReference
     public CollectionReference userColRef(String userNick) {
         CollectionReference userColRef = fsDB.collection("users");
@@ -321,6 +325,7 @@ public class FirestoreManager {
     public final static String VIEW = "numberOfViews";
     public final static String COMMEND = "numberOfComment";
     public final static String REPORT = "reported";
+
     final public void updatePostInfo(String postingPath, String field, int inORdecrese) {
         // 조회수, 스크랩 수 등 원하는 필드의 숫자 +1 하기
         Map<String, Object> data = new HashMap<>();

@@ -169,7 +169,7 @@ public class LogInActivity extends AppCompatActivity {
                         new Profile(account.getEmail(), account.getDisplayName(),
                                 "null", "null", "null", "null");
 
-                FirestoreManager fsManager = new FirestoreManager();
+                FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
                 fsManager.addProfile(uid, profile);
 
                 Intent intent = new Intent(this, MainActivity.class);

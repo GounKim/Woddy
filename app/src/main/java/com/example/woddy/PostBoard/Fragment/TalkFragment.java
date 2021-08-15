@@ -70,7 +70,11 @@ public class TalkFragment extends Fragment {
         mate = (Chip) view.findViewById(R.id.chipMate);
 
         friend.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+        help.setTextAppearanceResource(R.style.ChipTextStyle);
+        mate.setTextAppearanceResource(R.style.ChipTextStyle);
+
         friend.setChipBackgroundColorResource(R.color.main_color);
+
         friend.setChipStrokeColorResource(R.color.main_color);
         help.setChipStrokeColorResource(R.color.main_color);
         mate.setChipStrokeColorResource(R.color.main_color);

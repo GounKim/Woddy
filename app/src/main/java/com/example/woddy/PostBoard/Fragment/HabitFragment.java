@@ -68,9 +68,11 @@ public class HabitFragment extends Fragment {
         club = (Chip) view.findViewById(R.id.chipClub);
 
         club.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-        club.setChipBackgroundColorResource(R.color.main_color);
-        club.setChipStrokeColorResource(R.color.main_color);
+        meeting.setTextAppearanceResource(R.style.ChipTextStyle);
 
+        club.setChipBackgroundColorResource(R.color.main_color);
+
+        meeting.setChipStrokeColorResource(R.color.main_color);
         meeting.setChipStrokeColorResource(R.color.main_color);
 
         //default 부분 - 시작 시

@@ -73,7 +73,12 @@ public class FreeFragment extends Fragment {
         townInfo = (Chip) view.findViewById(R.id.chipTownInfo);
 
         free.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+        diy.setTextAppearanceResource(R.style.ChipTextStyle);
+        interior.setTextAppearanceResource(R.style.ChipTextStyle);
+        townInfo.setTextAppearanceResource(R.style.ChipTextStyle);
+
         free.setChipBackgroundColorResource(R.color.main_color);
+
         free.setChipStrokeColorResource(R.color.main_color);
         diy.setChipStrokeColorResource(R.color.main_color);
         interior.setChipStrokeColorResource(R.color.main_color);

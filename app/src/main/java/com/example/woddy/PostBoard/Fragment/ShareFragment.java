@@ -72,6 +72,10 @@ public class ShareFragment extends Fragment {
         freeShare = (Chip) view.findViewById(R.id.chipFreeShare);
 
         share.setTextAppearanceResource(R.style.ChipTextStyleSelected);
+        home.setTextAppearanceResource(R.style.ChipTextStyle);
+        freeShare.setTextAppearanceResource(R.style.ChipTextStyle);
+        buy.setTextAppearanceResource(R.style.ChipTextStyle);
+
         share.setChipBackgroundColorResource(R.color.main_color);
         share.setChipStrokeColorResource(R.color.main_color);
         home.setChipStrokeColorResource(R.color.main_color);

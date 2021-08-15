@@ -59,7 +59,6 @@ public class UpdateProfile extends BaseActivity {
     String tmp_nick;
     String tmp_local;
     String tmp_imguri;
-    Boolean nickCheck = false;
 
     StorageManager sManager = new StorageManager();
     FirestoreManager fsManager = new FirestoreManager();
@@ -136,16 +135,6 @@ public class UpdateProfile extends BaseActivity {
             @Override
             public void onClick(View v) {
                 checkNick();
-                if (nickCheck) {
-                    Log.d(TAG, "GGGGGG##");
-                    String newNick = newNickEditText.getText().toString();
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("nickname", newNick);
-                    fsManager.updateProfile(uid, map);
-                    tmp_nick = newNick;
-                    newNickEditText.setText(tmp_nick);
-                    Toast.makeText(UpdateProfile.this, "닉네임 변경 완료!", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -154,11 +143,12 @@ public class UpdateProfile extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String newLocal = newLocalEditText.getText().toString();
-                if (newLocal.length() != 3) {
+                Log.d(TAG, newLocal);
+                String[] tmpStrArr = newLocal.split(" ");
+                if (tmpStrArr.length != 3) {
                     Toast.makeText(UpdateProfile.this, "주소를 다시 입력해주세요.", Toast.LENGTH_LONG).show();
                     return;
                 }
-                String[] tmpStrArr = newLocal.split(" ");
                 String finalCity = tmpStrArr[0];
                 String finalGu = tmpStrArr[1];
                 String finalDong = tmpStrArr[2];
@@ -254,13 +244,19 @@ public class UpdateProfile extends BaseActivity {
                             nickCheckTextView.setVisibility(View.VISIBLE);
                             nickCheckTextView.setTextColor(Color.GRAY);
                             nickCheckTextView.setText("사용 가능한 닉네임입니다.");
-                            nickCheck = true;
-                            Log.d(TAG, "nickCheck" + nickCheck.toString());
+//                            Log.d(TAG, "nickCheck  " + nickCheck.toString());
+                            Log.d(TAG, "GGGGGG##");
+                            String newNick = newNickEditText.getText().toString();
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("nickname", newNick);
+                            fsManager.updateProfile(uid, map);
+                            tmp_nick = newNick;
+                            newNickEditText.setText(tmp_nick);
+                            Toast.makeText(UpdateProfile.this, "닉네임 변경 완료!", Toast.LENGTH_SHORT).show();
                         } else {
                             nickCheckTextView.setVisibility(View.VISIBLE);
                             nickCheckTextView.setTextColor(Color.rgb(255, 105, 105));
                             nickCheckTextView.setText("중복된 닉네임입니다.");
-                            nickCheck = false;
                         }
                     }
                 });

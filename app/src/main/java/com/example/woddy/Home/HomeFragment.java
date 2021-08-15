@@ -2,6 +2,8 @@ package com.example.woddy.Home;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,19 +17,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.BoardTag;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Login.LogInActivity;
+import com.example.woddy.MyPage.DelAccountActivity;
 import com.example.woddy.Notice.NoticeMain;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -36,6 +44,8 @@ public class HomeFragment extends Fragment {
     HomeAdapter homeAdapter;
     Button btnLogin;
     Button btnshow;
+    Button btnDelAccount;
+    Button btnLogout;
 
     FirestoreManager manager = new FirestoreManager();
     HomePBAdapter popAdapter = new HomePBAdapter();
@@ -75,6 +85,60 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        //회원탈퇴
+        btnDelAccount = view.findViewById(R.id.button4);
+        btnDelAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = firebaseUser.getUid();
+                Log.d("tag", uid);
+                firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseAuth.getInstance().signOut();
+                            Log.d(TAG, "User account delete completed.");
+                            manager.deleteProfile(uid);
+
+                            Toast.makeText(getContext(), "탈퇴가 완료되었습니다", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getContext(), LogInActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        } else {
+                            Log.d("tag", task.getException().toString());
+                        }
+                    }
+                });
+            }
+        });
+        btnLogout = view.findViewById(R.id.button5);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                        .setTitle("로그아웃")
+                        .setMessage("로그아웃 하시겠습니까?")
+                        .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseAuth.getInstance().signOut();
+                                Toast.makeText(getContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getContext(), LogInActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
 
 
         recyclerView = view.findViewById(R.id.home_recyclerView);
@@ -83,10 +147,10 @@ public class HomeFragment extends Fragment {
 //        if(savedInstanceState != null) {
 //            Toast.makeText(getContext(), "======i=========", Toast.LENGTH_SHORT).show();
 //        } else {
-            homeAdapter = new HomeAdapter();
-            recyclerView.setAdapter(homeAdapter);
+        homeAdapter = new HomeAdapter();
+        recyclerView.setAdapter(homeAdapter);
 
-            setHomeAdapter();
+        setHomeAdapter();
 //        }
 
         return view;

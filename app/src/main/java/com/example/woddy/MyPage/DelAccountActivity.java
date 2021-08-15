@@ -65,8 +65,6 @@ public class DelAccountActivity extends BaseActivity {
                                 FirebaseAuth.getInstance().signOut();
                                 Log.d(TAG, "User account delete completed.");
                                 fsManager.deleteProfile(uid);
-                                //fsManager.deleteUser();
-                                //sqlite에서도 삭제
 
                                 Toast.makeText(DelAccountActivity.this, "탈퇴가 완료되었습니다", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(DelAccountActivity.this, LogInActivity.class);

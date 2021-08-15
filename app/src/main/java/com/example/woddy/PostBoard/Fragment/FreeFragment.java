@@ -87,7 +87,7 @@ public class FreeFragment extends Fragment {
         //default 부분 - 시작 시
         tagName = "자유";
         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
-        givePathToParent(tagName);
+//        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
@@ -181,4 +181,5 @@ public class FreeFragment extends Fragment {
 
         return view;
     }
+
 }

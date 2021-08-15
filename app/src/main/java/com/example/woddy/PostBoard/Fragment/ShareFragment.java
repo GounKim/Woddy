@@ -83,10 +83,9 @@ public class ShareFragment extends Fragment {
         freeShare.setChipStrokeColorResource(R.color.main_color);
 
         //default 부분 - 시작 시
-        chipGroup.check(0);
         tagName = "물품공유";
         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
-        givePathToParent(tagName);
+//        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {

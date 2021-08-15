@@ -85,34 +85,38 @@ public class PostBoardMain extends Fragment {
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         boardName = "소통";
+        tagName = "친구찾기";
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#494C7C"));
         tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#494C7C")));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
 
                 int pos = tab.getPosition();
                 switch (pos) {
                     case 0:
                         boardName = "소통";
+                        tagName = "친구찾기";
                         break;
                     case 1:
                         boardName = "취미";
+                        tagName = "동호회";
                         break;
                     case 2:
                         boardName = "쉐어";
+                        tagName = "물품공유";
                         break;
                     case 3:
                         boardName = "자유";
+                        tagName = "자유";
                         break;
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                tagName = "";
             }
 
             @Override

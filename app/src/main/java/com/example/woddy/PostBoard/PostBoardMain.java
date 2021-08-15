@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.woddy.PostBoard.Fragment.FreeFragment;
 import com.example.woddy.PostBoard.Fragment.HabitFragment;
@@ -50,6 +51,7 @@ public class PostBoardMain extends Fragment {
                 tagName = bundle.getString("tagName");
             }
         });
+
     }
 
     @Nullable
@@ -60,6 +62,7 @@ public class PostBoardMain extends Fragment {
         viewPager = myFragment.findViewById(R.id.viewPager);
         tabLayout = myFragment.findViewById(R.id.tabLayout);
         addPosting = myFragment.findViewById(R.id.add_new_posting);
+
 
         addPosting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,12 +84,12 @@ public class PostBoardMain extends Fragment {
 
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+        boardName = "소통";
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
-
                 int pos = tab.getPosition();
                 switch (pos) {
                     case 0:

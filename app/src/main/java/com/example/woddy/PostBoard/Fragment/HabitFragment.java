@@ -62,10 +62,11 @@ public class HabitFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
+
         //default 부분 - 시작 시
-        chipGroup.getChildAt(0).callOnClick();
-//        mAdapter = new PostBoardAdapter(postingList, postingPath);
-//        recyclerView.setAdapter(mAdapter);
+        tagName = "동호회";
+        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {

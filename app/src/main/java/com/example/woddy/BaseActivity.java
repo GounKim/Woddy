@@ -2,12 +2,16 @@ package com.example.woddy;
 
 import static com.example.woddy.Alarm.sendGson.sendGson;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -45,6 +49,8 @@ public class BaseActivity extends AppCompatActivity {
     private Boolean useToolbar = true;
     private Boolean useBottomNavi = true;
     private Boolean useBackButton = false;
+
+    boolean alarm_new = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,8 +159,11 @@ public class BaseActivity extends AppCompatActivity {
         //return super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_alarm, menu);
+
         return true;
     }
+
+
 
     // 앱바 메뉴 클릭
     @Override
@@ -165,6 +174,7 @@ public class BaseActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.menu_alarm:{
+                alarm_new = false;
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
             }
@@ -172,6 +182,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //
     public void registerPushToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -183,7 +194,7 @@ public class BaseActivity extends AppCompatActivity {
                         }
                         String token = task.getResult();
                         Log.d("sys",token);
-                        String uid = FirebaseAuth.getInstance().getUid();
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken",token);
 
@@ -192,6 +203,7 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 });
     }
+
 //    public void onStop(){ //확인용
 //        super.onStop();
 //        sendGson(FirebaseAuth.getInstance().getUid(), "title","message");

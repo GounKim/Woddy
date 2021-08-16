@@ -6,5 +6,6 @@
         android:id="@+id/menu_alarm"
         android:icon="@drawable/ic_alarm"
         android:title="알림"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        android:visible="true"/>
 </menu>

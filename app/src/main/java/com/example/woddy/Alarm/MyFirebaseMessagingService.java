@@ -73,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent intent = new Intent(this, AlarmActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.default_notification_channel_id);
@@ -103,15 +103,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     //송신
     private void sendGson(String title, String message, String postPath, Integer kind) {
-        fsDB.collectionGroup("pushtokens").whereEqualTo("uid", FirebaseAuth.getInstance().getUid()).get()
+        fsDB.collectionGroup("pushtokens").whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            Map<String, String> map = (Map<String, String>) task.getResult(); //상대유저의 토큰
-                            String mPushToken = map.get("pushToken");
+                            Map<String, String> map = (Map<String, String>) task.getResult();
+                            String mPushToken = map.get("pushToken"); //상대유저의 토큰
                             SendNotification.sendNotification(mPushToken, title, message);
-                            Log.d(TAG, mPushToken +":"+FirebaseAuth.getInstance().getUid()+":");
+                            Log.d(TAG, mPushToken +":"+FirebaseAuth.getInstance().getCurrentUser().getUid()+":");
                         } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                         }

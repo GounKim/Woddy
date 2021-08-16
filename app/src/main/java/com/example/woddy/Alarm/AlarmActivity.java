@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,10 +27,13 @@ import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -107,6 +111,7 @@ public class AlarmActivity extends AppCompatActivity {
         return useBackButton;
     }
 
+    //리사이클뷰 설정
     class AlarmRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ArrayList<AlarmDTO> alarmDTOList = new ArrayList<AlarmDTO>();
@@ -114,7 +119,10 @@ public class AlarmActivity extends AppCompatActivity {
         AlarmRecyclerViewAdapter(){
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            FirebaseFirestore.getInstance().collection("alarms").whereEqualTo("destinationUid",uid)
+            // Create a reference to the cities collection
+            Query query = FirebaseFirestore.getInstance().collection("alarms").orderBy("timestamp", Query.Direction.DESCENDING);
+            query.whereEqualTo("destinationUid",uid)
+            //FirebaseFirestore.getInstance().collection("alarms").whereEqualTo("destinationUid",uid) //.orderBy("population");
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -149,14 +157,13 @@ public class AlarmActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
             View view = holder.itemView;
             ImageView image = view.findViewById(R.id.alarmitem_imageview);
-            TextView text_id = view.findViewById(R.id.alarmitem_textview_id);
             TextView text_message = view.findViewById(R.id.alarmitem_textview_message);
 
             switch (alarmDTOList.get(position).kind){
-                case 0 :
+                case 0 : //좋아요 알림
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str0 = alarmDTOList.get(position).nickname + getString(R.string.alarm_like);
                     text_message.setText(str0);
@@ -169,10 +176,10 @@ public class AlarmActivity extends AppCompatActivity {
                         }
                     });
                     break;
-                case 1 :
+                case 1 : //댓글 알림
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str1 = alarmDTOList.get(position).nickname + getString(R.string.alarm_comment)
-                            +" of "+alarmDTOList.get(position).message;
+                            +System.lineSeparator()+'"'+alarmDTOList.get(position).message+'"';
                     text_message.setText(str1);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -183,7 +190,7 @@ public class AlarmActivity extends AppCompatActivity {
                         }
                     });
                     break;
-                case 2 :
+                case 2 : //채팅 알림
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str2 = alarmDTOList.get(position).nickname + getString(R.string.alarm_chatting);
                     text_message.setText(str2);
@@ -196,7 +203,6 @@ public class AlarmActivity extends AppCompatActivity {
                     });
                     break;
             }
-            text_id.setVisibility(View.INVISIBLE);
         }
 
         @Override

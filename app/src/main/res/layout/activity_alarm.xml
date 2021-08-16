@@ -24,6 +24,10 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/alarm_recyclerview"
         android:layout_width="match_parent"
@@ -31,5 +35,7 @@
 
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
 
 </LinearLayout>

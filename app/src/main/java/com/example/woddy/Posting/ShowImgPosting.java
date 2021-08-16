@@ -198,6 +198,19 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
             liked.setImageResource(R.drawable.heart_on);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+            FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Posting posting = document.toObject(Posting.class);
+
+                            String uid=posting.getPostingNumber();
+                            manager.likeAlarm(uid, postingPath);
+                        }
+                    }
+                }
+            });
         }else{
             liked.setImageResource(R.drawable.heart_off);
             likedCount.setText(Integer.toString(num - 1));

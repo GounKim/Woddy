@@ -22,12 +22,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="검색어를 입력해주세요."
+            android:textSize="14dp"
             android:inputType="text" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/searchBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_round_shape"
+            android:textColor="@color/white"
             android:text="검색" />
 
     </LinearLayout>
@@ -57,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/frind"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -64,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -71,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/mate"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -78,6 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/club"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -85,6 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/meeting"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -99,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -113,6 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/free_share"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -120,6 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/free_talk"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -127,6 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/diy"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -134,6 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/interior"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
             <com.google.android.material.chip.Chip
@@ -141,6 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/town_info"
+                android:layout_marginRight="5dp"
                 style="@style/Widget.Woody.Chip"/>
 
         </com.google.android.material.chip.ChipGroup>

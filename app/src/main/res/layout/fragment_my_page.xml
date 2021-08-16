@@ -51,16 +51,15 @@
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toBottomOf="@id/myPage_userNick" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/myPage_btn_update_myProfile"
                 android:layout_width="0dp"
                 android:layout_height="38dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
-                android:background="@drawable/button_no_background"
+                android:background="@drawable/button_round_shape_no_background"
                 android:text="프로필 수정"
-                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_userImage"

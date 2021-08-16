@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/id_availability_check_button"
         android:layout_width="85dp"
         android:layout_height="38dp"
@@ -142,7 +142,7 @@
         app:layout_constraintTop_toBottomOf="@id/textView9"
         tools:layout_editor_absoluteY="345dp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nickname_availability_check_button"
         android:layout_width="85dp"
         android:layout_height="38dp"
@@ -209,7 +209,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/next_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -187,7 +187,7 @@ public class BaseActivity extends AppCompatActivity {
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken",token);
 
-                        FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
+                        //FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
                         //FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
                     }
                 });

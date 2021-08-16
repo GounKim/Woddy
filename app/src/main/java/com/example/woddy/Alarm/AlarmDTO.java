@@ -3,6 +3,7 @@ package com.example.woddy.Alarm;
 public class AlarmDTO { //알림 데이터
     String destinationUid = null; //알림 받을 사용자 uid
     String nickname = null; //알림 보낸 사용자 uid
+    String postingPath = null;
 
     Integer kind = null; //알림 종류 분류
     //0 : like alarm
@@ -13,6 +14,10 @@ public class AlarmDTO { //알림 데이터
     Long timestamp = null; //시간
 
     public AlarmDTO() {
+    }
+
+    public String getPostingPath() {
+        return postingPath;
     }
 
     public String getNickname() {
@@ -53,5 +58,9 @@ public class AlarmDTO { //알림 데이터
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setPostingPath(String postingPath) {
+        this.postingPath = postingPath;
     }
 }

@@ -192,10 +192,10 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 });
     }
-    public void onStop(){ //확인용
-        super.onStop();
-        sendGson(FirebaseAuth.getInstance().getUid(), "title","message");
-    }
+//    public void onStop(){ //확인용
+//        super.onStop();
+//        sendGson(FirebaseAuth.getInstance().getUid(), "title","message");
+//    }
     public Toolbar getmToolbar() {
         return mToolbar;
     }

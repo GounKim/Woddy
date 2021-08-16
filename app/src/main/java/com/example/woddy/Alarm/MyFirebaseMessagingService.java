@@ -70,7 +70,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     //수신
     private void sendNotification(String title, String messageBody) {
-        Intent intent = new Intent(this, BaseActivity.class);
+
+        Intent intent = new Intent(this, AlarmActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -101,7 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     //송신
-    private void sendGson(String title, String message) {
+    private void sendGson(String title, String message, String postPath, Integer kind) {
         fsDB.collectionGroup("pushtokens").whereEqualTo("uid", FirebaseAuth.getInstance().getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

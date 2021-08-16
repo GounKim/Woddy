@@ -328,7 +328,7 @@ public class FirestoreManager {
                                 Posting posting = document.toObject(Posting.class);
 
                                 String uid=posting.getPostingNumber();
-                                likeAlarm(uid);
+                                likeAlarm(uid, postingPath);
                     }
                 }
             }
@@ -398,7 +398,7 @@ public class FirestoreManager {
                                         Posting posting = document.toObject(Posting.class);
 
                                         String uid=posting.getPostingNumber();
-                                        commentAlarm(uid, comment.getContent());
+                                        commentAlarm(uid, comment.getContent(),postingPath);
                                     }
                                 }
                             }
@@ -564,7 +564,7 @@ public class FirestoreManager {
     }
 
     //좋아요 알림
-    public void likeAlarm(String destinationUid){
+    public void likeAlarm(String destinationUid, String postPath){
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
         DocumentReference docRef = fsDB.collection("userProfile").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -582,6 +582,7 @@ public class FirestoreManager {
                 }
             }
         });
+        alarmDTO.setPostingPath(postPath);
         alarmDTO.setKind(0);
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
@@ -592,7 +593,7 @@ public class FirestoreManager {
     }
 
     //댓글 알림
-    public void commentAlarm(String destinationUid, String message){
+    public void commentAlarm(String destinationUid, String message, String postPath){
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
@@ -612,6 +613,7 @@ public class FirestoreManager {
             }
         });
 //        alarmDTO.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid()); //닉네임
+        alarmDTO.setPostingPath(postPath);
         alarmDTO.setKind(1);
         alarmDTO.setMessage(message);
         alarmDTO.setTimestamp(System.currentTimeMillis());

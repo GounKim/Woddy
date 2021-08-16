@@ -18,6 +18,7 @@ public class PushDTO { //푸시 데이터
     }
 
 
+
     public void setNotification(Notification notification) {
         this.notification = notification;
     }
@@ -25,7 +26,6 @@ public class PushDTO { //푸시 데이터
     public void setTo(String to) {
         this.to = to;
     }
-
 
     class Notification{
         String body = null;

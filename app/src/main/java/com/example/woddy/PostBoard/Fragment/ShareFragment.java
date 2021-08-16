@@ -71,17 +71,6 @@ public class ShareFragment extends Fragment {
         buy = (Chip) view.findViewById(R.id.chipBuy);
         freeShare = (Chip) view.findViewById(R.id.chipFreeShare);
 
-        share.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-        home.setTextAppearanceResource(R.style.ChipTextStyle);
-        freeShare.setTextAppearanceResource(R.style.ChipTextStyle);
-        buy.setTextAppearanceResource(R.style.ChipTextStyle);
-
-        share.setChipBackgroundColorResource(R.color.main_color);
-        share.setChipStrokeColorResource(R.color.main_color);
-        home.setChipStrokeColorResource(R.color.main_color);
-        buy.setChipStrokeColorResource(R.color.main_color);
-        freeShare.setChipStrokeColorResource(R.color.main_color);
-
         //default 부분 - 시작 시
         tagName = "물품공유";
         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
@@ -96,56 +85,28 @@ public class ShareFragment extends Fragment {
                         tagName = "물품공유";
                         new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
-                        share.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-                        home.setTextAppearanceResource(R.style.ChipTextStyle);
-                        freeShare.setTextAppearanceResource(R.style.ChipTextStyle);
-                        buy.setTextAppearanceResource(R.style.ChipTextStyle);
-                        share.setChipBackgroundColorResource(R.color.main_color);
-                        freeShare.setChipBackgroundColorResource(R.color.white);
-                        home.setChipBackgroundColorResource(R.color.white);
-                        buy.setChipBackgroundColorResource(R.color.white);
+
                         break;
 
                     case R.id.chipHome:
                         tagName = "홈";
                         new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
-                        home.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-                        share.setTextAppearanceResource(R.style.ChipTextStyle);
-                        freeShare.setTextAppearanceResource(R.style.ChipTextStyle);
-                        buy.setTextAppearanceResource(R.style.ChipTextStyle);
-                        home.setChipBackgroundColorResource(R.color.main_color);
-                        freeShare.setChipBackgroundColorResource(R.color.white);
-                        share.setChipBackgroundColorResource(R.color.white);
-                        buy.setChipBackgroundColorResource(R.color.white);
+
                         break;
 
                     case R.id.chipBuy:
                         tagName = "공동구매";
                         new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
-                        buy.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-                        home.setTextAppearanceResource(R.style.ChipTextStyle);
-                        freeShare.setTextAppearanceResource(R.style.ChipTextStyle);
-                        share.setTextAppearanceResource(R.style.ChipTextStyle);
-                        buy.setChipBackgroundColorResource(R.color.main_color);
-                        freeShare.setChipBackgroundColorResource(R.color.white);
-                        home.setChipBackgroundColorResource(R.color.white);
-                        share.setChipBackgroundColorResource(R.color.white);
+
                         break;
 
                     case R.id.chipFreeShare:
                         tagName = "무료나눔";
                         new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
-                        freeShare.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-                        home.setTextAppearanceResource(R.style.ChipTextStyle);
-                        share.setTextAppearanceResource(R.style.ChipTextStyle);
-                        buy.setTextAppearanceResource(R.style.ChipTextStyle);
-                        freeShare.setChipBackgroundColorResource(R.color.main_color);
-                        share.setChipBackgroundColorResource(R.color.white);
-                        home.setChipBackgroundColorResource(R.color.white);
-                        buy.setChipBackgroundColorResource(R.color.white);
+
                         break;
                 }
             }

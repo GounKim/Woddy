@@ -61,7 +61,7 @@ public class UpdateProfile extends BaseActivity {
     String tmp_imguri;
 
     StorageManager sManager = new StorageManager();
-    FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
+    FirestoreManager fsManager = new FirestoreManager();
 
     @Override
     protected boolean useBottomNavi() {

@@ -205,7 +205,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                         if (document.exists()) {
                             Posting posting = document.toObject(Posting.class);
 
-                            String uid=posting.getPostingNumber();
+                            String uid=posting.getPostingUid();
                             manager.likeAlarm(uid, postingPath);
                         }
                     }

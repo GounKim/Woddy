@@ -38,7 +38,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.4.1' //msg
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1' //푸시 메세지
     implementation 'androidx.multidex:multidex:2.0.1'//라이브러리 계속 추가 가능
     implementation 'com.google.code.gson:gson:2.8.6'// bottomNavi용
     testImplementation 'junit:junit:4.13.2'
@@ -73,5 +73,5 @@ dependencies {
     // ViewPager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    implementation 'com.google.firebase:firebase-messaging:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:18.0.0' //푸시 메세지
 }

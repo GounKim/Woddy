@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.woddy.Chatting.ChattingFragment;
+import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -158,21 +160,43 @@ public class AlarmActivity extends AppCompatActivity {
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str0 = alarmDTOList.get(position).nickname + getString(R.string.alarm_like);
                     text_message.setText(str0);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                            view.getContext().startActivity(intent);
+                        }
+                    });
                     break;
                 case 1 :
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str1 = alarmDTOList.get(position).nickname + getString(R.string.alarm_comment)
                             +" of "+alarmDTOList.get(position).message;
                     text_message.setText(str1);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                            view.getContext().startActivity(intent);
+                        }
+                    });
                     break;
                 case 2 :
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str2 = alarmDTOList.get(position).nickname + getString(R.string.alarm_chatting);
                     text_message.setText(str2);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(view.getContext(), ChattingFragment.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            view.getContext().startActivity(intent);
+                        }
+                    });
                     break;
             }
             text_id.setVisibility(View.INVISIBLE);
-
         }
 
         @Override

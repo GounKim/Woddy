@@ -1,37 +1,26 @@
 package com.example.woddy.Alarm;
 
 public class AlarmDTO { //알림 데이터
-    String destinationUid = null;
-    String userId = null;
-    String uid = null;
-    String postingNumber = null;
-    String click_action = null;
+    String destinationUid = null; //알림 받을 사용자 uid
+    String nickname = null; //알림 보낸 사용자 uid
 
-    Integer kind = null;
+    Integer kind = null; //알림 종류 분류
     //0 : like alarm
     //1 : comment alarm
     //2 : chatting alarm
 
-    String message = null;
-    Long timestamp = null;
+    String message = null; //알림에 띄울 문구
+    Long timestamp = null; //시간
 
-    public AlarmDTO(){
+    public AlarmDTO() {
     }
 
-    public String getClick_action() {
-        return click_action;
+    public String getNickname() {
+        return nickname;
     }
 
-    public String getDestinationUid(){
+    public String getDestinationUid() {
         return destinationUid;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getUid() {
-        return uid;
     }
 
     public Integer getKind() {
@@ -46,19 +35,13 @@ public class AlarmDTO { //알림 데이터
         return timestamp;
     }
 
-    public String getPostingNumber() {
-        return postingNumber;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void setDestinationUid(String destinationUid) {
         this.destinationUid = destinationUid;
     }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setUid(String uid) { this.uid = uid; }
 
     public void setKind(Integer kind) {
         this.kind = kind;
@@ -70,13 +53,5 @@ public class AlarmDTO { //알림 데이터
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public void setPostingNumber(String postingNumber) {
-        this.postingNumber = postingNumber;
-    }
-
-    public void setClick_action(String click_action) {
-        this.click_action = click_action;
     }
 }

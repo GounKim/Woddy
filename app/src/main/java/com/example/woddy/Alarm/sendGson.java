@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 
+//알림 송신용
 public class sendGson {
 
     private static FirebaseFirestore fsDB=FirebaseFirestore.getInstance();
@@ -43,42 +44,5 @@ public class sendGson {
                 }
             }
         });
-
-//        DocumentReference docRef = fsDB.collection("userProfile").document(FirebaseAuth.getInstance().getUid());
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                        Map<String, Object> map = document.getData(); //상대유저의 토큰
-//                        String mPushToken = map.get("pushToken").toString();
-//                        Log.d(TAG, "mPushToken: " + mPushToken);
-//                        SendNotification.sendNotification(mPushToken, "title", "메시지가 도착했습니다.");
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-
-
-//        fsDB.collectionGroup("pushtokens").whereEqualTo("uid", FirebaseAuth.getInstance().getUid()).get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            Map<String, String> map = (Map<String, String>) task.getResult(); //상대유저의 토큰
-//                            String mPushToken = map.get("pushToken");
-//                            SendNotification.sendNotification(mPushToken, FirebaseAuth.getInstance().getUid(), "메시지가 도착했습니다.");
-//                            Log.d(TAG, mPushToken +":"+FirebaseAuth.getInstance().getUid()+":");
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
     }
 }

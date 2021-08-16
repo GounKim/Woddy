@@ -7,8 +7,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.woddy.Alarm.FcmPush;
+import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.MyPage.MyPageFragment;
@@ -146,6 +149,13 @@ public class BaseActivity extends AppCompatActivity {
         return useBackButton;
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_alarm, menu);
+        return true;
+    }
+
     // 앱바 메뉴 클릭
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -154,8 +164,11 @@ public class BaseActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
+            case R.id.menu_alarm:{
+                Intent intent = new Intent(this, AlarmActivity.class);
+                startActivity(intent);
+            }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -181,8 +194,6 @@ public class BaseActivity extends AppCompatActivity {
     }
     public void onStop(){ //확인용
         super.onStop();
-        //FcmPush.instance.sendMessage("DmtUmsMEv5fEHNU5CIXNXvibyhl1","hi","msg");
-        //sendNotification("DmtUmsMEv5fEHNU5CIXNXvibyhl1", "hi", "Is it working?");
         sendGson(FirebaseAuth.getInstance().getUid(), "title","message");
     }
     public Toolbar getmToolbar() {

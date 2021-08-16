@@ -43,15 +43,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btnAlarm = view.findViewById(R.id.button4);
-        btnAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AlarmActivity.class);
-                startActivity(intent);
-            }
-        });
-
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 

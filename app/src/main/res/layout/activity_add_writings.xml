@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:onClick="linearOnClick"
     android:orientation="vertical"
-    tools:context=".PostWriting.AddWritingsActivity">
+    tools:context=".Posting.AddWritingsActivity">
 
 
     <LinearLayout

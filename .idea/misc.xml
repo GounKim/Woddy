@@ -16,6 +16,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_baseline_thumb_up_24.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/notice_border.xml" value="0.12239583333333333" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/show_posting_menu_style.xml" value="0.1" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/drawable/text_view_rect_shape.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_add_writings.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_base.xml" value="0.24818840579710144" />
@@ -28,6 +29,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_loading.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_log_in.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_menu_from_bottom.xml" value="0.1" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_posting_list.xml" value="0.11956521739130435" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_pw_reset.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_pw_reset_success.xml" value="0.24818840579710144" />
@@ -35,6 +37,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_set_account.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_image_posting.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_posting.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_posting_menu.xml" value="0.1" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_writing.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_sign_up.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_sign_up_success.xml" value="0.24818840579710144" />
@@ -55,6 +58,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_notice_board.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_post.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_post_board_main.xml" value="0.10625" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_show_posting_menu.xml" value="0.2" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item.xml" value="0.12335359675785208" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_hscroll.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_notice.xml" value="0.12760416666666666" />
@@ -73,9 +77,12 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/search_main.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_img_posting_img_slider.xml" value="0.1375" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_posting_comment_recycler.xml" value="0.264" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_posting_menu.xml" value="0.4" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_writing_comment_recycler.xml" value="0.11956521739130435" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/show_writing_recycler_comment.xml" value="0.24818840579710144" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/menu/menu_add_writing.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/menu/menu_bottom.xml" value="0.12604166666666666" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/menu/menu_show_posting.xml" value="0.25364583333333335" />
         <entry key="..\:/Woddy/app/src/main/res/drawable/bg_indicator_active.xml" value="0.13541666666666666" />
         <entry key="..\:/Woddy/app/src/main/res/drawable/bg_indicator_inactive.xml" value="0.13541666666666666" />
         <entry key="..\:/Woddy/app/src/main/res/drawable/heart_off.xml" value="0.1" />
@@ -96,7 +103,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>

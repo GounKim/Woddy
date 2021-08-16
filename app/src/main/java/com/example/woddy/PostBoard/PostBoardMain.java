@@ -14,13 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.woddy.PostBoard.Fragment.FreeFragment;
 import com.example.woddy.PostBoard.Fragment.HabitFragment;
 import com.example.woddy.PostBoard.Fragment.ShareFragment;
 import com.example.woddy.PostBoard.Fragment.TalkFragment;
-import com.example.woddy.PostWriting.AddWritingsActivity;
+import com.example.woddy.Posting.AddWritingsActivity;
 import com.example.woddy.R;
 import com.google.android.material.tabs.TabLayout;
 

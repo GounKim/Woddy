@@ -22,16 +22,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="검색어를 입력해주세요."
-            android:textSize="14dp"
+            android:textSize="16sp"
             android:inputType="text" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/searchBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_round_shape"
-            android:textColor="@color/white"
-            android:text="검색" />
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_search_24"
+            android:background="@color/white"/>
 
     </LinearLayout>
 
@@ -168,11 +167,13 @@
         android:text="최근 검색"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/button_round_shape_grayish_small_radius"/>
 
 </LinearLayout>

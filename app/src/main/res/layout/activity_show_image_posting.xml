@@ -41,23 +41,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
+                    android:paddingBottom="2dp"
                     android:text="게시글 제목"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/show_img_posting_writer"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="작성자이름"
+                        android:text="작성자 닉네임"
                         android:textSize="12sp" />
 
                     <TextView
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="25dp"
                     android:text="내용"
                     android:textSize="16sp" />
 
@@ -122,7 +122,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="보드이름"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:visibility="visible" />
 
                     <TextView
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:text="#태그"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:visibility="visible" />
 
                 </LinearLayout>
@@ -139,13 +139,13 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="12dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/show_img_posting_liked"
-                        android:layout_width="19dp"
-                        android:layout_height="19dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginLeft="10dp"
                         android:onClick="pushHeart"
                         android:src="@drawable/ic_baseline_liked_no" />
@@ -155,14 +155,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="5dp"
                         android:text="100"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/show_img_posting_scrap"
-                        android:layout_width="19dp"
-                        android:layout_height="19dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:onClick="pushClip"
                         android:src="@drawable/ic_baseline_scraped_no" />
 
@@ -172,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:text="100"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -184,6 +184,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:padding="1.5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linearLayout" />
@@ -204,24 +205,29 @@
         <EditText
             android:id="@+id/show_img_posting_edt_comment"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="8"
-            android:background="@drawable/button_gray_background"
+            android:background="@drawable/button_round_shape_grayish_small_radius"
             android:hint="댓글을 입력해주세요."
             android:inputType="text"
             android:paddingLeft="7dp"
-            android:paddingRight="7dp" />
+            android:paddingRight="7dp"
+            android:textSize="16sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/show_img_posting_btnSend_comment"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="2"
-            android:backgroundTint="@color/main_color"
+            android:background="@drawable/button_round_shape_small_radius"
             android:text="전송"
             android:textColor="@color/white" />
 

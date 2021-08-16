@@ -54,6 +54,8 @@ public class AlarmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
+        toolbarTitle.setText("알림");
+
         alarm_recyclerview = findViewById(R.id.alarm_recyclerview);
         alarm_recyclerview.setAdapter(new AlarmRecyclerViewAdapter());
         alarm_recyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -172,7 +174,7 @@ public class AlarmActivity extends AppCompatActivity {
                 case 1 :
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str1 = alarmDTOList.get(position).nickname + getString(R.string.alarm_comment)
-                            +" of "+alarmDTOList.get(position).message;
+                            +" \n\""+alarmDTOList.get(position).message + "\"";
                     text_message.setText(str1);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override

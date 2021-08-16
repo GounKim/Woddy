@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.woddy.PostBoard.PostBoardAdapter;
@@ -16,13 +17,12 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 
-
 public class SearchActivity extends AppCompatActivity {
 
     ChipGroup chipGroup;
     Chip friend, help, mate, share, home, buy, freeShare, free, diy, interior, townInfo, club, meeting;
 
-    Button searchBtn;
+    ImageButton searchBtn;
     EditText searchText;
     RecyclerView recyclerView;
 
@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         searchText = (EditText) findViewById(R.id.searchWord);
-        searchBtn = (Button) findViewById(R.id.searchBtn);
+        searchBtn = (ImageButton) findViewById(R.id.searchBtn);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

@@ -1,25 +1,18 @@
 package com.example.woddy.MyPage;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.content.CursorLoader;
-import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,37 +24,44 @@ import com.bumptech.glide.Glide;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.StorageManager;
-import com.example.woddy.Entity.User;
-import com.example.woddy.MainActivity;
+import com.example.woddy.Login.SignUpActivity;
 import com.example.woddy.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
-
-    닉네임 중복확인 코드
-    SingUpActivity.java 안에 checkNickname() 함수 코드 활용하시면 돼요
-    이것도 realtime에서 firestore로 바꿔놨고
-    whereequalto로 찾는 방식입니다
-
- */
 public class UpdateProfile extends BaseActivity {
-    ImageView profileImage;
-    //    EditText newNickName;
-    EditText newIntrodice;
-    EditText newLocal;
-    Button btnUpdate;
+    ImageView profileImageView;
+    EditText newNickEditText;
+    EditText newLocalEditText;
+    TextView nickCheckTextView;
+    Button changeProfileImgButton;
+    Button changeNickButton;
+    Button changeLocalButton;
 
-    private int GALLEY_CODE = 100;
+    private int GALLERY_CODE = 100;
     private Boolean isPermission = true;
     private String imageUrl = "";
+    private String uid;
+    final static String TAG = "UpdateProfile";
+
+    String tmp_nick;
+    String tmp_local;
+    String tmp_imguri;
 
     StorageManager sManager = new StorageManager();
-    FirestoreManager manager = new FirestoreManager(getApplicationContext());
+    FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
 
     @Override
     protected boolean useBottomNavi() {
@@ -79,56 +79,91 @@ public class UpdateProfile extends BaseActivity {
         setContentView(R.layout.activity_update_profile);
         setMyTitle("프로필 수정");
 
-        profileImage = findViewById(R.id.updateProfile_userImage);
-        btnUpdate = findViewById(R.id.updateProfile_btn_complete);
-//        newNickName = findViewById(R.id.updateProfile_edt_nickName);
-        newIntrodice = findViewById(R.id.updateProfile_edt_introduce);
-        newLocal = findViewById(R.id.updateProfile_edt_local);
+        //초기화
+        profileImageView = findViewById(R.id.update_profile_image_view);
+        newNickEditText = findViewById(R.id.update_nick_edit_text);
+        newLocalEditText = findViewById(R.id.update_local_edit_text);
+        nickCheckTextView = findViewById(R.id.update_nick_check_text_view);
+        changeProfileImgButton = findViewById(R.id.update_profile_image_button);
+        changeNickButton = findViewById(R.id.update_nick_button);
+        changeLocalButton = findViewById(R.id.update_local_button);
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        profileImage.setOnClickListener(new View.OnClickListener() {
+        //처음에 보여지는 화면 셋팅
+        Intent intent = getIntent();
+        tmp_nick = intent.getStringExtra("nickname");
+        tmp_local = intent.getStringExtra("local");
+        tmp_imguri = intent.getStringExtra("imguri");
+        //1) 이미지 사진
+        FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+        StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
+        storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
-            public void onClick(View view) {
-                // 로컬 사진첩으로 이동
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Glide.with(getApplicationContext())
+                            .load(task.getResult())
+                            .circleCrop()
+                            .into(profileImageView);
+                } else {
+                    Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+                }
+            }
+        });
+        //2) 현재 내 닉네임
+        newNickEditText.setText(tmp_nick);
+        //3) 현재 내 주소
+        newLocalEditText.setText(tmp_local);
+
+
+        //수정 작업
+        //1) 프로필 사진 수정
+        changeProfileImgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 tedPermission();
                 if (isPermission) {
                     Intent intent = new Intent(Intent.ACTION_PICK);
                     intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                    startActivityForResult(intent, GALLEY_CODE);
-                } else {
-                    Toast.makeText(view.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
+                    startActivityForResult(intent, GALLERY_CODE);
                 }
-
             }
         });
 
-        // 프로필 설정 버튼 클릭시
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
+        //2) 닉네임 수정
+        changeNickButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // Storage에 이미지 저장
-                String fileUri = sManager.setProfileImage("user1", imageUrl);
-
-                String local = newLocal.getText().toString();
-                String introduce = newIntrodice.getText().toString();
-
-                // DBtest에 수정된 정보 추가
-                Map<String, Object> newData = new HashMap<>();
-                newData.put("local", local);
-                newData.put("introduce", introduce);
-                newData.put("userImage", fileUri);
-                manager.updateUser("user1", newData);
-
-                // MyPage에 넘길 정보 Intent에 담기
-                Intent result = new Intent();
-                result.putExtra("local", local);
-                result.putExtra("introduce", introduce);
-                result.putExtra("userImage", imageUrl);
-
-                setResult(RESULT_OK, result);   // 액티비티가 종료됨을 알림정보 넘기기
-                finish();   //액티비티 종료
+            public void onClick(View v) {
+                checkNick();
             }
         });
 
+        //3) 주소 수정
+        changeLocalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newLocal = newLocalEditText.getText().toString();
+                Log.d(TAG, newLocal);
+                String[] tmpStrArr = newLocal.split(" ");
+                if (tmpStrArr.length != 3) {
+                    Toast.makeText(UpdateProfile.this, "주소를 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String finalCity = tmpStrArr[0];
+                String finalGu = tmpStrArr[1];
+                String finalDong = tmpStrArr[2];
+                String finalLocal = finalCity + " " + finalGu + " " + finalDong;
+                Map<String, Object> map = new HashMap<>();
+                map.put("city", finalCity);
+                map.put("gu", finalGu);
+                map.put("dong", finalDong);
+                map.put("local", finalLocal);
+                fsManager.updateProfile(uid, map);
+                tmp_local = newLocal;
+                newLocalEditText.setText(tmp_local);
+                Toast.makeText(UpdateProfile.this, "주소 변경 완료!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /* --- 앨범애서 사진을 골라 사용자 이미지로 설정하기 --- */
@@ -156,14 +191,16 @@ public class UpdateProfile extends BaseActivity {
             return;
         }
 
-        if (requestCode == GALLEY_CODE) {
+        if (requestCode == GALLERY_CODE) {
             try {
                 imageUrl = getRealPathFromUri(data.getData());
 
                 Glide.with(getApplicationContext())
                         .load(imageUrl)
                         .circleCrop()
-                        .into(profileImage);
+                        .into(profileImageView);
+                sManager.setProfileImage(tmp_nick, imageUrl, uid);
+                Toast.makeText(UpdateProfile.this, "프로필 사진 변경 완료!", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -194,6 +231,35 @@ public class UpdateProfile extends BaseActivity {
                 .setDeniedMessage(getResources().getString(R.string.permission_1))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
+    }
+
+    public void checkNick() {
+        String nick_str = newNickEditText.getText().toString();
+        FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
+        fsManager.findNickname(nick_str)
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.getResult().size() == 0) {
+                            nickCheckTextView.setVisibility(View.VISIBLE);
+                            nickCheckTextView.setTextColor(Color.GRAY);
+                            nickCheckTextView.setText("사용 가능한 닉네임입니다.");
+//                            Log.d(TAG, "nickCheck  " + nickCheck.toString());
+                            Log.d(TAG, "GGGGGG##");
+                            String newNick = newNickEditText.getText().toString();
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("nickname", newNick);
+                            fsManager.updateProfile(uid, map);
+                            tmp_nick = newNick;
+                            newNickEditText.setText(tmp_nick);
+                            Toast.makeText(UpdateProfile.this, "닉네임 변경 완료!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            nickCheckTextView.setVisibility(View.VISIBLE);
+                            nickCheckTextView.setTextColor(Color.rgb(255, 105, 105));
+                            nickCheckTextView.setText("중복된 닉네임입니다.");
+                        }
+                    }
+                });
     }
 
 /*

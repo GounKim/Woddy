@@ -125,6 +125,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
+            android:padding="5dp"
             app:srcCompat="@drawable/ic_menu_camera_24" />
 
     </LinearLayout>

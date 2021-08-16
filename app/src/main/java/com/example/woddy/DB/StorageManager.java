@@ -1,6 +1,7 @@
 package com.example.woddy.DB;
 
 import static android.content.ContentValues.TAG;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 import android.net.Uri;
 import android.util.Log;
@@ -21,15 +22,15 @@ import java.util.Map;
 public class StorageManager {
     private final FirebaseStorage stroage;
     private final StorageReference storageRef;
-//    private final FirestoreManager manager;
+    private final FirestoreManager manager;
 
-    public StorageManager()  {
-//        this.manager = new FirestoreManager();
+    public StorageManager() {
+        this.manager = new FirestoreManager();
         this.stroage = FirebaseStorage.getInstance();
         this.storageRef = stroage.getReference();
     }
 
-    public String setProfileImage(String userNick, String uriPath) {
+    public String setProfileImage(String userNick, String uriPath, String uid) {
         String filename = userNick + "_profile.jpg"; // 파일명 생성: 사용자의 NickName_profile.jpg
         String fileUri = "UserProfileImages/" + userNick + "/" + filename;
 
@@ -49,9 +50,9 @@ public class StorageManager {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG, "Uploading Image to stroage has successed!");
 
-//                Map<String, Object> uriData = new HashMap<>();
-//                uriData.put("userImage", "UserProfileImages/" + userNick + "/" + filename);
-//                manager.updateUser(userNick, uriData);
+                Map<String, Object> uriData = new HashMap<>();
+                uriData.put("userImage", "UserProfileImages/" + userNick + "/" + filename);
+                manager.updateProfile(uid, uriData);
             }
         });
 
@@ -75,7 +76,7 @@ public class StorageManager {
     }
 
     public ArrayList<String> addPostingImage(String boardName, String tagName, String postingNum, ArrayList<String> uriPath) {
-        String storagePath = boardName +"/" + tagName + "/PostingImages/" + postingNum + "/";
+        String storagePath = boardName + "/" + tagName + "/PostingImages/" + postingNum + "/";
         ArrayList<String> newUri = new ArrayList<>();
 
         for (int index = 0; index < uriPath.size(); index++) {

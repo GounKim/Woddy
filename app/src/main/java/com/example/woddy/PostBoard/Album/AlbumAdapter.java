@@ -23,24 +23,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     private ArrayList<Posting> items;
     private ArrayList<String> documentPath;
 
-    private String postingNumber;
-    private String pictures;
-    private String title;
-    private String numberOfLiked;
-
-
     @NonNull
     @Override
     public AlbumAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_albumboard, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.albumboard_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
 
         return viewHolder;
@@ -69,7 +67,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             });
         }
 
+        viewHolder.album_title.setText(posting.getTitle());
         viewHolder.album_text.setText(posting.getTitle());
+        viewHolder.album_time.setText(timestamp(posting.getPostedTime()));
+        viewHolder.album_liked.setText(posting.getNumberOfLiked() + "");
     }
 
     @Override
@@ -85,15 +86,17 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView album_img;
-        TextView album_text;
+        TextView album_title, album_text, album_time;
         TextView album_liked;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             album_img = itemView.findViewById(R.id.album_img);
-            album_text = itemView.findViewById(R.id.album_text);
-            album_liked = itemView.findViewById(R.id.album_liked);
+            album_title = itemView.findViewById(R.id.album_item_title);
+            album_text = itemView.findViewById(R.id.album_item_content);
+            album_time = itemView.findViewById(R.id.album_item_time);
+            album_liked = itemView.findViewById(R.id.album_item_liked);
 
             itemView.setClickable(true);
             itemView.setOnClickListener(new View.OnClickListener(){
@@ -114,5 +117,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 }
             });
         }
+    }
+
+    private String timestamp(Date date) {    // 타임스탬프 생성
+        TimeZone timeZone;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.KOREAN);
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREAN);
+        timeZone = TimeZone.getTimeZone("Asia/Seoul");
+        sdf.setTimeZone(timeZone);
+        return sdf.format(date);
     }
 }

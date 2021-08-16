@@ -41,4 +41,15 @@
         <item name="android:textStyle">bold</item>
         <item name="chipEndPadding">2dp</item>
     </style>
+
+    <style name="ChipTextStyleSelected">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ChipTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="strokeColor">@color/main_color</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
 </resources>

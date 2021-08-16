@@ -21,6 +21,7 @@
             android:exported="true" />
         <activity android:name=".MyPage.ChangePwActivity" />
         <activity android:name=".MyPage.SetAccountActivity" />
+        <activity android:name=".MyPage.DelAccountActivity"/>
         <activity
             android:name=".MyPage.UpdateProfile"
             android:exported="true" />

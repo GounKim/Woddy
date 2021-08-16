@@ -12,7 +12,6 @@ import java.util.Map;
 public class User {
     private String nickName;    // 닉네임 [ FK : MemberInfo ]
     private String local;   // 지역(동)
-    private String introduce;   // 한줄소개
     private String userImage;   // 사용자 이미지(사진)    // private ArrayList<String> chattingList;    // 채팅목록
     private ArrayList<String> myPostings;  // 작성한 게시물
     private ArrayList<String> likedPostings;   // 좋아요 누른글
@@ -25,10 +24,9 @@ public class User {
         this.nickName = nickName;
     }
 
-    public User(String nickName, String local, String introduce, String userImage) {
+    public User(String nickName, String local, String userImage) {
         this.nickName = nickName;
         this.local = local;
-        this.introduce = introduce;
         this.userImage = userImage;
     }
 
@@ -54,14 +52,6 @@ public class User {
 
     public void setLocal(String local) {
         this.local = local;
-    }
-
-    public String getIntroduce() {
-        return introduce;
-    }
-
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
     }
 
     public String getUserImage() {

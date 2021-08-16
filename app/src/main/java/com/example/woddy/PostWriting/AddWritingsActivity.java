@@ -42,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class AddWritingsActivity extends BaseActivity {
@@ -67,6 +68,7 @@ public class AddWritingsActivity extends BaseActivity {
     String tagName;
     String USER = "user1";
 
+    String[] imgNeedTag = {"물품공유", "홈", "무료나눔", "DIY", "인테리어어"};
     InputMethodManager imm;
 
     @Override
@@ -136,25 +138,39 @@ public class AddWritingsActivity extends BaseActivity {
                 return true;
 
             case R.id.menu_add_writing:
+                // 제목과 내용이 모두 입력되었을 경우
                 if (!titleTV.getText().toString().isEmpty() && !plotTV.getText().toString().isEmpty()) {
-                    Posting post;
-                    final String title = titleTV.getText().toString();
-                    final String content = plotTV.getText().toString();
-                    if (uriList == null) {
-                        post = new Posting(USER, title, content, new Date());
-                    } else {
-                        post = new Posting(USER, title, content, uriList, new Date());
+                    // 이미지가 필수인 태그에 들어가는 글일 경우
+                    if (Arrays.asList(imgNeedTag).contains(tagName)) {
+                        if (uriList == null) {  // 이미지가 입력되지 않으면 추가 불가능
+                            Toast.makeText(getApplicationContext(), "사진이 한개 이상 필요합니다.", Toast.LENGTH_LONG).show();
+                        } else {    // 이미지가 입력되면 추가됨
+                            addNewPosting();
+                        }
+                    } else {    //이미지가 필수인 태그가 아니면 추가됨
+                        addNewPosting();
                     }
-                    firestoreManager.addPosting(boardName, tagName, post);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                } else {
+                } else {// 제목과 내용이 모두 입력되지 않으면 메시지를 띄움
                     Toast.makeText(getApplicationContext(), "제목과 내용 모두를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addNewPosting() {
+        Posting post;
+        final String title = titleTV.getText().toString();
+        final String content = plotTV.getText().toString();
+        if (uriList == null) {
+            post = new Posting(USER, title, content, new Date());
+        } else {
+            post = new Posting(USER, title, content, uriList, new Date());
+        }
+        firestoreManager.addPosting(boardName, tagName, post);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     // 키보드 자동 올라오기 막기

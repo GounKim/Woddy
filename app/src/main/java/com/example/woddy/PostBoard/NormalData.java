@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -25,13 +26,15 @@ public class NormalData {
     ArrayList<String> docPath = new ArrayList<String>();
 
     FirestoreManager manager;
-    private PostBoardAdapter adapter = new PostBoardAdapter();
+    private PostBoardAdapter adapter;
 
     public NormalData(Context context) {
         this.manager = new FirestoreManager(context);
     }
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName) {
+        adapter = new PostBoardAdapter(boardName, tagName);
+
         manager.getPost(boardName, tagName).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -46,9 +49,7 @@ public class NormalData {
                         //아이템 로드
                         adapter.setItems(items, docPath);
 
-                        StaggeredGridLayoutManager staggeredGridLayoutManager
-                                = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                        recyclerView.setLayoutManager(staggeredGridLayoutManager); // 상하 스크롤
+                        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
                         recyclerView.setAdapter(adapter);
                     } else {
                         Log.d(TAG, "Nothing Founded!");

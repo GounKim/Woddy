@@ -55,7 +55,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.swHolder
     public swHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.show_writing_comment_recycler, parent, false);
+        View view = inflater.inflate(R.layout.show_posting_comment_recycler, parent, false);
 
         return new swHolder(view);
     }

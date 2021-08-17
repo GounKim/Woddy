@@ -1,49 +1,155 @@
 package com.example.woddy.Search;
 
-import android.os.Bundle;
-import android.widget.SearchView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.example.woddy.PostBoard.PostBoardAdapter;
 import com.example.woddy.R;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
-import org.jetbrains.annotations.NotNull;
 
 public class SearchActivity extends AppCompatActivity {
 
-    TextView testTV;
+    ChipGroup chipGroup;
+    Chip friend, help, mate, share, home, buy, freeShare, free, diy, interior, townInfo, club, meeting;
+
+    ImageButton searchBtn;
+    EditText searchText;
+    RecyclerView recyclerView;
+
+    private String board_name = "소통";
+    private String tagName = "친구";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_main);
-        testTV = (TextView) findViewById(R.id.testTextView);
+        setContentView(R.layout.activity_main);
+
+        searchText = (EditText) findViewById(R.id.searchWord);
+        searchBtn = (ImageButton) findViewById(R.id.searchBtn);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        chipGroup = (ChipGroup) findViewById(R.id.filterChipGroup);
+
+        friend = (Chip) findViewById(R.id.chipFriend);
+        help = (Chip) findViewById(R.id.chipHelp);
+        mate = (Chip) findViewById(R.id.chipMate);
+
+        home = (Chip) findViewById(R.id.chipHome);
+        share = (Chip) findViewById(R.id.chipShare);
+        buy = (Chip) findViewById(R.id.chipBuy);
+        freeShare = (Chip) findViewById(R.id.chipFreeShare);
+
+        chipGroup = (ChipGroup) findViewById(R.id.filterChipGroup);
+        meeting = (Chip) findViewById(R.id.chipMeeting);
+        club = (Chip) findViewById(R.id.chipClub);
+
+        free = (Chip) findViewById(R.id.chipFreeTalk);
+        diy = (Chip) findViewById(R.id.chipDIY);
+        interior = (Chip) findViewById(R.id.chipInterior);
+        townInfo = (Chip) findViewById(R.id.chipTownInfo);
+
+        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.chipFriend:
+                        board_name = "소통";
+                        tagName = "친구찾기";
+                        break;
+
+                    case R.id.chipHelp:
+                        board_name = "소통";
+                        tagName = "도움요청";
+                        break;
+
+                    case R.id.chipMate:
+                        board_name = "소통";
+                        tagName = "퇴근메이트";
+                        break;
+
+                    case R.id.chipShare:
+                        board_name = "쉐어";
+                        tagName = "물품공유";
+                        break;
+
+                    case R.id.chipHome:
+                        board_name = "쉐어";
+                        tagName = "홈";
+                        break;
+
+                    case R.id.chipBuy:
+                        board_name = "쉐어";
+                        tagName = "공동구매";
+                        break;
+
+                    case R.id.chipFreeShare:
+                        board_name = "쉐어";
+                        tagName = "무료나눔";
+                        break;
+
+                    case R.id.chipClub:
+                        board_name = "취미";
+                        tagName = "동호회";
+                        break;
+
+                    case R.id.chipMeeting:
+                        board_name = "취미";
+                        tagName = "번개모임";
+                        break;
+
+                    case R.id.chipFreeTalk:
+                        board_name = "자유";
+                        tagName = "자유";
+                        break;
+
+                    case R.id.chipDIY:
+                        board_name = "자유";
+                        tagName = "DIY";
+                        break;
+
+                    case R.id.chipInterior:
+                        board_name = "자유";
+                        tagName = "인테리어";
+                        break;
+
+                    case R.id.chipTownInfo:
+                        board_name = "자유";
+                        tagName = "동네정보";
+                        break;
+                    default:
+                        Toast.makeText(SearchActivity.this, "태그를 선택해주세요", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search(searchText.toString(), board_name, tagName);
+            }
+        });
     }
 
-    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            // 텍스트 입력 후 검색 버튼이 눌렸을 때의 이벤트
-// Get a reference to our posts
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+    // 파이어스토어에서 데이터를 불러와서 검색어가 있는지 판단
+    public void search(String searchWord, String board_name, String tagName) {
+        new SearchData(this).getItems(recyclerView, board_name, tagName, searchWord);
 
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            // 검색 글 한자 한자 눌렸을 때의 이벤트
-            return false;
-        }
-    };
+    }
 }

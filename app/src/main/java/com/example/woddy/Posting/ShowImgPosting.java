@@ -185,7 +185,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
     private String datestamp(Date date) {    // 자정에 생성되는 타임스탬프 생성
         TimeZone timeZone;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.KOREAN);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E)", Locale.KOREAN);
         timeZone = TimeZone.getTimeZone("Asia/Seoul");
         sdf.setTimeZone(timeZone);
         return sdf.format(date);
@@ -195,7 +195,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         i = i * (-1);
         int num = Integer.parseInt((String) likedCount.getText());
         if(i == -1) {
-            liked.setImageResource(R.drawable.heart_on);
+            liked.setImageResource(R.drawable.ic_baseline_liked_yes);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
@@ -212,7 +212,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                 }
             });
         }else{
-            liked.setImageResource(R.drawable.heart_off);
+            liked.setImageResource(R.drawable.ic_baseline_liked_no);
             likedCount.setText(Integer.toString(num - 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.DECRESE);
         }
@@ -222,11 +222,11 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         y = y * (-1);
         int num = Integer.parseInt((String) scrapCount.getText());
         if(y == -1) {
-            scrap.setImageResource(R.drawable.clip_on);
+            scrap.setImageResource(R.drawable.ic_baseline_scraped_yes);
             scrapCount.setText(Integer.toString(num+1));
             manager.updatePostInfo(postingPath, FirestoreManager.SCRAP, FirestoreManager.INCRESE);
         }else{
-            scrap.setImageResource(R.drawable.clip_off);
+            scrap.setImageResource(R.drawable.ic_baseline_scraped_no);
             scrapCount.setText(Integer.toString(num-1));
             manager.updatePostInfo(postingPath, FirestoreManager.SCRAP, FirestoreManager.DECRESE);
         }

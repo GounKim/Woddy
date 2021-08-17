@@ -46,8 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/bottom_navi_shape"
-        app:itemIconTint="@color/main_color"
-        app:itemTextColor="@color/main_color"
-        app:menu="@menu/menu_bottom" />
+        app:itemIconTint="@drawable/bottom_navi_color"
+        app:itemTextColor="@drawable/bottom_navi_color"
+        app:menu="@menu/menu_bottom"
+        app:labelVisibilityMode="unlabeled"/>
 
 </LinearLayout>

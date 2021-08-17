@@ -34,22 +34,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="TITLE"
-                    android:textSize="20dp"
+                    android:paddingBottom="2dp"
+                    android:text="게시글 제목"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/show_posting_writer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="user"
+                        android:text="작성자 닉네임"
                         android:textColor="#AAAAAA"
                         android:textSize="12sp" />
 
@@ -75,7 +75,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp">
 
                     <TextView
                         android:id="@+id/show_posting_boardName"
@@ -100,15 +101,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/show_posting_liked_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_weight="1"
+                        android:padding="1.5dp"
                         android:src="@drawable/ic_baseline_liked_no" />
 
                     <TextView
@@ -119,13 +120,12 @@
                         android:layout_marginRight="6dp"
                         android:layout_weight="1"
                         android:text="100"
-                        android:textSize="12dp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/show_posting_scraped_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_weight="1"
                         android:src="@drawable/ic_baseline_scraped_no" />
 
@@ -136,7 +136,7 @@
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
                         android:text="100"
-                        android:textSize="12dp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -149,7 +149,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginBottom="10dp" />
 
         </LinearLayout>
     </ScrollView>
@@ -168,25 +168,31 @@
         <EditText
             android:id="@+id/show_posting_edt_comment"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="8"
-            android:background="@drawable/conversation_border"
+            android:background="@drawable/button_round_shape_grayish_small_radius"
             android:hint="댓글을 입력해주세요."
             android:inputType="text"
-            android:paddingLeft="7dp" />
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:textSize="16sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/show_posting_btnSend_comment"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="2"
-            android:backgroundTint="@color/main_color"
-            android:text="전송" />
+            android:background="@drawable/button_round_shape_small_radius"
+            android:text="전송"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

@@ -78,8 +78,8 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
-                android:padding="2dp"
-                app:srcCompat="@drawable/heart_on" />
+                android:padding="2.5dp"
+                app:srcCompat="@drawable/ic_baseline_liked_yes" />
 
             <TextView
                 android:id="@+id/home_postingI_liked"

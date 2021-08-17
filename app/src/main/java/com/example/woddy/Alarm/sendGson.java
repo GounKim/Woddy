@@ -32,8 +32,8 @@ public class sendGson {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        Map<String, Object> map = document.getData(); //상대유저의 토큰
-                        String mPushToken = map.get("pushToken").toString();
+                        Map<String, Object> map = document.getData();
+                        String mPushToken = map.get("pushToken").toString(); //상대유저의 토큰
                         Log.d(TAG, "mPushToken: " + mPushToken);
                         SendNotification.sendNotification(mPushToken, title, message);
                     } else {

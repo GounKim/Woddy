@@ -1,22 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Search.SearchActivity">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"/>
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/searchWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="검색어를 입력해주세요."
+            android:textSize="16sp"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/searchBtn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_search_24"
+            android:background="@color/white"/>
+
+    </LinearLayout>
+
+
+    <HorizontalScrollView
+        android:id="@+id/filterScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filterChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="4dp"
+            app:chipSpacingVertical="6dp"
+            app:singleLine="true"
+            app:singleSelection="true"
+            app:checkedChip="@id/chipFriend"
+            android:paddingHorizontal="12dp"
+            app:selectionRequired="true"
+            tools:visibility="visible">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/frind"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/help"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mate"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipClub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/club"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMeeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meeting"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipBuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tgbuy"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFreeShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/free_share"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFreeTalk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/free_talk"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDIY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diy"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipInterior"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interior"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTownInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/town_info"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.Woody.Chip"/>
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
 
     <TextView
-        android:id="@+id/testTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:hint="검색 결과가 나타날 예정입니다." />
+        android:layout_margin="10dp"
+        android:text="최근 검색"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/button_round_shape_grayish_small_radius"/>
+
 </LinearLayout>

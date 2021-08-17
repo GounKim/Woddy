@@ -122,12 +122,12 @@
             android:layout_marginStart="7dp"
             android:gravity="center_vertical"
             android:text="유의사항을 모두 확인하였고, 이에 동의합니다."
-            android:textSize="14dp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/back_button"
-        android:layout_width="250dp"
+        android:layout_width="230dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
@@ -139,7 +139,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearlayout4" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/del_account_button"
         android:layout_width="0dp"
         android:layout_height="45dp"

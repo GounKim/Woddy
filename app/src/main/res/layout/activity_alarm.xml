@@ -14,15 +14,21 @@
         android:layout_height="wrap_content"
         android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/toolbar_logo"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/logos_02"
-            android:visibility="gone" />
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="ToolbarTitle"
+            android:textColor="@color/main_color"
+            android:textSize="18dp"
+            android:textStyle="bold"/>
 
     </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/alarm_recyclerview"
@@ -31,5 +37,7 @@
 
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
 
 </LinearLayout>

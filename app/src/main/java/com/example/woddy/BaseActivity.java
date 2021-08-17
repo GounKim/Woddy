@@ -2,12 +2,16 @@ package com.example.woddy;
 
 import static com.example.woddy.Alarm.sendGson.sendGson;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.Chatting.ChattingFragment;
@@ -46,6 +51,8 @@ public class BaseActivity extends AppCompatActivity {
     private Boolean useToolbar = true;
     private Boolean useBottomNavi = true;
     private Boolean useBackButton = false;
+
+    boolean alarm_new = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,8 +161,11 @@ public class BaseActivity extends AppCompatActivity {
         //return super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_alarm, menu);
+
         return true;
     }
+
+
 
     // 앱바 메뉴 클릭
     @Override
@@ -165,7 +175,8 @@ public class BaseActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
-            case R.id.menu_alarm: {
+            case R.id.menu_alarm:{
+                alarm_new = false;
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
             }
@@ -173,6 +184,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //
     public void registerPushToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -183,22 +195,78 @@ public class BaseActivity extends AppCompatActivity {
                             return;
                         }
                         String token = task.getResult();
-                        Log.d("sys", token);
-                        String uid = FirebaseAuth.getInstance().getUid();
+                        Log.d("sys",token);
+                        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken", token);
 
-                        FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
+                        //FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
                         //FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
                     }
                 });
     }
 
-    //    public void onStop(){ //확인용
+//    public void onStop(){ //확인용
 //        super.onStop();
 //        sendGson(FirebaseAuth.getInstance().getUid(), "title","message");
 //    }
     public Toolbar getmToolbar() {
         return mToolbar;
     }
+
+//    private BroadcastReceiver receiver;
+//    Boolean mIsReceiverRegistered = false;
+//
+//    private void startRegisterReceiver(){
+//        if(!mIsReceiverRegistered){
+//            if(receiver == null){
+//                receiver = new BroadcastReceiver() {
+//                    @Override
+//                    public void onReceive(Context context, Intent intent) {
+//                        Toast.makeText(getApplicationContext(),"알림이 도착했습니다.",Toast.LENGTH_LONG);
+//                    }
+//                };
+//            }
+//            registerReceiver(receiver, new IntentFilter("com.package.notification"));
+//            mIsReceiverRegistered = true;
+//        }
+//    }
+//
+//    private void finishRegisterReceiver(){
+//        if(mIsReceiverRegistered){
+//            unregisterReceiver(receiver);
+//            receiver = null;
+//            mIsReceiverRegistered = false;
+//        }
+//    }
+//
+//    private void pauseRegisterReceiver(){
+//        if(mIsReceiverRegistered){
+//            mIsReceiverRegistered = false;
+//        }
+//    }
+//
+//    @Override
+//    protected void onResume(){
+//        super.onResume();
+//        startRegisterReceiver();
+//    }
+//
+//    @Override
+//    protected void onPause(){
+//        super.onPause();
+//        pauseRegisterReceiver();
+//    }
+//
+//    @Override
+//    protected void onStop(){
+//        super.onStop();
+//        finishRegisterReceiver();
+//    }
+//
+//    @Override
+//    protected void onStart(){
+//        super.onStart();
+//        startRegisterReceiver();
+//    }
 }

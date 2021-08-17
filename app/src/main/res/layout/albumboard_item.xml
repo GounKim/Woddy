@@ -92,8 +92,8 @@
                             android:id="@+id/album_item_heart"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:layout_marginRight="5dp"
-                            app:srcCompat="@drawable/heart_on"
+                            android:padding="2.5dp"
+                            app:srcCompat="@drawable/ic_baseline_liked_yes"
                             tools:ignore="MissingConstraints" />
 
                         <TextView

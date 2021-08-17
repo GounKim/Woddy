@@ -87,7 +87,7 @@ public class PostBoardMain extends Fragment {
         boardName = "소통";
         tagName = "친구찾기";
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#494C7C"));
-        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#494C7C")));
+        tabLayout.setSelectedTabIndicatorHeight(10);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

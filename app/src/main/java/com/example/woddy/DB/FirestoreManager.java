@@ -1,9 +1,11 @@
 package com.example.woddy.DB;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.woddy.Alarm.AlarmDTO;
 import com.example.woddy.Entity.ChattingInfo;
@@ -23,15 +25,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -524,6 +530,8 @@ public class FirestoreManager {
         return ref.whereArrayContains("participant", user);
     }
 
+
+
     // 채팅 메시지 추가
     public void addMessage(String docID, ChattingMsg msg) {
         DocumentReference roomRef = fsDB.collection("chattingRoom").document(docID);
@@ -532,6 +540,71 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Message has successfully Added!");
+
+//                        String uid = roomRef.get().getResult().get("participant").toString();
+//                        Integer startindex = uid.indexOf("[");
+//                        Integer endindex = uid.lastIndexOf("]");
+//                        if(uid.substring(startindex+1,startindex+29) == FirebaseAuth.getInstance().getCurrentUser().getUid()){
+//                            uid = uid.substring(endindex-28,endindex);
+//                        } else if(uid.substring(endindex-28,endindex) == FirebaseAuth.getInstance().getCurrentUser().getUid()) {
+//                            uid = uid.substring(startindex + 1, startindex + 29);
+//                        }
+//                        chattingAlarm(uid,msg.toString());
+
+//                        roomRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onEvent(@Nullable DocumentSnapshot snapshot,
+//                                                @Nullable FirebaseFirestoreException e) {
+//                                if (e != null) {
+//                                    Log.w(TAG, "Listen failed.", e);
+//                                    return;
+//                                }
+//                                if (snapshot != null && snapshot.exists()) {
+//                                    String uid = snapshot.getData().toString();
+//                                    uid.replace("[","");
+//                                    uid.replace("]","");
+//                                    if(uid.indexOf(0) >=)
+//////                                    uid.replace(FirebaseAuth.getInstance().getCurrentUser().getUid(),"");
+//////                                    uid.replace("[","");
+////                                    uid.substring(0,28);
+//                                    Log.d("sys",uid);
+//                                    chattingAlarm(uid, msg.toString());
+//                                    //Log.d(TAG, source + " data: " + snapshot.getData());
+//                                } else {
+//                                    //Log.d(TAG, source + " data: null");
+//                                }
+//                            }
+//                        });
+                        roomRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        String uid = document.get("participant").toString();
+//                                        uid.replace("[","");
+//                                        uid.replace("]","");
+                                        if(uid.substring(1,29) == FirebaseAuth.getInstance().getCurrentUser().getUid()){
+                                            Integer index = uid.indexOf(" ");
+                                            uid = uid.substring(index+1, index+29);
+                                        } else{
+                                            uid = uid.substring(1,29);
+                                        }
+                                        chattingAlarm(uid, msg.getMessage());
+////                                    uid.replace(FirebaseAuth.getInstance().getCurrentUser().getUid(),"");
+////                                    uid.replace("[","");
+//                                      uid.substring(0,28);
+                                        Log.d("sys", "DocumentSnapshot data: " + document.getData());
+                                        Log.d("sys", "Uid data: " + uid);
+                                    } else {
+                                        Log.d(TAG, "No such document");
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -691,7 +764,7 @@ public class FirestoreManager {
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
-        String msg = (alarmDTO.getNickname() + "님에게 새로운 채팅이 왔습니다.");
+        String msg = (alarmDTO.getNickname() + "님에게 새로운 채팅이 왔습니다." +System.lineSeparator()+ message);
         sendGson(destinationUid,"Woddy",msg);
     }
 

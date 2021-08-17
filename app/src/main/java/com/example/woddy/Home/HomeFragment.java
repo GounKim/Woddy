@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
     Button btnLogin;
+    Button btnAlarm;
     Button btnshow;
     Button btnDelAccount;
     Button btnLogout;

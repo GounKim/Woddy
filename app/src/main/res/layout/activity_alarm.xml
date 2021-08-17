@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    tools:context=".Alarm.AlarmActivity"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,14 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
-
-        <ImageView
-            android:id="@+id/toolbar_logo"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/logos_02"
-            android:visibility="gone" />
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -34,21 +26,18 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <FrameLayout
-        android:id="@+id/activity_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavi"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/alarm_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/bottom_navi_shape"
-        app:itemIconTint="@drawable/bottom_navi_color"
-        app:itemTextColor="@drawable/bottom_navi_color"
-        app:menu="@menu/menu_bottom"
-        app:labelVisibilityMode="unlabeled"/>
+        android:layout_height="match_parent">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
 
 </LinearLayout>

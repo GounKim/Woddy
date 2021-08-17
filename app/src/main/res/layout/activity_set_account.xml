@@ -64,7 +64,7 @@
         android:background="#80494C7C"
         app:layout_constraintTop_toBottomOf="@id/textView20" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pw_change_button"
         android:layout_width="0dp"
         android:layout_height="50dp"

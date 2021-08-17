@@ -69,16 +69,6 @@ public class TalkFragment extends Fragment {
         help = (Chip) view.findViewById(R.id.chipHelp);
         mate = (Chip) view.findViewById(R.id.chipMate);
 
-        friend.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-        help.setTextAppearanceResource(R.style.ChipTextStyle);
-        mate.setTextAppearanceResource(R.style.ChipTextStyle);
-
-        friend.setChipBackgroundColorResource(R.color.main_color);
-
-        friend.setChipStrokeColorResource(R.color.main_color);
-        help.setChipStrokeColorResource(R.color.main_color);
-        mate.setChipStrokeColorResource(R.color.main_color);
-
         //default 부분 - 시작 시
         tagName = "친구찾기";
         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
@@ -93,36 +83,21 @@ public class TalkFragment extends Fragment {
                         tagName = "친구찾기";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
-                        friend.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-                        help.setTextAppearanceResource(R.style.ChipTextStyle);
-                        mate.setTextAppearanceResource(R.style.ChipTextStyle);
-                        friend.setChipBackgroundColorResource(R.color.main_color);
-                        help.setChipBackgroundColorResource(R.color.white);
-                        mate.setChipBackgroundColorResource(R.color.white);
+
                         break;
 
                     case R.id.chipHelp:
                         tagName = "도움요청";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
-                        help.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-                        friend.setTextAppearanceResource(R.style.ChipTextStyle);
-                        mate.setTextAppearanceResource(R.style.ChipTextStyle);
-                        help.setChipBackgroundColorResource(R.color.main_color);
-                        friend.setChipBackgroundColorResource(R.color.white);
-                        mate.setChipBackgroundColorResource(R.color.white);
+
                         break;
 
                     case R.id.chipMate:
                         tagName = "퇴근메이트";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
-                        mate.setTextAppearanceResource(R.style.ChipTextStyleSelected);
-                        help.setTextAppearanceResource(R.style.ChipTextStyle);
-                        friend.setTextAppearanceResource(R.style.ChipTextStyle);
-                        mate.setChipBackgroundColorResource(R.color.main_color);
-                        help.setChipBackgroundColorResource(R.color.white);
-                        friend.setChipBackgroundColorResource(R.color.white);
+
                         break;
                 }
             }

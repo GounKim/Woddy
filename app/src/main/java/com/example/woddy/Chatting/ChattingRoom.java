@@ -20,6 +20,7 @@ import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -88,6 +89,7 @@ public class ChattingRoom extends BaseActivity {
                 String chat = edtInputCon.getText().toString();
                 manager.addMessage(roomNum, new ChattingMsg(user, chat, new Date()));
                 edtInputCon.setText(null);
+                manager.chattingAlarm(FirebaseAuth.getInstance().getUid(), chat); //채팅 알림 보내기
             }
         });
 

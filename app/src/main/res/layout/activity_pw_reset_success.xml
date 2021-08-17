@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@id/email_text_view"
         tools:layout_editor_absoluteY="403dp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/goto_login_button"
         android:layout_width="0dp"
         android:layout_height="45dp"

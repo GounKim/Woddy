@@ -32,6 +32,7 @@
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="@string/frind" />
 
             <com.google.android.material.chip.Chip
@@ -39,6 +40,7 @@
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="@string/help" />
 
             <com.google.android.material.chip.Chip
@@ -46,6 +48,7 @@
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="@string/mate"/>
 
         </com.google.android.material.chip.ChipGroup>

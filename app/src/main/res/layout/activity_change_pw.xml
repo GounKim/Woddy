@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@id/new_pw2_edit_text" />
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pw_change_button"
         android:layout_width="0dp"
         android:layout_height="45dp"

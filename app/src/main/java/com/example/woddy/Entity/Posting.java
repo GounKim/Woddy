@@ -11,6 +11,7 @@ import java.util.Map;
 // 게시글
 public class Posting {
     private String postingNumber;  // P0000001부터 시작
+    private String postingUid; //작성자의 uid
 //    private String tag; // 태그 이름 [ FK : BoardTag ]
     private String writer;  // User의 nickName [ FK : MemberInfo ]
     private String title;   // 글의 제목
@@ -28,6 +29,7 @@ public class Posting {
 
     public Posting(String writer, String title, String content, Date postedTime) {
         this.postingNumber = "";
+        this.postingUid = "";
 //        this.tag = tag;
         this.writer = writer;
         this.title = title;
@@ -38,6 +40,7 @@ public class Posting {
 
     public Posting(String writer, String title, String content, ArrayList<String> pictures, Date postedTime) {
         this.postingNumber = "";
+        this.postingUid = "";
 //        this.tag = tag;
         this.writer = writer;
         this.title = title;
@@ -52,6 +55,7 @@ public class Posting {
         post.put("title", title);
         post.put("content", content);
         post.put("writer", writer);
+        post.put("postingUid",postingUid);
 //        post.put("tag", tag);
 
         return post;
@@ -72,6 +76,11 @@ public class Posting {
 //    public void setTag(String tag) {
 //        this.tag = tag;
 //    }
+
+
+    public String getPostingUid() { return postingUid;   }
+
+    public void setPostingUid(String postingUid) { this.postingUid = postingUid;}
 
     public String getWriter() {
         return writer;

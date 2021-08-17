@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
+import com.example.woddy.Info.InfoBoardMain;
 import com.example.woddy.MyPage.MyPageFragment;
 import com.example.woddy.PostBoard.PostBoardMain;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -110,7 +111,7 @@ public class BaseActivity extends AppCompatActivity {
                             mToolbar.setVisibility(View.GONE);
                             return true;
                         case R.id.bottom_menu_info:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new InfomationFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new InfoBoardMain()).commit();
                             mToolbar.setVisibility(View.GONE);
                             return true;
                         case R.id.bottom_menu_chatting:
@@ -197,7 +198,7 @@ public class BaseActivity extends AppCompatActivity {
                         Log.d("sys",token);
                         //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, String> map = new HashMap<>();
-                        map.put("pushToken",token);
+                        map.put("pushToken", token);
 
                         //FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
                         //FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);

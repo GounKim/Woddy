@@ -3,12 +3,11 @@
     package="com.example.woddy">
     <!-- 인터넷 사용 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <application
         android:allowBackup="true"
@@ -22,14 +21,14 @@
             android:exported="true" />
         <activity android:name=".MyPage.ChangePwActivity" />
         <activity android:name=".MyPage.SetAccountActivity" />
-        <activity android:name=".MyPage.DelAccountActivity"/>
+        <activity android:name=".MyPage.DelAccountActivity" />
         <activity
             android:name=".MyPage.UpdateProfile"
             android:exported="true" />
         <activity
             android:name=".Posting.ShowPosting"
             android:exported="true" />
-        <activity android:name=".Alarm.AlarmActivity"/>
+        <activity android:name=".Alarm.AlarmActivity" />
         <activity android:name=".Login.LogInActivity" />
         <activity android:name=".Login.FemaleCertActivity" />
         <activity android:name=".Login.SignUpActivity" />
@@ -37,22 +36,26 @@
         <activity android:name=".Login.PwResetSuccessActivity" />
         <activity android:name=".Login.PwResetActivity" />
         <activity android:name=".Chatting.ChattingRoom" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".PostWriting.AddWritingsActivity" />
         <activity android:name=".Posting.ShowImgPosting" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_alarm"/>
+            android:resource="@drawable/ic_alarm" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent"/>
+            android:resource="@color/colorAccent" />
+
         <service
             android:name=".Alarm.MyFirebaseMessagingService"
             android:exported="false">

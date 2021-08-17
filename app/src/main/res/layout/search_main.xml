@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Search.SearchActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -49,6 +49,7 @@
             app:chipSpacingVertical="6dp"
             app:singleLine="true"
             app:singleSelection="true"
+            app:checkedChip="@id/chipFriend"
             android:paddingHorizontal="12dp"
             app:selectionRequired="true"
             tools:visibility="visible">

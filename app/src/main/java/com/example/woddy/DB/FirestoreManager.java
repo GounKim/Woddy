@@ -14,6 +14,7 @@ import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
+import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,15 +42,10 @@ import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 
 public class FirestoreManager {
 
-    private FirebaseFirestore fsDB;
-    private SQLiteManager sqlManager;
+    private FirebaseFirestore fsDB;;
 
     String destinationUid; //푸시전달할 uid
-
-    public FirestoreManager(Context context) {
-        fsDB = FirebaseFirestore.getInstance();
-        sqlManager = new SQLiteManager(context);
-    }
+    public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();
@@ -74,6 +71,10 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "User Profile has successfully Added!");
+                        // 이미지 Storage에 넣기
+                        String imageUri = "drawable://" + R.drawable.logo;
+                        StorageManager storageManager = new StorageManager();
+                        storageManager.setProfileImage(imageUri);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -194,35 +195,6 @@ public class FirestoreManager {
         return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
     }
 
-    // 사용자 활동(좋아요, 스크랩) 추가
-    public void getUserActivity(String docID, UserActivity activity) {
-        DocumentReference userRef = fsDB.collection("user").document(sqlManager.USER);
-        userRef.collection("posting").add(activity)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "User has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-    }
-
-    // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
-    public void setUserActivity(String docID, int activityName, DocumentReference userRef) {
-        if (activityName == WRITEARTICLE) {
-            // 목록에서 삭제 + 전체 posting에서 삭제 + 다른 사용자에게도 삭제된 메시지라고 떠야함
-
-
-        } else {
-            // 목록에서 삭제 구현 필요
-        }
-    }
-
     // 사용자가 즐겨찾기한 보드 설정
     public void addUFavorBoard(String docID, UserFavoriteBoard favorBoard) {
         DocumentReference userRef = fsDB.collection("user").document(docID);
@@ -252,9 +224,6 @@ public class FirestoreManager {
     // 게시물 추가
     public void addPosting(String boardName, String tagName, Posting posting) {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
-        // postingNum찾기
-        String postingNum = "P" + sqlManager.USER + "_" + sqlManager.postingCount();
-        posting.setPostingNumber(postingNum);
 
         // postingUid=작성자 uid
         String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -268,9 +237,6 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        // sqlite에 내 포스팅 추가
-                        sqlManager.insertPosting(boardName, tagName, posting);
-
                         Log.d(TAG, "Posting has successfully Added!");
                     }
                 })
@@ -472,6 +438,13 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        String roomNum = documentReference.getId();
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("roomNumber", documentReference.getId());
+                        updateChatRoom(roomNum, data);
+
+                        addMessage(roomNum,
+                                new ChattingMsg(null,chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다.", new Date()));
                         Log.d(TAG, "chattingRoom has successfully Added!");
                     }
                 })

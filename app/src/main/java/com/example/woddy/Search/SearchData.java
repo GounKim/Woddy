@@ -30,7 +30,7 @@ public class SearchData {
     private PostBoardAdapter adapter;
 
     public SearchData(Context context) {
-        this.manager = new FirestoreManager(context);
+        this.manager = new FirestoreManager();
     }
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {

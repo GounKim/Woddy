@@ -23,6 +23,13 @@ public class ChattingInfo {
         this.recentMsg = "";
     }
 
+    public ChattingInfo(List<String> participant) {
+        this.roomNumber = "";
+        this.participant = participant;
+        this.participantImg = null;
+        this.recentMsg = "";
+    }
+
 
     public String getRoomNumber() {
         return roomNumber;

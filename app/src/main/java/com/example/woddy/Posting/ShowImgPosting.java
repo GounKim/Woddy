@@ -2,6 +2,9 @@ package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +30,15 @@ import android.widget.Toast;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
+import com.example.woddy.DB.StorageManager;
+import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,19 +48,22 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
 
 public class ShowImgPosting extends BaseActivity implements View.OnClickListener {
     SQLiteManager sqlManager = new SQLiteManager(this);
 
     FirestoreManager manager;
+    StorageManager storage;
     CommentAdapter commentAdapter;
 
     private ViewPager2 imgpost_slider;
     private LinearLayout layoutIndicator;
-    private TextView title, writer, time, content, tag, board;
+    private TextView title, writer, time, content, tag, board, writerUid;
     private ImageView liked;
     private TextView likedCount;
     private ImageView scrap;
@@ -66,6 +76,9 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
+
+    // BottomSheetDialog
+    TextView report, sendChat, cancle;
 
     @Override
     protected boolean useBottomNavi() {
@@ -86,6 +99,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
         title = findViewById(R.id.show_img_posting_title);
         writer = findViewById(R.id.show_img_posting_writer);
+        writerUid = findViewById(R.id.show_img_posting_writerUid);
         time = findViewById(R.id.show_img_posting_time);
         content = findViewById(R.id.show_img_posting_content);
         tag = findViewById(R.id.show_img_posting_tag);
@@ -123,6 +137,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
                                 title.setText(posting.getTitle());
                                 writer.setText(posting.getWriter());
+                                writerUid.setText(posting.getPostingUid());
                                 time.setText(datestamp(posting.getPostedTime()));
                                 content.setText(posting.getContent());
                                 board.setText(boardName);
@@ -271,6 +286,56 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                         R.drawable.bg_indicator_inactive
                 ));
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_show_posting, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            case R.id.menu_more_option:
+
+                View bottomSheetView = getLayoutInflater().inflate(R.layout.show_posting_menu, null);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+                bottomSheetDialog.setContentView(bottomSheetView);
+
+                sendChat = bottomSheetDialog.findViewById(R.id.show_posting_send_chatting);
+                sendChat.setOnClickListener(this::bottomSheet);
+
+                bottomSheetDialog.show();
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void bottomSheet(View view) {
+        switch (view.getId()) {
+            case R.id.show_posting_report:
+
+                break;
+
+            case R.id.show_posting_send_chatting:
+                String wUid = writerUid.getText().toString();
+                String[] participant = {wUid, USER_UID};
+//                String[] chatterImage = {storage.getProfilePath(wUid), storage.getProfilePath(USER_UID)};
+                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant));
+                manager.addChatRoom(chattingInfo);
+
+                break;
+
+            case R.id.show_posting_cancle:
+
+                break;
         }
     }
 }

@@ -17,10 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.woddy.Chatting.ChattingRoomAdapter;
-import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Posting;
-import com.example.woddy.Entity.PostingSQL;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,7 +33,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PostingListAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int WRITING_SIMPLE = 0;
     private final int WRITING_WITH_IMAGE = 1;
 

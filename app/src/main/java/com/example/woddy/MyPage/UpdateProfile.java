@@ -1,5 +1,7 @@
 package com.example.woddy.MyPage;
 
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.CursorLoader;
@@ -9,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,6 +40,7 @@ import com.gun0912.tedpermission.TedPermission;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +92,7 @@ public class UpdateProfile extends BaseActivity {
         changeNickButton = findViewById(R.id.update_nick_button);
         changeLocalButton = findViewById(R.id.update_local_button);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
         //처음에 보여지는 화면 셋팅
         Intent intent = getIntent();
@@ -199,7 +204,7 @@ public class UpdateProfile extends BaseActivity {
                         .load(imageUrl)
                         .circleCrop()
                         .into(profileImageView);
-                sManager.setProfileImage(tmp_nick, imageUrl, uid);
+                sManager.setProfileImage(imageUrl);
                 Toast.makeText(UpdateProfile.this, "프로필 사진 변경 완료!", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();

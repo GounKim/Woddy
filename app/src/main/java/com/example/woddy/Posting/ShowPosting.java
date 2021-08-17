@@ -2,6 +2,8 @@ package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,6 +65,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
+
 
     @Override
     protected boolean useBottomNavi() {
@@ -136,7 +139,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         String text = edtComment.getText().toString();
-        Comment comment = new Comment("user1", text, "");
+        Comment comment = new Comment(USER_UID, text, "");
         adapter.addItem(comment);
         manager.addComment(postingPath, comment);
 

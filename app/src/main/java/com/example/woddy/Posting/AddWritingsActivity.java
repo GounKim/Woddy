@@ -2,6 +2,8 @@ package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,6 +36,7 @@ import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.MainActivity;
 import com.example.woddy.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.gun0912.tedpermission.PermissionListener;
@@ -67,7 +70,6 @@ public class AddWritingsActivity extends BaseActivity {
 
     String boardName;
     String tagName;
-    String USER = "user1";
 
     String[] imgNeedTag = {"물품공유", "홈", "무료나눔", "DIY", "인테리어어"};
     InputMethodManager imm;
@@ -164,10 +166,11 @@ public class AddWritingsActivity extends BaseActivity {
         Posting post;
         final String title = titleTV.getText().toString();
         final String content = plotTV.getText().toString();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (uriList == null) {
-            post = new Posting(USER, title, content, new Date());
+            post = new Posting(USER_UID, title, content, new Date());
         } else {
-            post = new Posting(USER, title, content, uriList, new Date());
+            post = new Posting(USER_UID, title, content, uriList, new Date());
         }
         firestoreManager.addPosting(boardName, tagName, post);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

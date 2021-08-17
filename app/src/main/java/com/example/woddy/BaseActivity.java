@@ -195,7 +195,7 @@ public class BaseActivity extends AppCompatActivity {
                         }
                         String token = task.getResult();
                         Log.d("sys",token);
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken",token);
 

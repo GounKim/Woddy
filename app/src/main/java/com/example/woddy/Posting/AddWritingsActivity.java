@@ -90,7 +90,7 @@ public class AddWritingsActivity extends BaseActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
-        firestoreManager = new FirestoreManager(getApplicationContext());
+        firestoreManager = new FirestoreManager();
         sManager = new StorageManager();
 
         addImageBtn = (ImageView) findViewById(R.id.addPhotoImage);

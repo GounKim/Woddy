@@ -44,7 +44,7 @@ public class DelAccountActivity extends BaseActivity {
         backButton = findViewById(R.id.back_button);
         delAccountButton = findViewById(R.id.del_account_button);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        fsManager = new FirestoreManager(getApplicationContext());
+        fsManager = new FirestoreManager();
 
         String uid = firebaseUser.getUid().toString();
 

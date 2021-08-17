@@ -27,8 +27,8 @@ public class AlbumData {
     FirestoreManager manager;
     private AlbumAdapter adapter = new AlbumAdapter();
 
-    public AlbumData(Context context) {
-        this.manager = new FirestoreManager(context);
+    public AlbumData() {
+        this.manager = new FirestoreManager();
     }
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName) {

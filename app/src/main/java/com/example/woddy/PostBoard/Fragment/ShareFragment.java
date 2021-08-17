@@ -84,7 +84,7 @@ public class ShareFragment extends Fragment {
 
         //default 부분 - 시작 시
         tagName = "물품공유";
-        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
 //        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
@@ -94,7 +94,7 @@ public class ShareFragment extends Fragment {
                 switch (checkedId){
                     case R.id.chipShare:
                         tagName = "물품공유";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         share.setTextAppearanceResource(R.style.ChipTextStyleSelected);
                         home.setTextAppearanceResource(R.style.ChipTextStyle);
@@ -108,7 +108,7 @@ public class ShareFragment extends Fragment {
 
                     case R.id.chipHome:
                         tagName = "홈";
-                        new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         home.setTextAppearanceResource(R.style.ChipTextStyleSelected);
                         share.setTextAppearanceResource(R.style.ChipTextStyle);
@@ -122,7 +122,7 @@ public class ShareFragment extends Fragment {
 
                     case R.id.chipBuy:
                         tagName = "공동구매";
-                        new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         buy.setTextAppearanceResource(R.style.ChipTextStyleSelected);
                         home.setTextAppearanceResource(R.style.ChipTextStyle);
@@ -136,7 +136,7 @@ public class ShareFragment extends Fragment {
 
                     case R.id.chipFreeShare:
                         tagName = "무료나눔";
-                        new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         freeShare.setTextAppearanceResource(R.style.ChipTextStyleSelected);
                         home.setTextAppearanceResource(R.style.ChipTextStyle);

@@ -28,8 +28,8 @@ public class NormalData {
     FirestoreManager manager;
     private PostBoardAdapter adapter;
 
-    public NormalData(Context context) {
-        this.manager = new FirestoreManager(context);
+    public NormalData() {
+        this.manager = new FirestoreManager();
     }
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName) {

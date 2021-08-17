@@ -39,12 +39,6 @@ import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 public class FirestoreManager {
 
     private FirebaseFirestore fsDB;
-    private SQLiteManager sqlManager;
-
-    public FirestoreManager(Context context) {
-        fsDB = FirebaseFirestore.getInstance();
-        sqlManager = new SQLiteManager(context);
-    }
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();
@@ -190,34 +184,6 @@ public class FirestoreManager {
         return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
     }
 
-    // 사용자 활동(좋아요, 스크랩) 추가
-    public void getUserActivity(String docID, UserActivity activity) {
-        DocumentReference userRef = fsDB.collection("user").document(sqlManager.USER);
-        userRef.collection("posting").add(activity)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "User has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
-                    }
-                });
-    }
-
-    // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
-    public void setUserActivity(String docID, int activityName, DocumentReference userRef) {
-        if (activityName == WRITEARTICLE) {
-            // 목록에서 삭제 + 전체 posting에서 삭제 + 다른 사용자에게도 삭제된 메시지라고 떠야함
-
-
-        } else {
-            // 목록에서 삭제 구현 필요
-        }
-    }
 
     // 사용자가 즐겨찾기한 보드 설정
     public void addUFavorBoard(String docID, UserFavoriteBoard favorBoard) {
@@ -248,9 +214,6 @@ public class FirestoreManager {
     // 게시물 추가
     public void addPosting(String boardName, String tagName, Posting posting) {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
-        // postingNum찾기
-        String postingNum = "P" + sqlManager.USER + "_" + sqlManager.postingCount();
-        posting.setPostingNumber(postingNum);
 
         // 이미지 Storage에 넣기
         StorageManager storageManager = new StorageManager();
@@ -260,9 +223,6 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        // sqlite에 내 포스팅 추가
-                        sqlManager.insertPosting(boardName, tagName, posting);
-
                         Log.d(TAG, "Posting has successfully Added!");
                     }
                 })
@@ -322,7 +282,6 @@ public class FirestoreManager {
     public final static int DECRESE = 1;
     public final static String LIKE = "numberOfLiked";
     public final static String SCRAP = "numberOfScraped";
-    public final static String VIEW = "numberOfViews";
     public final static String COMMEND = "numberOfComment";
     public final static String REPORT = "reported";
 
@@ -367,6 +326,11 @@ public class FirestoreManager {
     // postingNumber로 게시물 불러오기
     public Query getPostWithNum(String postingNum) {
         return fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum);
+    }
+
+    // postingNumber로 게시물 불러오기
+    public Query getPostWithWriter(String writer) {
+        return fsDB.collectionGroup("postings").whereEqualTo("writer", writer).orderBy("postedTime", Query.Direction.DESCENDING);
     }
 
     // 최근 게시물 불러오기 (docID는 postingNumber)

@@ -25,7 +25,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
 
         // 글(포스팅)
-        sql = "CREATE TABLE postings (posting_num TEXT PRIMARY KEY, " +
+        sql = "CREATE TABLE scrapped_postings (posting_path TEXT PRIMARY KEY, " +
                                     "board_name TEXT NOT NULL, " +
                                     "tag_name TEXT NOT NULL, " +
                                     "writer TEXT NOT NULL, " +
@@ -37,14 +37,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sql = "CREATE TABLE posting_picture (location INTEGER NOT NULL, " +
                 "picture TEXT NOT NULL, " +
                 "CONSTRAINT posting_picture_fk FOREIGN KEY (location) " +
-                "REFERENCES posting(posting_num));";
+                "REFERENCES scrapped_postings(posting_path));";
         db.execSQL(sql);
 
-        // 포스팅 활동 목록 (글작성 / 좋아요 / 스크랩 / 즐겨찾기)
+        // 포스팅 활동 목록 (좋아요 / 스크랩 / 즐겨찾기)
         sql = "CREATE TABLE liked_activity (liked_posting TEXT);";
-        db.execSQL(sql);
-
-        sql = "CREATE TABLE scrapped_activity (scrapped_posting TEXT);";
         db.execSQL(sql);
 
         sql = "CREATE TABLE favorite_activity (favorite_posting TEXT);";
@@ -62,10 +59,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS user_profile;");
         db.execSQL("DROP TABLE IF EXISTS posting_picture;");
-        db.execSQL("DROP TABLE IF EXISTS posting;");
-        db.execSQL("DROP TABLE IF EXISTS writing_activity;");
+        db.execSQL("DROP TABLE IF EXISTS scrapped_postings;");
         db.execSQL("DROP TABLE IF EXISTS liked_activity;");
-        db.execSQL("DROP TABLE IF EXISTS scrapped_activity;");
         db.execSQL("DROP TABLE IF EXISTS favorite_activity;");
         db.execSQL("DROP TABLE IF EXISTS chatting;");
         onCreate(db);

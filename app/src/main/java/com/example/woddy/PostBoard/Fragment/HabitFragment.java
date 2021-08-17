@@ -77,7 +77,7 @@ public class HabitFragment extends Fragment {
 
         //default 부분 - 시작 시
         tagName = "동호회";
-        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
 //        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
@@ -87,7 +87,7 @@ public class HabitFragment extends Fragment {
                 switch (checkedId){
                     case R.id.chipClub:
                         tagName = "동호회";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         club.setTextAppearanceResource(R.style.ChipTextStyleSelected);
                         meeting.setTextAppearanceResource(R.style.ChipTextStyle);
@@ -97,7 +97,7 @@ public class HabitFragment extends Fragment {
 
                     case R.id.chipMeeting:
                         tagName = "번개모임";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         meeting.setTextAppearanceResource(R.style.ChipTextStyleSelected);
                         club.setTextAppearanceResource(R.style.ChipTextStyle);

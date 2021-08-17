@@ -24,12 +24,16 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,16 +46,20 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class ShowPosting extends BaseActivity implements View.OnClickListener {
-    TextView title, writer, time, content, likedCount, scrapCount, tag;
+    FirestoreManager manager = new FirestoreManager();
+    SQLiteManager sqlManager;
+
+    TextView title, writer, time, content, likedCount, scrapCount, tag, board;
     ImageView liked, scrap;
     RecyclerView recyclerView;
     EditText edtComment;
     Button btnSend;
 
     CommentAdapter adapter;
-    FirestoreManager manager;
 
     String postingPath;
+    String boardName;
+    String tagName;
 
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
@@ -70,6 +78,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         writer = findViewById(R.id.show_posting_writer);
         time = findViewById(R.id.show_posting_time);
         content = findViewById(R.id.show_posting_content);
+        board = findViewById(R.id.show_posting_boardName);
         tag = findViewById(R.id.show_posting_tag);
 
         liked = findViewById(R.id.show_posting_liked_image);
@@ -83,8 +92,9 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
         Intent intent = getIntent();
         postingPath = intent.getStringExtra("documentPath");
-
-        manager = new FirestoreManager(getApplicationContext());
+        String[] path = postingPath.split("/");
+        boardName = path[1];
+        tagName = path[3];
 
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤
@@ -93,7 +103,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
         btnSend.setOnClickListener(this);
 
-        manager = new FirestoreManager(getApplicationContext());
         manager.getdocRefWithPath(postingPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -107,7 +116,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                 writer.setText(posting.getWriter());
                                 time.setText(datestamp(posting.getPostedTime()));
                                 content.setText(posting.getContent());
-//                                tag.setText("#" + posting.getTag());
+                                board.setText(boardName);
+                                tag.setText("#" + tagName);
                                 likedCount.setText(posting.getNumberOfLiked() + "");
                                 scrapCount.setText(posting.getNumberOfScraped() + "");
 
@@ -165,12 +175,14 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     }
 
     public void pushHeart(View view){
+        sqlManager = new SQLiteManager(getBaseContext());
         i = i * (-1);
         int num = Integer.parseInt((String) likedCount.getText());
         if(i == -1) {
             liked.setImageResource(R.drawable.heart_on);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+            sqlManager.insertLiked(postingPath);
         }else{
             liked.setImageResource(R.drawable.heart_off);
             likedCount.setText(Integer.toString(num - 1));
@@ -179,12 +191,34 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     }
 
     public void pushClip(View view){
+        sqlManager = new SQLiteManager(getBaseContext());
         y = y * (-1);
         int num = Integer.parseInt((String) scrapCount.getText());
         if(y == -1) {
             scrap.setImageResource(R.drawable.clip_on);
             scrapCount.setText(Integer.toString(num+1));
             manager.updatePostInfo(postingPath, FirestoreManager.SCRAP, FirestoreManager.INCRESE);
+
+            manager.getdocRefWithPath(postingPath).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                Posting posting = documentSnapshot.toObject(Posting.class);
+                                posting.setPostingNumber(postingPath);
+                                sqlManager.insertPosting(boardName, tagName, posting);
+                            } else {
+                                Log.d(TAG, "There's no document");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "fail to find ", e);
+                        }
+                    });
+
         }else{
             scrap.setImageResource(R.drawable.clip_off);
             scrapCount.setText(Integer.toString(num-1));

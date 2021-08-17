@@ -105,8 +105,9 @@
 
                     <ImageView
                         android:id="@+id/show_posting_liked_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
+                        android:onClick="pushHeart"
                         android:layout_marginTop="2dp"
                         android:layout_weight="1"
                         android:src="@drawable/ic_baseline_liked_no" />
@@ -119,23 +120,26 @@
                         android:layout_marginRight="6dp"
                         android:layout_weight="1"
                         android:text="100"
+                        android:layout_gravity="center_vertical"
                         android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/show_posting_scraped_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginTop="2dp"
                         android:layout_weight="1"
+                        android:onClick="pushClip"
                         android:src="@drawable/ic_baseline_scraped_no" />
 
                     <TextView
                         android:id="@+id/show_posting_scrapCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
+                        android:layout_marginLeft="2dp"
                         android:layout_weight="1"
                         android:text="100"
+                        android:layout_gravity="center_vertical"
                         android:textSize="12dp" />
 
                 </LinearLayout>

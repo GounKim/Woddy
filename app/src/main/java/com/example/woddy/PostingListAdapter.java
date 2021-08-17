@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.woddy.Chatting.ChattingRoomAdapter;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.Entity.PostingSQL;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,10 +42,17 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private ArrayList<Posting> postingList =  new ArrayList<>();
     private ArrayList<String> postingPath = new ArrayList<>();
+    private ArrayList<PostingSQL> scrapList = new ArrayList<>();
 
     public void setItem(ArrayList<Posting> writings, ArrayList<String> postingPath) {
         this.postingList = writings;
         this.postingPath = postingPath;
+        notifyDataSetChanged();
+    }
+
+    public void setScrapItem(ArrayList<PostingSQL> scrapList){
+        this.scrapList = scrapList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -113,11 +121,19 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (postingList.get(position).getPictures() == null
-                | postingList.get(position).getPictures().size() == 0) {
-            return WRITING_SIMPLE;
+        if (scrapList == null) {
+            if (postingList.get(position).getPictures() == null
+                    | postingList.get(position).getPictures().size() == 0) {
+                return WRITING_SIMPLE;
+            } else {
+                return WRITING_WITH_IMAGE;
+            }
         } else {
-            return WRITING_WITH_IMAGE;
+            if (postingList.get(position).getPictures() == null) {
+                return WRITING_SIMPLE;
+            } else {
+                return WRITING_WITH_IMAGE;
+            }
         }
     }
 

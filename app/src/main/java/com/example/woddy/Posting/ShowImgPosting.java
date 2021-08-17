@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
@@ -45,13 +46,14 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class ShowImgPosting extends BaseActivity implements View.OnClickListener {
+    SQLiteManager sqlManager = new SQLiteManager(this);
 
     FirestoreManager manager;
     CommentAdapter commentAdapter;
 
     private ViewPager2 imgpost_slider;
     private LinearLayout layoutIndicator;
-    private TextView title, writer, time, content, tag;
+    private TextView title, writer, time, content, tag, board;
     private ImageView liked;
     private TextView likedCount;
     private ImageView scrap;
@@ -60,7 +62,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     private Button btnSend;
     private RecyclerView commentView;
 
-    String postingPath;
+    String postingPath, boardName, tagName;
 
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
@@ -78,12 +80,16 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
         Intent intent = getIntent();
         postingPath = intent.getStringExtra("documentPath");
+        String[] path = postingPath.split("/");
+        boardName = path[1];
+        tagName = path[3];
 
         title = findViewById(R.id.show_img_posting_title);
         writer = findViewById(R.id.show_img_posting_writer);
         time = findViewById(R.id.show_img_posting_time);
         content = findViewById(R.id.show_img_posting_content);
         tag = findViewById(R.id.show_img_posting_tag);
+        board = findViewById(R.id.show_img_posting_boardName);
 
         liked = findViewById(R.id.show_img_posting_liked);
         likedCount = findViewById(R.id.show_img_posting_likedCount);
@@ -105,7 +111,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         commentView.setAdapter(commentAdapter);
 //        commentView.setNestedScrollingEnabled(false); // 리사이클러뷰 스크롤 불가능하게함
 
-        manager = new FirestoreManager(getApplicationContext());
+        manager = new FirestoreManager();
         manager.getdocRefWithPath(postingPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -119,7 +125,8 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                                 writer.setText(posting.getWriter());
                                 time.setText(datestamp(posting.getPostedTime()));
                                 content.setText(posting.getContent());
-//                                tag.setText("#" + posting.getTag());
+                                board.setText(boardName);
+                                tag.setText("#" + tagName);
                                 likedCount.setText(posting.getNumberOfLiked() + "");
                                 scrapCount.setText(posting.getNumberOfScraped() + "");
 
@@ -198,6 +205,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
             liked.setImageResource(R.drawable.heart_on);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+            sqlManager.insertLiked(postingPath);
         }else{
             liked.setImageResource(R.drawable.heart_off);
             likedCount.setText(Integer.toString(num - 1));
@@ -212,6 +220,8 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
             scrap.setImageResource(R.drawable.clip_on);
             scrapCount.setText(Integer.toString(num+1));
             manager.updatePostInfo(postingPath, FirestoreManager.SCRAP, FirestoreManager.INCRESE);
+            DocumentSnapshot doc = manager.getdocRefWithPath(postingPath).get().getResult();
+            sqlManager.insertPosting(boardName, tagName, doc.toObject(Posting.class));
         }else{
             scrap.setImageResource(R.drawable.clip_off);
             scrapCount.setText(Integer.toString(num-1));

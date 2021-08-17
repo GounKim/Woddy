@@ -5,21 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PostBoard.Fragment.FreeFragment">
+    tools:context=".Info.InfoFragment">
 
     <HorizontalScrollView
-        android:id="@+id/filterScrollView"
+        android:id="@+id/infoFilterScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/filterChipGroup"
+            android:id="@+id/InfoFilterChipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:paddingHorizontal="12dp"
-            app:checkedChip="@id/chipFreeTalk"
+            app:checkedChip="@id/chipLifeSupport"
             app:chipSpacingHorizontal="10dp"
             app:chipSpacingVertical="6dp"
             app:selectionRequired="true"
@@ -28,37 +28,30 @@
             tools:visibility="visible">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipFreeTalk"
+                android:id="@+id/chipLifeSupport"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/free_talk" />
+                android:text="@string/lifeSupport" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipDIY"
+                android:id="@+id/chipEducation"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/diy" />
+                android:text="@string/education" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipInterior"
+                android:id="@+id/chipEvent"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/interior" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipTownInfo"
-                style="@style/Widget.Woody.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/town_info" />
+                android:text="@string/event" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_free"
+        android:id="@+id/recyclerView_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp" />

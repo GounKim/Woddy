@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -253,7 +252,7 @@ public class FirestoreManager {
     public void addPosting(String boardName, String tagName, Posting posting) {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
         // postingNum=작성자 uid
-        String postingNum = FirebaseAuth.getInstance().getUid();
+        String postingNum = FirebaseAuth.getInstance().getCurrentUser().getUid();
         posting.setPostingNumber(postingNum);
 
         // 이미지 Storage에 넣기
@@ -335,20 +334,20 @@ public class FirestoreManager {
         Map<String, Object> data = new HashMap<>();
         if (inORdecrese == INCRESE) {
             data.put(field, FieldValue.increment(1));
-            if (field == "LIKE"){
-                fsDB.document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+            if (field == "LIKE") {
+                fsDB.document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 Posting posting = document.toObject(Posting.class);
 
-                                String uid=posting.getPostingNumber();
+                                String uid = posting.getPostingNumber();
                                 likeAlarm(uid, postingPath);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
             }
         } else if (inORdecrese == DECRESE) {
             data.put(field, FieldValue.increment(-1));
@@ -406,15 +405,15 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
 
-                        fsDB.document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                        fsDB.document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         Posting posting = document.toObject(Posting.class);
 
-                                        String uid=posting.getPostingNumber();
-                                        commentAlarm(uid, comment.getContent(),postingPath);
+                                        String uid = posting.getPostingNumber();
+                                        commentAlarm(uid, comment.getContent(), postingPath);
                                     }
                                 }
                             }
@@ -469,6 +468,18 @@ public class FirestoreManager {
     public Query getComments(String postingPath) {
         DocumentReference docRef = getdocRefWithPath(postingPath);  // 포스팅으로 이동
         return docRef.collection("comments").orderBy("postedTime", Query.Direction.ASCENDING);  // 포스팅의 댓글 가져오기
+    }
+
+
+    /* ---------------------- 정보용 DB ---------------------- */
+    // 정보글 불러오기
+    public Task<DocumentSnapshot> getNews(String postTag) {
+        return fsDB.collection("postBoard").document("정보")
+                .collection("postTag").document(postTag).get();
+    }
+
+    public Query getNewsQuery(String boardName, String tagName) {
+        return postCollectionRef(boardName, tagName).orderBy("postedTime", Query.Direction.DESCENDING);
     }
 
 
@@ -580,7 +591,7 @@ public class FirestoreManager {
     }
 
     //좋아요 알림
-    public void likeAlarm(String destinationUid, String postPath){
+    public void likeAlarm(String destinationUid, String postPath) {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
         DocumentReference docRef = fsDB.collection("userProfile").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -603,13 +614,13 @@ public class FirestoreManager {
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
-        String message = (alarmDTO.getNickname()+ "님이 당신의 게시물에 좋아요를 눌렸습니다.");
+        String message = (alarmDTO.getNickname() + "님이 당신의 게시물에 좋아요를 눌렸습니다.");
         //FcmPush.instance.sendMessage(destinationUid, "Woddy",message);
-        sendGson(destinationUid,"Woddy",message);
+        sendGson(destinationUid, "Woddy", message);
     }
 
     //댓글 알림
-    public void commentAlarm(String destinationUid, String message, String postPath){
+    public void commentAlarm(String destinationUid, String message, String postPath) {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
@@ -635,13 +646,13 @@ public class FirestoreManager {
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
-        String msg = (alarmDTO.getNickname() + "님이 당신의 게시물에 댓글을 달았습니다." +" of "+ message);
+        String msg = (alarmDTO.getNickname() + "님이 당신의 게시물에 댓글을 달았습니다." + " of " + message);
         //FcmPush.instance.sendMessage(destinationUid, "Woddy",msg);
-        sendGson(destinationUid,"Woddy",msg);
+        sendGson(destinationUid, "Woddy", msg);
     }
 
     //채팅 알림
-    public void chattingAlarm(String destinationUid, String message){
+    public void chattingAlarm(String destinationUid, String message) {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
         DocumentReference docRef = fsDB.collection("userProfile").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -665,7 +676,7 @@ public class FirestoreManager {
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
         String msg = (alarmDTO.getNickname() + "새로운 채팅이 왔습니다.");
-        sendGson(destinationUid,"Woddy",msg);
+        sendGson(destinationUid, "Woddy", msg);
     }
 
 }

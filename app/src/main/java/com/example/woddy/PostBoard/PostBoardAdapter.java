@@ -9,11 +9,9 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.Entity.Posting;
-import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
 import com.example.woddy.R;
 

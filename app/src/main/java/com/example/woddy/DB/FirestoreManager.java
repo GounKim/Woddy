@@ -71,10 +71,6 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "User Profile has successfully Added!");
-                        // 이미지 Storage에 넣기
-                        String imageUri = "drawable://" + R.drawable.logo;
-                        StorageManager storageManager = new StorageManager();
-                        storageManager.setProfileImage(imageUri);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -195,6 +191,35 @@ public class FirestoreManager {
         return fsDB.collection("user").whereEqualTo("nickName", userNick).get();
     }
 
+    // 사용자 활동(좋아요, 스크랩) 추가
+    public void getUserActivity(String docID, UserActivity activity) {
+        DocumentReference userRef = fsDB.collection("user").document(sqlManager.USER);
+        userRef.collection("posting").add(activity)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "User has successfully Added!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.w(TAG, "Error adding document in user collection", e);
+                    }
+                });
+    }
+
+    // 사용자 활동(글쓰기, 좋아요, 스크랩) 추가
+    public void setUserActivity(String docID, int activityName, DocumentReference userRef) {
+        if (activityName == WRITEARTICLE) {
+            // 목록에서 삭제 + 전체 posting에서 삭제 + 다른 사용자에게도 삭제된 메시지라고 떠야함
+
+
+        } else {
+            // 목록에서 삭제 구현 필요
+        }
+    }
+
     // 사용자가 즐겨찾기한 보드 설정
     public void addUFavorBoard(String docID, UserFavoriteBoard favorBoard) {
         DocumentReference userRef = fsDB.collection("user").document(docID);
@@ -225,6 +250,10 @@ public class FirestoreManager {
     public void addPosting(String boardName, String tagName, Posting posting) {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
 
+        // postingNum찾기
+        String postingNum = "P" + sqlManager.USER + "_" + sqlManager.postingCount();
+        posting.setPostingNumber(postingNum);
+
         // postingUid=작성자 uid
         String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         posting.setPostingUid(postingUid);
@@ -237,6 +266,9 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        // sqlite에 내 포스팅 추가
+                        sqlManager.insertPosting(boardName, tagName, posting);
+
                         Log.d(TAG, "Posting has successfully Added!");
                     }
                 })
@@ -296,6 +328,7 @@ public class FirestoreManager {
     public final static int DECRESE = 1;
     public final static String LIKE = "numberOfLiked";
     public final static String SCRAP = "numberOfScraped";
+    public final static String VIEW = "numberOfViews";
     public final static String COMMEND = "numberOfComment";
     public final static String REPORT = "reported";
 
@@ -342,11 +375,6 @@ public class FirestoreManager {
         return fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum);
     }
 
-    // postingNumber로 게시물 불러오기
-    public Query getPostWithWriter(String writer) {
-        return fsDB.collectionGroup("postings").whereEqualTo("writer", writer).orderBy("postedTime", Query.Direction.DESCENDING);
-    }
-
     // 최근 게시물 불러오기 (docID는 postingNumber)
     public Query getCurrentPost() {
         return fsDB.collectionGroup("postings").orderBy("postedTime", Query.Direction.DESCENDING).limit(3);
@@ -365,13 +393,12 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
 
-                        fsDB.document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                        fsDB.document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         Posting posting = document.toObject(Posting.class);
-
                                         String uid=posting.getPostingUid();
                                         commentAlarm(uid, comment.getContent(),postingPath);
                                     }
@@ -428,6 +455,18 @@ public class FirestoreManager {
     public Query getComments(String postingPath) {
         DocumentReference docRef = getdocRefWithPath(postingPath);  // 포스팅으로 이동
         return docRef.collection("comments").orderBy("postedTime", Query.Direction.ASCENDING);  // 포스팅의 댓글 가져오기
+    }
+
+
+    /* ---------------------- 정보용 DB ---------------------- */
+    // 정보글 불러오기
+    public Task<DocumentSnapshot> getNews(String postTag) {
+        return fsDB.collection("postBoard").document("정보")
+                .collection("postTag").document(postTag).get();
+    }
+
+    public Query getNewsQuery(String boardName, String tagName) {
+        return postCollectionRef(boardName, tagName).orderBy("postedTime", Query.Direction.DESCENDING);
     }
 
 
@@ -546,7 +585,7 @@ public class FirestoreManager {
     }
 
     //좋아요 알림
-    public void likeAlarm(String destinationUid, String postPath){
+    public void likeAlarm(String destinationUid, String postPath) {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
@@ -577,13 +616,13 @@ public class FirestoreManager {
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
-        String message = (alarmDTO.getNickname()+ "님이 당신의 게시물에 좋아요를 눌렸습니다.");
+        String message = (alarmDTO.getNickname() + "님이 당신의 게시물에 좋아요를 눌렸습니다.");
         //FcmPush.instance.sendMessage(destinationUid, "Woddy",message);
-        sendGson(destinationUid,"Woddy",message);
+        sendGson(destinationUid, "Woddy", message);
     }
 
     //댓글 알림
-    public void commentAlarm(String destinationUid, String message, String postPath){
+    public void commentAlarm(String destinationUid, String message, String postPath) {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
@@ -630,14 +669,13 @@ public class FirestoreManager {
         alarmDTO.setMessage(message);
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
-
         String msg = (alarmDTO.getNickname() + "님이 당신의 게시물에 댓글을 달았습니다." +System.lineSeparator()+ message);
         //FcmPush.instance.sendMessage(destinationUid, "Woddy",msg);
-        sendGson(destinationUid,"Woddy",msg);
+        sendGson(destinationUid, "Woddy", msg);
     }
 
     //채팅 알림
-    public void chattingAlarm(String destinationUid, String message){
+    public void chattingAlarm(String destinationUid, String message) {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
@@ -663,7 +701,6 @@ public class FirestoreManager {
         alarmDTO.setMessage(message);
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
-
         String msg = (alarmDTO.getNickname() + "님에게 새로운 채팅이 왔습니다.");
         sendGson(destinationUid,"Woddy",msg);
     }

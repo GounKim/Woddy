@@ -1,43 +1,41 @@
 package com.example.woddy.Home;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.net.ConnectivityManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woddy.Entity.News;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 // Home Notice Board Adapter
 public class HomeNBAdapter extends BaseAdapter {
-    private ArrayList<Posting> notices;
+    private ArrayList<News> news;
 
-    HomeNBAdapter(ArrayList<Posting> notice) {
-        this.notices = notice;
+    public HomeNBAdapter(ArrayList<News> news) {
+        this.news = news;
     }
 
     @Override
     public int getCount() {
-        return notices.size();
+        return news.size();
     }
 
     @Override
-    public Posting getItem(int index) {
-        return notices.get(index);
+    public News getItem(int index) {
+        return news.get(index);
     }
 
     @Override
@@ -62,10 +60,10 @@ public class HomeNBAdapter extends BaseAdapter {
             layout.setBackground(ContextCompat.getDrawable(context, R.drawable.notice_border));
         }
 
-        Posting notice = getItem(index);
+        News news = getItem(index);
 
-        title.setText(notice.getTitle());
-        content.setText(notice.getContent());
+        title.setText(news.getTitle());
+        content.setText(news.getContent());
 
         return view;
     }

@@ -13,8 +13,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="windowNoTitle">true</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <!-- Splash theme. -->
@@ -26,6 +26,7 @@
         <!-- No Title Bar-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
         <!-- white status bar -->
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -33,7 +34,7 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
-    <style name="Widget.Woody.Chip" parent= "Widget.MaterialComponents.Chip.Choice">
+    <style name="Widget.Woody.Chip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipStrokeColor">@color/main_color</item>
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipBackgroundColor">@color/bg_filter_chip_state_list</item>
@@ -44,14 +45,10 @@
         <item name="chipEndPadding">2dp</item>
     </style>
 
-
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    <style name="TabLayoutTextStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#999999</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/show_posting_menu_style</item>
-    </style>
 </resources>

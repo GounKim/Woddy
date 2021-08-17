@@ -182,7 +182,6 @@ public class AlarmActivity extends AppCompatActivity {
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
                     String str1 = alarmDTOList.get(position).nickname + getString(R.string.alarm_comment)
                             +System.lineSeparator()+'"'+alarmDTOList.get(position).message+'"';
-                            +" \n\""+alarmDTOList.get(position).message + "\"";
                     text_message.setText(str1);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override

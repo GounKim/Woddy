@@ -20,17 +20,6 @@
         android:src="@drawable/ic_alarm" />
 
     <TextView
-        android:id="@+id/alarmitem_textview_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="7.5dp"
-        android:layout_marginRight="7.5dp"
-        android:layout_marginBottom="7.5dp"
-        android:text="userid"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/alarmitem_textview_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

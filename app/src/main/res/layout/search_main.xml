@@ -49,7 +49,6 @@
             app:chipSpacingVertical="6dp"
             app:singleLine="true"
             app:singleSelection="true"
-            app:checkedChip="@id/chipFriend"
             android:paddingHorizontal="12dp"
             app:selectionRequired="true"
             tools:visibility="visible">

@@ -49,7 +49,7 @@
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="5dp"
                 android:text="  "
-                android:textSize="24sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toBottomOf="@id/myPage_userNick" />
 

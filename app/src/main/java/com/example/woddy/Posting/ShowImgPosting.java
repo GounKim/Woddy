@@ -37,6 +37,7 @@ import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.DocumentReference;
@@ -326,10 +327,27 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
             case R.id.show_posting_send_chatting:
                 String wUid = writerUid.getText().toString();
-                String[] participant = {wUid, USER_UID};
-//                String[] chatterImage = {storage.getProfilePath(wUid), storage.getProfilePath(USER_UID)};
-                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant));
-                manager.addChatRoom(chattingInfo);
+                manager.findUserWithUid(wUid)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String wNick = (String) documentSnapshot.get("nickname");
+                                String wImage = (String) documentSnapshot.get("userImage");
+
+                                String[] participant = {wNick, sqlManager.getUserNick()};
+                                String[] chatterImage = {wImage, sqlManager.getUserImage()};
+
+                                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
+                                manager.addChatRoom(chattingInfo);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Fail to find writer info");
+                            }
+                        });
+
 
                 break;
 

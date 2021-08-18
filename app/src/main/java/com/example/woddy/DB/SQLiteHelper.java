@@ -18,10 +18,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("PRAGMA foreign_keys = ON;");
 
         // 사용자 테이블(본인의 정보만 들어감
-        sql = "CREATE TABLE user_profile (user_nickname TEXT PRIMARY KEY , " +
-                                            "user_local TEXT, " +
-                                            "introduce TEXT, " +
-                                            "user_image BLOB);";
+        sql = "CREATE TABLE user_profile (user_uid TEXT PRIMARY KEY , " +
+                                            "nick_name TEXT, " +
+                                            "user_image_path TEXT);";
         db.execSQL(sql);
 
         // 글(포스팅)

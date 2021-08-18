@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +34,6 @@ public class StorageManager {
         this.stroage = FirebaseStorage.getInstance();
         this.storageRef = stroage.getReference();
     }
-
 
     public String setProfileImage(String uriPath) {
         String filename = USER_UID + "_profile.jpg"; // 파일명 생성: 사용자의 NickName_profile.jpg
@@ -60,12 +61,6 @@ public class StorageManager {
             }
         });
 
-        return fileUri;
-    }
-
-    public String getProfilePath(String userUID) {
-        String filename = userUID + "_profile.jpg";
-        String fileUri = "UserProfileImages/" + userUID + "/" + filename;
         return fileUri;
     }
 

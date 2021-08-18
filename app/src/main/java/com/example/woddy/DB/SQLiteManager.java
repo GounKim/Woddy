@@ -2,6 +2,8 @@ package com.example.woddy.DB;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,11 +18,68 @@ public class SQLiteManager {
     SQLiteHelper helper;
     SQLiteDatabase sqlite;
 
-    final static String USER = "user1";
+    final static String userUid = USER_UID;
 
 
     public SQLiteManager(Context context) {
         this.helper = new SQLiteHelper(context, "woodyDB", null, 1);
+    }
+
+    public void setUser(String uid, String userNick, String userImage) {
+        sqlite = helper.getWritableDatabase();
+        if (!findUser()) {
+            sqlite.execSQL("INSERT INTO user_profile VALUES ('"
+                    + uid + "', '"
+                    + userNick + "', '"
+                    + userImage + "');");
+        } else {
+            if (userNick == null) {
+                sqlite.execSQL("UPDATE user_profile " +
+                        "SET user_image_path = '" + userImage + "' " +
+                        "WHERE user_uid = '" + uid + "'");
+            } else {
+                sqlite.execSQL("UPDATE user_profile " +
+                        "SET nick_name = '" + userNick + "' " +
+                        "WHERE user_uid = '" + uid + "'");
+            }
+        }
+        sqlite.close();
+    }
+
+    public String getUserNick() {
+        String nickname = null;
+        sqlite = helper.getReadableDatabase();
+        try {
+            String sql = "SELECT nick_name FROM user_profile WHERE user_uid = '" + userUid + "';";
+            Cursor cursor = sqlite.rawQuery(sql, null);
+            if (cursor != null) {
+                while( cursor.moveToNext() ) {
+                    nickname = cursor.getString(0);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Getting Scrapped Posting error: ", e);
+        }
+
+        sqlite.close();
+        return nickname;
+    }
+
+    public String getUserImage() {
+        String nickname = null;
+        sqlite = helper.getReadableDatabase();
+        try {
+            String sql = "SELECT user_image_path FROM user_profile WHERE user_uid = '" + USER_UID + "'";
+            Cursor cursor = sqlite.rawQuery(sql, null);
+            if (cursor != null) {
+                while( cursor.moveToNext() ) {
+                    nickname = cursor.getString(0);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Getting Scrapped Posting error: ", e);
+        }
+        return nickname;
     }
 
     public void insertPosting(String boardName, String tagName, Posting posting) {
@@ -80,6 +139,7 @@ public class SQLiteManager {
         } catch (Exception e) {
             Log.e(TAG, "Getting Scrapped Posting error: ", e);
         }
+        sqlite.close();
         return null;
     }
 
@@ -100,19 +160,21 @@ public class SQLiteManager {
         return pictureList;
     }
 
-    public int postingCount() {
-        sqlite = helper.getReadableDatabase();
+    public boolean findUser() {
         int cnt;
-        Cursor cursor = sqlite.rawQuery("select * from postings WHERE writer = '" + USER +"'", null);
+        Cursor cursor = sqlite.rawQuery("select * from user_profile where user_uid = '" + userUid + "';", null);
         cnt = cursor.getCount();
 
-        sqlite.close();
-        return cnt;
+        if (cnt == 0) {
+            return false;
+        }
+
+        return true;
     }
 
     public String getUerName() {
         sqlite = helper.getReadableDatabase();
-        Cursor cursor = sqlite.rawQuery("select user_nickname from user_profile", null);
+        Cursor cursor = sqlite.rawQuery("select user_nickname from user_profile;", null);
         String user = cursor.getString(0);
 
         sqlite.close();

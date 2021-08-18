@@ -14,6 +14,7 @@ import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
+import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,13 +43,19 @@ import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 
 public class FirestoreManager {
 
-    private FirebaseFirestore fsDB;;
+    private FirebaseFirestore fsDB;
+    SQLiteManager sqlmanager;
 
     String destinationUid; //푸시전달할 uid
     public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();
+    }
+
+    public FirestoreManager(Context context) {
+        fsDB = FirebaseFirestore.getInstance();
+        sqlmanager = new SQLiteManager(context);
     }
 
     // 현재 사용자 CollectionReference
@@ -71,10 +78,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "User Profile has successfully Added!");
-                        // 이미지 Storage에 넣기
-                        String imageUri = "drawable://" + R.drawable.logo;
-                        StorageManager storageManager = new StorageManager();
-                        storageManager.setProfileImage(imageUri);
+                        sqlmanager.setUser(uid, profile.getNickname(), profile.getUserImage());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -92,6 +96,11 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "User Profile has successfully updated!");
+                        String newNick = null, newImage = null;
+                        if (newData.get("nickname") != null) newNick = (String) newData.get("nickname");
+                        if (newData.get("userImage") != null) newImage = (String) newData.get("userImage");
+
+                        if (newNick != null && newImage != null) sqlmanager.setUser(uid, newNick, newImage);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Login.SignUpActivity;
 import com.example.woddy.R;
@@ -41,6 +42,7 @@ import com.gun0912.tedpermission.TedPermission;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,28 +95,27 @@ public class UpdateProfile extends BaseActivity {
         changeLocalButton = findViewById(R.id.update_local_button);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
         //처음에 보여지는 화면 셋팅
         Intent intent = getIntent();
         tmp_nick = intent.getStringExtra("nickname");
         tmp_local = intent.getStringExtra("local");
-        tmp_imguri = intent.getStringExtra("imguri");
-        //1) 이미지 사진
-        FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
-        StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
-        storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Glide.with(getApplicationContext())
-                            .load(task.getResult())
-                            .circleCrop()
-                            .into(profileImageView);
-                } else {
-                    Log.d(TAG, "Image Load in MyPage failed.", task.getException());
-                }
-            }
-        });
+//        tmp_imguri = intent.getStringExtra("imguri");
+//        //1) 이미지 사진
+//        FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+//        StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
+//        storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Uri> task) {
+//                if (task.isSuccessful()) {
+//                    Glide.with(getApplicationContext())
+//                            .load(task.getResult())
+//                            .circleCrop()
+//                            .into(profileImageView);
+//                } else {
+//                    Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+//                }
+//            }
+//        });
         //2) 현재 내 닉네임
         newNickEditText.setText(tmp_nick);
         //3) 현재 내 주소

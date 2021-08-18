@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.R;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,6 +31,7 @@ import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 public class ChattingFragment extends Fragment {
     FirestoreManager manager = new FirestoreManager();
+    SQLiteManager sqlManager;
 
     RecyclerView recyclerView;
     ChattingAdapter clAdapter;
@@ -41,6 +43,7 @@ public class ChattingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chatting, container, false);
 
+        sqlManager = new SQLiteManager(getContext());
         recyclerView = view.findViewById(R.id.chatting_recycler_view);
 
         getChatList();
@@ -54,7 +57,7 @@ public class ChattingFragment extends Fragment {
 
     // 채팅 리스트 가져오기
     private void getChatList() {
-        manager.getChatRoomList(USER_UID)
+        manager.getChatRoomList(sqlManager.getUserNick())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {

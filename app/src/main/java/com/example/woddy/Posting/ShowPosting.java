@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
+import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.R;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -48,7 +50,7 @@ import java.util.TimeZone;
 
 public class ShowPosting extends BaseActivity implements View.OnClickListener {
     FirestoreManager manager = new FirestoreManager();
-    SQLiteManager sqlManager;
+    SQLiteManager sqlManager = new SQLiteManager(this);
 
     TextView title, writer, time, content, likedCount, scrapCount, tag, board;
     ImageView liked, scrap;
@@ -65,6 +67,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
 
+    // BottomSheetDialog
+    TextView report, sendChat, cancle;
 
     @Override
     protected boolean useBottomNavi() {
@@ -75,6 +79,14 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_posting);
+
+        Intent intent = getIntent();
+        postingPath = intent.getStringExtra("documentPath");
+        String[] path = postingPath.split("/");
+        boardName = path[1];
+        tagName = path[3];
+
+        setTitle(boardName);
 
         title = findViewById(R.id.show_posting_title);
         writer = findViewById(R.id.show_posting_writer);
@@ -92,16 +104,10 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         edtComment = findViewById(R.id.show_posting_edt_comment);
         btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
-        Intent intent = getIntent();
-        postingPath = intent.getStringExtra("documentPath");
-        String[] path = postingPath.split("/");
-        boardName = path[1];
-        tagName = path[3];
-
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(adapter);
-        getComments(adapter);
+        getComments();
 
         btnSend.setOnClickListener(this);
 
@@ -138,7 +144,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         String text = edtComment.getText().toString();
-        Comment comment = new Comment(USER_UID, text, "");
+        Comment comment = new Comment(sqlManager.getUserNick(), text, "");
         adapter.addItem(comment);
         manager.addComment(postingPath, comment);
 
@@ -148,7 +154,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         mInputMethodManager.hideSoftInputFromWindow(edtComment.getWindowToken(), 0);
     }
 
-    private void getComments(CommentAdapter adapter) {
+    private void getComments() {
         manager.getComments(postingPath).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -160,6 +166,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                     commentList.add(document.toObject(Comment.class));
                                 }
                                 adapter.setItem(commentList);
+                            } else {
+                                Log.d(TAG, "no comments in posting.");
                             }
                         } else {
                             Log.d(TAG, "Finding comments failed.", task.getException());
@@ -177,7 +185,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     }
 
     public void pushHeart(View view){
-        sqlManager = new SQLiteManager(getBaseContext());
         i = i * (-1);
         int num = Integer.parseInt((String) likedCount.getText());
         if(i == -1) {
@@ -185,6 +192,19 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
             sqlManager.insertLiked(postingPath);
+            FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Posting posting = document.toObject(Posting.class);
+
+                            String uid=posting.getPostingUid();
+                            manager.likeAlarm(uid, postingPath);
+                        }
+                    }
+                }
+            });
         }else{
             liked.setImageResource(R.drawable.ic_baseline_liked_no);
             likedCount.setText(Integer.toString(num - 1));
@@ -193,7 +213,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     }
 
     public void pushClip(View view){
-        sqlManager = new SQLiteManager(getBaseContext());
         y = y * (-1);
         int num = Integer.parseInt((String) scrapCount.getText());
         if(y == -1) {
@@ -242,14 +261,57 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                 return true;
 
             case R.id.menu_more_option:
+
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.show_posting_menu, null);
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomSheetView);
+
+                sendChat = bottomSheetDialog.findViewById(R.id.show_posting_send_chatting);
+                sendChat.setOnClickListener(this::bottomSheet);
 
                 bottomSheetDialog.show();
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void bottomSheet(View view) {
+        switch (view.getId()) {
+            case R.id.show_posting_report:
+
+                break;
+
+            case R.id.show_posting_send_chatting:
+                String w = writer.getText().toString();
+                manager.findUserWithNick(w)
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                                String wNick = (String) document.get("nickname");
+                                String wImage = (String) document.get("userImage");
+
+                                String[] participant = {wNick, sqlManager.getUserNick()};
+                                String[] chatterImage = {wImage, sqlManager.getUserImage()};
+
+                                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
+                                manager.addChatRoom(chattingInfo);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Fail to find writer info");
+                            }
+                        });
+
+
+                break;
+
+            case R.id.show_posting_cancle:
+
+                break;
+        }
     }
 }

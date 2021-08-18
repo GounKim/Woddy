@@ -12,10 +12,7 @@ import com.example.woddy.Entity.Profile;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
-import com.example.woddy.Entity.UserActivity;
 import com.example.woddy.Entity.UserFavoriteBoard;
-import com.example.woddy.Login.LogInActivity;
-import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +35,6 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 import static com.example.woddy.Alarm.sendGson.sendGson;
-import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 
 public class FirestoreManager {
 
@@ -183,9 +179,9 @@ public class FirestoreManager {
         return fsDB.collection("userProfile").document(uid).get();
     }
 
-    // 닉네임으로 user컬렉션의 document 가져오기
-    public Task<DocumentSnapshot> findUserWithNick(String nickname) {
-        return fsDB.collection("user").document(nickname).get();
+    // 닉네임으로 사용자 찾기
+    public Task<QuerySnapshot> findUserWithNick(String nickname) {
+        return fsDB.collection("userProfile").whereEqualTo("nickname", nickname).get();
     }
 
     // 이메일 중복 확인
@@ -433,8 +429,7 @@ public class FirestoreManager {
 
     // 댓글 불러오기
     public Query getComments(String postingPath) {
-        DocumentReference docRef = getdocRefWithPath(postingPath);  // 포스팅으로 이동
-        return docRef.collection("comments").orderBy("postedTime", Query.Direction.ASCENDING);  // 포스팅의 댓글 가져오기
+        return fsDB.document(postingPath).collection("comments").orderBy("writtenTime", Query.Direction.ASCENDING);  // 포스팅의 댓글 가져오기
     }
 
 

@@ -30,7 +30,13 @@
             android:name=".Posting.ShowPosting"
             android:exported="true" />
         <activity android:name=".Alarm.AlarmActivity" />
-        <activity android:name=".Login.LogInActivity" />
+
+        <activity android:name=".Login.LogInActivity">
+
+
+        </activity>
+
+
         <activity android:name=".Login.FemaleCertActivity" />
         <activity android:name=".Login.SignUpActivity" />
         <activity android:name=".Login.SignUpSuccessActivity" />
@@ -40,11 +46,13 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/SplashTheme">
+
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".Posting.AddWritingsActivity" />
@@ -64,6 +72,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>

@@ -140,14 +140,9 @@ public class SearchActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SearchData(SearchActivity.this).getItems(recyclerView, board_name, tagName, searchText.toString());
+                new SearchData(SearchActivity.this).getItems(recyclerView, board_name, tagName, searchText.getText().toString());
             }
         });
     }
 
-    // 파이어스토어에서 데이터를 불러와서 검색어가 있는지 판단
-    public void search(String searchWord, String board_name, String tagName) {
-        new SearchData(this).getItems(recyclerView, board_name, tagName, searchWord);
-
-    }
 }

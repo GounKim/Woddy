@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,7 +59,6 @@ public class SearchData {
                         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
                         recyclerView.setAdapter(adapter);
                     } else {
-
                         Log.d(TAG, "Nothing Founded!");
                     }
 
@@ -67,6 +67,7 @@ public class SearchData {
                 }
             }
         });
+
 
         return items;
     }

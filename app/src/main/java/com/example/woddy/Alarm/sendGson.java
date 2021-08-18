@@ -22,28 +22,27 @@ public class sendGson {
 
     static String TAG = "sendgson";
 
-    public static void sendGson(String mPushToken, String title, String message) {
-        SendNotification.sendNotification(mPushToken, title, message);
+    public static void sendGson(String destinationUid, String title, String message) {
 
-//        DocumentReference docRef = fsDB.collection("userProfile").document(destinationUid);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                        Map<String, Object> map = document.getData();
-//                        String mPushToken = map.get("pushToken").toString(); //상대유저의 토큰
-//                        Log.d(TAG, "mPushToken: " + mPushToken);
-//                        SendNotification.sendNotification(mPushToken, title, message);
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
+        DocumentReference docRef = fsDB.collection("userProfile").document(destinationUid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        Map<String, Object> map = document.getData();
+                        String mPushToken = map.get("pushToken").toString(); //상대유저의 토큰
+                        Log.d(TAG, "mPushToken: " + mPushToken);
+                        SendNotification.sendNotification(mPushToken, title, message);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 }

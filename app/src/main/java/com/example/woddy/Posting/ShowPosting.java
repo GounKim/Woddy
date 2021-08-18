@@ -304,9 +304,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                 DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
                                 String wNick = (String) document.get("nickname");
                                 String wImage = (String) document.get("userImage");
-                                String wUid = (String) FirebaseFirestore.getInstance().collection("userProfile")
-                                        .whereEqualTo("nickname",wNick)
-                                        .getDocumentid();
+
 
                                 String[] participant = {wNick, sqlManager.getUserNick()};
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};

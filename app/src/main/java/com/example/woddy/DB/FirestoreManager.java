@@ -1,9 +1,11 @@
 package com.example.woddy.DB;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.woddy.Alarm.AlarmDTO;
 import com.example.woddy.Entity.ChattingInfo;
@@ -17,20 +19,25 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -40,17 +47,17 @@ public class FirestoreManager {
 
     private FirebaseFirestore fsDB;
     SQLiteManager sqlmanager;
+    private SQLiteManager sqlManager;
 
-    String destinationUid; //푸시전달할 uid
     public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-    public FirestoreManager() {
-        fsDB = FirebaseFirestore.getInstance();
-    }
 
     public FirestoreManager(Context context) {
         fsDB = FirebaseFirestore.getInstance();
-        sqlmanager = new SQLiteManager(context);
+        sqlManager = new SQLiteManager(context);
+    }
+
+    public FirestoreManager() {
+        fsDB = FirebaseFirestore.getInstance();
     }
 
     // 현재 사용자 CollectionReference
@@ -92,10 +99,13 @@ public class FirestoreManager {
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "User Profile has successfully updated!");
                         String newNick = null, newImage = null;
-                        if (newData.get("nickname") != null) newNick = (String) newData.get("nickname");
-                        if (newData.get("userImage") != null) newImage = (String) newData.get("userImage");
+                        if (newData.get("nickname") != null)
+                            newNick = (String) newData.get("nickname");
+                        if (newData.get("userImage") != null)
+                            newImage = (String) newData.get("userImage");
 
-                        if (newNick != null && newImage != null) sqlmanager.setUser(uid, newNick, newImage);
+                        if (newNick != null && newImage != null)
+                            sqlmanager.setUser(uid, newNick, newImage);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -230,8 +240,8 @@ public class FirestoreManager {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
 
         // postingUid=작성자 uid
-        String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        posting.setPostingUid(postingUid);
+//        String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        posting.setPostingUid(postingUid);
 
         // 이미지 Storage에 넣기
         StorageManager storageManager = new StorageManager();
@@ -375,8 +385,8 @@ public class FirestoreManager {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         Posting posting = document.toObject(Posting.class);
-                                        String uid=posting.getPostingUid();
-                                        commentAlarm(uid, comment.getContent(),postingPath);
+                                        String uid = posting.getPostingUid();
+                                        commentAlarm(uid, comment.getContent(), postingPath);
                                     }
                                 }
                             }
@@ -458,7 +468,7 @@ public class FirestoreManager {
                         updateChatRoom(roomNum, data);
 
                         addMessage(roomNum,
-                                new ChattingMsg(null,chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다.", new Date()));
+                                new ChattingMsg(null, chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다.", new Date()));
                         Log.d(TAG, "chattingRoom has successfully Added!");
                     }
                 })
@@ -511,6 +521,7 @@ public class FirestoreManager {
         return ref.whereArrayContains("participant", user);
     }
 
+
     // 채팅 메시지 추가
     public void addMessage(String docID, ChattingMsg msg) {
         DocumentReference roomRef = fsDB.collection("chattingRoom").document(docID);
@@ -519,12 +530,20 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Message has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in Message collection", e);
+
+
+                        fsDB.collection("userProfile").document(USER_UID)
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String mynickname = document.get("nickname").toString();
+                                    forChatAlarm(roomRef,mynickname,msg.getMessage());
+                                }
+                            }
+                        });
+
                     }
                 });
     }
@@ -564,7 +583,9 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-        findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection("userProfile")
+                .document(USER_UID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -582,17 +603,12 @@ public class FirestoreManager {
             }
         });
 
-
-        //String nickname = findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).toString();//닉네임
-        //alarmDTO.setNickname(nickname); //닉네임
-
         alarmDTO.setPostingPath(postPath);
         alarmDTO.setKind(0);
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
         String message = (alarmDTO.getNickname() + "님이 당신의 게시물에 좋아요를 눌렸습니다.");
-        //FcmPush.instance.sendMessage(destinationUid, "Woddy",message);
         sendGson(destinationUid, "Woddy", message);
     }
 
@@ -601,23 +617,9 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-//        DocumentReference docRef = fsDB.collection("userProfile").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                        Map<String, Object> map = document.getData(); //닉네임
-//                        String nickname = map.get("nickname").toString();
-//                        alarmDTO.setNickname(nickname); //닉네임
-//                    }
-//                }
-//            }
-//        });
-
-        findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection("userProfile")
+                .document(USER_UID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -635,17 +637,13 @@ public class FirestoreManager {
             }
         });
 
-        //String nickname = findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).toString();//닉네임
-        //alarmDTO.setNickname(nickname); //닉네임
-
-//        alarmDTO.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid()); //닉네임
         alarmDTO.setPostingPath(postPath);
         alarmDTO.setKind(1);
         alarmDTO.setMessage(message);
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
-        String msg = (alarmDTO.getNickname() + "님이 당신의 게시물에 댓글을 달았습니다." +System.lineSeparator()+ message);
-        //FcmPush.instance.sendMessage(destinationUid, "Woddy",msg);
+
+        String msg = (alarmDTO.getNickname() + "님이 당신의 게시물에 댓글을 달았습니다." + System.lineSeparator() + message);
         sendGson(destinationUid, "Woddy", msg);
     }
 
@@ -654,7 +652,9 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-        findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection("userProfile")
+                .document(USER_UID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -676,8 +676,48 @@ public class FirestoreManager {
         alarmDTO.setMessage(message);
         alarmDTO.setTimestamp(System.currentTimeMillis());
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
-        String msg = (alarmDTO.getNickname() + "님에게 새로운 채팅이 왔습니다.");
-        sendGson(destinationUid,"Woddy",msg);
+
+        String msg = (alarmDTO.getNickname() + "님에게 새로운 채팅이 왔습니다." + System.lineSeparator() + message);
+        sendGson(destinationUid, "Woddy", msg);
     }
 
+    //uid 가져와서 채팅 알림 발생
+    public void forChatAlarm(DocumentReference roomRef, String mynickname, String msg) {
+        roomRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String nickname = document.get("participant").toString();
+                        nickname = nickname.replace(mynickname, "");
+                        nickname = nickname.replace("[", "");
+                        nickname = nickname.replace(", ", "");
+                        nickname = nickname.replace("]", "");
+                        Log.d("firebase", nickname);
+                        //String uid = findUserWithNick(nickname).getResult().toString();
+                        fsDB.collection("userProfile")
+                                .whereEqualTo("nickname", nickname).get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if( task.isSuccessful()) {
+                                            QuerySnapshot document = task.getResult();
+                                            String uid = document.getDocuments().get(0).getId();
+                                            Log.d("firebase", uid);
+                                            chattingAlarm(uid, msg.toString());
+                                        }else {
+                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 }

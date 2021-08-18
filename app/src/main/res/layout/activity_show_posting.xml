@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp">
+                    android:layout_marginTop="20dp">
 
                     <TextView
                         android:id="@+id/show_posting_boardName"
@@ -108,21 +108,20 @@
                         android:id="@+id/show_posting_liked_image"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:onClick="pushHeart"
                         android:layout_marginTop="2dp"
                         android:layout_weight="1"
-                        android:padding="1.5dp"
+                        android:onClick="pushHeart"
                         android:src="@drawable/ic_baseline_liked_no" />
 
                     <TextView
                         android:id="@+id/show_posting_likedCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="6dp"
                         android:layout_weight="1"
                         android:text="100"
-                        android:layout_gravity="center_vertical"
                         android:textSize="14sp" />
 
                     <ImageView
@@ -138,10 +137,10 @@
                         android:id="@+id/show_posting_scrapCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="2dp"
                         android:layout_weight="1"
                         android:text="100"
-                        android:layout_gravity="center_vertical"
                         android:textSize="14dp" />
 
                 </LinearLayout>
@@ -179,10 +178,11 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="8"
-            android:background="@drawable/conversation_border"
+            android:background="@drawable/button_round_shape_grayish_small_radius"
             android:hint="댓글을 입력해주세요."
             android:inputType="text"
-            android:paddingLeft="7dp" />
+            android:paddingLeft="7dp"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/show_posting_btnSend_comment"

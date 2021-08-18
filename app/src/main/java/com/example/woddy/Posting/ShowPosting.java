@@ -191,6 +191,19 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
             liked.setImageResource(R.drawable.ic_baseline_liked_yes);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+            FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Posting posting = document.toObject(Posting.class);
+
+                            String uid=posting.getPostingUid();
+                            manager.likeAlarm(uid, postingPath);
+                        }
+                    }
+                }
+            });
             sqlManager.insertLiked(postingPath);
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -291,6 +304,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                 DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
                                 String wNick = (String) document.get("nickname");
                                 String wImage = (String) document.get("userImage");
+
 
                                 String[] participant = {wNick, sqlManager.getUserNick()};
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};

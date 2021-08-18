@@ -169,11 +169,11 @@ public class AddWritingsActivity extends BaseActivity {
         Posting post;
         final String title = titleTV.getText().toString();
         final String content = plotTV.getText().toString();
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = USER_UID;
         if (uriList == null) {
-            post = new Posting(sqlmanager.getUserNick(), title, content, new Date());
+            post = new Posting(sqlmanager.getUserNick(), title, content, new Date(), uid);
         } else {
-            post = new Posting(sqlmanager.getUserNick(), title, content, uriList, new Date());
+            post = new Posting(sqlmanager.getUserNick(), title, content, uriList, new Date(), uid);
         }
         firestoreManager.addPosting(boardName, tagName, post);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

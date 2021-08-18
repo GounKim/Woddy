@@ -60,9 +60,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-//        SQLiteManager sql = new SQLiteManager(getContext());
-//        sql.setUser(USER_UID, "ge-eun", "UserProfile/" + USER_UID + "/userImage");
-
         // test용(로그인화면)
         btnLogin = view.findViewById(R.id.button2);
         btnLogin.setOnClickListener(new View.OnClickListener() {

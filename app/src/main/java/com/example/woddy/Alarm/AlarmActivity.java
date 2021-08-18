@@ -178,7 +178,7 @@ public class AlarmActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                            intent.putExtra("postingPath", alarmDTOList.get(position).getPostingPath());
                             view.getContext().startActivity(intent);
                         }
                     });
@@ -192,7 +192,7 @@ public class AlarmActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                            intent.putExtra("postingPath", alarmDTOList.get(position).getPostingPath());
                             view.getContext().startActivity(intent);
                         }
                     });

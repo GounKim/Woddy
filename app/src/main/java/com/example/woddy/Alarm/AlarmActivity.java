@@ -22,7 +22,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.woddy.BaseActivity;
 import com.example.woddy.Chatting.ChattingFragment;
+import com.example.woddy.MainActivity;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,6 +39,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlarmActivity extends AppCompatActivity {
 
@@ -61,7 +64,9 @@ public class AlarmActivity extends AppCompatActivity {
         toolbarTitle.setText("알림");
 
         alarm_recyclerview = findViewById(R.id.alarm_recyclerview);
-        alarm_recyclerview.setAdapter(new AlarmRecyclerViewAdapter());
+        RecyclerView.Adapter adapter = new AlarmRecyclerViewAdapter();
+        adapter.setHasStableIds(true);
+        alarm_recyclerview.setAdapter(adapter);
         alarm_recyclerview.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -129,7 +134,7 @@ public class AlarmActivity extends AppCompatActivity {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                            alarmDTOList.clear();
+                            alarmDTOList = new ArrayList<AlarmDTO>();
 
                             if (error != null) {
                                 Log.w(TAG, "Listen failed.", error);
@@ -199,7 +204,7 @@ public class AlarmActivity extends AppCompatActivity {
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(view.getContext(), ChattingFragment.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Intent intent = new Intent(view.getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             view.getContext().startActivity(intent);
                         }
                     });

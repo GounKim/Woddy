@@ -25,15 +25,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 
 public class ChattingFragment extends Fragment {
-    FirestoreManager manager = new FirestoreManager();
+    FirestoreManager manager = new FirestoreManager(getContext());
 
     RecyclerView recyclerView;
     ChattingAdapter clAdapter;
-
+    Button button;
+    EditText editText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,19 +42,28 @@ public class ChattingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chatting, container, false);
 
         recyclerView = view.findViewById(R.id.chatting_recycler_view);
+        button = view.findViewById(R.id.button);
+        editText = view.findViewById(R.id.editText);
 
-        getChatList();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String user = editText.getText().toString();
+                // getDB
+                getChatList(user);
 
-        clAdapter = new ChattingAdapter(USER_UID);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
-        recyclerView.setAdapter(clAdapter);
+                clAdapter = new ChattingAdapter(user);
+                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
+                recyclerView.setAdapter(clAdapter);
+            }
+        });
 
         return view;
     }
 
     // 채팅 리스트 가져오기
-    private void getChatList() {
-        manager.getChatRoomList(USER_UID)
+    private void getChatList(String user) {
+        manager.getChatRoomList(user)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {

@@ -42,10 +42,15 @@ import static com.example.woddy.Entity.UserActivity.WRITEARTICLE;
 
 public class FirestoreManager {
 
-    private FirebaseFirestore fsDB;;
+    private FirebaseFirestore fsDB;
+    private SQLiteManager sqlManager;
 
     String destinationUid; //푸시전달할 uid
-    public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    public FirestoreManager(Context context) {
+        fsDB = FirebaseFirestore.getInstance();
+        sqlManager = new SQLiteManager(context);
+    }
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();

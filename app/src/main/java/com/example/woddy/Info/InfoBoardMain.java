@@ -68,10 +68,11 @@ public class InfoBoardMain extends Fragment {
 
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF6B6B"));
+        tabLayout.setSelectedTabIndicatorHeight(10);
+
         boardName = "정보";
         tagName = "물품지원";
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#494C7C"));
-        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#494C7C")));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

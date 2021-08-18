@@ -52,8 +52,6 @@ public class BaseActivity extends AppCompatActivity {
     private Boolean useBottomNavi = true;
     private Boolean useBackButton = false;
 
-    boolean alarm_new = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +174,6 @@ public class BaseActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.menu_alarm:{
-                alarm_new = false;
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
             }

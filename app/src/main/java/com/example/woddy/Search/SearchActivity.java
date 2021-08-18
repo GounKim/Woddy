@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.woddy.PostBoard.PostBoardAdapter;
 import com.example.woddy.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -27,12 +25,12 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private String board_name = "소통";
-    private String tagName = "친구";
+    private String tagName = "친구찾기";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.search_main);
 
         searchText = (EditText) findViewById(R.id.searchWord);
         searchBtn = (ImageButton) findViewById(R.id.searchBtn);

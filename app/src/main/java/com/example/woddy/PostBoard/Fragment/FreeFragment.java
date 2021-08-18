@@ -1,6 +1,5 @@
 package com.example.woddy.PostBoard.Fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;

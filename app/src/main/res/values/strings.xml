@@ -27,4 +27,11 @@
     <string name="interior">#인테리어</string>
     <string name="town_info">#동네정보</string>
 
+    <string name="info">#1인 생활</string>
+    <string name="lifeSupport">#생활지원</string>
+    <string name="education">#교육</string>
+    <string name="event">#행사</string>
+
+    <string name="infoDepart">#기관 정보</string>
+
 </resources>

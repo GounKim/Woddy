@@ -17,8 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.woddy.Chatting.ChattingRoomAdapter;
-import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.PostingSQL;
 import com.example.woddy.Posting.ShowImgPosting;

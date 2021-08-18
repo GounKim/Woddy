@@ -23,6 +23,7 @@ import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
+import com.example.woddy.Search.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -122,7 +123,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
+        btnshow = view.findViewById(R.id.button3);
+        btnshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 

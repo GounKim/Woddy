@@ -102,20 +102,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     //송신
-    private void sendGson(String title, String message, String postPath, Integer kind) {
-        fsDB.collectionGroup("pushtokens").whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Map<String, String> map = (Map<String, String>) task.getResult();
-                            String mPushToken = map.get("pushToken"); //상대유저의 토큰
-                            SendNotification.sendNotification(mPushToken, title, message);
-                            Log.d(TAG, mPushToken +":"+FirebaseAuth.getInstance().getCurrentUser().getUid()+":");
-                        } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
+//    private void sendGson(String title, String message, String postPath, Integer kind) {
+//        fsDB.collectionGroup("pushtokens").whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            Map<String, String> map = (Map<String, String>) task.getResult();
+//                            String mPushToken = map.get("pushToken"); //상대유저의 토큰
+//                            SendNotification.sendNotification(mPushToken, title, message);
+//                            Log.d(TAG, mPushToken +":"+FirebaseAuth.getInstance().getCurrentUser().getUid()+":");
+//                        } else {
+//                        Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//    }
 }

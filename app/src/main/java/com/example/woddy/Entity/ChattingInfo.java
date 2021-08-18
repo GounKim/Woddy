@@ -11,22 +11,25 @@ public class ChattingInfo {
     private String roomNumber;  // 채팅방 번호 ( CR0000001부터 )
     private List<String> participant;
     private List<String> participantImg;
+    private List<String> participantUid; //채팅 참여자 uid
     private String recentMsg;
 
     public ChattingInfo() {
     }
 
-    public ChattingInfo(List<String> participant, List<String> participantImg) {
+    public ChattingInfo(List<String> participant, List<String> participantImg, List<String> participantUid) {
         this.roomNumber = "";
         this.participant = participant;
         this.participantImg = participantImg;
+        this.participantUid = participantUid;
         this.recentMsg = "";
     }
 
-    public ChattingInfo(List<String> participant) {
+    public ChattingInfo(List<String> participant, List<String> participantUid) {
         this.roomNumber = "";
         this.participant = participant;
         this.participantImg = null;
+        this.participantUid = participantUid;
         this.recentMsg = "";
     }
 
@@ -62,5 +65,13 @@ public class ChattingInfo {
 
     public void setParticipantImg(List<String> participantImg) {
         this.participantImg = participantImg;
+    }
+
+    public List<String> getParticipantUid() {
+        return participantUid;
+    }
+
+    public void setParticipantUid(List<String> participantUid) {
+        this.participantUid = participantUid;
     }
 }

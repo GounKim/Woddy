@@ -529,6 +529,35 @@ public class FirestoreManager {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Message has successfully Added!");
 
+                        String mynickname = findUserWithUid(USER_UID).getResult().get("nickname").toString();
+
+                        roomRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        String nickname = document.get("participant").toString();
+                                        nickname = nickname.replace(mynickname, "");
+                                        nickname = nickname.replace("[", "");
+                                        nickname = nickname.replace(", ", "");
+                                        nickname = nickname.replace("]", "");
+                                        String uid = findUserWithNick(nickname).getResult().toString();
+                                        Log.d("firebase", nickname);
+                                        Log.d("firebase",uid);
+                                        chattingAlarm(uid, msg.toString());
+                                    } else {
+                                        Log.d(TAG, "No such document");
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+                    }
+                });
+    }
+
 //                        String uid = roomRef.get().getResult().get("participant").toString();
 //                        Integer startindex = uid.indexOf("[");
 //                        Integer endindex = uid.lastIndexOf("]");
@@ -563,40 +592,72 @@ public class FirestoreManager {
 //                                }
 //                            }
 //                        });
-                        roomRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        String uid = document.get("participant").toString();
-                                        if(uid.substring(1,29) == USER_UID){
-                                            Integer index = uid.indexOf(" ");
-                                            uid = uid.substring(index+1, index+29);
-                                        } else{
-                                            uid = uid.substring(1,29);
-                                        }
-                                        chattingAlarm(uid, msg.getMessage());
-                                        Log.d("sys", "DocumentSnapshot data: " + document.getData());
-                                        Log.d("sys", "Uid data: " + uid);
-                                    } else {
-                                        Log.d(TAG, "No such document");
-                                    }
-                                } else {
-                                    Log.d(TAG, "get failed with ", task.getException());
-                                }
-                            }
-                        });
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in Message collection", e);
-                    }
-                });
-    }
+//                        roomRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    DocumentSnapshot document = task.getResult();
+//                                    if (document.exists()) {
+//                                        String nickname = document.get("participant").toString();
+//                                        Log.d("firebase",nickname);
+//
+//                                        final Query result =
+//                                                FirebaseFirestore.getInstance().collection("userProfile")
+//                                                .whereEqualTo("nickname",nickname).get().getResult().getDocuments().documents;
+//
+//                                        String uid = result.toString();
+//                                        Log.d("firebase",uid);
+//                                        chattingAlarm(uid,msg.getMessage());
+
+                                        //String uid = findUserWithNick(nickname).getResult().getQuery().toString()
+
+//                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                                if (task.isSuccessful()) {
+//                                                    DocumentSnapshot document = task.getResult();
+//                                                    if (document.exists()) {
+//                                                        String nickname = document.get("nickname").toString();
+//                                                        alarmDTO.setNickname(nickname); //닉네임
+//                                                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                                                    } else {
+//                                                        Log.d(TAG, "No such document");
+//                                                    }
+//                                                } else {
+//                                                    Log.d(TAG, "get failed with ", task.getException());
+//                                                }
+//                                            }
+//                                        });
+                                        //Log.d("firebase",uid);
+                                        //chattingAlarm(uid, msg.getMessage());
+//                                        if(uid.substring(1,29) == USER_UID){
+//                                            Integer index = uid.indexOf(" ");
+//                                            uid = uid.substring(index+1, index+29);
+//                                        } else{
+//                                            uid = uid.substring(1,29);
+//                                        }
+//                                        chattingAlarm(uid, msg.getMessage());
+                                        //Log.d("sys", "DocumentSnapshot data: " + document.getData());
+                                        //Log.d("sys", "Uid data: " + uid);
+//                                    } else {
+//                                        Log.d(TAG, "No such document");
+//                                    }
+//                                } else {
+//                                    Log.d(TAG, "get failed with ", task.getException());
+//                                }
+//                            }
+//                        });
+//
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull @NotNull Exception e) {
+//                        Log.w(TAG, "Error adding document in Message collection", e);
+//                    }
+//                });
+//    }
 
     // 채팅 메시지 가져오기
     public Query getMessage(String roomNum) {

@@ -1,5 +1,7 @@
 package com.example.woddy.MyPage;
 
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.CursorLoader;
@@ -9,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Login.SignUpActivity;
 import com.example.woddy.R;
@@ -37,6 +41,8 @@ import com.gun0912.tedpermission.TedPermission;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -199,7 +205,7 @@ public class UpdateProfile extends BaseActivity {
                         .load(imageUrl)
                         .circleCrop()
                         .into(profileImageView);
-                sManager.setProfileImage(tmp_nick, imageUrl, uid);
+                sManager.setProfileImage(imageUrl);
                 Toast.makeText(UpdateProfile.this, "프로필 사진 변경 완료!", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -235,7 +241,7 @@ public class UpdateProfile extends BaseActivity {
 
     public void checkNick() {
         String nick_str = newNickEditText.getText().toString();
-        FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
+        FirestoreManager fsManager = new FirestoreManager();
         fsManager.findNickname(nick_str)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -275,20 +281,25 @@ public class UpdateProfile extends BaseActivity {
             Toast.makeText(this, "갤러리 접근 권한 동의가 필요합니다.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
     private int PERMISSION_GRANTED = 2;
     private int PERMISSION_DENIED = 1;
     public void checkSelfPermission() {
         String temp = "";
+
         // 파일 읽기 권한 확인
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             temp += Manifest.permission.READ_EXTERNAL_STORAGE + " ";
         }
+
         // 파일 쓰기 권한 확인
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             temp += Manifest.permission.WRITE_EXTERNAL_STORAGE + " ";
         }
+
         if (TextUtils.isEmpty(temp) == false) { // 권한 허용되지 않았을 시
             // 권한 요청
             ActivityCompat.requestPermissions(this, temp.trim().split(" "), PERMISSION_DENIED);
@@ -296,6 +307,9 @@ public class UpdateProfile extends BaseActivity {
             // 모두 허용 상태
            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), PERMISSION_GRANTED);
         }
+
+
     }
+
  */
 }

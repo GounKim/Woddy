@@ -129,6 +129,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+
         fsManager.findUserWithUid(firebaseUserUID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {

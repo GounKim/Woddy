@@ -196,12 +196,12 @@ public class BaseActivity extends AppCompatActivity {
                         }
                         String token = task.getResult();
                         Log.d("sys",token);
-                        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken", token);
 
-                        //FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
-                        //FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
+                        FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
+                        FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
                     }
                 });
     }

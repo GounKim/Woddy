@@ -41,6 +41,8 @@ public class SearchData {
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {
 
+
+
         manager.getPost(boardName, tagName).whereEqualTo("content",searchWord).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -48,9 +50,10 @@ public class SearchData {
                         if (task.isSuccessful()) {
                             if (task.getResult().size() > 0) {
                                 for (DocumentSnapshot document : task.getResult()) {
-                                    Posting posting = document.toObject(Posting.class);
-                                    docPath.add(document.getReference().getPath());
-                                    items.add(posting);
+                                        Posting posting = document.toObject(Posting.class);
+                                        docPath.add(document.getReference().getPath());
+                                        items.add(posting);
+                                        System.out.println(items);
                                 }
                                 //아이템 로드
                                 adapter.setItems(items, docPath);
@@ -58,16 +61,14 @@ public class SearchData {
                                 recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
                                 recyclerView.setAdapter(adapter);
                             } else {
-                                Log.d(TAG, "Nothing Founded!");
+                                Log.d(TAG, "해당 검색어에 해당되는 내용이 없습니다");
                             }
 
                         } else {
-                            Log.d(TAG, "Finding Postings failed!");
+                            Log.d(TAG, "검색어 탐색에 실패했습니다.");
                         }
                     }
                 });
-
-
 
         return items;
     }

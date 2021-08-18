@@ -2,7 +2,7 @@ package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
 
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+//import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;

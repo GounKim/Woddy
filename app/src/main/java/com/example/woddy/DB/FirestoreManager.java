@@ -51,10 +51,9 @@ public class FirestoreManager {
 
     private FirebaseFirestore fsDB;
     SQLiteManager sqlmanager;
-    private FirebaseFirestore fsDB;
     private SQLiteManager sqlManager;
 
-    String destinationUid; //푸시전달할 uid
+    public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public FirestoreManager(Context context) {
         fsDB = FirebaseFirestore.getInstance();
@@ -63,11 +62,6 @@ public class FirestoreManager {
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();
-    }
-
-    public FirestoreManager(Context context) {
-        fsDB = FirebaseFirestore.getInstance();
-        sqlmanager = new SQLiteManager(context);
     }
 
     // 현재 사용자 CollectionReference
@@ -247,8 +241,8 @@ public class FirestoreManager {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
 
         // postingUid=작성자 uid
-        String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        posting.setPostingUid(postingUid);
+//        String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        posting.setPostingUid(postingUid);
 
         // 이미지 Storage에 넣기
         StorageManager storageManager = new StorageManager();
@@ -581,18 +575,13 @@ public class FirestoreManager {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         String uid = document.get("participant").toString();
-//                                        uid.replace("[","");
-//                                        uid.replace("]","");
-                                        if(uid.substring(1,29) == FirebaseAuth.getInstance().getCurrentUser().getUid()){
+                                        if(uid.substring(1,29) == USER_UID){
                                             Integer index = uid.indexOf(" ");
                                             uid = uid.substring(index+1, index+29);
                                         } else{
                                             uid = uid.substring(1,29);
                                         }
                                         chattingAlarm(uid, msg.getMessage());
-////                                    uid.replace(FirebaseAuth.getInstance().getCurrentUser().getUid(),"");
-////                                    uid.replace("[","");
-//                                      uid.substring(0,28);
                                         Log.d("sys", "DocumentSnapshot data: " + document.getData());
                                         Log.d("sys", "Uid data: " + uid);
                                     } else {
@@ -649,7 +638,7 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-        findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        findUserWithUid(USER_UID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -686,23 +675,7 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-//        DocumentReference docRef = fsDB.collection("userProfile").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                        Map<String, Object> map = document.getData(); //닉네임
-//                        String nickname = map.get("nickname").toString();
-//                        alarmDTO.setNickname(nickname); //닉네임
-//                    }
-//                }
-//            }
-//        });
-
-        findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        findUserWithUid(USER_UID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -740,7 +713,7 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-        findUserWithUid(FirebaseAuth.getInstance().getCurrentUser().getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        findUserWithUid(USER_UID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {

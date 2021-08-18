@@ -22,7 +22,7 @@ public class SQLiteManager {
 
 
     public SQLiteManager(Context context) {
-        this.helper = new SQLiteHelper(context, "woodyDB", null, 1);
+        this.helper = new SQLiteHelper(context, "woddyDB", null, 1);
     }
 
     public void setUser(String uid, String userNick, String userImage) {

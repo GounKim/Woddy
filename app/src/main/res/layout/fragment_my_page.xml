@@ -34,11 +34,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="13dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="26dp"
                 android:text="  "
+                android:textColor="@color/main_color"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:textColor="@color/main_color"
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +49,7 @@
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="5dp"
                 android:text="  "
-                android:textSize="24sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toBottomOf="@id/myPage_userNick" />
 

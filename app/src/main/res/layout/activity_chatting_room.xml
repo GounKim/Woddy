@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context=".Chatting.ChattingRoom">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatting_room_recyclerView"
         android:layout_width="match_parent"
@@ -47,12 +46,12 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="14"
-            android:padding="10dp"
             android:background="@drawable/button_round_shape_grayish_small_radius"
             android:hint="대화를 입력해주세요."
-            android:textSize="18sp"
             android:inputType="text"
-            android:paddingLeft="10dp" />
+            android:padding="10dp"
+            android:paddingLeft="10dp"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_send"

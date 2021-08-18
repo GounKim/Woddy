@@ -32,32 +32,32 @@
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textSize="20sp"
-                android:text="@string/free_talk" />
+                android:text="@string/free_talk"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDIY"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textSize="20sp"
-                android:text="@string/diy" />
+                android:text="@string/diy"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipInterior"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textSize="20sp"
-                android:text="@string/interior" />
+                android:text="@string/interior"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipTownInfo"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textSize="20sp"
-                android:text="@string/town_info" />
+                android:text="@string/town_info"
+                android:textSize="20sp" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 

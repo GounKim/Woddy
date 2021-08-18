@@ -17,9 +17,9 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/info_appbarLayout"
-            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@color/white">
 
             <com.google.android.material.tabs.TabLayout

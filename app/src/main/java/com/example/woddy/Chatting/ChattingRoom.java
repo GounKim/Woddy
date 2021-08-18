@@ -2,6 +2,7 @@ package com.example.woddy.Chatting;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +40,7 @@ public class ChattingRoom extends BaseActivity {
     ImageView btnPlus;
     EditText edtInputCon;
     Button btnSend;
+    ImageView toolbarLogoImage;
 
     // DB
     FirestoreManager manager;
@@ -57,15 +59,17 @@ public class ChattingRoom extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
 
+        toolbarLogoImage = (ImageView) findViewById(R.id.toolbar_logo);
+
         // ChattingList에서 클릭한 방의 CHATTER 받아오기
         Intent intent = getIntent();
         String chatter = intent.getStringExtra("CHATTER");
         setMyTitle(chatter);
+        toolbarLogoImage.setVisibility(View.GONE);
         String roomNum = intent.getStringExtra("ROOMNUM");
         String user = intent.getStringExtra("USER");
         String chatterImage = intent.getStringExtra("IMAGE");
-
-
+        
         initDatabase(roomNum);
         updateDB(roomNum);
 

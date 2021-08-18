@@ -32,24 +32,24 @@
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textSize="20sp"
-                android:text="@string/frind" />
+                android:text="@string/frind"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipHelp"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textSize="20sp"
-                android:text="@string/help" />
+                android:text="@string/help"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMate"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textSize="20sp"
-                android:text="@string/mate"/>
+                android:text="@string/mate"
+                android:textSize="20sp" />
 
         </com.google.android.material.chip.ChipGroup>
 

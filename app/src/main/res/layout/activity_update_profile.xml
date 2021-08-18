@@ -54,9 +54,9 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/edit_text_box"
         android:hint="닉네임 입력"
+        android:padding="10dp"
         android:text="현재 닉네임"
         android:textSize="18sp"
-        android:padding="10dp"
         app:layout_constraintEnd_toStartOf="@id/update_nick_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview22" />
@@ -67,10 +67,10 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:textSize="18sp"
         android:background="@drawable/button_round_shape_small_radius"
         android:text="변경"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview22" />
 
@@ -109,8 +109,8 @@
         android:background="@drawable/edit_text_box"
         android:hint="주소 입력 (서울시 노원구 공릉동)"
         android:padding="10dp"
-        android:textSize="18sp"
         android:text="현재 주소"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@id/update_local_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview23" />
@@ -123,8 +123,8 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_round_shape_small_radius"
         android:text="변경"
-        android:textSize="18sp"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview23" />
 

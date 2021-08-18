@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,10 +26,10 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
                 android:background="@color/white"
                 app:tabSelectedTextColor="#FF6B6B"
-                app:tabTextAppearance="@style/TabLayoutTextStyle"
-                android:layout_marginLeft="10dp"/>
+                app:tabTextAppearance="@style/TabLayoutTextStyle" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,8 +43,8 @@
         android:id="@+id/add_new_posting"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginBottom="25dp"
         android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp"
         android:src="@drawable/ic_baseline_add_circle_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -531,7 +531,6 @@ public class FirestoreManager {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Message has successfully Added!");
 
-                        //String mynickname = findUserWithUid(USER_UID).getResult().get("nickname").toString();
 
                         fsDB.collection("userProfile").document(USER_UID)
                                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -584,7 +583,9 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-        findUserWithUid(USER_UID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection("userProfile")
+                .document(USER_UID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -616,7 +617,9 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-        findUserWithUid(USER_UID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection("userProfile")
+                .document(USER_UID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -649,7 +652,9 @@ public class FirestoreManager {
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setDestinationUid(destinationUid);
 
-        findUserWithUid(USER_UID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection("userProfile")
+                .document(USER_UID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {

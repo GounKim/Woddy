@@ -134,7 +134,7 @@ public class AlarmActivity extends AppCompatActivity {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                            alarmDTOList = new ArrayList<AlarmDTO>();
+                            alarmDTOList.clear();
 
                             if (error != null) {
                                 Log.w(TAG, "Listen failed.", error);

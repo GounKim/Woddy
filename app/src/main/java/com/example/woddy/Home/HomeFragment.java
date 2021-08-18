@@ -2,6 +2,8 @@ package com.example.woddy.Home;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.example.woddy.Search.SearchActivity;
@@ -55,7 +58,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
 
         // test용(로그인화면)
         btnLogin = view.findViewById(R.id.button2);

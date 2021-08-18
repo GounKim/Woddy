@@ -140,7 +140,7 @@ public class SearchActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search(searchText.toString(), board_name, tagName);
+                new SearchData(SearchActivity.this).getItems(recyclerView, board_name, tagName, searchText.toString());
             }
         });
     }

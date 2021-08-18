@@ -2,11 +2,12 @@ package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
 
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+//import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -54,9 +55,8 @@ import java.util.TimeZone;
 
 public class ShowImgPosting extends BaseActivity implements View.OnClickListener {
     SQLiteManager sqlManager = new SQLiteManager(this);
+    FirestoreManager manager = new FirestoreManager();
 
-    FirestoreManager manager;
-    StorageManager storage;
     CommentAdapter commentAdapter;
 
     private ViewPager2 imgpost_slider;
@@ -87,13 +87,14 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_image_posting);
-        setTitle("게시판이름");
 
         Intent intent = getIntent();
         postingPath = intent.getStringExtra("documentPath");
         String[] path = postingPath.split("/");
         boardName = path[1];
         tagName = path[3];
+
+        setTitle(boardName);
 
         title = findViewById(R.id.show_img_posting_title);
         writer = findViewById(R.id.show_img_posting_writer);
@@ -117,13 +118,15 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         edtComment = findViewById(R.id.show_img_posting_edt_comment);
         btnSend = findViewById(R.id.show_img_posting_btnSend_comment);
 
-        btnSend.setOnClickListener(this);
         commentAdapter = new CommentAdapter();
-//        getComments(commentAdapter);
+        commentView.setLayoutManager(new LinearLayoutManager(this, commentView.VERTICAL, false)); // 상하 스크롤
         commentView.setAdapter(commentAdapter);
-//        commentView.setNestedScrollingEnabled(false); // 리사이클러뷰 스크롤 불가능하게함
+        getComments(commentAdapter);
 
-        manager = new FirestoreManager();
+        btnSend.setOnClickListener(this);
+
+        getComments(commentAdapter);
+
         manager.getdocRefWithPath(postingPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -173,7 +176,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         String text = edtComment.getText().toString();
-        Comment comment = new Comment("user1", text, "");
+        Comment comment = new Comment(sqlManager.getUserNick(), text, "");
         commentAdapter.addItem(comment);
         manager.addComment(postingPath, comment);
 
@@ -218,6 +221,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
             liked.setImageResource(R.drawable.ic_baseline_liked_yes);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+            sqlManager.insertLiked(postingPath);
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -245,6 +249,27 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
             scrap.setImageResource(R.drawable.ic_baseline_scraped_yes);
             scrapCount.setText(Integer.toString(num+1));
             manager.updatePostInfo(postingPath, FirestoreManager.SCRAP, FirestoreManager.INCRESE);
+
+            manager.getdocRefWithPath(postingPath).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                Posting posting = documentSnapshot.toObject(Posting.class);
+                                posting.setPostingNumber(postingPath);
+                                sqlManager.insertPosting(boardName, tagName, posting);
+                            } else {
+                                Log.d(TAG, "There's no document");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "fail to find ", e);
+                        }
+                    });
+
         }else{
             scrap.setImageResource(R.drawable.ic_baseline_scraped_no);
             scrapCount.setText(Integer.toString(num-1));

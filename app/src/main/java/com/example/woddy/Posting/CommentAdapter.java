@@ -28,6 +28,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.swHolder
 
     public void setItem(ArrayList<Comment> commentList) {
         this.commentList = commentList;
+        notifyDataSetChanged();
     }
 
     public class swHolder extends RecyclerView.ViewHolder {

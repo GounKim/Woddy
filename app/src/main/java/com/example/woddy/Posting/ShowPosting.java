@@ -211,9 +211,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             Posting posting = document.toObject(Posting.class);
-
-                            String uid=posting.getPostingUid();
-                            manager.likeAlarm(uid, postingPath);
                         }
                     }
                 }

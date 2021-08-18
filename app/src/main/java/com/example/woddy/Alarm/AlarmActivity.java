@@ -127,7 +127,7 @@ public class AlarmActivity extends AppCompatActivity {
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             // Create a reference to the cities collection
-            Query query = FirebaseFirestore.getInstance().collection("alarms").orderBy("timestamp", Query.Direction.DESCENDING);
+            Query query = FirebaseFirestore.getInstance().collection("alarms");
             query.whereEqualTo("destinationUid",uid)
             //FirebaseFirestore.getInstance().collection("alarms").whereEqualTo("destinationUid",uid) //.orderBy("population");
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {

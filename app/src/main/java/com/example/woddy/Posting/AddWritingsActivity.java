@@ -32,6 +32,7 @@ import androidx.appcompat.app.ActionBar;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.MainActivity;
@@ -67,6 +68,7 @@ public class AddWritingsActivity extends BaseActivity {
     StorageReference storageRef;
     FirestoreManager firestoreManager;
     StorageManager sManager;
+    SQLiteManager sqlmanager;
 
     String boardName;
     String tagName;
@@ -94,6 +96,7 @@ public class AddWritingsActivity extends BaseActivity {
 
         firestoreManager = new FirestoreManager();
         sManager = new StorageManager();
+        sqlmanager = new SQLiteManager(this);
 
         addImageBtn = (ImageView) findViewById(R.id.addPhotoImage);
         titleTV = (EditText) findViewById(R.id.titleTextView);
@@ -168,9 +171,9 @@ public class AddWritingsActivity extends BaseActivity {
         final String content = plotTV.getText().toString();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (uriList == null) {
-            post = new Posting(USER_UID, title, content, new Date());
+            post = new Posting(sqlmanager.getUserNick(), title, content, new Date());
         } else {
-            post = new Posting(USER_UID, title, content, uriList, new Date());
+            post = new Posting(sqlmanager.getUserNick(), title, content, uriList, new Date());
         }
         firestoreManager.addPosting(boardName, tagName, post);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

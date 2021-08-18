@@ -99,23 +99,23 @@ public class UpdateProfile extends BaseActivity {
         Intent intent = getIntent();
         tmp_nick = intent.getStringExtra("nickname");
         tmp_local = intent.getStringExtra("local");
-//        tmp_imguri = intent.getStringExtra("imguri");
-//        //1) 이미지 사진
-//        FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
-//        StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
-//        storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Uri> task) {
-//                if (task.isSuccessful()) {
-//                    Glide.with(getApplicationContext())
-//                            .load(task.getResult())
-//                            .circleCrop()
-//                            .into(profileImageView);
-//                } else {
-//                    Log.d(TAG, "Image Load in MyPage failed.", task.getException());
-//                }
-//            }
-//        });
+        tmp_imguri = intent.getStringExtra("imguri");
+        //1) 이미지 사진
+        FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+        StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴
+        storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Glide.with(getApplicationContext())
+                            .load(task.getResult())
+                            .circleCrop()
+                            .into(profileImageView);
+                } else {
+                    Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+                }
+            }
+        });
         //2) 현재 내 닉네임
         newNickEditText.setText(tmp_nick);
         //3) 현재 내 주소

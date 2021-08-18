@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:text="게시판"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_gravity="center_vertical"/>
 
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="#태그이름"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
@@ -59,11 +59,12 @@
             android:layout_marginBottom="0dp"
             android:background="@null"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:hint="글 제목을 입력해주세요."
             android:padding="10dp" />
 
         <View
-            android:layout_width="380dp"
+            android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -77,11 +78,11 @@
             <EditText
                 android:id="@+id/plotTextView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="500dp"
                 android:layout_marginTop="10dp"
                 android:background="@null"
                 android:gravity="top"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:hint="내용을 입력해주세요."
                 android:padding="10dp" />
 

@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.User;
@@ -29,17 +28,11 @@ import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.example.woddy.Search.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;

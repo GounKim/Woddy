@@ -16,6 +16,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="7.5dp"
         android:layout_marginBottom="7.5dp"
+        android:layout_marginRight="10dp"
         android:padding="7.5dp"
         android:src="@drawable/ic_alarm" />
 
@@ -28,5 +29,6 @@
         android:layout_marginTop="7.5dp"
         android:layout_marginRight="7.5dp"
         android:layout_marginBottom="7.5dp"
+        android:textSize="20sp"
         android:text="message" />
 </LinearLayout>

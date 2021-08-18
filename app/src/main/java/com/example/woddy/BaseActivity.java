@@ -107,10 +107,12 @@ public class BaseActivity extends AppCompatActivity {
                             setMyTitle("홈");
                             return true;
                         case R.id.bottom_menu_post:
+                            toolbarLogo.setVisibility(View.GONE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostBoardMain()).commit();
                             mToolbar.setVisibility(View.GONE);
                             return true;
                         case R.id.bottom_menu_info:
+                            toolbarLogo.setVisibility(View.GONE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new InfoBoardMain()).commit();
                             mToolbar.setVisibility(View.GONE);
                             return true;

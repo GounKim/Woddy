@@ -9,8 +9,5 @@ public class MainActivity extends BaseActivity {
         setTheme(R.style.Theme_Woddy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
-
 }

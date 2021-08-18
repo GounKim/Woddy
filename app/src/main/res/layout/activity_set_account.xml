@@ -15,7 +15,7 @@
         android:gravity="center"
         android:text="계정"
         android:textColor="#BABABA"
-        android:textSize="11dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="woddy@google.com"
-        android:textSize="16dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView15" />
 
@@ -40,7 +40,7 @@
         android:layout_marginTop="19dp"
         android:text="비밀번호"
         android:textColor="#BABABA"
-        android:textSize="11dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView18" />
@@ -52,7 +52,7 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="5dp"
         android:text="*******"
-        android:textSize="16dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView19" />
 
@@ -67,13 +67,13 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pw_change_button"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginTop="5dp"
         android:background="#00ffffff"
         android:gravity="left|center"
         android:paddingLeft="15dp"
         android:text="비밀번호 변경"
-        android:textSize="16dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view2" />

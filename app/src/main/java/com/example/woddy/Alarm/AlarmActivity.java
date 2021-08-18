@@ -62,6 +62,7 @@ public class AlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm);
 
         toolbarTitle.setText("알림");
+        toolbarTitle.setTextSize(28);
 
         alarm_recyclerview = findViewById(R.id.alarm_recyclerview);
         RecyclerView.Adapter adapter = new AlarmRecyclerViewAdapter();

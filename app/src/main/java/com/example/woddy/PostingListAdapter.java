@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.Transliterator;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.PostingSQL;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -44,6 +47,15 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void setItem(ArrayList<Posting> writings, ArrayList<String> postingPath) {
         this.postingList = writings;
         this.postingPath = postingPath;
+        notifyDataSetChanged();
+    }
+
+    public void setPathItem(ArrayList<String> postingPath) {
+        this.postingPath = postingPath;
+    }
+
+    public void addPosting(Posting posting) {
+        postingList.add(posting);
         notifyDataSetChanged();
     }
 

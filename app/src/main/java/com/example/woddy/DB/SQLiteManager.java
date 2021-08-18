@@ -8,9 +8,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.PostingSQL;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -114,6 +121,25 @@ public class SQLiteManager {
         sqlite.close();
     }
 
+    public ArrayList<String> getLiked() {
+        sqlite = helper.getReadableDatabase();
+        ArrayList<String> pathList = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM liked_activity";
+            Cursor cursor = sqlite.rawQuery(sql, null);
+            if (cursor != null) {
+                while( cursor.moveToNext() ) {
+                    pathList.add(cursor.getString(0));
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Getting Scrapped Posting error: ", e);
+        }
+
+        sqlite.close();
+        return pathList;
+    }
+
     public ArrayList<PostingSQL> getScrapPost() {
         sqlite = helper.getReadableDatabase();
         try {
@@ -172,14 +198,6 @@ public class SQLiteManager {
         return true;
     }
 
-    public String getUerName() {
-        sqlite = helper.getReadableDatabase();
-        Cursor cursor = sqlite.rawQuery("select user_nickname from user_profile;", null);
-        String user = cursor.getString(0);
-
-        sqlite.close();
-        return user;
-    }
 
 
 }

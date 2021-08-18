@@ -1,7 +1,6 @@
 package com.example.woddy.Home;
 
 import static android.content.ContentValues.TAG;
-
 import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 import android.app.AlertDialog;
@@ -23,6 +22,8 @@ import android.widget.Toast;
 
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
+import com.example.woddy.Entity.User;
 import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
@@ -60,7 +61,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
 //        SQLiteManager sql = new SQLiteManager(getContext());
-//        sql.setUser(USER_UID, "bbb", "UserProfileImages/user.png");
+//        sql.setUser(USER_UID, "ge-eun", "UserProfile/" + USER_UID + "/userImage");
 
         // test용(로그인화면)
         btnLogin = view.findViewById(R.id.button2);

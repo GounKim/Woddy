@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -20,7 +21,6 @@
             android:id="@+id/show_writing_comment_writer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="댓글 작성자 닉네임"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -29,7 +29,6 @@
             android:id="@+id/show_writing_comment_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="댓글내용"
             android:textSize="12sp" />
@@ -57,7 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:text="대댓글"
             android:textSize="12sp" />

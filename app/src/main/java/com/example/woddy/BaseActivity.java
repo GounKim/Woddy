@@ -1,17 +1,11 @@
 package com.example.woddy;
 
-import static com.example.woddy.Alarm.sendGson.sendGson;
-
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.Chatting.ChattingFragment;
@@ -158,7 +151,7 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         //return super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_alarm, menu);
+        menuInflater.inflate(R.menu.menu_top, menu);
 
         return true;
     }
@@ -176,6 +169,9 @@ public class BaseActivity extends AppCompatActivity {
             case R.id.menu_alarm:{
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
+            }
+            case R.id.menu_search:{
+                //검색 연결
             }
         }
         return super.onOptionsItemSelected(item);

@@ -45,12 +45,6 @@ public class FirestoreManager {
 
     private FirebaseFirestore fsDB;
     SQLiteManager sqlmanager;
-    private SQLiteManager sqlManager;
-
-    public FirestoreManager(Context context) {
-        fsDB = FirebaseFirestore.getInstance();
-        sqlManager = new SQLiteManager(context);
-    }
 
     public FirestoreManager() {
         fsDB = FirebaseFirestore.getInstance();
@@ -178,10 +172,6 @@ public class FirestoreManager {
     public void addPosting(String boardName, String tagName, Posting posting) {
         CollectionReference colRef = postCollectionRef(boardName, tagName);
 
-        // postingUid=작성자 uid
-//        String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        posting.setPostingUid(postingUid);
-
         colRef.add(posting)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -259,6 +249,7 @@ public class FirestoreManager {
             return;
         }
 
+        // 수정된 정보 db에 저장
         fsDB.document(postingPath).update(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -313,7 +304,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
 
-                        //해당 게시물의 작성자 uid 획득
+                        //해당 게시물의 작성자 uid 획득 (댓글 알림용)
                         fsDB.document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -406,11 +397,14 @@ public class FirestoreManager {
     /* ---------------------- Chatting용 DB ---------------------- */
     // 채팅방 추가
     public void addChatRoom(ChattingInfo chattingInfo, BottomSheetDialog bottomSheetDialog, String[] participant) {
+        // 동일한 참가자가 있는 채팅방 확인
         fsDB.collection("chattingRoom").whereEqualTo("participant", chattingInfo.getParticipant()).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // 동일한 채팅방이 존재X
                         if (queryDocumentSnapshots.isEmpty()) {
+                            // 채팅방 추가
                             fsDB.collection("chattingRoom").add(chattingInfo)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
@@ -432,7 +426,7 @@ public class FirestoreManager {
                                             Log.w(TAG, "Error adding document in user collection", e);
                                         }
                                     });
-                        } else {
+                        } else {    // 동일한 채팅방 존재 -> 메시지를 띄움
                             Toast.makeText(bottomSheetDialog.getContext(), "이미 채팅중인 상대입니다.", Toast.LENGTH_LONG).show();
                             bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_HIDDEN);
                         }

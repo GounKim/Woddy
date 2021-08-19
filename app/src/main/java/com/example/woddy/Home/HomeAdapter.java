@@ -112,10 +112,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
                     Object obj = adapterList.get(position);
                     String objName = obj.getClass().getSimpleName().trim();
-                    if (objName.equals("HomeNBAdapter")) {
-                        HomeNBAdapter nbAdapter = (HomeNBAdapter) obj;
-                        ((VerticalScrollHolder) holder).listView.setAdapter(nbAdapter);
-                    } else if (objName.equals("HomePBAdapter")) {
+                    if (objName.equals("HomePBAdapter")) {
                         HomePBAdapter pbAdapter = (HomePBAdapter) obj;
                         ((VerticalScrollHolder) holder).listView.setAdapter(pbAdapter);
                     }

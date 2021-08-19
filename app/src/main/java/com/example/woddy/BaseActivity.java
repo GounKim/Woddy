@@ -23,6 +23,7 @@ import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.Info.InfoBoardMain;
 import com.example.woddy.MyPage.MyPageFragment;
 import com.example.woddy.PostBoard.PostBoardMain;
+import com.example.woddy.Search.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -172,7 +173,8 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             case R.id.menu_search:{
-                //검색 연결
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);

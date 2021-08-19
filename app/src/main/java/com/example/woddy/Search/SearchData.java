@@ -31,7 +31,7 @@ public class SearchData {
     FirestoreManager manager;
     private PostBoardAdapter adapter;
 
-    public SearchData(Context context) {
+    public SearchData() {
         this.manager = new FirestoreManager();
     }
 

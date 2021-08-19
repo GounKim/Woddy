@@ -4,6 +4,9 @@ import static android.content.ContentValues.TAG;
 
 //import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
+
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -76,7 +79,8 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     private int i = 1, y = 1;
 
     // BottomSheetDialog
-    TextView report, sendChat, cancle;
+    LinearLayout bottomLayout;
+    TextView report, sendChat, cancle, delete;
 
     @Override
     protected boolean useBottomNavi() {
@@ -331,8 +335,21 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomSheetView);
 
-                sendChat = bottomSheetDialog.findViewById(R.id.show_posting_send_chatting);
-                sendChat.setOnClickListener(this::bottomSheet);
+                bottomLayout = bottomSheetDialog.findViewById(R.id.show_posting_menu_layout);
+                delete = bottomSheetDialog.findViewById(R.id.show_posting_menu_delete);
+                sendChat = bottomSheetDialog.findViewById(R.id.show_posting_menu_send_chatting);
+
+                if (writerUid.getText().toString() == USER_UID) {
+                    bottomLayout.setVisibility(View.INVISIBLE);
+                    delete.setVisibility(View.VISIBLE);
+
+                } else {
+                    bottomLayout.setVisibility(View.VISIBLE);
+                    delete.setVisibility(View.INVISIBLE);
+
+                    sendChat.setOnClickListener(this::bottomSheet);
+                }
+
 
                 bottomSheetDialog.show();
 
@@ -343,18 +360,20 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
     public void bottomSheet(View view) {
         switch (view.getId()) {
-            case R.id.show_posting_report:
 
-                break;
+            case R.id.show_posting_menu_report:_posting_report:
 
-            case R.id.show_posting_send_chatting:
-                String wUid = writerUid.getText().toString();
-                manager.findUserWithUid(wUid)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            break;
+
+            case R.id.show_posting_menu_send_chatting:
+                String w = writer.getText().toString();
+                manager.findUserWithNick(w)
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                String wNick = (String) documentSnapshot.get("nickname");
-                                String wImage = (String) documentSnapshot.get("userImage");
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                                String wNick = (String) document.get("nickname");
+                                String wImage = (String) document.get("userImage");
 
                                 String[] participant = {wNick, sqlManager.getUserNick()};
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};
@@ -373,7 +392,12 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
                 break;
 
-            case R.id.show_posting_cancle:
+            case R.id.show_posting_menu_delete:
+
+                break;
+
+            case R.id.show_posting_menu_cancle:
+
 
                 break;
         }

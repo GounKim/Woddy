@@ -52,8 +52,6 @@ public class BaseActivity extends AppCompatActivity {
     private Boolean useBottomNavi = true;
     private Boolean useBackButton = false;
 
-    boolean alarm_new = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +174,6 @@ public class BaseActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.menu_alarm:{
-                alarm_new = false;
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
             }
@@ -184,7 +181,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //
+    //사용자 푸시토큰 받아서 저장
     public void registerPushToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -213,5 +210,4 @@ public class BaseActivity extends AppCompatActivity {
     public Toolbar getmToolbar() {
         return mToolbar;
     }
-
 }

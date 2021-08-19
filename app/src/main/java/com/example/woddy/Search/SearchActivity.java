@@ -17,6 +17,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 
+
 public class SearchActivity extends AppCompatActivity {
 
     ChipGroup chipGroup;
@@ -26,8 +27,8 @@ public class SearchActivity extends AppCompatActivity {
     EditText searchText;
     RecyclerView recyclerView;
 
-    private String board_name = "소통";
-    private String tagName = "친구찾기";
+    private String board_name = "전체";
+    private String tagName = "전체";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
                 switch (checkedId) {
+                    case R.id.chipAll:
+                        board_name = "전체";
+                        tagName = "전체";
+                        break;
                     case R.id.chipFriend:
                         board_name = "소통";
                         tagName = "친구찾기";

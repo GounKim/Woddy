@@ -30,7 +30,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                                     "writer TEXT NOT NULL, " +
                                     "title TEXT NOT NULL, " +
                                     "content TEXT NOT NULL, " +
-                                    "posted_time TEXT NOT NULL);";
+                                    "posted_time TEXT NOT NULL, " +
+                                    "picture INTEGER DEFAULT 0);";
         db.execSQL(sql);
         // 글 사진들
         sql = "CREATE TABLE posting_picture (location INTEGER NOT NULL, " +

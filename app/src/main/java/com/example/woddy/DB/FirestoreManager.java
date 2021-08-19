@@ -244,14 +244,14 @@ public class FirestoreManager {
 //        String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //        posting.setPostingUid(postingUid);
 
-        // 이미지 Storage에 넣기
-        StorageManager storageManager = new StorageManager();
-        posting.setPictures(storageManager.addPostingImage(boardName, tagName, posting.getPostingNumber(), posting.getPictures()));
-
         colRef.add(posting)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        String path = documentReference.getPath();
+                        // 이미지 Storage에 넣기
+                        StorageManager storageManager = new StorageManager();
+                        posting.setPictures(storageManager.addPostingImage(path, posting.getPictures()));
                         Log.d(TAG, "Posting has successfully Added!");
                     }
                 })
@@ -281,7 +281,7 @@ public class FirestoreManager {
     }
 
     // 게시물 삭제
-    public void delPosting(String postingPath, Posting posting) {
+    public void delPosting(String postingPath) {
         StorageManager storage = new StorageManager();
 
         fsDB.document(postingPath).delete()
@@ -290,11 +290,11 @@ public class FirestoreManager {
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Posting has successfully deleted!");
 
-                        // 사진 파일도 지우기
-                        int numOfPic = posting.getPictures().size();
-                        for (int index = 0; index < numOfPic; index++) {
-                            storage.delPostingImage(posting.getPictures().get(index));
-                        }
+//                        // 사진 파일도 지우기
+//                        int numOfPic = posting.getPictures().size();
+//                        for (int index = 0; index < numOfPic; index++) {
+//                            storage.delPostingImage(posting.getPictures().get(index));
+//                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -357,6 +357,10 @@ public class FirestoreManager {
         return fsDB.collectionGroup("postings").whereEqualTo("postingNumber", postingNum);
     }
 
+    public Query getAllPosting(String searchWord){
+        return fsDB.collectionGroup("postings").whereGreaterThanOrEqualTo("content",searchWord.toLowerCase());
+    }
+  
     // postingNumber로 게시물 불러오기
     public Query getPostWithWriter(String writer) {
         return fsDB.collectionGroup("postings").whereEqualTo("writer", writer).orderBy("postedTime", Query.Direction.DESCENDING);
@@ -547,8 +551,8 @@ public class FirestoreManager {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         String nickname = (String) documentSnapshot.get("nickname");
-                                        Log.d("chatalarm", nickname);
-                                        forChatAlarm(roomRef, nickname, msg.getMessage());
+                                        Log.d("chatalarm",nickname);
+                                        forChatAlarm(roomRef,nickname,msg.getMessage());
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -601,11 +605,11 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("likealarm", nickname);
+                        Log.d("likealarm",nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(0);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
+                        alarmDTO.setTimestamp(new Date());
                         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
                         String message = (alarmDTO.getNickname() + "님이 당신의 게시물에 좋아요를 눌렸습니다.");
                         sendGson(destinationUid, "Woddy", message);
@@ -629,12 +633,12 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("commentalarm", nickname);
+                        Log.d("commentalarm",nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(1);
                         alarmDTO.setMessage(message);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
+                        alarmDTO.setTimestamp(new Date());
                         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
                         String msg = (alarmDTO.getNickname() + "님이 당신의 게시물에 댓글을 달았습니다." + System.lineSeparator() + message);
                         sendGson(destinationUid, "Woddy", msg);
@@ -658,14 +662,11 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("chatalarm", nickname);
+                        Log.d("chatalarm",nickname);
                         alarmDTO.setNickname(nickname);
-                        alarmDTO.setKind(1);
-                        alarmDTO.setMessage(message);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
                         alarmDTO.setKind(2);
                         alarmDTO.setMessage(message);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
+                        alarmDTO.setTimestamp(new Date());
                         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
                         String msg = (alarmDTO.getNickname() + "님에게 새로운 채팅이 왔습니다." + System.lineSeparator() + message);
@@ -700,12 +701,12 @@ public class FirestoreManager {
                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
+                                        if( task.isSuccessful()) {
                                             QuerySnapshot document = task.getResult();
                                             String uid = document.getDocuments().get(0).getId();
                                             Log.d("firebase", uid);
                                             chattingAlarm(uid, msg.toString());
-                                        } else {
+                                        }else {
                                             Log.d(TAG, "Error getting documents: ", task.getException());
                                         }
                                     }

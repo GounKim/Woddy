@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.Entity.UserFavoriteBoard;
 import com.example.woddy.PostBoard.NormalData;
 import com.example.woddy.PostBoard.PostBoardAdapter;
 import com.example.woddy.R;
@@ -22,10 +24,8 @@ import java.util.ArrayList;
 
 public class TalkFragment extends Fragment {
 
-    private RecyclerView mVerticalView;
-    private PostBoardAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
-    SwipeRefreshLayout swipeRefresh;
+    private FirestoreManager fsManager;
+    private SwipeRefreshLayout swipeRefresh;
 
     ChipGroup chipGroup;
     Chip friend, help, mate;
@@ -108,6 +108,32 @@ public class TalkFragment extends Fragment {
 
                         break;
                 }
+            }
+        });
+
+
+        chipGroup.setLongClickable(true);
+        chipGroup.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                switch (v.getId()) {
+                    case R.id.chipFriend:
+                        UserFavoriteBoard friendBoard = new UserFavoriteBoard("친구찾기");
+                        fsManager.addUFavorBoard(friendBoard);
+                        return true;
+
+                    case R.id.chipHelp:
+                        UserFavoriteBoard helpBoard = new UserFavoriteBoard("도움요청");
+                        fsManager.addUFavorBoard(helpBoard);
+                        return true;
+
+                    case R.id.chipMate:
+                        UserFavoriteBoard mateBoard = new UserFavoriteBoard("퇴근메이트");
+                        fsManager.addUFavorBoard(mateBoard);
+                        return true;
+
+                }
+                return true;
             }
         });
 

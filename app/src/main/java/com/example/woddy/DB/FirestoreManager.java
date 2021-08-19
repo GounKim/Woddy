@@ -146,9 +146,9 @@ public class FirestoreManager {
     }
 
     // 사용자가 즐겨찾기한 보드 설정
-    public void addUFavorBoard(String docID, UserFavoriteBoard favorBoard) {
-        DocumentReference userRef = fsDB.collection("user").document(docID);
-        userRef.collection("boardTag").add(favorBoard)
+    public void addUFavorBoard( UserFavoriteBoard favorBoard) {
+        DocumentReference userRef = fsDB.collection("userProfile").document(USER_UID);
+        userRef.collection("favoriteBoard").add(favorBoard)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -163,7 +163,8 @@ public class FirestoreManager {
                 });
     }
 
-    /* ---------------------- Posting용 DB ---------------------- */
+
+   /* ---------------------- Posting용 DB ---------------------- */
     // posting collectionRef
     public CollectionReference postCollectionRef(String boardName, String tagName) {
         CollectionReference postColRef = fsDB.collection("postBoard").document(boardName)
@@ -282,10 +283,6 @@ public class FirestoreManager {
         return fsDB.document(postingPath);
     }
 
-    public Query getAllPosting(String searchWord){
-        return fsDB.collectionGroup("postings").whereGreaterThanOrEqualTo("content",searchWord.toLowerCase());
-    }
-
     // postingNumber로 게시물 불러오기
     public Query getPostWithWriter(String writer) {
         return fsDB.collectionGroup("postings").whereEqualTo("writer", writer).orderBy("postedTime", Query.Direction.DESCENDING);
@@ -299,6 +296,11 @@ public class FirestoreManager {
     // 인기 게시물 불러오기
     public Query getPopularPost() {
         return fsDB.collectionGroup("postings").orderBy("numberOfLiked", Query.Direction.DESCENDING).limit(3);
+    }
+
+    //즐겨찾기한 내용 찾기
+    public DocumentReference findFavorBoard() {
+        return fsDB.document("userProfile");
     }
 
     // 게시물 댓글 추가 (postingNumber은 게시물 번호)

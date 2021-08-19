@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.Entity.UserFavoriteBoard;
 import com.example.woddy.PostBoard.Album.AlbumData;
 import com.example.woddy.PostBoard.NormalData;
 import com.example.woddy.PostBoard.PostBoardAdapter;
@@ -24,10 +26,7 @@ import java.util.ArrayList;
 public class ShareFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView mVerticalView;
-    private PostBoardAdapter postBoardAdapter;
-    private LinearLayoutManager mLayoutManager;
-
+    private FirestoreManager fsManager;
     ChipGroup chipGroup;
     Chip share, home, buy, freeShare;
 
@@ -148,6 +147,35 @@ public class ShareFragment extends Fragment {
 
                         break;
                 }
+            }
+        });
+
+        chipGroup.setLongClickable(true);
+        chipGroup.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                switch (v.getId()) {
+                    case R.id.chipShare:
+                        UserFavoriteBoard shareBoard = new UserFavoriteBoard("물품공유");
+                        fsManager.addUFavorBoard(shareBoard);
+                        return true;
+
+                    case R.id.chipHome:
+                        UserFavoriteBoard homeBoard = new UserFavoriteBoard("홈");
+                        fsManager.addUFavorBoard(homeBoard);
+                        return true;
+
+                    case R.id.chipBuy:
+                        UserFavoriteBoard buyBoard = new UserFavoriteBoard("공동구매");
+                        fsManager.addUFavorBoard(buyBoard);
+                        return true;
+
+                    case R.id.chipFreeShare:
+                        UserFavoriteBoard freeshareBoard = new UserFavoriteBoard("무료나눔");
+                        fsManager.addUFavorBoard(freeshareBoard);
+                        return true;
+                }
+                return true;
             }
         });
 

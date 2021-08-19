@@ -26,7 +26,6 @@ import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
 import com.example.woddy.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -173,20 +172,25 @@ public class AlarmActivity extends AppCompatActivity {
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            manager.findUserWithNick(currentAlarm.nickname)
-                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                            String chatterUid = queryDocumentSnapshots.getDocuments().get(0).getId();
-                                            Log.d("alarm", chatterUid);
-
-                                            Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
-                                            intent.putExtra("USER", FirebaseAuth.getInstance().getCurrentUser().getUid());//사용자
-                                            intent.putExtra("CHATTER", chatterUid);
-                                            view.getContext().startActivity(intent);
-                                        }
-                                    });
+                            Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+                            intent.putExtra("USER", FirebaseAuth.getInstance().getCurrentUser().getUid());//사용자
+                            intent.putExtra("CHATTER", currentAlarm.getNickname());
+                            view.getContext().startActivity(intent);
+//                            manager.findUserWithNick(currentAlarm.nickname)
+//                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                                        @Override
+//                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                                            String chatterUid = queryDocumentSnapshots.getDocuments().get(0).getId();
+//                                            Log.d("alarm", chatterUid);
+//
+//                                            Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                            intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+//                                            intent.putExtra("USER", FirebaseAuth.getInstance().getCurrentUser().getUid());//사용자
+//                                            intent.putExtra("CHATTER", chatterUid);
+//                                            view.getContext().startActivity(intent);
+//                                        }
+//                                    });
 //                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 //                                        @Override
 //                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {

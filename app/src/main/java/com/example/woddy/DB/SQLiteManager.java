@@ -182,6 +182,7 @@ public class SQLiteManager {
         return null;
     }
 
+
     public ArrayList<String> getPictures(String location) {
         ArrayList<String> pictureList = new ArrayList<>();
         try {

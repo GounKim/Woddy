@@ -54,6 +54,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     SQLiteManager sqlManager = new SQLiteManager(this);
 
     TextView title, writer, time, content, likedCount, scrapCount, tag, board, writerUid;
+
     ImageView liked, scrap;
     RecyclerView recyclerView;
     EditText edtComment;
@@ -297,7 +298,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                 }
 
 
-
                 bottomSheetDialog.show();
 
         }
@@ -307,11 +307,13 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
     public void bottomSheet(View view) {
         switch (view.getId()) {
+
             case R.id.show_posting_menu_report:_posting_report:
 
                 break;
 
             case R.id.show_posting_menu_send_chatting:
+
                 String w = writer.getText().toString();
                 manager.findUserWithNick(w)
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -339,11 +341,13 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
                 break;
 
+
             case R.id.show_posting_menu_delete:
 
                 break;
 
             case R.id.show_posting_menu_cancle:
+
 
                 break;
         }

@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 //import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
+
 import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 import androidx.annotation.LongDef;
@@ -359,6 +360,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
     public void bottomSheet(View view) {
         switch (view.getId()) {
+
             case R.id.show_posting_menu_report:_posting_report:
 
             break;
@@ -372,7 +374,6 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                                 DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
                                 String wNick = (String) document.get("nickname");
                                 String wImage = (String) document.get("userImage");
-
 
                                 String[] participant = {wNick, sqlManager.getUserNick()};
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};
@@ -396,6 +397,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                 break;
 
             case R.id.show_posting_menu_cancle:
+
 
                 break;
         }

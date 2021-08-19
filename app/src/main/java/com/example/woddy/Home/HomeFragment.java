@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         // test용(로그인화면)
         btnLogin = view.findViewById(R.id.button2);
         btnLogin.setOnClickListener(new View.OnClickListener() {

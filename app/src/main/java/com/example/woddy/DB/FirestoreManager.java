@@ -252,7 +252,6 @@ public class FirestoreManager {
                         // 이미지 Storage에 넣기
                         StorageManager storageManager = new StorageManager();
                         posting.setPictures(storageManager.addPostingImage(path, posting.getPictures()));
-
                         Log.d(TAG, "Posting has successfully Added!");
                     }
                 })
@@ -361,7 +360,7 @@ public class FirestoreManager {
     public Query getAllPosting(String searchWord){
         return fsDB.collectionGroup("postings").whereGreaterThanOrEqualTo("content",searchWord.toLowerCase());
     }
-
+  
     // postingNumber로 게시물 불러오기
     public Query getPostWithWriter(String writer) {
         return fsDB.collectionGroup("postings").whereEqualTo("writer", writer).orderBy("postedTime", Query.Direction.DESCENDING);
@@ -456,8 +455,18 @@ public class FirestoreManager {
                 .collection("postTag").document(postTag).get();
     }
 
+    public CollectionReference departColRef(String boardName) {
+        CollectionReference departColRef = fsDB.collection("postBoard")
+                .document(boardName).collection("postings");
+        return departColRef;
+    }
+
     public Query getNewsQuery(String boardName, String tagName) {
         return postCollectionRef(boardName, tagName).orderBy("postedTime", Query.Direction.DESCENDING);
+    }
+
+    public Query getDepartQuery(String boardName) {
+        return departColRef(boardName).orderBy("depart", Query.Direction.ASCENDING);
     }
 
 

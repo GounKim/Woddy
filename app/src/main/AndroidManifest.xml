@@ -49,9 +49,6 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/SplashTheme">
-
-
-
         </activity>
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".Posting.AddWritingsActivity" />

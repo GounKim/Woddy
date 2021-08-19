@@ -52,7 +52,6 @@ public class HomeFragment extends Fragment {
     SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
-    ChipGroup chipGroup;
 
     FirestoreManager manager = new FirestoreManager();
     HomePBAdapter popAdapter = new HomePBAdapter();
@@ -63,7 +62,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        chipGroup = (ChipGroup) view.findViewById(R.id.home_chipGroup);
 
         setHomeAdapter();
 
@@ -87,27 +85,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setHomeAdapter() {
-        manager.findFavorBoard().get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            ArrayList<Posting> popPosts = new ArrayList<>();
-                            ArrayList<String> popDocPath = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "즐겨찾기 내용 => " + document.getData());
-                                // Chip 인스턴스 생성
-                                Chip chip = new Chip(getContext());
-                                // Chip 의 텍스트 지정
-                                chip.setText(document.get("tagName"));
-                                chip.setChipBackgroundColorResource(R.color.bg_filter_chip_state_list);
-                                chip.setTextAppearanceResource(R.style.Widget_Woody_Chip);
-                                chipGroup.addView(chip);
 
-                            }
-                        }
-                    };
-                });
 
         // 공지 Board
 

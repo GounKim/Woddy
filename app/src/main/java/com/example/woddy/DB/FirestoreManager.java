@@ -291,11 +291,6 @@ public class FirestoreManager {
         return fsDB.collectionGroup("postings").orderBy("numberOfLiked", Query.Direction.DESCENDING).limit(3);
     }
 
-    //즐겨찾기한 내용 찾기
-    public DocumentReference findFavorBoard() {
-        return fsDB.document("userProfile");
-    }
-
     // 게시물 댓글 추가 (postingNumber은 게시물 번호)
     public void addComment(String postingPath, Comment comment) {
         fsDB.document(postingPath)

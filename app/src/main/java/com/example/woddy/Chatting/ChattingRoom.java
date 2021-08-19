@@ -93,7 +93,6 @@ public class ChattingRoom extends BaseActivity {
                 String chat = edtInputCon.getText().toString();
                 manager.addMessage(roomNum, new ChattingMsg(user, chat, new Date()));
                 edtInputCon.setText(null);
-                manager.chattingAlarm(FirebaseAuth.getInstance().getUid(), chat); //채팅 알림 보내기
             }
         });
 

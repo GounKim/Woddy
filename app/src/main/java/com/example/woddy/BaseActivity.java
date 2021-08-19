@@ -181,7 +181,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //사용자 푸시토큰 받아서 저장
+    //사용자 푸시 토큰 생성해서 저장
     public void registerPushToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -198,7 +198,6 @@ public class BaseActivity extends AppCompatActivity {
                         map.put("pushToken", token);
 
                         FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
-                        FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
                     }
                 });
     }

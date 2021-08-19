@@ -55,8 +55,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
-            android:text="MINDSPA는 서울시에서 운영하는 정신건강예방 목적의 통합적 예방 서비스입니다.\n\n마음터치는 마음을 어루만져준다는 의미로 온라인 상에서 가벼운 우울감과 불안감을 스스로 관리할 수 있는 프로그램입니다.
-            \n\n혼자 생활하는 데에 심리적인 어려움이 있을 때,\n따뜻한 마음의 손길이 필요할 때 이용해보세요." />
+            android:text="content" />
 
         <LinearLayout
             android:layout_width="match_parent"

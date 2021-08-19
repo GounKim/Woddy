@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 public class PostingListActivity extends BaseActivity {
     RecyclerView recyclerView;
     TextView textView;
+    ImageView toolbarLogoImage;
 
     FirestoreManager manager = new FirestoreManager();
     PostingListAdapter adapter;
@@ -61,9 +64,12 @@ public class PostingListActivity extends BaseActivity {
         adapter = new PostingListAdapter();
         sAdapter = new ScrapListAdapter();
 
+        toolbarLogoImage = findViewById(R.id.toolbar_logo);
+        toolbarLogoImage.setVisibility(View.GONE);
+
         switch (activity) {
             case 1:
-                setMyTitle("내가 작성한 글");
+                setMyTitle("내가 쓴 글");
                 recyclerView.setAdapter(adapter);
                 myPost();
                 break;

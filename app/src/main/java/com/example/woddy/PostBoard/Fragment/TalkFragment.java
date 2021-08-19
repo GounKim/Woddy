@@ -102,7 +102,7 @@ public class TalkFragment extends Fragment {
                         break;
 
                     case R.id.chipMate:
-                        tagName = "퇴근메이트";
+                        tagName = "귀가메이트";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 

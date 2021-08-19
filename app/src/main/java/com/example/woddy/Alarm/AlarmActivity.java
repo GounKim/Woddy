@@ -188,11 +188,13 @@ public class AlarmActivity extends AppCompatActivity {
 
     //채팅 알림일 때 화면 전환
     public void chatIntent(View view, AlarmDTO currentAlarm) {
+
+
         manager.findUserWithUid(currentAlarm.destinationUid)
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String nickname = (String) documentSnapshot.get("nickname"); //받는 사람 닉네임
+                        String nickname = (String) documentSnapshot.get("nickname"); //푸시 받는 사람 닉네임
                         Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
                         intent.putExtra("USER", nickname);

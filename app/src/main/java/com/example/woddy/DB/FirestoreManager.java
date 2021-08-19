@@ -11,13 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.woddy.Alarm.AlarmDTO;
-import com.example.woddy.Chatting.ChattingRoom;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.Profile;
-import com.example.woddy.Entity.User;
 import com.example.woddy.Entity.UserFavoriteBoard;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,14 +23,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
@@ -488,22 +484,13 @@ public class FirestoreManager {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Message has successfully Added!");
 
-                        //채팅 보낸 사람의 닉네임 획득
-                        findUserWithUid(USER_UID)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        String nickname = (String) documentSnapshot.get("nickname");
-                                        Log.d("chatalarm",nickname);
-                                        forChatAlarm(roomRef,nickname,msg.getMessage()); //채팅 알림을 위한 함수 호출
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d(TAG, "Fail to find writer info");
-                                    }
-                                });
+                        forChatAlarm(USER_UID, roomRef, msg.getMessage()); //채팅 알림
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Fail to find writer info");
                     }
                 });
     }
@@ -616,44 +603,20 @@ public class FirestoreManager {
                 });
     }
 
-    //uid 가져와서 채팅 알림 발생
-    public void forChatAlarm(DocumentReference roomRef, String mynickname, String msg) {
+    //채팅 알림을 위한 roomnum 획득
+    public void forChatAlarm(String uid, DocumentReference roomRef, String msg) {
         roomRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        //자신의 닉네임 획득
-                        String nickname = document.get("participant").toString();
-                        nickname = nickname.replace(mynickname, "");
-                        nickname = nickname.replace("[", "");
-                        nickname = nickname.replace(", ", "");
-                        nickname = nickname.replace("]", "");
-                        Log.d("firebase", nickname);
 
-                        //알림 받을 사용자의 uid 획득
-                        fsDB.collection("userProfile")
-                                .whereEqualTo("nickname", nickname).get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if( task.isSuccessful()) {
-                                            QuerySnapshot qDocument = task.getResult();
-                                            String uid = qDocument.getDocuments().get(0).getId();
-                                            String roomNum = document.get("roomNumber").toString();
-                                            Log.d("firebase", uid);
-                                            chattingAlarm(uid, msg,roomNum); //채팅 알림
-                                        }else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
-                                        }
-                                    }
-                                });
+                        String roomNum = document.get("roomNumber").toString();
+                        chattingAlarm(uid, msg, roomNum); //채팅 알림
                     } else {
-                        Log.d(TAG, "No such document");
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });

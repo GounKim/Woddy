@@ -29,7 +29,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@color/white"
                 app:tabMode="auto"
-                app:tabSelectedTextColor="#FF6B6B"
+                app:tabSelectedTextColor="@color/main_color"
                 app:tabTextAppearance="@style/TabLayoutTextStyle" />
         </com.google.android.material.appbar.AppBarLayout>
 

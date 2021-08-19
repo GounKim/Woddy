@@ -15,13 +15,13 @@
         android:gravity="center"
         android:text="계정"
         android:textColor="#BABABA"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/set_account_email_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
@@ -40,10 +40,10 @@
         android:layout_marginTop="19dp"
         android:text="비밀번호"
         android:textColor="#BABABA"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView18" />
+        app:layout_constraintTop_toBottomOf="@id/set_account_email_text_view" />
 
     <TextView
         android:id="@+id/textView20"

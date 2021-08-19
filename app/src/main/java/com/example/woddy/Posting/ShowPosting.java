@@ -78,6 +78,9 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     LinearLayout bottomLayout;
     TextView report, sendChat, cancle, delete;
 
+    // Toolbar
+    ImageView toolbarLogoImage;
+
     @Override
     protected boolean useBottomNavi() {
         return false;
@@ -114,6 +117,11 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
+
+        //툴바 이미지 및 타이틀 설정
+        toolbarLogoImage = findViewById(R.id.toolbar_logo);
+        toolbarLogoImage.setVisibility(View.GONE);
+        setMyTitle(tagName);
 
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤

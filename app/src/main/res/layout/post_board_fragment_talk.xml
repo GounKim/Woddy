@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:paddingHorizontal="12dp"
+            android:paddingHorizontal="15dp"
             app:checkedChip="@id/chipFriend"
             app:chipSpacingHorizontal="10dp"
             app:chipSpacingVertical="6dp"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:text="@string/frind"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipHelp"
@@ -41,15 +41,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:text="@string/help"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMate"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:text="@string/mate"
-                android:textSize="20sp" />
+                android:text="#귀가메이트"
+                android:textSize="18sp" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -64,7 +64,8 @@
         android:id="@+id/recyclerView_Talk"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp" />
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

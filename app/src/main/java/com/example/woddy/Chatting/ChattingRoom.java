@@ -81,7 +81,6 @@ public class ChattingRoom extends BaseActivity {
 
         // xml 연결
         crRecyclerView = findViewById(R.id.chatting_room_recyclerView);
-        btnPlus = findViewById(R.id.btn_plus);
         edtInputCon = findViewById(R.id.edt_input_conversation);
         btnSend = findViewById(R.id.btn_send);
         swipeRefresh = findViewById(R.id.swipeRefresh);

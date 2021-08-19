@@ -8,12 +8,14 @@
         android:id="@+id/info_depart_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/dept_logo_imageview"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:padding="3dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:src="@drawable/ic_baseline_house_24" />
@@ -25,7 +27,9 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:text="MINDSPA 마음터치"
-            android:textSize="15dp" />
+            android:textStyle="bold"
+            android:textColor="@color/main_color"
+            android:textSize="24sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,22 +57,24 @@
             android:id="@+id/dept_introduce_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
             android:text="content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_baseline_call_24" />
@@ -80,7 +86,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text="02-987-6543"
-                android:textSize="15dp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,12 +97,12 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/dept_call_button"
-                    android:layout_width="65dp"
-                    android:layout_height="30dp"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
                     android:background="@drawable/button_round_shape"
                     android:text="전화하기"
                     android:textColor="@color/white"
-                    android:textSize="10dp" />
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -105,11 +111,12 @@
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_baseline_connect_without_contact_24" />
@@ -121,7 +128,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text="마음터치 프로그램"
-                android:textSize="15dp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -132,12 +139,12 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/dept_connect_button"
-                    android:layout_width="65dp"
-                    android:layout_height="30dp"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
                     android:background="@drawable/button_round_shape"
                     android:text="연결하기"
                     android:textColor="@color/white"
-                    android:textSize="10dp" />
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 

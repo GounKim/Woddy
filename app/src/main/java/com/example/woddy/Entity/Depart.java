@@ -31,5 +31,9 @@ public class Depart {
         return content;
     }
 
+    public void setContent(String str) {
+        this.content = str;
+    }
+
 
 }

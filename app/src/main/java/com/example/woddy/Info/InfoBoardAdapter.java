@@ -93,8 +93,8 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView infoImageView;
-        TextView infoTitle, infoText, infoTime;
+        ImageView infoImageView, infoHeart;
+        TextView infoTitle, infoText, infoTime, infoLiked;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -103,10 +103,14 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
             infoTitle = itemView.findViewById(R.id.album_item_title);
             infoText = itemView.findViewById(R.id.album_item_content);
             infoTime = itemView.findViewById(R.id.album_item_time);
+            infoHeart = itemView.findViewById(R.id.album_item_heart);
+            infoLiked = itemView.findViewById(R.id.album_item_liked);
+
+            infoHeart.setVisibility(View.INVISIBLE);
+            infoLiked.setVisibility(View.INVISIBLE);
 
 //            itemView.setClickable(true);
 //            itemView.setOnClickListener(new View.OnClickListener() {
-//
 //                @Override
 //                public void onClick(View v) {
 //                    int pos = getAdapterPosition();
@@ -115,7 +119,6 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
 //                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                        intent.putExtra("documentPath", documentPath.get(pos));
 //                        v.getContext().startActivity(intent);
-//
 //                    }
 //                }
 //            });

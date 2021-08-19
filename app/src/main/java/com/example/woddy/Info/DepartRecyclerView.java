@@ -1,9 +1,12 @@
 package com.example.woddy.Info;
 
 import android.animation.ValueAnimator;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 public class DepartRecyclerView extends RecyclerView.ViewHolder {
     LinearLayout linearLayout; //얘를 눌러야 펼쳐짐
     LinearLayout deptDetailLayout; //펼쳐질 레이아웃
+    ImageView arrowImageView; //화살표 모양(접으면 ^ 펼치면 V)
     TextView deptNameTextView; //기관명
     TextView deptIntroduceTextView; //기관소개
     TextView deptCallNumberTextView; //기관 전화번호
@@ -26,13 +30,16 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
     TextView deptConnectTextView; //기관 프로그램 페이지
     Button deptConnectButton; //기관 페이지 연결 버튼
 
+    String url, telnumber;
+
     OnViewHolderItemClickListener onViewHolderItemClickListener;
 
     public DepartRecyclerView(@NonNull @NotNull View itemView) {
         super(itemView);
 
         linearLayout = itemView.findViewById(R.id.info_depart_linearlayout);
-        deptDetailLayout=itemView.findViewById(R.id.dept_detail_linearlayout);
+        deptDetailLayout = itemView.findViewById(R.id.dept_detail_linearlayout);
+        arrowImageView = itemView.findViewById(R.id.closeImageView);
         deptNameTextView = itemView.findViewById(R.id.dept_name_textview);
         deptIntroduceTextView = itemView.findViewById(R.id.dept_introduce_textview);
         deptCallNumberTextView = itemView.findViewById(R.id.dept_call_number_textview);
@@ -46,14 +53,32 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
                 onViewHolderItemClickListener.onViewHolderItemClick();
             }
         });
+        deptCallButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tel = "tel:" + telnumber;
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(tel));
+                itemView.getContext().startActivity(intent);
+            }
+        });
+        deptConnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                itemView.getContext().startActivity(intent);
+            }
+        });
+
     }
 
     public void onBind(Depart data, int position, SparseBooleanArray selectedItems) {
         deptNameTextView.setText(data.getDepart());
         deptIntroduceTextView.setText(data.getContent());
         deptCallNumberTextView.setText(data.getTel());
-        deptConnectTextView.setText(data.getUrl());
+        deptConnectTextView.setText(data.getProgram());
         changeVisibility(selectedItems.get(position));
+        telnumber = data.getTel().replace("-", "");
+        url = data.getUrl();
     }
 
     private void changeVisibility(final boolean isExpanded) {
@@ -69,6 +94,7 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
                 deptDetailLayout.requestLayout();
                 // imageView가 실제로 사라지게하는 부분
                 deptDetailLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+                arrowImageView.setImageResource(isExpanded ? R.drawable.ic_baseline_keyboard_arrow_down_24 : R.drawable.ic_baseline_keyboard_arrow_up_24);
             }
         });
         // Animation start

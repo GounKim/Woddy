@@ -40,6 +40,8 @@ public class DepartData {
                             if (task.getResult().size() > 0) {
                                 for (DocumentSnapshot document : task.getResult()) {
                                     Depart newsDepart = document.toObject(Depart.class);
+                                    String tmp = newsDepart.getContent().replace("\\n", "\n");
+                                    newsDepart.setContent(tmp);
                                     docPath.add(document.getReference().getPath());
                                     items.add(newsDepart);
                                 }

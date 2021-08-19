@@ -151,6 +151,7 @@ public class HomeFragment extends Fragment {
     private void setHomeAdapter() {
         // 공지 Board
         ArrayList<Object> adapterList = new ArrayList<>();
+        adapterList.add(new HomePBAdapter());
         // 인기글
         manager.getPopularPost().get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -166,8 +167,6 @@ public class HomeFragment extends Fragment {
                             }
                             popAdapter.setItem(popPosts, popDocPath);
                             adapterList.add(popAdapter);
-
-                            homeAdapter.addItem(popAdapter);
                         } else {
                             Log.d(TAG, "Finding PopularPost failed.", task.getException());
                         }
@@ -189,7 +188,7 @@ public class HomeFragment extends Fragment {
                         reAdapter.setItem(recentPosts, recDocPath);
                         adapterList.add(reAdapter);
 
-                        homeAdapter.addItem(reAdapter);
+                        homeAdapter.setItem(adapterList);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.BaseActivity;
+import com.example.woddy.Chatting.ChattingRoom;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.ChattingInfo;
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,6 +54,7 @@ import java.util.TimeZone;
 public class ShowPosting extends BaseActivity implements View.OnClickListener {
     FirestoreManager manager = new FirestoreManager();
     SQLiteManager sqlManager = new SQLiteManager(this);
+    BottomSheetDialog bottomSheetDialog;
 
     TextView title, writer, time, content, likedCount, scrapCount, tag, board, writerUid;
 
@@ -278,18 +281,20 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
             case R.id.menu_more_option:
 
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.show_posting_menu, null);
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+                bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomSheetView);
 
                 bottomLayout = bottomSheetDialog.findViewById(R.id.show_posting_menu_layout);
                 delete = bottomSheetDialog.findViewById(R.id.show_posting_menu_delete);
                 sendChat = bottomSheetDialog.findViewById(R.id.show_posting_menu_send_chatting);
+                cancle = bottomSheetDialog.findViewById(R.id.show_posting_menu_cancle);
+                cancle.setOnClickListener(this::bottomSheet);
 
                 if (writerUid.getText().toString().equals(USER_UID)) {
                     bottomLayout.setVisibility(View.GONE);
                     delete.setVisibility(View.VISIBLE);
-                    manager.delPosting(postingPath);
 
+                    delete.setOnClickListener(this::bottomSheet);
                 } else {
                     bottomLayout.setVisibility(View.VISIBLE);
                     delete.setVisibility(View.GONE);
@@ -307,11 +312,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
     public void bottomSheet(View view) {
         switch (view.getId()) {
-
-            case R.id.show_posting_menu_report:_posting_report:
-
-                break;
-
             case R.id.show_posting_menu_send_chatting:
 
                 String w = writer.getText().toString();
@@ -329,6 +329,15 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
                                 ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
                                 manager.addChatRoom(chattingInfo);
+
+//                                Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                                intent.putExtra("USER", sqlManager.getUserNick());
+//                                intent.putExtra("CHATTER", chattingInfo.getParticipant().get(0));
+//                                intent.putExtra("ROOMNUM", documentReference.getId());
+//                                intent.putExtra("IMAGE", chattingInfo.getParticipantImg().get(0));
+//
+//                                context.startActivity(intent);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -343,12 +352,11 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
 
             case R.id.show_posting_menu_delete:
-
+                manager.delPosting(postingPath);
                 break;
 
             case R.id.show_posting_menu_cancle:
-
-
+                bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_HIDDEN);
                 break;
         }
     }

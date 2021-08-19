@@ -65,8 +65,7 @@ public class ChattingRoom extends BaseActivity {
         String user = intent.getStringExtra("USER");
         String chatterImage = intent.getStringExtra("IMAGE");
 
-
-        initDatabase(roomNum);
+//        initDatabase(roomNum);
         updateDB(roomNum);
 
         // xml 연결
@@ -94,35 +93,36 @@ public class ChattingRoom extends BaseActivity {
 
     }
 
-    private void initDatabase(String roomNum) {
-        manager = new FirestoreManager();
-
-        manager.getMessage(roomNum).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                try {
-                                    ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
-                                    crAdapter.addItem(chattingMsg);
-                                    if(crAdapter.getItemCount() != 0) {
-                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
-                                    }
-                                } catch (RuntimeException e){
-                                    Log.d(TAG, "Error getting chatList: ", e);
-                                }
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-    }
+//    private void initDatabase(String roomNum) {
+//        manager = new FirestoreManager();
+//
+//        manager.getMessage(roomNum).get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                try {
+//                                    ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
+//                                    Log.d(TAG, "Error getting chatList: " + chattingMsg.getMessage());
+//                                    crAdapter.addItem(chattingMsg);
+//                                    if(crAdapter.getItemCount() != 0) {
+//                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
+//                                    }
+//                                } catch (RuntimeException e){
+//                                    Log.d(TAG, "Error getting chatList: ", e);
+//                                }
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//
+//    }
 
     private void updateDB(String roomNum) {
-        manager.getMessage(roomNum).limitToLast(1)
+        manager.getMessage(roomNum)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {

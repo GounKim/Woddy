@@ -49,9 +49,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 
         // 채팅 목록
-        sql = "CREATE TABLE chatting (room_num TEXT PRIMARY KEY, " +
-                                    "chatter_name TEXT NOT NULL, " +
-                                    "chatter_image BLOB);";
+        sql = "CREATE TABLE chatting (room_num TEXT PRIMARY KEY, chatter_name TEXT NOT NULL);";
         db.execSQL(sql);
     }
 

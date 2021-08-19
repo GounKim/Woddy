@@ -352,7 +352,7 @@ public class FirestoreManager {
     public Query getAllPosting(String searchWord){
         return fsDB.collectionGroup("postings").whereGreaterThanOrEqualTo("content",searchWord.toLowerCase());
     }
-  
+
     // postingNumber로 게시물 불러오기
     public Query getPostWithWriter(String writer) {
         return fsDB.collectionGroup("postings").whereEqualTo("writer", writer).orderBy("postedTime", Query.Direction.DESCENDING);

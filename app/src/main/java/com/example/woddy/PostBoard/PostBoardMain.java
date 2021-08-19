@@ -36,11 +36,13 @@ public class PostBoardMain extends Fragment {
     String boardName;
     String tagName;
 
-    public PostBoardMain(){
+    public PostBoardMain() {
 
     }
 
-    public static PostBoardMain getInstance() {return new PostBoardMain();}
+    public static PostBoardMain getInstance() {
+        return new PostBoardMain();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class PostBoardMain extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        myFragment = inflater.inflate(R.layout.fragment_post_board_main,container,false);
+        myFragment = inflater.inflate(R.layout.fragment_post_board_main, container, false);
 
         viewPager = myFragment.findViewById(R.id.viewPager);
         tabLayout = myFragment.findViewById(R.id.tabLayout);
@@ -129,10 +131,10 @@ public class PostBoardMain extends Fragment {
     private void setUpViewPager(ViewPager viewPager) {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
 
-        adapter.addFragment(new TalkFragment(),"소통");
-        adapter.addFragment(new HabitFragment(),"취미");
-        adapter.addFragment(new ShareFragment(),"쉐어");
-        adapter.addFragment(new FreeFragment(),"자유");
+        adapter.addFragment(new TalkFragment(), "소통");
+        adapter.addFragment(new HabitFragment(), "취미");
+        adapter.addFragment(new ShareFragment(), "쉐어");
+        adapter.addFragment(new FreeFragment(), "자유");
 
         viewPager.setAdapter(adapter);
     }

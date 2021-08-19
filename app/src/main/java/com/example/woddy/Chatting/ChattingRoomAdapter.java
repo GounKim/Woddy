@@ -61,13 +61,13 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if(viewType == USER_MESSAGE) {
+        if (viewType == USER_MESSAGE) {
             view = inflater.inflate(R.layout.chat_room_recycler_user, parent, false);
             return new UserMessageHolder(view);
         } else if (viewType == CHATTER_MESSAGE) {
             view = inflater.inflate(R.layout.chat_room_recycler_chatter, parent, false);
             return new ChatterMessageHolder(view);
-        } else if (viewType == DATE_MARK){
+        } else if (viewType == DATE_MARK) {
             view = inflater.inflate(R.layout.chat_room_recycler_date, parent, false);
             return new DateMarkHolder(view);
         } else {
@@ -79,11 +79,11 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof UserMessageHolder) {
-            ((UserMessageHolder)holder).userMsg.setText(chatItemList.get(position).getMessage());
-            ((UserMessageHolder)holder).sendTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
+            ((UserMessageHolder) holder).userMsg.setText(chatItemList.get(position).getMessage());
+            ((UserMessageHolder) holder).sendTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
         } else if (holder instanceof ChatterMessageHolder) {
-            ((ChatterMessageHolder)holder).chatterMsg.setText(chatItemList.get(position).getMessage());
-            ((ChatterMessageHolder)holder).getTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
+            ((ChatterMessageHolder) holder).chatterMsg.setText(chatItemList.get(position).getMessage());
+            ((ChatterMessageHolder) holder).getTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
             // 이미지 설정
             if (chatterImg != null | chatterImg != "") {
                 FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
@@ -93,9 +93,9 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Glide.with(((ChatterMessageHolder)holder).itemView.getContext())
+                            Glide.with(((ChatterMessageHolder) holder).itemView.getContext())
                                     .load(task.getResult())
-                                    .into(((ChatterMessageHolder)holder).imageView);
+                                    .into(((ChatterMessageHolder) holder).imageView);
                         } else {
                             Log.d(TAG, "Image Load in MyPage failed.", task.getException());
                         }
@@ -103,9 +103,9 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
             }
         } else if (holder instanceof DateMarkHolder) {
-            ((DateMarkHolder)holder).dateMark.setText(datestamp(chatItemList.get(position).getWrittenTime())); // 요일로 변경 필요
+            ((DateMarkHolder) holder).dateMark.setText(datestamp(chatItemList.get(position).getWrittenTime())); // 요일로 변경 필요
         } else {
-            ((IntroMarkHolder)holder).introMark.setText(chatItemList.get(position).getMessage());
+            ((IntroMarkHolder) holder).introMark.setText(chatItemList.get(position).getMessage());
         }
     }
 
@@ -120,14 +120,11 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         if (item.getWriter() != null && item.getWriter().equals(user)) {
             return USER_MESSAGE;
-        }
-        else if (item.getWriter() != null && item.getWriter().equals(chatter)) {
+        } else if (item.getWriter() != null && item.getWriter().equals(chatter)) {
             return CHATTER_MESSAGE;
-        }
-        else if (item.getWriter() == null){
+        } else if (item.getWriter() == null) {
             return INTRO_MARK;
-        }
-        else {
+        } else {
             return DATE_MARK;
         }
     }
@@ -158,6 +155,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class DateMarkHolder extends RecyclerView.ViewHolder {
         TextView dateMark;
+
         public DateMarkHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             dateMark = itemView.findViewById(R.id.date_mark);
@@ -166,6 +164,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class IntroMarkHolder extends RecyclerView.ViewHolder {
         TextView introMark;
+
         public IntroMarkHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             introMark = itemView.findViewById(R.id.date_mark);

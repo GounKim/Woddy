@@ -38,7 +38,7 @@ public class SearchData {
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {
 
         adapter = new PostBoardAdapter(boardName, tagName);
-        if(boardName == "전체" && tagName == "전체"){
+        if (boardName == "전체" && tagName == "전체") {
             manager.getAllPosting(searchWord).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
                 @Override
@@ -47,7 +47,7 @@ public class SearchData {
                     if (task.isSuccessful()) {
                         if (task.getResult().size() > 0) {
                             for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG,"all postings => " + document.getData());
+                                Log.d(TAG, "all postings => " + document.getData());
                                 Posting posting = document.toObject(Posting.class);
                                 docPath.add(document.getReference().getPath());
                                 items.add(posting);

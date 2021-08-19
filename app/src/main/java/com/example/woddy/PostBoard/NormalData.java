@@ -35,29 +35,29 @@ public class NormalData {
 
         manager.getPost(boardName, tagName).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().size() > 0) {
-                        for (DocumentSnapshot document : task.getResult()) {
-                            Posting posting = document.toObject(Posting.class);
-                            docPath.add(document.getReference().getPath());
-                            items.add(posting);
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().size() > 0) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    Posting posting = document.toObject(Posting.class);
+                                    docPath.add(document.getReference().getPath());
+                                    items.add(posting);
+                                }
+                                //아이템 로드
+                                adapter.setItems(items, docPath);
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
+                                recyclerView.setAdapter(adapter);
+                            } else {
+                                Log.d(TAG, "Nothing Founded!");
+                            }
+
+                        } else {
+                            Log.d(TAG, "Finding Postings failed!");
                         }
-                        //아이템 로드
-                        adapter.setItems(items, docPath);
-
-                        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
-                        recyclerView.setAdapter(adapter);
-                    } else {
-                        Log.d(TAG, "Nothing Founded!");
                     }
-
-                } else {
-                    Log.d(TAG, "Finding Postings failed!");
-                }
-            }
-        });
+                });
 
 
         return items;

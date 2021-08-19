@@ -105,7 +105,7 @@ public class PostingListActivity extends BaseActivity {
                                 Log.d(TAG, "nothing found.", task.getException());
                             }
                         } else {
-                            Log.d(TAG, "finding my posting task failed. error: " , task.getException());
+                            Log.d(TAG, "finding my posting task failed. error: ", task.getException());
                         }
                     }
                 });
@@ -131,7 +131,7 @@ public class PostingListActivity extends BaseActivity {
                                 adapter.addPosting(posting);
                             } else {
                                 adapter.addPosting(new Posting());
-                                Log.d(TAG, "finding my posting task failed. error: " , task.getException());
+                                Log.d(TAG, "finding my posting task failed. error: ", task.getException());
                             }
                         }
                     });

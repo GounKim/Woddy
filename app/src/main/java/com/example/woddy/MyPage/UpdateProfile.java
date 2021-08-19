@@ -55,6 +55,7 @@ public class UpdateProfile extends BaseActivity {
     Button changeProfileImgButton;
     Button changeNickButton;
     Button changeLocalButton;
+    ImageView toolbarLogoImage;
 
     private int GALLERY_CODE = 100;
     private Boolean isPermission = true;
@@ -94,12 +95,14 @@ public class UpdateProfile extends BaseActivity {
         changeNickButton = findViewById(R.id.update_nick_button);
         changeLocalButton = findViewById(R.id.update_local_button);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        toolbarLogoImage = findViewById(R.id.toolbar_logo);
 
         //처음에 보여지는 화면 셋팅
         Intent intent = getIntent();
         tmp_nick = intent.getStringExtra("nickname");
         tmp_local = intent.getStringExtra("local");
         tmp_imguri = intent.getStringExtra("imguri");
+        toolbarLogoImage.setVisibility(View.GONE);
         //1) 이미지 사진
         FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
         StorageReference storageRef = storage.getReference(tmp_imguri); // 스토리지 공간을 참조해서 이미지를 가져옴

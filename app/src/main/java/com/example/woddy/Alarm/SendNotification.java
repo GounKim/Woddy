@@ -15,7 +15,7 @@ import okhttp3.Response;
 public class SendNotification {
 
     //json타입 선언
-   public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     //알림 받기
     public static void sendNotification(String regToken, String title, String messsage){

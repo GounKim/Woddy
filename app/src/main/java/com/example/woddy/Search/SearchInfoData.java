@@ -35,7 +35,7 @@ public class SearchInfoData {
         this.manager = new FirestoreManager();
     }
 
-    public ArrayList<News> getItems(RecyclerView recyclerView, String boardName, String tagName,String searchWord) {
+    public ArrayList<News> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {
         adapter = new InfoBoardAdapter(boardName, tagName);
 
         final CollectionReference docRef =
@@ -48,7 +48,7 @@ public class SearchInfoData {
                         if (task.isSuccessful()) {
                             if (task.getResult().size() > 0) {
                                 for (DocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG,"message => " + searchWord.toLowerCase());
+                                    Log.d(TAG, "message => " + searchWord.toLowerCase());
                                     News news = document.toObject(News.class);
                                     docPath.add(document.getReference().getPath());
                                     items.add(news);

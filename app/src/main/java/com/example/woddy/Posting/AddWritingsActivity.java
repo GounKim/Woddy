@@ -315,7 +315,7 @@ public class AddWritingsActivity extends BaseActivity {
                         iv.setVisibility(View.GONE);
                     }
                 });
-                dlg.setPositiveButton("취소",null);
+                dlg.setPositiveButton("취소", null);
                 return false;
             }
         });

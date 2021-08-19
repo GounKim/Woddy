@@ -93,8 +93,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == FAVORITE) {
             view = inflater.inflate(R.layout.home_item_hscroll, parent, false);
             return new HorizontalScrollHolder(view);
-        }
-        else {
+        } else {
             view = inflater.inflate(R.layout.home_item, parent, false);
             return new VerticalScrollHolder(view);
         }
@@ -185,7 +184,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = height + (listView.getDividerHeight() * (listAdapter.getCount() -1));
+        params.height = height + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
     }

@@ -64,7 +64,7 @@ public class SQLiteManager {
             String sql = "SELECT nick_name FROM user_profile WHERE user_uid = '" + userUid + "';";
             Cursor cursor = sqlite.rawQuery(sql, null);
             if (cursor != null) {
-                while( cursor.moveToNext() ) {
+                while (cursor.moveToNext()) {
                     nickname = cursor.getString(0);
                 }
             }
@@ -83,7 +83,7 @@ public class SQLiteManager {
             String sql = "SELECT user_image_path FROM user_profile WHERE user_uid = '" + USER_UID + "'";
             Cursor cursor = sqlite.rawQuery(sql, null);
             if (cursor != null) {
-                while( cursor.moveToNext() ) {
+                while (cursor.moveToNext()) {
                     nickname = cursor.getString(0);
                 }
             }
@@ -113,7 +113,6 @@ public class SQLiteManager {
                 + hasPicture + ");");
 
 
-
         sqlite.close();
     }
 
@@ -126,7 +125,7 @@ public class SQLiteManager {
 
     public void insertLiked(String postingPath) {
         sqlite = helper.getWritableDatabase();
-        sqlite.execSQL("INSERT INTO liked_activity VALUES ('" + postingPath +"');");
+        sqlite.execSQL("INSERT INTO liked_activity VALUES ('" + postingPath + "');");
 
         sqlite.close();
     }
@@ -138,7 +137,7 @@ public class SQLiteManager {
             String sql = "SELECT * FROM liked_activity";
             Cursor cursor = sqlite.rawQuery(sql, null);
             if (cursor != null) {
-                while( cursor.moveToNext() ) {
+                while (cursor.moveToNext()) {
                     pathList.add(cursor.getString(0));
                 }
             }
@@ -157,7 +156,7 @@ public class SQLiteManager {
             ArrayList<PostingSQL> postingList = new ArrayList<>();
             Cursor cursor = sqlite.rawQuery(sql, null);
             if (cursor != null) {
-                while( cursor.moveToNext() ) {
+                while (cursor.moveToNext()) {
                     PostingSQL posting = new PostingSQL();
                     posting.setPostingPath(cursor.getString(0));
                     posting.setBoard(cursor.getString(1));
@@ -189,7 +188,7 @@ public class SQLiteManager {
             String sql = "SELECT picture FROM posting_picture WHERE location = '" + location + "'";
             Cursor cursor = sqlite.rawQuery(sql, null);
             if (cursor != null) {
-                while( cursor.moveToNext() ) {
+                while (cursor.moveToNext()) {
                     pictureList.add(cursor.getString(0));
                 }
             }

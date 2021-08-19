@@ -307,7 +307,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
             case R.id.show_posting_menu_report:_posting_report:
 
-                break;
+            break;
 
             case R.id.show_posting_menu_send_chatting:
 

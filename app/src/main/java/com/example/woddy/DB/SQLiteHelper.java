@@ -19,19 +19,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         // 사용자 테이블(본인의 정보만 들어감
         sql = "CREATE TABLE user_profile (user_uid TEXT PRIMARY KEY , " +
-                                            "nick_name TEXT, " +
-                                            "user_image_path TEXT);";
+                "nick_name TEXT, " +
+                "user_image_path TEXT);";
         db.execSQL(sql);
 
         // 글(포스팅)
         sql = "CREATE TABLE scrapped_postings (posting_path TEXT PRIMARY KEY, " +
-                                    "board_name TEXT NOT NULL, " +
-                                    "tag_name TEXT NOT NULL, " +
-                                    "writer TEXT NOT NULL, " +
-                                    "title TEXT NOT NULL, " +
-                                    "content TEXT NOT NULL, " +
-                                    "posted_time TEXT NOT NULL, " +
-                                    "picture INTEGER DEFAULT 0);";
+                "board_name TEXT NOT NULL, " +
+                "tag_name TEXT NOT NULL, " +
+                "writer TEXT NOT NULL, " +
+                "title TEXT NOT NULL, " +
+                "content TEXT NOT NULL, " +
+                "posted_time TEXT NOT NULL, " +
+                "picture INTEGER DEFAULT 0);";
         db.execSQL(sql);
         // 글 사진들
         sql = "CREATE TABLE posting_picture (location INTEGER NOT NULL, " +
@@ -50,8 +50,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         // 채팅 목록
         sql = "CREATE TABLE chatting (room_num TEXT PRIMARY KEY, " +
-                                    "chatter_name TEXT NOT NULL, " +
-                                    "chatter_image BLOB);";
+                "chatter_name TEXT NOT NULL, " +
+                "chatter_image BLOB);";
         db.execSQL(sql);
     }
 

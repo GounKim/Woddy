@@ -40,37 +40,37 @@ public class SearchAlbumData {
 
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {
 
-            final CollectionReference docRef =
-                    db.collection("postBoard").document(boardName).collection("postTag").document(tagName).collection("postings");
+        final CollectionReference docRef =
+                db.collection("postBoard").document(boardName).collection("postTag").document(tagName).collection("postings");
 
-            docRef.whereGreaterThanOrEqualTo("content", searchWord.toLowerCase()).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (task.getResult().size() > 0) {
-                                    for (DocumentSnapshot document : task.getResult()) {
-                                        Log.d(TAG,"all postings => " + document.getData());
-                                        Posting posting = document.toObject(Posting.class);
-                                        docPath.add(document.getReference().getPath());
-                                        items.add(posting);
-                                    }
-                                    //아이템 로드
-                                    adapter_board.setItems(items, docPath);
-
-                                    StaggeredGridLayoutManager staggeredGridLayoutManager
-                                            = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                                    recyclerView.setLayoutManager(staggeredGridLayoutManager); // 상하 스크롤
-                                    recyclerView.setAdapter(adapter_board);
-                                } else {
-                                    Log.d(TAG, "Nothing Founded!");
+        docRef.whereGreaterThanOrEqualTo("content", searchWord.toLowerCase()).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().size() > 0) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, "all postings => " + document.getData());
+                                    Posting posting = document.toObject(Posting.class);
+                                    docPath.add(document.getReference().getPath());
+                                    items.add(posting);
                                 }
+                                //아이템 로드
+                                adapter_board.setItems(items, docPath);
 
+                                StaggeredGridLayoutManager staggeredGridLayoutManager
+                                        = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(staggeredGridLayoutManager); // 상하 스크롤
+                                recyclerView.setAdapter(adapter_board);
                             } else {
-                                Log.d(TAG, "Finding Postings failed!");
+                                Log.d(TAG, "Nothing Founded!");
                             }
+
+                        } else {
+                            Log.d(TAG, "Finding Postings failed!");
                         }
-                    });
+                    }
+                });
 
         return items;
     }

@@ -69,7 +69,7 @@ public class ChattingRoom extends BaseActivity {
         String roomNum = intent.getStringExtra("ROOMNUM");
         String user = intent.getStringExtra("USER");
         String chatterImage = intent.getStringExtra("IMAGE");
-        
+
         initDatabase(roomNum);
         updateDB(roomNum);
 
@@ -83,7 +83,7 @@ public class ChattingRoom extends BaseActivity {
         crAdapter = new ChattingRoomAdapter(user, chatter, chatterImage);
         crRecyclerView.setLayoutManager(new LinearLayoutManager(this, crRecyclerView.VERTICAL, false)); // 상하 스크롤
         crRecyclerView.setAdapter(crAdapter);
-        if(crAdapter.getItemCount() != 0) {
+        if (crAdapter.getItemCount() != 0) {
             crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
         }
 
@@ -110,10 +110,10 @@ public class ChattingRoom extends BaseActivity {
                                 try {
                                     ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
                                     crAdapter.addItem(chattingMsg);
-                                    if(crAdapter.getItemCount() != 0) {
-                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
+                                    if (crAdapter.getItemCount() != 0) {
+                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
                                     }
-                                } catch (RuntimeException e){
+                                } catch (RuntimeException e) {
                                     Log.d(TAG, "Error getting chatList: ", e);
                                 }
                             }
@@ -135,11 +135,11 @@ public class ChattingRoom extends BaseActivity {
                             return;
                         }
 
-                        for (DocumentSnapshot doc: value.getDocuments()) {
+                        for (DocumentSnapshot doc : value.getDocuments()) {
                             ChattingMsg chattingMsg = doc.toObject(ChattingMsg.class);
                             crAdapter.addItem(chattingMsg);
-                            if(crAdapter.getItemCount() != 0) {
-                                crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
+                            if (crAdapter.getItemCount() != 0) {
+                                crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
                             }
                         }
                     }

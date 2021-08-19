@@ -99,13 +99,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             album_liked = itemView.findViewById(R.id.album_item_liked);
 
             itemView.setClickable(true);
-            itemView.setOnClickListener(new View.OnClickListener(){
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //사용자가 클릭한 아이템의 position을 준다
                     int pos = getAdapterPosition();
                     //포지션이 recylerView의 아이템인지 확인
-                    if(pos != RecyclerView.NO_POSITION){
+                    if (pos != RecyclerView.NO_POSITION) {
                         //액티비티 전환
                         Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

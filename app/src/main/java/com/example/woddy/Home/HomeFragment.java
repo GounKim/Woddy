@@ -29,11 +29,17 @@ import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.example.woddy.Search.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
@@ -153,7 +159,7 @@ public class HomeFragment extends Fragment {
                             ArrayList<Posting> popPosts = new ArrayList<>();
                             ArrayList<String> popDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG,"인기글 => "+document.getData());
+                                Log.d(TAG, "인기글 => " + document.getData());
                                 popPosts.add(document.toObject(Posting.class));
                                 popDocPath.add(document.getReference().getPath());
                             }
@@ -175,7 +181,7 @@ public class HomeFragment extends Fragment {
                         ArrayList<Posting> recentPosts = new ArrayList<>();
                         ArrayList<String> recDocPath = new ArrayList<>();
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                            Log.d(TAG,"최신글 => "+snap.getData());
+                            Log.d(TAG, "최신글 => " + snap.getData());
                             recentPosts.add(snap.toObject(Posting.class));
                             recDocPath.add(snap.getReference().getPath());
                         }

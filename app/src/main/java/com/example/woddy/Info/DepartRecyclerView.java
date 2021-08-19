@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
     Button deptCallButton; //기관에 전화걸기 버튼
     TextView deptConnectTextView; //기관 프로그램 페이지
     Button deptConnectButton; //기관 페이지 연결 버튼
+    ImageView closeImageView; // 펼쳐진 상태 나타내는 이미지 뷰
 
     OnViewHolderItemClickListener onViewHolderItemClickListener;
 
@@ -32,13 +34,14 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
         super(itemView);
 
         linearLayout = itemView.findViewById(R.id.info_depart_linearlayout);
-        deptDetailLayout=itemView.findViewById(R.id.dept_detail_linearlayout);
+        deptDetailLayout = itemView.findViewById(R.id.dept_detail_linearlayout);
         deptNameTextView = itemView.findViewById(R.id.dept_name_textview);
         deptIntroduceTextView = itemView.findViewById(R.id.dept_introduce_textview);
         deptCallNumberTextView = itemView.findViewById(R.id.dept_call_number_textview);
         deptCallButton = itemView.findViewById(R.id.dept_call_button);
         deptConnectTextView = itemView.findViewById(R.id.dept_connect_textview);
         deptConnectButton = itemView.findViewById(R.id.dept_connect_button);
+        closeImageView = itemView.findViewById(R.id.closeImageView);
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

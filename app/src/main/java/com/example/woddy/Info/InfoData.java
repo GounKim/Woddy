@@ -29,8 +29,8 @@ public class InfoData {
 
     String userSi;
 
-    public InfoData(Context context) {
-        this.manager = new FirestoreManager(context);
+    public InfoData() {
+        this.manager = new FirestoreManager();
     }
 
     public ArrayList<News> getItems(RecyclerView recyclerView, String boardName, String tagName) {

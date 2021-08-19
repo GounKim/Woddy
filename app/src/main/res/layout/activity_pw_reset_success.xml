@@ -6,32 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".Login.PwResetSuccessActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutOutside"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="380dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_check_circle_24"
-        tools:layout_editor_absoluteY="129dp" />
+        app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+        app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+        app:layout_constraintTop_toTopOf="@id/constraintLayoutOutside"
+        app:srcCompat="@drawable/ic_baseline_check_circle_24" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="메일 전송 완료!"
         android:textColor="@color/main_color"
         android:textSize="35sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView3"
-        tools:layout_editor_absoluteY="339dp" />
+        app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+        app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+        app:layout_constraintTop_toBottomOf="@id/imageView3" />
 
     <TextView
         android:id="@+id/textView14"
@@ -41,8 +45,8 @@
         android:gravity="center"
         android:text="위 이메일로 비밀번호 재설정 메일을 보내드렸습니다.\n비밀번호 재설정을 진행해주세요."
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+        app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
         app:layout_constraintTop_toBottomOf="@id/email_text_view"
         tools:layout_editor_absoluteY="403dp" />
 
@@ -57,8 +61,8 @@
         android:text="로그인 하러가기"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+        app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
         app:layout_constraintTop_toBottomOf="@id/textView14"
         tools:layout_editor_absoluteY="477dp" />
 
@@ -70,8 +74,9 @@
         android:gravity="center"
         android:text="google@google.com"
         android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+        app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
         app:layout_constraintTop_toBottomOf="@id/textView13"
         tools:layout_editor_absoluteY="373dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

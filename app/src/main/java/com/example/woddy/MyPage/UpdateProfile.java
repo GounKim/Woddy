@@ -253,8 +253,6 @@ public class UpdateProfile extends BaseActivity {
                             nickCheckTextView.setVisibility(View.VISIBLE);
                             nickCheckTextView.setTextColor(Color.GRAY);
                             nickCheckTextView.setText("사용 가능한 닉네임입니다.");
-//                            Log.d(TAG, "nickCheck  " + nickCheck.toString());
-                            Log.d(TAG, "GGGGGG##");
                             String newNick = newNickEditText.getText().toString();
                             Map<String, Object> map = new HashMap<>();
                             map.put("nickname", newNick);

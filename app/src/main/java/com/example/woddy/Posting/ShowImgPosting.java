@@ -97,7 +97,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         boardName = path[1];
         tagName = path[3];
 
-        setTitle(boardName);
+        setMyTitle(boardName);
 
         title = findViewById(R.id.show_img_posting_title);
         writer = findViewById(R.id.show_img_posting_writer);

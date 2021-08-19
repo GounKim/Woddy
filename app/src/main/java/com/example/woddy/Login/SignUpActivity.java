@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,8 +31,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
+
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 public class SignUpActivity extends AppCompatActivity {
     final String TAG = "SignUp";
@@ -222,14 +230,27 @@ public class SignUpActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 final String uid = task.getResult().getUser().getUid();
 
-                                Profile profile = new Profile(email, nickname, finalCity, finalGu, finalDong, finalLocal);
-                                //User user = new User(nickname, finalLocal, "UserProfileImages/user.png");
+                                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                                Uri img = Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.user);
+                                String filename = USER_UID + "_profile.jpg"; // 파일명 생성: 사용자의 NickName_profile.jpg
+                                String fileUri = "UserProfileImages/" + USER_UID + "/" + filename;
+                                StorageReference riversRef = storageRef.child(fileUri);
+                                UploadTask uploadTask = riversRef.putFile(img);
+                                final String finalUserImage = fileUri;
 
-                                FirestoreManager fsManager = new FirestoreManager();
-                                fsManager.addProfile(uid, profile); //userProfile 컬렉션에 저장
-                                //fsManager.addUser(user); //user 컬렉션에 저장
+                                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull @NotNull Task<UploadTask.TaskSnapshot> task) {
+                                        Profile profile = new Profile(email, nickname, finalCity, finalGu, finalDong, finalLocal, finalUserImage);
+                                        //User user = new User(nickname, finalLocal, "UserProfileImages/user.png");
 
-                                FirebaseAuth.getInstance().signOut();
+                                        FirestoreManager fsManager = new FirestoreManager();
+                                        fsManager.addProfile(uid, profile); //userProfile 컬렉션에 저장
+                                        //fsManager.addUser(user); //user 컬렉션에 저장
+
+                                        FirebaseAuth.getInstance().signOut();
+                                    }
+                                });
 
                                 //SignUpSuccessActivity로 화면전환, SignUpActivity는 아예 종료시켜야함.
                                 Intent intent = new Intent(SignUpActivity.this, SignUpSuccessActivity.class);

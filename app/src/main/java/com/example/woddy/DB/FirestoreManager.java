@@ -120,6 +120,11 @@ public class FirestoreManager {
         return fsDB.collection("userProfile").document(uid).get();
     }
 
+    // uid로 사용자 시 찾기
+    public Task<DocumentSnapshot> findUserSiWithUid(String uid){
+        return fsDB.collection("userProfile").document(uid).get();
+    }
+
     // 닉네임으로 사용자 찾기
     public Task<QuerySnapshot> findUserWithNick(String nickname) {
         return fsDB.collection("userProfile").whereEqualTo("nickname", nickname).get();
@@ -387,9 +392,12 @@ public class FirestoreManager {
     }
 
     public Query getDepartQuery(String boardName) {
-        return departColRef(boardName).orderBy("depart", Query.Direction.ASCENDING);
+        return departColRef(boardName).orderBy("postingNumber", Query.Direction.DESCENDING);
     }
 
+    public Query getNewsQueryBeta(String boardName, String tagName, String si) {
+        return postCollectionRef(boardName, tagName).whereEqualTo("si", si).orderBy("postedTime", Query.Direction.DESCENDING);
+    }
 
     /* ---------------------- Chatting용 DB ---------------------- */
     // 채팅방 추가
@@ -506,7 +514,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("likealarm",nickname);
+                        Log.d("likealarm", nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(0);
@@ -539,7 +547,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("commentalarm",nickname);
+                        Log.d("commentalarm", nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(1);
@@ -573,7 +581,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("chatalarm",nickname);
+                        Log.d("chatalarm", nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setKind(2);
                         alarmDTO.setMessage(message);

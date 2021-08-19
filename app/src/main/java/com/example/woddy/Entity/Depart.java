@@ -7,6 +7,7 @@ public class Depart {
     private String url; //기관 url
     private String program; //기관 프로그램명
     private String content; //글 내용
+    private String logo;
 
     public Depart() {
     }
@@ -29,6 +30,14 @@ public class Depart {
 
     public String getContent() {
         return content;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setContent(String str) {
+        this.content = str;
     }
 
 

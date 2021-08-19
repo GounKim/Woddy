@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.News;
 import com.example.woddy.Posting.ShowImgPosting;
+import com.example.woddy.Posting.ShowInfoPosting;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -59,6 +60,7 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
     public void onBindViewHolder(@NonNull @NotNull InfoBoardAdapter.ViewHolder viewHolder, int position) {
         News news = items.get(position);
 
+        //정보 이미지 가져오기
         if (!news.getPictures().isEmpty()) {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference(news.getPictures().get(0));
@@ -93,8 +95,8 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView infoImageView;
-        TextView infoTitle, infoText, infoTime;
+        ImageView infoImageView, infoHeart;
+        TextView infoTitle, infoText, infoTime, infoLiked;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -103,22 +105,25 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
             infoTitle = itemView.findViewById(R.id.album_item_title);
             infoText = itemView.findViewById(R.id.album_item_content);
             infoTime = itemView.findViewById(R.id.album_item_time);
+            infoHeart = itemView.findViewById(R.id.album_item_heart);
+            infoLiked = itemView.findViewById(R.id.album_item_liked);
 
-//            itemView.setClickable(true);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    int pos = getAdapterPosition();
-//                    if (pos != RecyclerView.NO_POSITION) {
-//                        Intent intent = new Intent(v.getContext(), ShowImgPosting.class)
-//                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        intent.putExtra("documentPath", documentPath.get(pos));
-//                        v.getContext().startActivity(intent);
-//
-//                    }
-//                }
-//            });
+            infoHeart.setVisibility(View.INVISIBLE);
+            infoLiked.setVisibility(View.INVISIBLE);
+
+            itemView.setClickable(true);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Intent intent = new Intent(v.getContext(), ShowInfoPosting.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("documentPath", documentPath.get(pos));
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
         }
     }
 

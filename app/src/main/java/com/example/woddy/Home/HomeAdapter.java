@@ -69,18 +69,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public class HorizontalScrollHolder extends RecyclerView.ViewHolder {
-        private final TextView boardName;
-        private final RecyclerView horiView;
-
-        public HorizontalScrollHolder(@NonNull View itemView) {
-            super(itemView);
-            boardName = itemView.findViewById(R.id.home_board_nameR);
-            boardName.bringToFront();
-            horiView = itemView.findViewById(R.id.home_posting_slider);
-        }
-    }
-
 
     @NonNull
     @NotNull
@@ -90,13 +78,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (viewType == FAVORITE) {
-            view = inflater.inflate(R.layout.home_item_hscroll, parent, false);
-            return new HorizontalScrollHolder(view);
-        } else {
-            view = inflater.inflate(R.layout.home_item, parent, false);
-            return new VerticalScrollHolder(view);
-        }
+        view = inflater.inflate(R.layout.home_item, parent, false);
+        return new VerticalScrollHolder(view);
     }
 
     @Override
@@ -140,17 +123,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
 
-            } else {
-                ((HorizontalScrollHolder) holder).boardName.setText(homeBoards[position]);
-                try {
-                    Object obj = adapterList.get(position);
-                    HomeFBAdapter fbAdapter = (HomeFBAdapter) obj;
-                    ((HorizontalScrollHolder) holder).horiView
-                            .setLayoutManager(new LinearLayoutManager(context, ((HorizontalScrollHolder) holder).horiView.HORIZONTAL, false)); // 상하 스크롤
-                    ((HorizontalScrollHolder) holder).horiView.setAdapter(fbAdapter);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         }
     }

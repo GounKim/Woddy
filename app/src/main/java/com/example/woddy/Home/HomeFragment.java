@@ -121,17 +121,21 @@ public class HomeFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        ArrayList<Posting> recentPosts = new ArrayList<>();
-                        ArrayList<String> recDocPath = new ArrayList<>();
-                        for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                            Log.d(TAG, "최신글 => " + snap.getData());
-                            recentPosts.add(snap.toObject(Posting.class));
-                            recDocPath.add(snap.getReference().getPath());
-                        }
-                        reAdapter.setItem(recentPosts, recDocPath);
-                        adapterList.add(reAdapter);
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            ArrayList<Posting> recentPosts = new ArrayList<>();
+                            ArrayList<String> recDocPath = new ArrayList<>();
+                            for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                                if (snap.get("writer") != null) {
+                                    Log.d(TAG, "최신글 => " + snap.getData());
+                                    recentPosts.add(snap.toObject(Posting.class));
+                                    recDocPath.add(snap.getReference().getPath());
+                                }
+                            }
+                            reAdapter.setItem(recentPosts, recDocPath);
+                            adapterList.add(reAdapter);
 
-                        homeAdapter.setItem(adapterList);
+                            homeAdapter.setItem(adapterList);
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

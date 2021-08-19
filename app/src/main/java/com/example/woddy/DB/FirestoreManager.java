@@ -2,6 +2,7 @@ package com.example.woddy.DB;
 
 import static android.content.ContentValues.TAG;
 import static com.example.woddy.Alarm.MyFirebaseMessagingService.sendGson;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 import android.content.Context;
 import android.util.Log;
@@ -45,8 +46,6 @@ public class FirestoreManager {
     private FirebaseFirestore fsDB;
     SQLiteManager sqlmanager;
     private SQLiteManager sqlManager;
-
-    public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public FirestoreManager(Context context) {
         fsDB = FirebaseFirestore.getInstance();

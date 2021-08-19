@@ -1,7 +1,7 @@
 package com.example.woddy.Chatting;
 
 import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 import android.os.Bundle;
 import android.util.Log;

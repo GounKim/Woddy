@@ -132,7 +132,7 @@ public class ChattingRoom extends BaseActivity {
 
                                     if (crAdapter.getItemCount() != 0) {
                                         crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
-                                    }
+                                    } 
                                 }
                                 crAdapter.setItem(msgArrayList);
                             }

@@ -1,6 +1,6 @@
 package com.example.woddy.MyPage;
 
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

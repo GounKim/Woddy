@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     FirestoreManager manager = new FirestoreManager();
     SQLiteManager sqlManager = new SQLiteManager(this);
 
-    TextView title, writer, time, content, likedCount, scrapCount, tag, board;
+    TextView title, writer, time, content, likedCount, scrapCount, tag, board, writerUid;
+
     ImageView liked, scrap;
     RecyclerView recyclerView;
     EditText edtComment;
@@ -68,7 +70,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     private int i = 1, y = 1;
 
     // BottomSheetDialog
-    TextView report, sendChat, cancle;
+    LinearLayout bottomLayout;
+    TextView report, sendChat, cancle, delete;
 
     @Override
     protected boolean useBottomNavi() {
@@ -90,6 +93,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
         title = findViewById(R.id.show_posting_title);
         writer = findViewById(R.id.show_posting_writer);
+        writerUid = findViewById(R.id.show_posting_writerUid);
         time = findViewById(R.id.show_posting_time);
         content = findViewById(R.id.show_posting_content);
         board = findViewById(R.id.show_posting_boardName);
@@ -122,6 +126,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
                                 title.setText(posting.getTitle());
                                 writer.setText(posting.getWriter());
+                                writerUid.setText(posting.getPostingUid());
                                 time.setText(datestamp(posting.getPostedTime()));
                                 content.setText(posting.getContent());
                                 board.setText(boardName);
@@ -276,8 +281,22 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomSheetView);
 
-                sendChat = bottomSheetDialog.findViewById(R.id.show_posting_send_chatting);
-                sendChat.setOnClickListener(this::bottomSheet);
+                bottomLayout = bottomSheetDialog.findViewById(R.id.show_posting_menu_layout);
+                delete = bottomSheetDialog.findViewById(R.id.show_posting_menu_delete);
+                sendChat = bottomSheetDialog.findViewById(R.id.show_posting_menu_send_chatting);
+
+                if (writerUid.getText().toString().equals(USER_UID)) {
+                    bottomLayout.setVisibility(View.GONE);
+                    delete.setVisibility(View.VISIBLE);
+                    manager.delPosting(postingPath);
+
+                } else {
+                    bottomLayout.setVisibility(View.VISIBLE);
+                    delete.setVisibility(View.GONE);
+
+                    sendChat.setOnClickListener(this::bottomSheet);
+                }
+
 
                 bottomSheetDialog.show();
 
@@ -288,11 +307,13 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
     public void bottomSheet(View view) {
         switch (view.getId()) {
-            case R.id.show_posting_report:
+
+            case R.id.show_posting_menu_report:_posting_report:
 
                 break;
 
-            case R.id.show_posting_send_chatting:
+            case R.id.show_posting_menu_send_chatting:
+
                 String w = writer.getText().toString();
                 manager.findUserWithNick(w)
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -320,7 +341,13 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
                 break;
 
-            case R.id.show_posting_cancle:
+
+            case R.id.show_posting_menu_delete:
+
+                break;
+
+            case R.id.show_posting_menu_cancle:
+
 
                 break;
         }

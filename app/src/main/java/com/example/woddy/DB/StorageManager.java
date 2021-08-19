@@ -80,8 +80,13 @@ public class StorageManager {
         });
     }
 
-    public ArrayList<String> addPostingImage(String boardName, String tagName, String postingNum, ArrayList<String> uriPath) {
-        String storagePath = boardName + "/" + tagName + "/PostingImages/" + postingNum + "/";
+    public ArrayList<String> addPostingImage(String postingPath, ArrayList<String> uriPath) {
+        String[] path = postingPath.split("/");
+        String boardName = path[1];
+        String tagName = path[3];
+        String docID = path[5];
+
+        String storagePath = boardName + "/" + tagName + "/PostingImages/" + docID + "/";
         ArrayList<String> newUri = new ArrayList<>();
 
         for (int index = 0; index < uriPath.size(); index++) {
@@ -100,6 +105,9 @@ public class StorageManager {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Map<String, Object> uriData = new HashMap<>();
+                    uriData.put("pictures", newUri);
+                    manager.updatePosting(postingPath, uriData);
                     Log.d(TAG, "Uploading Image to stroage has successed!");
                 }
             });
@@ -108,8 +116,14 @@ public class StorageManager {
         return newUri;
     }
 
-    public void delPostingImage(String fileUri) {
-        StorageReference desertRef = storageRef.child(fileUri);
+    public void delPostingImage(String postingPath) {
+        String[] path = postingPath.split("/");
+        String boardName = path[1];
+        String tagName = path[3];
+        String docID = path[5];
+
+        String storageUri = boardName + "/" + tagName + "/PostingImages/" + docID + "/";
+        StorageReference desertRef = storageRef.child(storageUri);
 
         desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -81,6 +82,17 @@ public class TalkFragment extends Fragment {
                 swipeRefresh.setRefreshing(false);
             }
         });
+
+        friend.setCheckable(true);
+        friend.setLongClickable(true);
+        friend.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(getContext(), "롱클릭", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
+
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {

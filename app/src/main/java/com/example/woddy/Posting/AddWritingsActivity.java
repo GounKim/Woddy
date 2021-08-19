@@ -304,6 +304,7 @@ public class AddWritingsActivity extends BaseActivity {
         iv.setMaxWidth(250);
         imageLayout.addView(iv, 0);
 
+        iv.setLongClickable(true);
         iv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

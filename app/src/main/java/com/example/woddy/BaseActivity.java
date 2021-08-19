@@ -181,7 +181,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //
+    //사용자 푸시토큰 받아서 저장
     public void registerPushToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -210,5 +210,4 @@ public class BaseActivity extends AppCompatActivity {
     public Toolbar getmToolbar() {
         return mToolbar;
     }
-
 }

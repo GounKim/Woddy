@@ -595,7 +595,7 @@ public class FirestoreManager {
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(0);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
+                        alarmDTO.setTimestamp(new Date());
                         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
                         String message = (alarmDTO.getNickname() + "님이 당신의 게시물에 좋아요를 눌렸습니다.");
                         sendGson(destinationUid, "Woddy", message);
@@ -624,7 +624,7 @@ public class FirestoreManager {
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(1);
                         alarmDTO.setMessage(message);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
+                        alarmDTO.setTimestamp(new Date());
                         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
                         String msg = (alarmDTO.getNickname() + "님이 당신의 게시물에 댓글을 달았습니다." + System.lineSeparator() + message);
                         sendGson(destinationUid, "Woddy", msg);
@@ -650,12 +650,9 @@ public class FirestoreManager {
                         String nickname = (String) documentSnapshot.get("nickname");
                         Log.d("chatalarm",nickname);
                         alarmDTO.setNickname(nickname);
-                        alarmDTO.setKind(1);
-                        alarmDTO.setMessage(message);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
                         alarmDTO.setKind(2);
                         alarmDTO.setMessage(message);
-                        alarmDTO.setTimestamp(System.currentTimeMillis());
+                        alarmDTO.setTimestamp(new Date());
                         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO);
 
                         String msg = (alarmDTO.getNickname() + "님에게 새로운 채팅이 왔습니다." + System.lineSeparator() + message);

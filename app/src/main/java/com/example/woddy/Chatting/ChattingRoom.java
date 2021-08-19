@@ -4,7 +4,6 @@ package com.example.woddy.Chatting;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,6 +69,7 @@ public class ChattingRoom extends BaseActivity {
         // ChattingList에서 클릭한 방의 CHATTER 받아오기
         Intent intent = getIntent();
         String chatter = intent.getStringExtra("CHATTER");
+
         setMyTitle(chatter);
         toolbarLogoImage.setVisibility(View.GONE);
         String roomNum = intent.getStringExtra("ROOMNUM");

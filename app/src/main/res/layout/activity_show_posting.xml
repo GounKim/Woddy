@@ -61,6 +61,13 @@
                         android:text="2021-08-06 17:45"
                         android:textColor="#AAAAAA"
                         android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/show_posting_writerUid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <TextView

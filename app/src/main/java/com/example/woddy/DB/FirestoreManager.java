@@ -243,14 +243,15 @@ public class FirestoreManager {
 //        String postingUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //        posting.setPostingUid(postingUid);
 
-        // 이미지 Storage에 넣기
-        StorageManager storageManager = new StorageManager();
-        posting.setPictures(storageManager.addPostingImage(boardName, tagName, posting.getPostingNumber(), posting.getPictures()));
-
         colRef.add(posting)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        String path = documentReference.getPath();
+                        // 이미지 Storage에 넣기
+                        StorageManager storageManager = new StorageManager();
+                        posting.setPictures(storageManager.addPostingImage(path, posting.getPictures()));
+
                         Log.d(TAG, "Posting has successfully Added!");
                     }
                 })
@@ -280,7 +281,7 @@ public class FirestoreManager {
     }
 
     // 게시물 삭제
-    public void delPosting(String postingPath, Posting posting) {
+    public void delPosting(String postingPath) {
         StorageManager storage = new StorageManager();
 
         fsDB.document(postingPath).delete()
@@ -289,11 +290,11 @@ public class FirestoreManager {
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Posting has successfully deleted!");
 
-                        // 사진 파일도 지우기
-                        int numOfPic = posting.getPictures().size();
-                        for (int index = 0; index < numOfPic; index++) {
-                            storage.delPostingImage(posting.getPictures().get(index));
-                        }
+//                        // 사진 파일도 지우기
+//                        int numOfPic = posting.getPictures().size();
+//                        for (int index = 0; index < numOfPic; index++) {
+//                            storage.delPostingImage(posting.getPictures().get(index));
+//                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

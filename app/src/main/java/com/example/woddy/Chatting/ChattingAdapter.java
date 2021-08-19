@@ -177,8 +177,6 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
 
     // 최신 메시지 변경적용(메시지를 받으면 가장 위로 위치변경)
     public void setCurMsg(ChattingInfo chatInfo) {
-//        Boolean find = false;   // 최신 메시지를 받은 채팅방이 존재하는지 확인
-
         if (chattingInfos.size() == 0) {    // 채팅방이 아무것도 없을 경우 - 추가
             addItem(chatInfo);
         } else {    // 채팅방이 존재할경우 - 최신 메시지를 받은 채팅방 존재 여부 확인
@@ -189,7 +187,6 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
                 // 이미 존재하는 방일 경우
                 if (info.getRoomNumber().equals(chatInfo.getRoomNumber())) {
                     iter.remove();
-//                    find = true;    // 찾았음을 알림
                 }
             }
             chattingInfos.add(0, chatInfo);

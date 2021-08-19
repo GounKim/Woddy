@@ -275,20 +275,6 @@ public class AddWritingsActivity extends BaseActivity {
                 .check();
     }
 
-    private File createImageFile() throws IOException {
-        // 이미지 파일 이름 ( blackJin_{시간}_ )
-        String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
-        String imageFileName = "image" + timeStamp;
-
-        // 이미지가 저장될 폴더 이름 ( image )
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/image/");
-        if (!storageDir.exists()) storageDir.mkdirs();
-        // 파일 생성
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-
-        return image;
-    }
-
     // 사진 선택하면 이미지 골라서 보여주기
     private void setImage(Bitmap img) {
         LinearLayout imageLayout = (LinearLayout) findViewById(R.id.imageLayout);

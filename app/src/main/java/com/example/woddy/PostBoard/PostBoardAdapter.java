@@ -99,43 +99,21 @@ public class PostBoardAdapter extends RecyclerView.Adapter<PostBoardAdapter.View
                     //포지션이 recylerView의 아이템인지 확인
                     if (pos != RecyclerView.NO_POSITION) {
                         //액티비티 전환
-                        int viewType = getViewType(pos); //포스팅 이미지 존재 여부 판단
-                        openPosting(v, viewType, pos); //타입에 맞는 포스팅 실행
+                        if(tagName.getText() == "공동구매" | tagName.getText() == "무료나눔" | tagName.getText() =="DIY" | tagName.getText() =="인테리어") {
+                            Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("documentPath", postingPath.get(pos));
+                            v.getContext().startActivity(intent);
+                        } else{
+                            Intent intent = new Intent(v.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("documentPath", postingPath.get(pos));
+                            v.getContext().startActivity(intent);
+                        }
                     }
                 }
             });
         }
 
 
-    }
-
-    private final int WRITING_SIMPLE = 0;
-    private final int WRITING_WITH_IMAGE = 1;
-
-    //포스팅 종류 찾기
-    public int getViewType(int pos) {
-        if (PostingList.get(pos).getPictures() == null | PostingList.get(pos).getPictures().size() == 0) {
-            return WRITING_SIMPLE;
-        } else {
-            return WRITING_WITH_IMAGE;
-        }
-    }
-
-    //종류에 맞게 포스팅 열기
-    public void openPosting(View v, int viewType, int pos) {
-        switch (viewType) {
-            case WRITING_SIMPLE: {   // 기본형
-                Intent intent = new Intent(v.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("documentPath", postingPath.get(pos));
-                v.getContext().startActivity(intent);
-            }
-            case WRITING_WITH_IMAGE: {  // 이미지 포함형
-                Intent intent = new Intent(v.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("documentPath", postingPath.get(pos));
-                v.getContext().startActivity(intent);
-            }
-            break;
-        }
     }
 
     private String timestamp(Date date) {    // 타임스탬프 생성

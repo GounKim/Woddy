@@ -26,7 +26,6 @@ import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
 import com.example.woddy.R;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -174,7 +173,38 @@ public class AlarmActivity extends AppCompatActivity {
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            chatIntent(view, currentAlarm);
+                            manager.findUserWithNick(currentAlarm.nickname)
+                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            String chatterUid = queryDocumentSnapshots.getDocuments().get(0).getId();
+                                            Log.d("alarm", chatterUid);
+
+                                            Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+                                            intent.putExtra("USER", FirebaseAuth.getInstance().getCurrentUser().getUid());//사용자
+                                            intent.putExtra("CHATTER", chatterUid);
+                                            view.getContext().startActivity(intent);
+                                        }
+                                    });
+//                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                                        @Override
+//                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                            String chatterUid = task.getResult().getDocuments().get(0).get
+//                                            Log.d("alarm", chatterUid);
+//
+//                                            Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                            intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+//                                            intent.putExtra("USER", FirebaseAuth.getInstance().getCurrentUser().getUid());//사용자
+//                                            intent.putExtra("CHATTER", chatterUid);
+//                                        }
+//                                    })
+//                                    .addOnFailureListener(new OnFailureListener() {
+//                                        @Override
+//                                        public void onFailure(@NonNull Exception e) {
+//                                            Log.d("error", "fail");
+//                                        }
+//                                    });
                         }
                     });
                     break;
@@ -186,28 +216,36 @@ public class AlarmActivity extends AppCompatActivity {
         }
     }
 
-    //채팅 알림일 때 화면 전환
-    public void chatIntent(View view, AlarmDTO currentAlarm) {
-        manager.findUserWithUid(currentAlarm.destinationUid)
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String nickname = (String) documentSnapshot.get("nickname"); //받는 사람 닉네임
-                        Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
-                        intent.putExtra("USER", nickname);
-                        intent.putExtra("CHATTER", currentAlarm.getNickname());
-                        Log.d("onclick", currentAlarm.getRoomNum());
-                        view.getContext().startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Fail to find writer info");
-                    }
-                });
-    }
+//    //채팅 알림일 때 화면 전환
+//    public void chatIntent(View view, AlarmDTO currentAlarm) {
+//
+//        String chatterUid = manager.findUserWithNick(currentAlarm.nickname)
+//                .getResult().getDocuments().get(0).getId();
+//
+//        intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+//        intent.putExtra("USER", FirebaseAuth.getInstance().getCurrentUser().getUid());//사용자
+//        intent.putExtra("CHATTER", currentAlarm.getNickname());
+//
+//        manager.findUserWithUid(currentAlarm.destinationUid)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        String nickname = (String) documentSnapshot.get("nickname"); //푸시 받는 사람 닉네임
+//                        Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+//                        intent.putExtra("USER", nickname);
+//                        intent.putExtra("CHATTER", currentAlarm.getNickname());
+//                        Log.d("onclick", currentAlarm.getRoomNum());
+//                        view.getContext().startActivity(intent);
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d(TAG, "Fail to find writer info");
+//                    }
+//                });
+//    }
 
     // 툴바 기본 설정
     @Override

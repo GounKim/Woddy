@@ -4,6 +4,7 @@ package com.example.woddy.Chatting;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;

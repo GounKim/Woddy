@@ -15,7 +15,7 @@
         android:paddingBottom="5dp"
         android:text="내가 즐겨찾기한 게시판"
         android:textColor="@color/main_color"
-        android:textSize="24sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
@@ -33,16 +33,26 @@
         app:layout_constraintTop_toBottomOf="@+id/home_board_nameR"
         app:layout_constraintWidth_percent="0.9">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_board_hori_recycler"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/home_posting_slider"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:divider="#00000000"
-            android:dividerHeight="5dp"
-            android:scrollbars="none">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:id="@+id/home_posting_layoutIndicators"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/scrap_img_posting_slider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>
 

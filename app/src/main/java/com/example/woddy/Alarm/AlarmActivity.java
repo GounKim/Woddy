@@ -21,9 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.Chatting.ChattingRoom;
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
 import com.example.woddy.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 public class AlarmActivity extends AppCompatActivity {
 
     FirebaseFirestore fsDB = FirebaseFirestore.getInstance();
+    FirestoreManager manager = new FirestoreManager();
 
     String TAG = "AlarmActivity";
 
@@ -161,22 +165,23 @@ public class AlarmActivity extends AppCompatActivity {
             View view = holder.itemView;
             ImageView image = view.findViewById(R.id.alarmitem_imageview);
             TextView text_message = view.findViewById(R.id.alarmitem_textview_message);
+            AlarmDTO currentAlarm = alarmDTOList.get(position);
 
-            switch (alarmDTOList.get(position).kind){
+            switch (currentAlarm.kind){
                 case 0 : //좋아요 알림
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
-                    String str0 = alarmDTOList.get(position).nickname + getString(R.string.alarm_like);
+                    String str0 = currentAlarm.nickname + getString(R.string.alarm_like);
                     text_message.setText(str0);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             try {
                                 Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
                                 view.getContext().startActivity(intent);
                             }catch(RuntimeException e){
                                 Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
                                 view.getContext().startActivity(intent);
                             }
                         }
@@ -184,19 +189,19 @@ public class AlarmActivity extends AppCompatActivity {
                     break;
                 case 1 : //댓글 알림
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
-                    String str1 = alarmDTOList.get(position).nickname + getString(R.string.alarm_comment)
-                            +System.lineSeparator()+'"'+alarmDTOList.get(position).message+'"';
+                    String str1 = currentAlarm.nickname + getString(R.string.alarm_comment)
+                            +System.lineSeparator()+'"'+currentAlarm.message+'"';
                     text_message.setText(str1);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             try {
                                 Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
                                 view.getContext().startActivity(intent);
                             }catch(RuntimeException e){
                                 Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
                                 view.getContext().startActivity(intent);
                             }
                         }
@@ -204,15 +209,12 @@ public class AlarmActivity extends AppCompatActivity {
                     break;
                 case 2 : //채팅 알림
                     //image.setImageResource(R.drawable.ic_baseline_liked_no);
-                    String str2 = alarmDTOList.get(position).nickname + getString(R.string.alarm_chatting);
+                    String str2 = currentAlarm.nickname + getString(R.string.alarm_chatting);
                     text_message.setText(str2);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("ROOMNUM", alarmDTOList.get(position).getRoomNum());
-                            Log.d("onclick",alarmDTOList.get(position).getRoomNum());
-                            view.getContext().startActivity(intent);
+                            chatIntent(view, currentAlarm);
                         }
                     });
                     break;
@@ -223,5 +225,27 @@ public class AlarmActivity extends AppCompatActivity {
         public int getItemCount() {
             return alarmDTOList.size();
         }
+    }
+
+    public void chatIntent(View view, AlarmDTO currentAlarm) {
+        manager.findUserWithUid(currentAlarm.destinationUid)
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String nickname = (String) documentSnapshot.get("nickname");
+                        Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+                        intent.putExtra("USER", nickname); //내 닉네임
+                        intent.putExtra("CHATTER", currentAlarm.getNickname()); //상대 닉네임
+                        Log.d("onclick", currentAlarm.getRoomNum());
+                        view.getContext().startActivity(intent);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Fail to find writer info");
+                    }
+                });
     }
 }

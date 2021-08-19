@@ -23,10 +23,10 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class SearchInfoData {
-    ArrayList<News> items = new ArrayList<>();
-    ArrayList<String> docPath = new ArrayList<>();
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+public class SearchInfoData { //정보형일 경우
+    ArrayList<News> items = new ArrayList<>(); // 포스팅
+    ArrayList<String> docPath = new ArrayList<>(); //포스팅 위치
+    FirebaseFirestore db = FirebaseFirestore.getInstance(); // 데이터베이스
 
     FirestoreManager manager;
     private InfoBoardAdapter adapter;
@@ -37,10 +37,10 @@ public class SearchInfoData {
 
     public ArrayList<News> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {
         adapter = new InfoBoardAdapter(boardName, tagName);
-
+        // 받은 게시판과 태그이름을 바탕으로 데베 찾기
         final CollectionReference docRef =
                 db.collection("postBoard").document(boardName).collection("postTag").document(tagName).collection("postings");
-
+        // 받은 검색 내용과 같거나 많은 내용을 담은 포스팅 뽑기
         docRef.whereGreaterThanOrEqualTo("content", searchWord.toLowerCase()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -53,7 +53,7 @@ public class SearchInfoData {
                                     docPath.add(document.getReference().getPath());
                                     items.add(news);
                                 }
-                                adapter.setItems(items, docPath);
+                                adapter.setItems(items, docPath); //아이템 로드
 
                                 StaggeredGridLayoutManager staggeredGridLayoutManager
                                         = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

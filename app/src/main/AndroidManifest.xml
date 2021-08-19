@@ -32,8 +32,11 @@
         <activity android:name=".Alarm.AlarmActivity" />
 
         <activity android:name=".Login.LogInActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
 
@@ -47,11 +50,7 @@
             android:name=".MainActivity"
             android:theme="@style/SplashTheme">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity android:name=".Search.SearchActivity" />

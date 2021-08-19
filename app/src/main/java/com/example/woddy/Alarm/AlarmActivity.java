@@ -24,8 +24,10 @@ import android.widget.TextView;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.Chatting.ChattingFragment;
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.MainActivity;
 import com.example.woddy.Posting.ShowImgPosting;
+import com.example.woddy.Posting.ShowPosting;
 import com.example.woddy.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +45,7 @@ import java.util.List;
 
 public class AlarmActivity extends AppCompatActivity {
 
+    FirebaseFirestore fsDB = FirebaseFirestore.getInstance();
 
     String TAG = "AlarmActivity";
 
@@ -127,7 +130,7 @@ public class AlarmActivity extends AppCompatActivity {
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             // Create a reference to the cities collection
-            Query query = FirebaseFirestore.getInstance().collection("alarms").orderBy("timestamp", Query.Direction.DESCENDING);
+            Query query = FirebaseFirestore.getInstance().collection("alarms");
             query.whereEqualTo("destinationUid",uid)
             //FirebaseFirestore.getInstance().collection("alarms").whereEqualTo("destinationUid",uid) //.orderBy("population");
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -177,9 +180,15 @@ public class AlarmActivity extends AppCompatActivity {
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("postingPath", alarmDTOList.get(position).getPostingPath());
-                            view.getContext().startActivity(intent);
+                            try {
+                                Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }catch(RuntimeException e){
+                                Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }
                         }
                     });
                     break;
@@ -191,9 +200,15 @@ public class AlarmActivity extends AppCompatActivity {
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("postingPath", alarmDTOList.get(position).getPostingPath());
-                            view.getContext().startActivity(intent);
+                            try {
+                                Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }catch(RuntimeException e){
+                                Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", alarmDTOList.get(position).getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }
                         }
                     });
                     break;

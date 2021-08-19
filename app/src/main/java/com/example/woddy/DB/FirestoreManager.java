@@ -54,6 +54,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "User Profile has successfully Added!");
+                        Log.d(TAG, "uid: " + uid + "\ngetNick: " + profile.getNickname() + "\nprofile: " + profile.getUserImage());
                         sqlmanager.setUser(uid, profile.getNickname(), profile.getUserImage());
                     }
                 })

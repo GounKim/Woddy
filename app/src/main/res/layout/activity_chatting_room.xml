@@ -55,7 +55,7 @@
             android:layout_weight="14"
             android:background="@drawable/button_round_shape_grayish_small_radius"
             android:hint="대화를 입력해주세요."
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:padding="10dp"
             android:paddingLeft="10dp"
             android:textSize="18sp" />
@@ -63,7 +63,7 @@
         <Button
             android:id="@+id/btn_send"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"

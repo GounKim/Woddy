@@ -11,17 +11,18 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/beforebtn"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
-            android:background="@color/white"/>
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
         <EditText
             android:id="@+id/searchWord"
@@ -29,15 +30,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="검색어를 입력해주세요."
-            android:textSize="18sp"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textSize="22sp" />
 
         <ImageButton
             android:id="@+id/searchBtn"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_search_24"
-            android:background="@color/white"/>
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_search_24" />
 
     </LinearLayout>
 
@@ -47,44 +48,44 @@
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/filterChipGroup_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:chipSpacingHorizontal="4dp"
-        app:chipSpacingVertical="6dp"
-        app:singleLine="true"
-        app:singleSelection="true"
-        app:checkedChip="@id/chipLifeSupport"
-        android:paddingHorizontal="12dp"
-        app:selectionRequired="true"
-        tools:visibility="visible">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipLifeSupport"
-            style="@style/Widget.Woody.Chip"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filterChipGroup_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lifeSupport"
-            android:textSize="12sp" />
+            android:paddingHorizontal="15dp"
+            app:checkedChip="@id/chipLifeSupport"
+            app:chipSpacingHorizontal="10dp"
+            app:chipSpacingVertical="6dp"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true"
+            tools:visibility="visible">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipEducation"
-            style="@style/Widget.Woody.Chip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/education"
-            android:textSize="12sp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLifeSupport"
+                style="@style/Widget.Woody.Chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lifeSupport"
+                android:textSize="18sp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipEvent"
-            style="@style/Widget.Woody.Chip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/event"
-            android:textSize="12sp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipEducation"
+                style="@style/Widget.Woody.Chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/education"
+                android:textSize="18sp" />
 
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipEvent"
+                style="@style/Widget.Woody.Chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/event"
+                android:textSize="18sp" />
+
+        </com.google.android.material.chip.ChipGroup>
 
     </HorizontalScrollView>
 
@@ -98,128 +99,117 @@
             android:id="@+id/filterChipGroup_board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:chipSpacingHorizontal="4dp"
+            android:paddingHorizontal="15dp"
+            app:chipSpacingHorizontal="10dp"
             app:chipSpacingVertical="6dp"
+            app:selectionRequired="true"
             app:singleLine="true"
             app:singleSelection="true"
-            android:paddingHorizontal="12dp"
-            app:selectionRequired="true"
             tools:visibility="visible">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFriend"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/frind"
-                android:textSize="12sp"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipHelp"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/help"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMate"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/mate"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipClub"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/club"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMeeting"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/meeting"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipShare"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/share"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipHome"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/home"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipBuy"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/tgbuy"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFreeShare"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/free_share"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFreeTalk"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/free_talk"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDIY"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/diy"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipInterior"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/interior"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipTownInfo"
+                style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="@string/town_info"
-                android:layout_marginRight="5dp"
-                style="@style/Widget.Woody.Chip"/>
+                android:textSize="18sp" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -229,16 +219,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="검색 결과"/>
+        android:textSize="18sp"
+        android:textColor="@color/main_color"
+        android:text="검색 결과" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@drawable/button_round_shape_grayish_small_radius"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_round_shape_grayish_small_radius"
+        android:padding="10dp" />
 
 </LinearLayout>

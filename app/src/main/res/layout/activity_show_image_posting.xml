@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/notice_border"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/show_img_posting_commentView"
+                app:layout_constraintBottom_toTopOf="@id/show_img_posting_btnSend_comment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -49,7 +49,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="작성자 닉네임"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/show_img_posting_time"
@@ -114,7 +114,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="20dp"
                     android:text="내용"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -215,7 +215,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <EditText
             android:id="@+id/show_img_posting_edt_comment"
             android:layout_width="0dp"
@@ -227,7 +226,7 @@
             android:layout_weight="8"
             android:background="@drawable/button_round_shape_grayish_small_radius"
             android:hint="댓글을 입력해주세요."
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:padding="10dp"
             android:textSize="20sp" />
 

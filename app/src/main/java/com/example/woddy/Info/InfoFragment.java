@@ -68,12 +68,12 @@ public class InfoFragment extends Fragment {
         event = (Chip) view.findViewById(R.id.chipEvent);
 
         tagName = "생활지원";
-        new InfoData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        new InfoData().getItems(recyclerView, BOARD_NAME, tagName);
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new InfoData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                new InfoData().getItems(recyclerView, BOARD_NAME, tagName);
                 givePathToParent(tagName);
                 swipeRefresh.setRefreshing(false);
             }
@@ -85,17 +85,17 @@ public class InfoFragment extends Fragment {
                 switch (checkedId) {
                     case R.id.chipLifeSupport:
                         tagName = "생활지원";
-                        new InfoData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new InfoData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         break;
                     case R.id.chipEducation:
                         tagName = "교육";
-                        new InfoData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new InfoData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         break;
                     case R.id.chipEvent:
                         tagName = "행사";
-                        new InfoData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new InfoData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
                         break;
                 }

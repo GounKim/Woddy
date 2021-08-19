@@ -139,6 +139,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
         btnSend.setOnClickListener(this);
 
+        // 게시글 경로를 받아 해당 게시글 출력
         manager.getdocRefWithPath(postingPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -148,6 +149,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                             if (document.exists()) {
                                 Posting posting = document.toObject(Posting.class);
 
+                                // 게시글 xml 적용
                                 title.setText(posting.getTitle());
                                 writer.setText(posting.getWriter());
                                 writerUid.setText(posting.getPostingUid());
@@ -213,14 +215,13 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         return sdf.format(date);
     }
 
-    public void pushHeart(View view){
+    public void pushHeart(View view){   // 좋아요 눌렀을 경우
         i = i * (-1);
         int num = Integer.parseInt((String) likedCount.getText());
         if(i == -1) {
             liked.setImageResource(R.drawable.ic_baseline_liked_yes);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
-
             //게시물 작성자 uid 획득
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -235,7 +236,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                     }
                 }
             });
-            sqlManager.insertLiked(postingPath);
+            sqlManager.insertLiked(postingPath);    // sql에 해당 글의 경로 넣기
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -352,14 +353,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                 ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participantUID), Arrays.asList(chatterImage));
                                 manager.addChatRoom(chattingInfo, bottomSheetDialog, participant);
 
-//                                Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//                                intent.putExtra("USER", sqlManager.getUserNick());
-//                                intent.putExtra("CHATTER", chattingInfo.getParticipant().get(0));
-//                                intent.putExtra("ROOMNUM", documentReference.getId());
-//                                intent.putExtra("IMAGE", chattingInfo.getParticipantImg().get(0));
-//
-//                                context.startActivity(intent);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -369,6 +362,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                             }
                         });
 
+                Toast.makeText(getApplicationContext(), "채팅방이 생성되었습니다.", Toast.LENGTH_LONG).show();
+                bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_HIDDEN);
 
                 break;
 

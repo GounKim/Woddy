@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.Entity.UserFavoriteBoard;
 import com.example.woddy.PostBoard.NormalData;
 import com.example.woddy.PostBoard.PostBoardAdapter;
 import com.example.woddy.R;
@@ -23,9 +25,7 @@ import java.util.ArrayList;
 public class HabitFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView mVerticalView;
-    private PostBoardAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private FirestoreManager fsManager;
 
     ChipGroup chipGroup;
     Chip club, meeting;
@@ -101,6 +101,26 @@ public class HabitFragment extends Fragment {
 
                         break;
                 }
+            }
+        });
+
+        chipGroup.setLongClickable(true);
+        chipGroup.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                switch (v.getId()) {
+                    case R.id.chipClub:
+                        UserFavoriteBoard clubBoard = new UserFavoriteBoard("동호회");
+                        fsManager.addUFavorBoard(clubBoard);
+                        return true;
+
+                    case R.id.chipMeeting:
+                        UserFavoriteBoard meetingBoard = new UserFavoriteBoard("번개모임");
+                        fsManager.addUFavorBoard(meetingBoard);
+                        return true;
+
+                }
+                return true;
             }
         });
 

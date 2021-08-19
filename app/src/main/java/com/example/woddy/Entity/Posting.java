@@ -12,7 +12,7 @@ import java.util.Map;
 public class Posting {
     private String postingNumber;  // P0000001부터 시작
     private String postingUid; //작성자의 uid
-    //    private String tag; // 태그 이름 [ FK : BoardTag ]
+    private String tag; // 태그 이름 [ FK : BoardTag ]
     private String writer;  // User의 nickName [ FK : MemberInfo ]
     private String title;   // 글의 제목
     private String content; // 글의 내용
@@ -30,7 +30,7 @@ public class Posting {
     public Posting(String writer, String title, String content, Date postedTime, String uid) {
         this.postingNumber = "";
         this.postingUid = uid;
-//        this.tag = tag;
+        this.tag = tag;
         this.writer = writer;
         this.title = title;
         this.content = content;
@@ -41,7 +41,7 @@ public class Posting {
     public Posting(String writer, String title, String content, ArrayList<String> pictures, Date postedTime, String uid) {
         this.postingNumber = "";
         this.postingUid = uid;
-//        this.tag = tag;
+        this.tag = tag;
         this.writer = writer;
         this.title = title;
         this.content = content;
@@ -56,7 +56,7 @@ public class Posting {
         post.put("content", content);
         post.put("writer", writer);
         post.put("postingUid", postingUid);
-//        post.put("tag", tag);
+        post.put("tag", tag);
 
         return post;
     }
@@ -69,13 +69,13 @@ public class Posting {
         this.postingNumber = postingNumber;
     }
 
-//    public String getTag() {
-//        return tag;
-//    }
-//
-//    public void setTag(String tag) {
-//        this.tag = tag;
-//    }
+    public String getTag() {
+        return tag;
+    }
+
+   public void setTag(String tag) {
+        this.tag = tag;
+    }
 
 
     public String getPostingUid() {

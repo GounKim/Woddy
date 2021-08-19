@@ -69,7 +69,8 @@ public class ChattingFragment extends Fragment {
         manager.getChatRoomList(USER_UID)   // 현재 사용자가 들어있는 채팅방 가져오기
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value
+                            , @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
                         if (error != null) {
                             Log.w(TAG, "Listen failed.", error);
                             return;
@@ -92,7 +93,8 @@ public class ChattingFragment extends Fragment {
         manager.getMessage(chatInfo.getRoomNumber()).limitToLast(1) // 해당 채팅방에서 추가된 최신 메시지 1개만 가져옴
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value,
+                                        @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
                         if (error != null) {
                             Log.w(TAG, "Listen failed.", error);
                             return;

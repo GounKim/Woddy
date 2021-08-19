@@ -40,20 +40,19 @@
             android:background="@color/white"
             android:src="@drawable/ic_baseline_search_24" />
 
-    </LinearLayout>
+    </LinearLayout>>
 
     <HorizontalScrollView
-        android:id="@+id/filterScrollView_info"
+        android:id="@+id/filterScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/filterChipGroup_info"
+            android:id="@+id/filterChipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="15dp"
-            app:checkedChip="@id/chipLifeSupport"
             app:chipSpacingHorizontal="10dp"
             app:chipSpacingVertical="6dp"
             app:selectionRequired="true"
@@ -84,29 +83,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/event"
                 android:textSize="18sp" />
-
-        </com.google.android.material.chip.ChipGroup>
-
-    </HorizontalScrollView>
-
-    <HorizontalScrollView
-        android:id="@+id/filterScrollView_board"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/filterChipGroup_board"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="15dp"
-            app:chipSpacingHorizontal="10dp"
-            app:chipSpacingVertical="6dp"
-            app:selectionRequired="true"
-            app:singleLine="true"
-            app:singleSelection="true"
-            tools:visibility="visible">
-
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFriend"
                 style="@style/Widget.Woody.Chip"

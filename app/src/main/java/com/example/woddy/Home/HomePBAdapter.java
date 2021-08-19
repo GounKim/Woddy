@@ -114,7 +114,7 @@ public class HomePBAdapter extends BaseAdapter {
                     SimpleViewHolder sHolder = (SimpleViewHolder) view.getTag();
                     sHolder.sTitle.setText(writing.getTitle());
                     sHolder.sContent.setText(writing.getContent());
-//                    sHolder.sBoardName.setText(writing.getTag());
+                    sHolder.sBoardName.setText(writing.getTag());
                     sHolder.sTime.setText(timestamp(writing.getPostedTime()));
                     sHolder.sLiked.setText("" + writing.getNumberOfLiked());
 
@@ -133,7 +133,7 @@ public class HomePBAdapter extends BaseAdapter {
                     ImageViewHolder iHolder = (ImageViewHolder) view.getTag();
                     iHolder.iTitle.setText(writing.getTitle());
                     iHolder.iContent.setText(writing.getContent());
-//                    iHolder.iBoardName.setText(writing.getTag());
+                    iHolder.iBoardName.setText(writing.getTag());
                     iHolder.iTime.setText(timestamp(writing.getPostedTime()));
                     iHolder.iLiked.setText("" + writing.getNumberOfLiked());
 

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -349,6 +350,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                 return true;
 
             case R.id.menu_more_option:
+
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.show_posting_menu, null);
                 bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomSheetView);
@@ -362,6 +364,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                 if (writerUid.getText().toString().equals(USER_UID)) {
                     bottomLayout.setVisibility(View.GONE);
                     delete.setVisibility(View.VISIBLE);
+                    manager.delPosting(postingPath);
 
                     delete.setOnClickListener(this::bottomSheet);
                 } else {
@@ -373,7 +376,6 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
 
                 bottomSheetDialog.show();
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -382,31 +384,21 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     public void bottomSheet(View view) {
         switch (view.getId()) {
             case R.id.show_posting_menu_send_chatting:
-                String w = writer.getText().toString();
-                manager.findUserWithNick(w)
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                String wUid = writerUid.getText().toString();
+                manager.findUserWithUid(wUid)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                                String wNick = (String) document.get("nickname");
-                                String wImage = (String) document.get("userImage");
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String wNick = (String) documentSnapshot.get("nickname");
+                                String wImage = (String) documentSnapshot.get("userImage");
 
                                 String[] participant = {wNick, sqlManager.getUserNick()};
+                                String[] participantUID = {wUid, USER_UID};
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};
 
-                                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
-//                                manager.addChatRoom(chattingInfo);
+                                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participantUID), Arrays.asList(chatterImage));
+                                manager.addChatRoom(chattingInfo, bottomSheetDialog, participant);
 
-
-
-//                                Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//                                intent.putExtra("USER", sqlManager.getUserNick());
-//                                intent.putExtra("CHATTER", chattingInfo.getParticipant().get(0));
-//                                intent.putExtra("ROOMNUM", documentReference.getId());
-//                                intent.putExtra("IMAGE", chattingInfo.getParticipantImg().get(0));
-//
-//                                context.startActivity(intent);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -416,7 +408,8 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                             }
                         });
 
-
+                Toast.makeText(getApplicationContext(), "채팅방이 생성되었습니다.", Toast.LENGTH_LONG).show();
+                bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_HIDDEN);
                 break;
 
             case R.id.show_posting_menu_delete:

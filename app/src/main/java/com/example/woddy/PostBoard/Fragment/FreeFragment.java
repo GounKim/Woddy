@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.Entity.UserFavoriteBoard;
 import com.example.woddy.PostBoard.Album.AlbumData;
 import com.example.woddy.PostBoard.NormalData;
 import com.example.woddy.PostBoard.PostBoardAdapter;
@@ -25,9 +27,8 @@ import java.util.ArrayList;
 public class FreeFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView mVerticalView;
-    private PostBoardAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
+
+    private FirestoreManager fsManager;
 
     ChipGroup chipGroup;
     Chip free, diy, interior, townInfo;
@@ -154,25 +155,29 @@ public class FreeFragment extends Fragment {
             }
         });
 
-        chipGroup.isLongClickable();
+        chipGroup.setLongClickable(true);
         chipGroup.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 switch (v.getId()) {
                     case R.id.chipFreeTalk:
-                        Toast.makeText(getContext(), "자유", Toast.LENGTH_LONG).show();
+                        UserFavoriteBoard freetalkBoard = new UserFavoriteBoard("자유");
+                        fsManager.addUFavorBoard(freetalkBoard);
                         return true;
 
                     case R.id.chipDIY:
-                        Toast.makeText(getContext(), "DIY", Toast.LENGTH_LONG).show();
+                        UserFavoriteBoard diyBoard = new UserFavoriteBoard("DIY");
+                        fsManager.addUFavorBoard(diyBoard);
                         return true;
 
                     case R.id.chipInterior:
-                        Toast.makeText(getContext(), "인테리어", Toast.LENGTH_LONG).show();
+                        UserFavoriteBoard interiorBoard = new UserFavoriteBoard("인테리어");
+                        fsManager.addUFavorBoard(interiorBoard);
                         return true;
 
                     case R.id.chipTownInfo:
-                        Toast.makeText(getContext(), "동네정보", Toast.LENGTH_LONG).show();
+                        UserFavoriteBoard towninfoBoard = new UserFavoriteBoard("동네정보");
+                        fsManager.addUFavorBoard(towninfoBoard);
                         return true;
                 }
                 return true;

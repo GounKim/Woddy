@@ -38,36 +38,6 @@ public class SearchData {
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {
 
         adapter = new PostBoardAdapter(boardName, tagName);
-        if (boardName == "전체" && tagName == "전체") {
-            manager.getAllPosting(searchWord).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    //작업이 성공적으로 마쳤을때
-                    if (task.isSuccessful()) {
-                        if (task.getResult().size() > 0) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "all postings => " + document.getData());
-                                Posting posting = document.toObject(Posting.class);
-                                docPath.add(document.getReference().getPath());
-                                items.add(posting);
-                            }
-                            //아이템 로드
-                            adapter.setItems(items, docPath);
-
-                            recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
-                            recyclerView.setAdapter(adapter);
-                        } else {
-                            Log.d(TAG, "Nothing Founded!");
-                        }
-
-                    } else {
-                        Log.d(TAG, "Finding Postings failed!");
-                    }
-                }
-            });
-
-        } else {
             final CollectionReference docRef =
                     db.collection("postBoard").document(boardName).collection("postTag").document(tagName).collection("postings");
 
@@ -96,7 +66,6 @@ public class SearchData {
                 }
             });
 
-        }
         return items;
     }
 

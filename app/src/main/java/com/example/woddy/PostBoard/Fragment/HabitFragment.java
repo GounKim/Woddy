@@ -76,7 +76,7 @@ public class HabitFragment extends Fragment {
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.chipClub:
                         tagName = "동호회";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);

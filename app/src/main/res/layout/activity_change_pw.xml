@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MyPage.ChangePwActivity">
 
-
     <EditText
         android:id="@+id/cur_pw_edit_text"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/edit_text_box"
         android:hint="현재 비밀번호"
         android:inputType="textPassword"
-        android:textSize="15sp"
+        android:padding="10dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,14 +25,15 @@
     <EditText
         android:id="@+id/new_pw_edit_text"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/edit_text_box"
         android:hint="새로운 비밀번호 (6자리 이상)"
         android:inputType="textPassword"
-        android:textSize="15sp"
+        android:padding="10dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cur_pw_edit_text" />
@@ -40,14 +41,15 @@
     <EditText
         android:id="@+id/new_pw2_edit_text"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/edit_text_box"
         android:hint="새로운 비밀번호 확인"
         android:inputType="textPassword"
-        android:textSize="15sp"
+        android:padding="10dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/new_pw_edit_text" />
@@ -60,7 +62,7 @@
         android:layout_marginEnd="25dp"
         android:gravity="end"
         android:text="비밀번호가 일치하지 않습니다."
-        android:textSize="10dp"
+        android:textSize="16dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/new_pw2_edit_text" />
@@ -69,13 +71,15 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pw_change_button"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/button_round_shape"
-        android:textColor="@color/white"
+        android:padding="10dp"
         android:text="비밀번호 변경"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pw_check_text_view" />

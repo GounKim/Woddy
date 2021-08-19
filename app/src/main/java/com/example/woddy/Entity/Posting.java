@@ -12,7 +12,7 @@ import java.util.Map;
 public class Posting {
     private String postingNumber;  // P0000001부터 시작
     private String postingUid; //작성자의 uid
-//    private String tag; // 태그 이름 [ FK : BoardTag ]
+    //    private String tag; // 태그 이름 [ FK : BoardTag ]
     private String writer;  // User의 nickName [ FK : MemberInfo ]
     private String title;   // 글의 제목
     private String content; // 글의 내용
@@ -55,7 +55,7 @@ public class Posting {
         post.put("title", title);
         post.put("content", content);
         post.put("writer", writer);
-        post.put("postingUid",postingUid);
+        post.put("postingUid", postingUid);
 //        post.put("tag", tag);
 
         return post;
@@ -78,9 +78,13 @@ public class Posting {
 //    }
 
 
-    public String getPostingUid() { return postingUid;   }
+    public String getPostingUid() {
+        return postingUid;
+    }
 
-    public void setPostingUid(String postingUid) { this.postingUid = postingUid;}
+    public void setPostingUid(String postingUid) {
+        this.postingUid = postingUid;
+    }
 
     public String getWriter() {
         return writer;

@@ -80,7 +80,7 @@ public class ShareFragment extends Fragment {
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.chipShare:
                         tagName = "물품공유";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);

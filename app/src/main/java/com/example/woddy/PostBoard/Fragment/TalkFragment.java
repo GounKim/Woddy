@@ -77,7 +77,7 @@ public class TalkFragment extends Fragment {
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.chipFriend:
                         tagName = "친구찾기";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);

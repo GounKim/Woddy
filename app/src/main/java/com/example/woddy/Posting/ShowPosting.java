@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.BaseActivity;
-import com.example.woddy.Chatting.ChattingRoom;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.ChattingInfo;
@@ -36,9 +35,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -199,6 +196,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
             liked.setImageResource(R.drawable.ic_baseline_liked_yes);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+
+            //게시물 작성자 uid 획득
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -207,7 +206,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                             Posting posting = document.toObject(Posting.class);
 
                             String uid=posting.getPostingUid();
-                            manager.likeAlarm(uid, postingPath);
+                            manager.likeAlarm(uid, postingPath); //좋아요 알림
                         }
                     }
                 }
@@ -293,6 +292,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                 if (writerUid.getText().toString().equals(USER_UID)) {
                     bottomLayout.setVisibility(View.GONE);
                     delete.setVisibility(View.VISIBLE);
+                    manager.delPosting(postingPath);
 
                     delete.setOnClickListener(this::bottomSheet);
                 } else {

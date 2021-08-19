@@ -1,93 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp">
-
-    <LinearLayout
-        android:id="@+id/show_posting_menu_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/show_posting_menu_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/show_posting_menu_report"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center_horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="신고하기"
-            android:textSize="16dp" />
-
-        <View
-            android:layout_width="380dp"
-            android:layout_height="1dp"
-            android:background="#99adb5bd" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/show_posting_menu_send_chatting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center_horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="채팅보내기"
-            android:textSize="16dp" />
-
-    </LinearLayout>
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:context=".Posting.ShowPostingMenu">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/show_posting_menu_delete"
+        android:id="@+id/show_posting_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="글 삭제하기"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/show_posting_menu_cancle"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="신고하기"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/show_posting_menu_for_others" />
+        app:layout_constraintTop_toBottomOf="@+id/show_posting_send_chatting"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#99adb5bd"
-        app:layout_constraintTop_toBottomOf="@+id/show_posting_menu_delete"
+        app:layout_constraintBottom_toTopOf="@+id/show_posting_send_chatting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/show_posting_menu_cancle"/>
+        app:layout_constraintTop_toBottomOf="@+id/show_posting_report" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/show_posting_menu_cancle"
+        android:id="@+id/show_posting_send_chatting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="취소"
-        android:textSize="16dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="채팅보내기"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/show_posting_cancle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/show_posting_menu_delete" />
+        app:layout_constraintTop_toBottomOf="@+id/show_posting_report" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#99adb5bd"
+        app:layout_constraintBottom_toBottomOf="@+id/show_posting_send_chatting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/show_posting_cancle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/show_posting_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="취소"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/show_posting_send_chatting" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,18 +1,7 @@
 package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
-
-//import static com.example.woddy.DB.FirestoreManager.USER_UID;
-
-
 import static com.example.woddy.DB.FirestoreManager.USER_UID;
-
-import androidx.annotation.LongDef;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,13 +16,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.Chatting.ChattingRoom;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
-import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
@@ -44,7 +37,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -56,6 +48,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+//import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 
 public class ShowImgPosting extends BaseActivity implements View.OnClickListener {
@@ -229,6 +223,8 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
             sqlManager.insertLiked(postingPath);
+
+            //게시물 작성자 uid 획득
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -237,7 +233,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                             Posting posting = document.toObject(Posting.class);
 
                             String uid=posting.getPostingUid();
-                            manager.likeAlarm(uid, postingPath);
+                            manager.likeAlarm(uid, postingPath); //좋아요 알림
                         }
                     }
                 }

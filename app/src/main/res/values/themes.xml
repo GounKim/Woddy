@@ -48,7 +48,7 @@
 
     <style name="TabLayoutTextStyle" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textColor">#999999</item>
     </style>
 

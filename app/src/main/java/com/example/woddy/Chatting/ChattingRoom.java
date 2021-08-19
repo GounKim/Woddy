@@ -2,6 +2,7 @@ package com.example.woddy.Chatting;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +40,7 @@ public class ChattingRoom extends BaseActivity {
     ImageView btnPlus;
     EditText edtInputCon;
     Button btnSend;
+    ImageView toolbarLogoImage;
 
     // DB
     FirestoreManager manager;
@@ -57,15 +59,18 @@ public class ChattingRoom extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
 
+        toolbarLogoImage = (ImageView) findViewById(R.id.toolbar_logo);
+
         // ChattingList에서 클릭한 방의 CHATTER 받아오기
         Intent intent = getIntent();
         String chatter = intent.getStringExtra("CHATTER");
         setMyTitle(chatter);
+        toolbarLogoImage.setVisibility(View.GONE);
         String roomNum = intent.getStringExtra("ROOMNUM");
         String user = intent.getStringExtra("USER");
         String chatterImage = intent.getStringExtra("IMAGE");
 
-//        initDatabase(roomNum);
+        initDatabase(roomNum);
         updateDB(roomNum);
 
         // xml 연결
@@ -78,7 +83,7 @@ public class ChattingRoom extends BaseActivity {
         crAdapter = new ChattingRoomAdapter(user, chatter, chatterImage);
         crRecyclerView.setLayoutManager(new LinearLayoutManager(this, crRecyclerView.VERTICAL, false)); // 상하 스크롤
         crRecyclerView.setAdapter(crAdapter);
-        if(crAdapter.getItemCount() != 0) {
+        if (crAdapter.getItemCount() != 0) {
             crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
         }
 
@@ -93,36 +98,35 @@ public class ChattingRoom extends BaseActivity {
 
     }
 
-//    private void initDatabase(String roomNum) {
-//        manager = new FirestoreManager();
-//
-//        manager.getMessage(roomNum).get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                try {
-//                                    ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
-//                                    Log.d(TAG, "Error getting chatList: " + chattingMsg.getMessage());
-//                                    crAdapter.addItem(chattingMsg);
-//                                    if(crAdapter.getItemCount() != 0) {
-//                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
-//                                    }
-//                                } catch (RuntimeException e){
-//                                    Log.d(TAG, "Error getting chatList: ", e);
-//                                }
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//    }
+    private void initDatabase(String roomNum) {
+        manager = new FirestoreManager();
+
+        manager.getMessage(roomNum).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                try {
+                                    ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
+                                    crAdapter.addItem(chattingMsg);
+                                    if (crAdapter.getItemCount() != 0) {
+                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
+                                    }
+                                } catch (RuntimeException e) {
+                                    Log.d(TAG, "Error getting chatList: ", e);
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+    }
 
     private void updateDB(String roomNum) {
-        manager.getMessage(roomNum)
+        manager.getMessage(roomNum).limitToLast(1)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {

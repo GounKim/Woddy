@@ -31,25 +31,25 @@
                 android:id="@+id/chipFriend"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/frind" />
+                android:layout_height="60dp"
+                android:text="@string/frind"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipHelp"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/help" />
+                android:layout_height="60dp"
+                android:text="@string/help"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMate"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/mate"/>
+                android:layout_height="60dp"
+                android:text="@string/mate"
+                android:textSize="20sp" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -59,6 +59,6 @@
         android:id="@+id/recyclerView_Talk"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp" />
+        android:layout_margin="10dp" />
 
 </LinearLayout>

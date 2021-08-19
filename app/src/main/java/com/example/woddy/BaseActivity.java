@@ -1,17 +1,6 @@
 package com.example.woddy;
 
-import static com.example.woddy.Alarm.sendGson.sendGson;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +11,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.Chatting.ChattingFragment;
@@ -30,6 +23,7 @@ import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.Info.InfoBoardMain;
 import com.example.woddy.MyPage.MyPageFragment;
 import com.example.woddy.PostBoard.PostBoardMain;
+import com.example.woddy.Search.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -56,6 +50,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
         registerPushToken();
     }
 
@@ -105,12 +100,18 @@ public class BaseActivity extends AppCompatActivity {
                             setMyTitle("홈");
                             return true;
                         case R.id.bottom_menu_post:
+                            toolbarLogo.setVisibility(View.GONE);
+                            toolbarTitle.setVisibility(View.VISIBLE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostBoardMain()).commit();
-                            mToolbar.setVisibility(View.GONE);
+                            mToolbar.setVisibility(View.VISIBLE);
+                            setMyTitle("게시판");
                             return true;
                         case R.id.bottom_menu_info:
+                            toolbarLogo.setVisibility(View.GONE);
+                            toolbarTitle.setVisibility(View.VISIBLE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new InfoBoardMain()).commit();
-                            mToolbar.setVisibility(View.GONE);
+                            mToolbar.setVisibility(View.VISIBLE);
+                            setMyTitle("정보 모아보기");
                             return true;
                         case R.id.bottom_menu_chatting:
                             toolbarLogo.setVisibility(View.GONE);
@@ -158,11 +159,10 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         //return super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_alarm, menu);
+        menuInflater.inflate(R.menu.menu_top, menu);
 
         return true;
     }
-
 
 
     // 앱바 메뉴 클릭
@@ -173,15 +173,21 @@ public class BaseActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
-            case R.id.menu_alarm:{
+            case R.id.menu_alarm: {
                 Intent intent = new Intent(this, AlarmActivity.class);
+                startActivity(intent);
+            }
+            case R.id.menu_search: {
+                Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    //사용자 푸시토큰 받아서 저장
+    String TAG = "token";
+
+    //사용자 푸시 토큰 생성해서 저장
     public void registerPushToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -192,18 +198,17 @@ public class BaseActivity extends AppCompatActivity {
                             return;
                         }
                         String token = task.getResult();
-                        Log.d("sys",token);
+                        Log.d("sys", token);
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken", token);
 
                         FirebaseFirestore.getInstance().collection("userProfile").document(uid).set(map, SetOptions.merge());
-                        FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map);
                     }
                 });
     }
 
-//    public void onStop(){ //확인용
+    //    public void onStop(){ //확인용
 //        super.onStop();
 //        sendGson(FirebaseAuth.getInstance().getUid(), "title","message");
 //    }

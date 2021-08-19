@@ -1,13 +1,8 @@
 package com.example.woddy.Alarm;
 
-import android.app.Activity;
-import android.app.Notification;
-
-import com.example.woddy.Posting.ShowPosting;
-
 public class PushDTO { //푸시 데이터
-    String to = null;
-    Notification notification = new Notification();
+    String to = null; //푸시 보낼 곳
+    Notification notification = new Notification(); //알림
 
     public String getTo() {
         return to;
@@ -16,8 +11,6 @@ public class PushDTO { //푸시 데이터
     public Notification getNotification() {
         return notification;
     }
-
-
 
     public void setNotification(Notification notification) {
         this.notification = notification;
@@ -28,8 +21,8 @@ public class PushDTO { //푸시 데이터
     }
 
     class Notification{
-        String body = null;
-        String title = null;
+        String title = null; //알림 제목
+        String body = null; //알림 내용
 
         public String getBody() {
             return body;

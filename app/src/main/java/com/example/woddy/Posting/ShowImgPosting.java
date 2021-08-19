@@ -329,7 +329,6 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                 return true;
 
             case R.id.menu_more_option:
-
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.show_posting_menu, null);
                 bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomSheetView);

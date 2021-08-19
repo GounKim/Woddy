@@ -6,262 +6,272 @@
     android:layout_height="match_parent"
     tools:context=".Login.SignUpActivity">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="350dp"
-        android:text="이메일"
-        android:textColor="@color/main_color"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/email_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/edit_text_box"
-        android:ems="10"
-        android:hint="이메일 입력"
-        android:paddingLeft="7dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/id_availability_check_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/id_availability_check_button"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/button_round_shape"
-        android:text="중복확인"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/email_edit_text"
-        app:layout_constraintTop_toBottomOf="@id/textView5" />
-
-    <TextView
-        android:id="@+id/id_avail_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginRight="25dp"
-        android:text="사용 가능한 이메일입니다."
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email_edit_text"
-        tools:layout_editor_absoluteX="323dp"
-        tools:layout_editor_absoluteY="138dp" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="30dp"
-        android:text="비밀번호"
-        android:textColor="@color/main_color"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email_edit_text" />
-
-    <EditText
-        android:id="@+id/password_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/edit_text_box"
-        android:ems="10"
-        android:hint="비밀번호 입력"
-        android:inputType="textPassword"
-        android:paddingLeft="7dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView7"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="192dp" />
-
-    <EditText
-        android:id="@+id/password_confirm_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/edit_text_box"
-        android:ems="10"
-        android:hint="비밀번호 확인"
-        android:inputType="textPassword"
-        android:paddingLeft="7dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password_edit_text"
-        tools:layout_editor_absoluteY="245dp" />
-
-    <TextView
-        android:id="@+id/pw_check_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginRight="25dp"
-        android:text="비밀번호가 일치합니다."
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password_confirm_edit_text" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="30dp"
-        android:text="닉네임"
-        android:textColor="@color/main_color"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password_confirm_edit_text" />
-
-    <EditText
-        android:id="@+id/nickname_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/edit_text_box"
-        android:ems="10"
-        android:hint="닉네임 입력 (8자 이내)"
-        android:inputType="textPersonName"
-        android:maxLength="8"
-        android:paddingLeft="7dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/nickname_availability_check_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView9"
-        tools:layout_editor_absoluteY="345dp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/nickname_availability_check_button"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/button_round_shape"
-        android:text="중복확인"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/nickname_edit_text"
-        app:layout_constraintTop_toBottomOf="@id/textView9"
-        tools:layout_editor_absoluteY="344dp" />
-
-    <TextView
-        android:id="@+id/nick_avail_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginRight="25dp"
-        android:text="사용 가능한 닉네임입니다."
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nickname_edit_text"
-        tools:layout_editor_absoluteX="320dp"
-        tools:layout_editor_absoluteY="394dp" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="30dp"
-        android:text="주소"
-        android:textColor="@color/main_color"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nickname_edit_text" />
-
-    <EditText
-        android:id="@+id/address_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/edit_text_box"
-        android:ems="10"
-        android:hint="주소 입력 (서울시 노원구 공릉동)"
-        android:paddingLeft="7dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView11" />
-
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
-        android:text="회원가입"
-        android:textColor="@color/main_color"
-        android:textSize="32dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/next_button"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="21dp"
-        android:background="@drawable/button_round_shape"
-        android:textColor="@color/white"
-        android:padding="10dp"
-        android:text="다음"
-        android:textSize="20sp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutOutside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="25dp"
-        android:text="반드시 형식에 맞춰 입력해주세요."
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address_edit_text" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="350dp"
+            android:text="이메일"
+            android:textColor="@color/main_color"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toTopOf="@id/constraintLayoutOutside" />
+
+        <EditText
+            android:id="@+id/email_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:hint="이메일 입력"
+            android:paddingLeft="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/id_availability_check_button"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/id_availability_check_button"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_round_shape"
+            android:text="중복확인"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintStart_toEndOf="@id/email_edit_text"
+            app:layout_constraintTop_toBottomOf="@id/textView5" />
+
+        <TextView
+            android:id="@+id/id_avail_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="25dp"
+            android:text="사용 가능한 이메일입니다."
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/email_edit_text"
+            tools:layout_editor_absoluteX="323dp"
+            tools:layout_editor_absoluteY="138dp" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="30dp"
+            android:text="비밀번호"
+            android:textColor="@color/main_color"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toBottomOf="@id/email_edit_text" />
+
+        <EditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:hint="비밀번호 입력"
+            android:inputType="textPassword"
+            android:paddingLeft="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView7"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="192dp" />
+
+        <EditText
+            android:id="@+id/password_confirm_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword"
+            android:paddingLeft="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toBottomOf="@id/password_edit_text"
+            tools:layout_editor_absoluteY="245dp" />
+
+        <TextView
+            android:id="@+id/pw_check_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="25dp"
+            android:text="비밀번호가 일치합니다."
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password_confirm_edit_text" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="30dp"
+            android:text="닉네임"
+            android:textColor="@color/main_color"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password_confirm_edit_text" />
+
+        <EditText
+            android:id="@+id/nickname_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:hint="닉네임 입력 (8자 이내)"
+            android:inputType="textPersonName"
+            android:maxLength="8"
+            android:paddingLeft="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintEnd_toStartOf="@id/nickname_availability_check_button"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toBottomOf="@id/textView9"
+            tools:layout_editor_absoluteY="345dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nickname_availability_check_button"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_round_shape"
+            android:text="중복확인"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintStart_toEndOf="@id/nickname_edit_text"
+            app:layout_constraintTop_toBottomOf="@id/textView9"
+            tools:layout_editor_absoluteY="344dp" />
+
+        <TextView
+            android:id="@+id/nick_avail_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="25dp"
+            android:text="사용 가능한 닉네임입니다."
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nickname_edit_text"
+            tools:layout_editor_absoluteX="320dp"
+            tools:layout_editor_absoluteY="394dp" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="30dp"
+            android:text="주소"
+            android:textColor="@color/main_color"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nickname_edit_text" />
+
+        <EditText
+            android:id="@+id/address_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:hint="주소 입력 (서울시 노원구 공릉동)"
+            android:paddingLeft="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toBottomOf="@id/textView11" />
 
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="280dp"
+            android:text="회원가입"
+            android:textColor="@color/main_color"
+            android:textSize="32dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toTopOf="@id/constraintLayoutOutside" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/next_button"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="21dp"
+            android:background="@drawable/button_round_shape"
+            android:padding="10dp"
+            android:text="다음"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/constraintLayoutOutside"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutOutside" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="25dp"
+            android:text="반드시 형식에 맞춰 입력해주세요."
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutOutside"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_text" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

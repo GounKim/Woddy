@@ -27,9 +27,9 @@ public class Posting {
     public Posting() {
     }
 
-    public Posting(String writer, String title, String content, Date postedTime) {
+    public Posting(String writer, String title, String content, Date postedTime, String uid) {
         this.postingNumber = "";
-        this.postingUid = "";
+        this.postingUid = uid;
 //        this.tag = tag;
         this.writer = writer;
         this.title = title;
@@ -38,9 +38,9 @@ public class Posting {
         this.pictures = new ArrayList<>();
     }
 
-    public Posting(String writer, String title, String content, ArrayList<String> pictures, Date postedTime) {
+    public Posting(String writer, String title, String content, ArrayList<String> pictures, Date postedTime, String uid) {
         this.postingNumber = "";
-        this.postingUid = "";
+        this.postingUid = uid;
 //        this.tag = tag;
         this.writer = writer;
         this.title = title;

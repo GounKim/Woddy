@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.Profile;
 import com.example.woddy.MainActivity;
@@ -72,7 +71,7 @@ public class LogInActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
+//        GoogleSignInAccount gsa = GoogleSignIn.getLastSignedInAccount(this);
 //        if (gsa != null) {
 //            Toast.makeText(LogInActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
 //            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
@@ -81,7 +80,7 @@ public class LogInActivity extends AppCompatActivity {
 
         //이미 로그인 된 경우 Main으로 이동
         if (firebaseAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(LogInActivity.this, BaseActivity.class);
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -170,7 +169,7 @@ public class LogInActivity extends AppCompatActivity {
                         new Profile(account.getEmail(), account.getDisplayName(),
                                 "null", "null", "null", "null");
 
-                FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
+                FirestoreManager fsManager = new FirestoreManager();
                 fsManager.addProfile(uid, profile);
 
                 Intent intent = new Intent(this, MainActivity.class);

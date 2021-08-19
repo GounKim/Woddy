@@ -73,7 +73,7 @@ public class FreeFragment extends Fragment {
 
         //default 부분 - 시작 시
         tagName = "자유";
-        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
 //        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
@@ -83,28 +83,28 @@ public class FreeFragment extends Fragment {
                 switch (checkedId){
                     case R.id.chipFreeTalk:
                         tagName = "자유";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 
                         break;
 
                     case R.id.chipDIY:
                         tagName = "DIY";
-                        new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 
                         break;
 
                     case R.id.chipInterior:
                         tagName = "인테리어";
-                        new AlbumData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 
                         break;
 
                     case R.id.chipTownInfo:
                         tagName = "동네정보";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 
                         break;

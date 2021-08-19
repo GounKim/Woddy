@@ -14,13 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.woddy.PostBoard.Fragment.FreeFragment;
 import com.example.woddy.PostBoard.Fragment.HabitFragment;
 import com.example.woddy.PostBoard.Fragment.ShareFragment;
 import com.example.woddy.PostBoard.Fragment.TalkFragment;
-import com.example.woddy.PostWriting.AddWritingsActivity;
+import com.example.woddy.Posting.AddWritingsActivity;
 import com.example.woddy.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -86,7 +85,7 @@ public class PostBoardMain extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         boardName = "소통";
         tagName = "친구찾기";
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#494C7C"));
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF6B6B"));
         tabLayout.setSelectedTabIndicatorHeight(10);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

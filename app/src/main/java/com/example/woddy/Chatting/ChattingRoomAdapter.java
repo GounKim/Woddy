@@ -124,7 +124,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         else if (item.getWriter() != null && item.getWriter().equals(chatter)) {
             return CHATTER_MESSAGE;
         }
-        else if (item.getWrittenTime() == null){
+        else if (item.getWriter() == null){
             return INTRO_MARK;
         }
         else {

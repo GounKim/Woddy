@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.example.woddy.Search.SearchActivity;
@@ -47,7 +46,7 @@ public class HomeFragment extends Fragment {
     Button btnDelAccount;
     Button btnLogout;
 
-    FirestoreManager manager = new FirestoreManager(getContext());
+    FirestoreManager manager = new FirestoreManager();
     HomePBAdapter popAdapter = new HomePBAdapter();
     HomePBAdapter reAdapter = new HomePBAdapter();
 
@@ -57,8 +56,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        SQLiteManager sql = new SQLiteManager(getContext());
-        sql.setUser("D4wWKUiJReZ6NWlI8hjwi0KClba2", "jhs", "UserProfileImages/jhs/jhs_profile.jpg");
 
         // test용(로그인화면)
         btnLogin = view.findViewById(R.id.button2);
@@ -69,6 +66,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         //회원탈퇴
         btnDelAccount = view.findViewById(R.id.button4);
         btnDelAccount.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +94,7 @@ public class HomeFragment extends Fragment {
                 });
             }
         });
+
         btnLogout = view.findViewById(R.id.button5);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +137,7 @@ public class HomeFragment extends Fragment {
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
-        //setHomeAdapter();
+            //setHomeAdapter();
 
         return view;
     }

@@ -142,7 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
     void checkID() {
         String email_str = emailEditText.getText().toString();
 
-        FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
+        FirestoreManager fsManager = new FirestoreManager();
         fsManager.findEmail(email_str)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -165,7 +165,7 @@ public class SignUpActivity extends AppCompatActivity {
     void checkNickname() {
         String nick_str = nicknameEditText.getText().toString();
 
-        FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
+        FirestoreManager fsManager = new FirestoreManager();
         fsManager.findNickname(nick_str)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -225,7 +225,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 Profile profile = new Profile(email, nickname, finalCity, finalGu, finalDong, finalLocal);
                                 //User user = new User(nickname, finalLocal, "UserProfileImages/user.png");
 
-                                FirestoreManager fsManager = new FirestoreManager(getApplicationContext());
+                                FirestoreManager fsManager = new FirestoreManager();
                                 fsManager.addProfile(uid, profile); //userProfile 컬렉션에 저장
                                 //fsManager.addUser(user); //user 컬렉션에 저장
 

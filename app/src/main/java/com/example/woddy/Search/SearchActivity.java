@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.woddy.MainActivity;
 import com.example.woddy.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -20,7 +22,7 @@ public class SearchActivity extends AppCompatActivity {
     ChipGroup chipGroup;
     Chip friend, help, mate, share, home, buy, freeShare, free, diy, interior, townInfo, club, meeting;
 
-    ImageButton searchBtn;
+    ImageButton searchBtn,beforeBtn;
     EditText searchText;
     RecyclerView recyclerView;
 
@@ -34,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
 
         searchText = (EditText) findViewById(R.id.searchWord);
         searchBtn = (ImageButton) findViewById(R.id.searchBtn);
+        beforeBtn = (ImageButton) findViewById(R.id.beforebtn);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -61,6 +64,14 @@ public class SearchActivity extends AppCompatActivity {
         diy = (Chip) findViewById(R.id.chipDIY);
         interior = (Chip) findViewById(R.id.chipInterior);
         townInfo = (Chip) findViewById(R.id.chipTownInfo);
+
+        beforeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -140,14 +151,9 @@ public class SearchActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search(searchText.toString(), board_name, tagName);
+                new SearchData(SearchActivity.this).getItems(recyclerView, board_name, tagName, searchText.getText().toString());
             }
         });
     }
 
-    // 파이어스토어에서 데이터를 불러와서 검색어가 있는지 판단
-    public void search(String searchWord, String board_name, String tagName) {
-        new SearchData(this).getItems(recyclerView, board_name, tagName, searchWord);
-
-    }
 }

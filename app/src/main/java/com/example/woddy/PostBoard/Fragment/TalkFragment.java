@@ -70,7 +70,7 @@ public class TalkFragment extends Fragment {
 
         //default 부분 - 시작 시
         tagName = "친구찾기";
-        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
 //        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
@@ -80,21 +80,21 @@ public class TalkFragment extends Fragment {
                 switch (checkedId){
                     case R.id.chipFriend:
                         tagName = "친구찾기";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 
                         break;
 
                     case R.id.chipHelp:
                         tagName = "도움요청";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 
                         break;
 
                     case R.id.chipMate:
                         tagName = "퇴근메이트";
-                        new NormalData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                        new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
                         givePathToParent(tagName);
 
                         break;

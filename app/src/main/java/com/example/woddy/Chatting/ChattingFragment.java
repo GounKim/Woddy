@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.R;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,15 +26,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import static android.content.ContentValues.TAG;
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 
 public class ChattingFragment extends Fragment {
-    FirestoreManager manager = new FirestoreManager(getContext());
+    FirestoreManager manager = new FirestoreManager();
+    SQLiteManager sqlManager;
 
     RecyclerView recyclerView;
     ChattingAdapter clAdapter;
-    Button button;
-    EditText editText;
 
 
     @Override
@@ -42,29 +43,21 @@ public class ChattingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chatting, container, false);
 
+        sqlManager = new SQLiteManager(getContext());
         recyclerView = view.findViewById(R.id.chatting_recycler_view);
-        button = view.findViewById(R.id.button);
-        editText = view.findViewById(R.id.editText);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String user = editText.getText().toString();
-                // getDB
-                getChatList(user);
+        getChatList();
 
-                clAdapter = new ChattingAdapter(user);
-                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
-                recyclerView.setAdapter(clAdapter);
-            }
-        });
+        clAdapter = new ChattingAdapter(USER_UID);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
+        recyclerView.setAdapter(clAdapter);
 
         return view;
     }
 
     // 채팅 리스트 가져오기
-    private void getChatList(String user) {
-        manager.getChatRoomList(user)
+    private void getChatList() {
+        manager.getChatRoomList(sqlManager.getUserNick())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {

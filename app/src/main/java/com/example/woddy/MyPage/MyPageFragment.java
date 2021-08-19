@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.User;
 import com.example.woddy.Login.LogInActivity;
+import com.example.woddy.PostingListActivity;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,6 +56,8 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
     ImageView userImage;
     Button updateProfile;
 
+    Button userWritings, userLiked, userScraped;
+
     Button setAccount;
     Button delAccount;
     Button logOut;
@@ -80,6 +83,10 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         userImage = view.findViewById(R.id.myPage_userImage);
         updateProfile = view.findViewById(R.id.myPage_btn_update_myProfile);
 
+        userWritings = view.findViewById(R.id.myPage_userWritings);
+        userLiked = view.findViewById(R.id.myPage_likedWritings);
+        userScraped = view.findViewById(R.id.myPage_scrappedWritings);
+
         setAccount = view.findViewById(R.id.myPage_setAccount);
         delAccount = view.findViewById(R.id.myPage_deleteAccount);
         logOut = view.findViewById(R.id.myPage_logout);
@@ -88,8 +95,9 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         String firebaseUserUID = firebaseUser.getUid();
         Log.d(TAG, firebaseUserUID);
 
+
         //현재 로그인한 사용자의 닉네임 가져오기 + 가져온 닉네임으로 화면에 띄울 유저 정보 세팅(닉네임, 지역, 사진)
-        fsManager = new FirestoreManager(getContext());
+        fsManager = new FirestoreManager();
         fsManager.findUserWithUid(firebaseUserUID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
@@ -121,6 +129,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+
         fsManager.findUserWithUid(firebaseUserUID).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
@@ -131,6 +140,9 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
         });
 
         updateProfile.setOnClickListener(this);
+        userWritings.setOnClickListener(this);
+        userLiked.setOnClickListener(this);
+        userScraped.setOnClickListener(this);
         setAccount.setOnClickListener(this);
         delAccount.setOnClickListener(this);
         logOut.setOnClickListener(this);
@@ -149,6 +161,25 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra("imguri", tmp_imguri);
                 startActivity(intent);
                 break;
+
+            case R.id.myPage_userWritings:
+                intent = new Intent(getContext(), PostingListActivity.class);
+                intent.putExtra("Activity", 1);
+                startActivity(intent);
+                break;
+
+            case R.id.myPage_likedWritings:
+                intent = new Intent(getContext(), PostingListActivity.class);
+                intent.putExtra("Activity", 2);
+                startActivity(intent);
+                break;
+
+            case R.id.myPage_scrappedWritings:
+                intent = new Intent(getContext(), PostingListActivity.class);
+                intent.putExtra("nickname", 3);
+                startActivity(intent);
+                break;
+
             case R.id.myPage_setAccount: //계정 관리
                 Intent setAccountIntent = new Intent(getContext(), SetAccountActivity.class);
                 startActivity(setAccountIntent);

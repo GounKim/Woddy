@@ -112,23 +112,23 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
         holder.getChatterName().setText(chatterInfo[0]);
         holder.getRecentChatt().setText(chatInfo.getRecentMsg());
 
-        if (chatterInfo[1] != null | chatterInfo[1] != "") {
-            FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
-            StorageReference storageRef = storage.getReference(chatterInfo[1]); // 스토리지 공간을 참조해서 이미지를 가져옴
-
-            storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Glide.with(holder.itemView.getContext())
-                                .load(task.getResult())
-                                .into(holder.chatterImage);
-                    } else {
-                        Log.d(TAG, "Image Load in MyPage failed.", task.getException());
-                    }
-                }
-            });
-        }
+//        if (chatterInfo[1] != null | chatterInfo[1] != "") {
+//            FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+//            StorageReference storageRef = storage.getReference(chatterInfo[1]); // 스토리지 공간을 참조해서 이미지를 가져옴
+//
+//            storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Uri> task) {
+//                    if (task.isSuccessful()) {
+//                        Glide.with(holder.itemView.getContext())
+//                                .load(task.getResult())
+//                                .into(holder.chatterImage);
+//                    } else {
+//                        Log.d(TAG, "Image Load in MyPage failed.", task.getException());
+//                    }
+//                }
+//            });
+//        }
     }
 
     @Override
@@ -142,14 +142,14 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
         ChattingInfo chatInfo = chattingInfos.get(pos);
 
         List<String> nick = (List<String>) chatInfo.getParticipant();
-        List<String> img = (List<String>) chatInfo.getParticipantImg();
+//        List<String> img = (List<String>) chatInfo.getParticipantImg();
 
         if (nick.get(0).equals(user)) {
             chatterInfo[0] = nick.get(1);
-            chatterInfo[1] = img.get(1);
+//            chatterInfo[1] = img.get(1);
         } else {
             chatterInfo[0] = nick.get(0);
-            chatterInfo[1] = img.get(0);
+//            chatterInfo[1] = img.get(0);
         }
 
         return chatterInfo;

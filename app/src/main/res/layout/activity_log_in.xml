@@ -10,8 +10,8 @@
     <ImageView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginTop="140dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="150dp"
         android:layout_marginBottom="10dp"
         android:src="@drawable/logos_02"
         android:textStyle="bold"

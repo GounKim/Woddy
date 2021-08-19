@@ -75,9 +75,9 @@
                             android:id="@+id/album_item_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginRight="150dp"
                             android:text="17:03"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -86,8 +86,8 @@
 
                             <ImageView
                                 android:id="@+id/album_item_heart"
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"
                                 android:layout_marginRight="2dp"
                                 app:srcCompat="@drawable/ic_baseline_liked_yes"
                                 tools:ignore="MissingConstraints" />
@@ -97,10 +97,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:inputType="number"
-                                android:maxWidth="40dp"
                                 android:text="40000"
                                 android:textColor="#FF6B6B"
-                                android:textSize="12sp"
+                                android:textSize="14sp"
                                 tools:ignore="MissingConstraints" />
 
                         </LinearLayout>

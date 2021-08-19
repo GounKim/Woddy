@@ -1,7 +1,7 @@
 package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 import android.Manifest;
 import android.app.Activity;
@@ -304,6 +304,7 @@ public class AddWritingsActivity extends BaseActivity {
         iv.setMaxWidth(250);
         imageLayout.addView(iv, 0);
 
+        iv.setLongClickable(true);
         iv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

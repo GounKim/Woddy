@@ -1,7 +1,7 @@
 package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -81,6 +81,8 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     LinearLayout bottomLayout;
     TextView report, sendChat, cancle, delete;
 
+    ImageView toolbarLogoImage;
+
     @Override
     protected boolean useBottomNavi() {
         return false;
@@ -123,6 +125,11 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
 
         //새로고침
         swipeRefresh = findViewById(R.id.swipeRefresh);
+
+        //툴바 이미지 및 타이틀 설정
+        toolbarLogoImage = findViewById(R.id.toolbar_logo);
+        toolbarLogoImage.setVisibility(View.GONE);
+        setMyTitle(tagName);
 
         commentAdapter = new CommentAdapter();
         commentView.setLayoutManager(new LinearLayoutManager(this, commentView.VERTICAL, false)); // 상하 스크롤
@@ -388,7 +395,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};
 
                                 ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
-                                manager.addChatRoom(chattingInfo);
+//                                manager.addChatRoom(chattingInfo);
 
 
 

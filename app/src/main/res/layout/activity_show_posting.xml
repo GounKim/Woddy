@@ -36,7 +36,7 @@
                     android:layout_marginLeft="10dp"
                     android:paddingBottom="2dp"
                     android:text="게시글 제목"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -51,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:text="작성자 닉네임"
                         android:textColor="#AAAAAA"
-                        android:textSize="12sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/show_posting_time"
@@ -60,7 +60,7 @@
                         android:layout_marginLeft="10dp"
                         android:text="2021-08-06 17:45"
                         android:textColor="#AAAAAA"
-                        android:textSize="12sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/show_posting_writerUid"
@@ -75,9 +75,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:text="content"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -89,7 +89,6 @@
                         android:id="@+id/show_posting_boardName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:text="보드이름"
                         android:textSize="12sp" />
 
@@ -98,7 +97,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
                         android:text="#태그"
                         android:textSize="12sp" />
 

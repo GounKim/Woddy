@@ -2,22 +2,18 @@ package com.example.woddy.DB;
 
 import static android.content.ContentValues.TAG;
 
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.PostingSQL;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

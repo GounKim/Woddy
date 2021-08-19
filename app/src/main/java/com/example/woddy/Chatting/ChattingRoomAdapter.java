@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,16 +32,17 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int USER_MESSAGE = 0;
-    public static final int CHATTER_MESSAGE = 1;
-    public static final int DATE_MARK = 2;
-    public static final int INTRO_MARK = 3;
+    public static final int USER_MESSAGE = 0;   // 사용자 메시지
+    public static final int CHATTER_MESSAGE = 1;    // 상대방 메시지
+    public static final int DATE_MARK = 2;  // 날짜 출력 마크(자정이 넘어간 이후 글 입력시 출력)
+    public static final int INTRO_MARK = 3; // 사용자들의 입장을 알리는 마크
 
-    ArrayList<ChattingMsg> chatItemList;
-    String chatter;
-    String user;
-    String chatterImg;
+    ArrayList<ChattingMsg> chatItemList;    // 채팅방 목록
+    String chatter; // 채팅 상대방
+    String user;    // 사용자
+    String chatterImg;  // 상대방 이미지
 
+    // 생성자
     public ChattingRoomAdapter(String user, String chatter, String chatterImg) {
         this.user = user;
         this.chatter = chatter;
@@ -48,6 +50,13 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.chatItemList = new ArrayList<>();
     }
 
+    // 채팅방 목록(item) 전체 가져오기
+    public void setItem(ArrayList<ChattingMsg> chatItemList) {
+        this.chatItemList = chatItemList;
+        notifyDataSetChanged();
+    }
+
+    // 채팅방 목록(item) 하나만 추가하기
     public void addItem(ChattingMsg chatItem) {
         chatItemList.add(chatItem);
         notifyDataSetChanged();

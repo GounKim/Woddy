@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="8dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
     android:orientation="vertical">
 
     <FrameLayout
@@ -28,7 +30,7 @@
                 android:id="@+id/post_board_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="200dp"
+                android:maxWidth="250dp"
                 android:maxHeight="30dp"
                 android:text="제목"
                 android:textSize="20sp"
@@ -52,7 +54,7 @@
             android:layout_gravity="left|center_vertical"
             android:layout_marginLeft="10dp"
             android:maxWidth="430dp"
-            android:maxHeight="60dp"
+            android:lines="2"
             android:text="내용작성"
             android:textSize="18dp" />
 
@@ -71,15 +73,6 @@
                 android:maxWidth="300dp"
                 android:maxHeight="20dp"
                 android:text="게시판 이름"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:maxWidth="300dp"
-                android:maxHeight="20dp"
-                android:text="-"
                 android:textSize="16sp" />
 
             <TextView

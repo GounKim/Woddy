@@ -1,8 +1,8 @@
 package com.example.woddy.DB;
 
 import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
+
 
 import android.net.Uri;
 import android.util.Log;
@@ -11,17 +11,12 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.api.Distribution;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +30,10 @@ public class StorageManager {
         this.manager = new FirestoreManager();
         this.stroage = FirebaseStorage.getInstance();
         this.storageRef = stroage.getReference();
+    }
+
+    public static String userImagePath(String uid) {
+        return "UserProfileImages/" + uid + "/" + uid + "_profile.jpg";
     }
 
     public String setProfileImage(String uriPath) {

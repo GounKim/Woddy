@@ -29,10 +29,10 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="신고하기"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <View
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#99adb5bd" />
 
@@ -46,7 +46,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="채팅보내기"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -60,14 +60,14 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="글 삭제하기"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/show_posting_menu_cancle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_posting_menu_for_others" />
 
     <View
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#99adb5bd"
         app:layout_constraintTop_toBottomOf="@+id/show_posting_menu_delete"

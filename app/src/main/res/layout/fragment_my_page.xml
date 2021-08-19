@@ -23,7 +23,7 @@
                 android:id="@+id/myPage_userImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="35dp"
                 android:layout_marginTop="15dp"
                 android:src="@drawable/init_user_image"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
                     android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="17dp"
-                    android:padding="1dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_baseline_edit_color_24" />
 
                 <Button
@@ -100,7 +100,7 @@
                     android:paddingLeft="10dp"
                     android:text="내가 쓴 글"
                     android:textColor="@color/black"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -116,7 +116,7 @@
                     android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="17dp"
-                    android:padding="1dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_baseline_liked_yes" />
 
                 <Button
@@ -128,7 +128,7 @@
                     android:paddingLeft="10dp"
                     android:text="내가 좋아요 누른 글"
                     android:textColor="@color/black"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -144,7 +144,7 @@
                     android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="17dp"
-                    android:padding="1dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_baseline_scraped_yes" />
 
                 <Button
@@ -156,7 +156,7 @@
                     android:paddingLeft="10dp"
                     android:text="스크랩한 글"
                     android:textColor="@color/black"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -192,7 +192,7 @@
                 android:paddingStart="27dp"
                 android:text="계정 관리"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView20" />
@@ -206,7 +206,7 @@
                 android:paddingStart="27dp"
                 android:text="알림 설정"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_setAccount" />
@@ -242,7 +242,7 @@
                 android:paddingStart="27dp"
                 android:text="공지사항"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView21" />
@@ -256,7 +256,7 @@
                 android:paddingStart="27dp"
                 android:text="문의하기"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_notices" />
@@ -270,7 +270,7 @@
                 android:paddingStart="27dp"
                 android:text="로그아웃"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_Ask" />
@@ -284,7 +284,7 @@
                 android:paddingStart="27dp"
                 android:text="회원탈퇴"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_logout" />

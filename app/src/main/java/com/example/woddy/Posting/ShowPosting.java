@@ -2,7 +2,7 @@ package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
 
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
+import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
@@ -77,6 +78,9 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     LinearLayout bottomLayout;
     TextView report, sendChat, cancle, delete;
 
+    // Toolbar
+    ImageView toolbarLogoImage;
+
     @Override
     protected boolean useBottomNavi() {
         return false;
@@ -113,6 +117,11 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
+
+        //툴바 이미지 및 타이틀 설정
+        toolbarLogoImage = findViewById(R.id.toolbar_logo);
+        toolbarLogoImage.setVisibility(View.GONE);
+        setMyTitle(tagName);
 
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤
@@ -328,22 +337,20 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     public void bottomSheet(View view) {
         switch (view.getId()) {
             case R.id.show_posting_menu_send_chatting:
-
-                String w = writer.getText().toString();
-                manager.findUserWithNick(w)
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                String wUid = writerUid.getText().toString();
+                manager.findUserWithUid(wUid)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                                String wNick = (String) document.get("nickname");
-                                String wImage = (String) document.get("userImage");
-
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String wNick = (String) documentSnapshot.get("nickname");
+                                String wImage = (String) documentSnapshot.get("userImage");
 
                                 String[] participant = {wNick, sqlManager.getUserNick()};
+                                String[] participantUID = {wUid, USER_UID};
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};
 
-                                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
-                                manager.addChatRoom(chattingInfo);
+                                ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participantUID), Arrays.asList(chatterImage));
+                                manager.addChatRoom(chattingInfo, bottomSheetDialog, participant);
 
 //                                Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //

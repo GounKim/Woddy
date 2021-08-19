@@ -126,7 +126,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
                     }
                 });
 
-        if (chatterInfo[1] != nullwl) {
+        if (chatterInfo[1] != null) {
             FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
             Log.d(TAG, "===================" + chatterInfo[1]);
             StorageReference storageRef = storage.getReference(chatterInfo[1]); // 스토리지 공간을 참조해서 이미지를 가져옴

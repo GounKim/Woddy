@@ -37,6 +37,10 @@ public class StorageManager {
         this.storageRef = stroage.getReference();
     }
 
+    public static String userImagePath(String uid) {
+        return "UserProfileImages/" + uid + "/" + uid + "_profile.jpg";
+    }
+
     public String setProfileImage(String uriPath) {
         String filename = USER_UID + "_profile.jpg"; // 파일명 생성: 사용자의 NickName_profile.jpg
         String fileUri = "UserProfileImages/" + USER_UID + "/" + filename;

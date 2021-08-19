@@ -375,7 +375,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};
 
                                 ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
-                                manager.addChatRoom(chattingInfo);
+//                                manager.addChatRoom(chattingInfo);
 
 
 

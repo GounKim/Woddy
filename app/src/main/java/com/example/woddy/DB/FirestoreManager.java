@@ -5,6 +5,7 @@ import static com.example.woddy.Alarm.MyFirebaseMessagingService.sendGson;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -21,6 +22,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -393,27 +396,37 @@ public class FirestoreManager {
 
     /* ---------------------- Chatting용 DB ---------------------- */
     // 채팅방 추가
-    public void addChatRoom(ChattingInfo chattingInfo) {
-        fsDB.collection("chattingRoom").add(chattingInfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+    public void addChatRoom(ChattingInfo chattingInfo, BottomSheetDialog bottomSheetDialog) {
+        fsDB.collection("chattingRoom").whereEqualTo("participant", chattingInfo.getParticipant()).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        String roomNum = documentReference.getId();
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("roomNumber", documentReference.getId());
-                        updateChatRoom(roomNum, data);
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            fsDB.collection("chattingRoom").add(chattingInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            String roomNum = documentReference.getId();
+                                            Map<String, Object> data = new HashMap<>();
+                                            data.put("roomNumber", documentReference.getId());
+                                            updateChatRoom(roomNum, data);
 
-                        addMessage(roomNum,
-                                new ChattingMsg(null, chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다.", new Date()));
+                                            addMessage(roomNum,
+                                                    new ChattingMsg(null, chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다.", new Date()));
 
-
-                        Log.d(TAG, "chattingRoom has successfully Added!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.w(TAG, "Error adding document in user collection", e);
+                                            Log.d(TAG, "chattingRoom has successfully Added!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull @NotNull Exception e) {
+                                            Log.w(TAG, "Error adding document in user collection", e);
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(bottomSheetDialog.getContext(), "이미 채팅중인 상대입니다.", Toast.LENGTH_LONG).show();
+                            bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_HIDDEN);
+                        }
                     }
                 });
     }
@@ -612,23 +625,23 @@ public class FirestoreManager {
                         nickname = nickname.replace("]", "");
                         Log.d("firebase", nickname);
 
-                        //알림 받을 사용자의 uid 획득
-                        fsDB.collection("userProfile")
-                                .whereEqualTo("nickname", nickname).get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if( task.isSuccessful()) {
-                                            QuerySnapshot qDocument = task.getResult();
-                                            String uid = qDocument.getDocuments().get(0).getId();
-                                            String roomNum = document.get("roomNumber").toString();
-                                            Log.d("firebase", uid);
-                                            chattingAlarm(uid, msg,roomNum); //채팅 알림
-                                        }else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
-                                        }
-                                    }
-                                });
+//                        //알림 받을 사용자의 uid 획득
+//                        fsDB.collection("userProfile")
+//                                .whereEqualTo("nickname", nickname).get()
+//                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                        if( task.isSuccessful()) {
+//                                            QuerySnapshot qDocument = task.getResult();
+//                                            String uid = qDocument.getDocuments().get(0).getId();
+//                                            String roomNum = document.get("roomNumber").toString();
+//                                            Log.d("firebase", uid);
+//                                            chattingAlarm(uid, msg,roomNum); //채팅 알림
+//                                        }else {
+//                                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                                        }
+//                                    }
+//                                });
                     } else {
                         Log.d(TAG, "No such document");
                     }

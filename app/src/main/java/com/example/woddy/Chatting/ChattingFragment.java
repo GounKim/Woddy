@@ -57,7 +57,7 @@ public class ChattingFragment extends Fragment {
 
     // 채팅 리스트 가져오기
     private void getChatList() {
-        manager.getChatRoomList(sqlManager.getUserNick())
+        manager.getChatRoomList(USER_UID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {

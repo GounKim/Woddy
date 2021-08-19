@@ -146,15 +146,6 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             sTime = itemView.findViewById(R.id.home_postingS_time);
             sLiked = itemView.findViewById(R.id.home_postingS_liked);
 
-            sLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("documentPath", postingPath.get(pos));
-                    view.getContext().startActivity(intent);
-                }
-            });
         }
     }
 
@@ -172,16 +163,6 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             iTime = itemView.findViewById(R.id.home_postingI_time);
             iLiked = itemView.findViewById(R.id.home_postingI_liked);
             iImageView = itemView.findViewById(R.id.home_postingI_image);
-
-            iLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("documentPath", postingPath.get(pos));
-                    view.getContext().startActivity(intent);
-                }
-            });
         }
     }
 

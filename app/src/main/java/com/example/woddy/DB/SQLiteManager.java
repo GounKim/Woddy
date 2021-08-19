@@ -19,7 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class SQLiteManager {
     SQLiteHelper helper;
@@ -91,18 +95,24 @@ public class SQLiteManager {
 
     public void insertPosting(String boardName, String tagName, Posting posting) {
         sqlite = helper.getWritableDatabase();
+        int hasPicture = 0;
+
+        if (!posting.getPictures().isEmpty()) {
+            insertPicture(posting.getPostingNumber(), posting.getPictures());
+            hasPicture = 1;
+        }
+
         sqlite.execSQL("INSERT INTO scrapped_postings VALUES ('"
                 + posting.getPostingNumber() + "', '"
                 + boardName + "', '"
                 + tagName + "', '"
                 + posting.getWriter() + "', '"
                 + posting.getTitle() + "', '"
-                + posting.getContent() + "','"
-                + posting.getPostedTime() + "');");
+                + posting.getContent() + "', '"
+                + timestamp(posting.getPostedTime()) + "', "
+                + hasPicture + ");");
 
-        if (!posting.getPictures().isEmpty()) {
-            insertPicture(posting.getPostingNumber(), posting.getPictures());
-        }
+
 
         sqlite.close();
     }
@@ -145,12 +155,11 @@ public class SQLiteManager {
         try {
             String sql = "SELECT * FROM scrapped_postings";
             ArrayList<PostingSQL> postingList = new ArrayList<>();
-            PostingSQL posting = null;
             Cursor cursor = sqlite.rawQuery(sql, null);
             if (cursor != null) {
                 while( cursor.moveToNext() ) {
+                    PostingSQL posting = new PostingSQL();
                     posting.setPostingPath(cursor.getString(0));
-                    posting.setPictures(getPictures(posting.getPostingPath()));
                     posting.setBoard(cursor.getString(1));
                     posting.setTag(cursor.getString(2));
                     posting.setWriter(cursor.getString(3));
@@ -158,6 +167,10 @@ public class SQLiteManager {
                     posting.setContent(cursor.getString(5));
                     posting.setPostedTime(cursor.getString(6));
 
+                    if (cursor.getInt(7) == 1) {
+                        posting.setPictures(getPictures(posting.getPostingPath()));
+                    }
+                    Log.d(TAG, "hello : " + posting.getTitle());
                     postingList.add(posting);
                 }
                 return postingList;
@@ -171,9 +184,8 @@ public class SQLiteManager {
 
     public ArrayList<String> getPictures(String location) {
         ArrayList<String> pictureList = new ArrayList<>();
-        sqlite = helper.getReadableDatabase();
         try {
-            String sql = "SELECT picture FROM scrapped_postings WHERE location = '" + location + "'";
+            String sql = "SELECT picture FROM posting_picture WHERE location = '" + location + "'";
             Cursor cursor = sqlite.rawQuery(sql, null);
             if (cursor != null) {
                 while( cursor.moveToNext() ) {
@@ -198,6 +210,13 @@ public class SQLiteManager {
         return true;
     }
 
-
+    private String timestamp(Date date) {    // 타임스탬프 생성
+        TimeZone timeZone;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm", Locale.KOREAN);
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREAN);
+        timeZone = TimeZone.getTimeZone("Asia/Seoul");
+        sdf.setTimeZone(timeZone);
+        return sdf.format(date);
+    }
 
 }

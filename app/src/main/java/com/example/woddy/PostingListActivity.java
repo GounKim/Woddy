@@ -3,30 +3,24 @@ package com.example.woddy;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.Posting;
+import com.example.woddy.Entity.PostingSQL;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -36,6 +30,7 @@ public class PostingListActivity extends BaseActivity {
 
     FirestoreManager manager = new FirestoreManager();
     PostingListAdapter adapter;
+    ScrapListAdapter sAdapter;
 
     SQLiteManager sqlManager;
     String user;
@@ -61,21 +56,23 @@ public class PostingListActivity extends BaseActivity {
         user = sqlManager.getUserNick();
 
         adapter = new PostingListAdapter();
-        recyclerView.setAdapter(adapter);
-
-
+        sAdapter = new ScrapListAdapter();
 
         switch (activity) {
             case 1:
                 setMyTitle("내가 작성한 글");
+                recyclerView.setAdapter(adapter);
                 myPost();
                 break;
             case 2:
                 setMyTitle("내가 좋아요 누른 글");
+                recyclerView.setAdapter(adapter);
                 myLikedPost();
                 break;
             case 3:
                 setMyTitle("내가 스크랩한 글");
+                recyclerView.setAdapter(sAdapter);
+                myScrappedPost();
                 break;
             default:
                 break;
@@ -115,6 +112,11 @@ public class PostingListActivity extends BaseActivity {
         ArrayList<String> likePostPath = sqlManager.getLiked();
         adapter.setPathItem(likePostPath);
 
+        if (likePostPath.size() == 0) {
+            textView.setText("좋아요 누른 글이 없습니다.");
+            textView.setVisibility(View.VISIBLE);
+        }
+
         for (String path : likePostPath) {
             manager.getdocRefWithPath(path).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -124,7 +126,6 @@ public class PostingListActivity extends BaseActivity {
                                 DocumentSnapshot documentSnapshot = task.getResult();
                                 Posting posting = documentSnapshot.toObject(Posting.class);
                                 adapter.addPosting(posting);
-                                Log.d(TAG, "posting: " + posting.getWriter());
                             } else {
                                 adapter.addPosting(new Posting());
                                 Log.d(TAG, "finding my posting task failed. error: " , task.getException());
@@ -135,7 +136,13 @@ public class PostingListActivity extends BaseActivity {
     }
 
     private void myScrappedPost() {
-        SQLiteManager sqlManager = new SQLiteManager(this);
-        sqlManager.getScrapPost();
+        ArrayList<PostingSQL> sPost = sqlManager.getScrapPost();
+
+        if (sPost == null | sPost.size() == 0) {
+            textView.setText("스크랩한 글이 없습니다.");
+            textView.setVisibility(View.VISIBLE);
+        }
+
+        sAdapter.setItem(sPost);
     }
 }

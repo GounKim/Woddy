@@ -176,7 +176,7 @@ public class MyPageFragment extends Fragment implements View.OnClickListener {
 
             case R.id.myPage_scrappedWritings:
                 intent = new Intent(getContext(), PostingListActivity.class);
-                intent.putExtra("nickname", 3);
+                intent.putExtra("Activity", 3);
                 startActivity(intent);
                 break;
 

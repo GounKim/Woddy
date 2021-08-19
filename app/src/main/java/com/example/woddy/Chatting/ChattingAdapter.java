@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +46,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
         notifyDataSetChanged();
     }
 
-    public void setItem(ArrayList<ChattingInfo> chattingInfos){
+    public void setItem(ArrayList<ChattingInfo> chattingInfos) {
         this.chattingInfos = chattingInfos;
     }
 
@@ -85,9 +86,11 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
         public TextView getChatterName() {
             return chatterName;
         }
+
         public TextView getRecentChatt() {
             return recentChat;
         }
+
         public ImageView getChatterImage() {
             return chatterImage;
         }
@@ -169,7 +172,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
                     find = true;
                 }
             }
-            if(find) {
+            if (find) {
                 chattingInfos.add(0, chatInfo);
                 notifyDataSetChanged();
             } else {

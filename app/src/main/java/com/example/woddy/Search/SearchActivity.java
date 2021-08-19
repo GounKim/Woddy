@@ -17,13 +17,12 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 
-
 public class SearchActivity extends AppCompatActivity {
 
     ChipGroup chipGroup_info, chipGroup_board;
     Chip friend, help, mate, share, home, buy, freeShare, free, diy, interior, townInfo, club, meeting;
 
-    ImageButton searchBtn,beforeBtn;
+    ImageButton searchBtn, beforeBtn;
     EditText searchText;
     RecyclerView recyclerView;
 
@@ -60,7 +59,7 @@ public class SearchActivity extends AppCompatActivity {
         chipGroup_info.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.chipLifeSupport:
                         board_name = "소통";
                         tagName = "친구찾기";
@@ -180,9 +179,9 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println(boardType);
-                if(boardType == "normal") {
+                if (boardType == "normal") {
                     new SearchData().getItems(recyclerView, board_name, tagName, searchText.getText().toString());
-                } else if(boardType == "album"){
+                } else if (boardType == "album") {
                     new SearchAlbumData().getItems(recyclerView, board_name, tagName, searchText.getText().toString());
                 } else {
                     new SearchInfoData().getItems(recyclerView, board_name, tagName, searchText.getText().toString());

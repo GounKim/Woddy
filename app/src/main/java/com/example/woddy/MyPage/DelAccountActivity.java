@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.woddy.BaseActivity;
@@ -28,6 +29,7 @@ public class DelAccountActivity extends BaseActivity {
     Button delAccountButton;
     FirebaseUser firebaseUser;
     FirestoreManager fsManager;
+    ImageView toolbarImageView;
 
     @Override
     protected boolean useBottomNavi() {
@@ -45,8 +47,10 @@ public class DelAccountActivity extends BaseActivity {
         delAccountButton = findViewById(R.id.del_account_button);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         fsManager = new FirestoreManager();
+        toolbarImageView = findViewById(R.id.toolbar_logo);
 
         String uid = firebaseUser.getUid().toString();
+        toolbarImageView.setVisibility(View.GONE);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,12 +1,15 @@
 package com.example.woddy.PostBoard.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.PostBoard.NormalData;
@@ -15,15 +18,11 @@ import com.example.woddy.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import android.content.Context;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class HabitFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeRefresh;
     private RecyclerView mVerticalView;
     private PostBoardAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -62,6 +61,8 @@ public class HabitFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
         meeting = (Chip) view.findViewById(R.id.chipMeeting);
         club = (Chip) view.findViewById(R.id.chipClub);
@@ -72,11 +73,20 @@ public class HabitFragment extends Fragment {
         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
 //        givePathToParent(tagName);
 
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
+                givePathToParent(tagName);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.chipClub:
                         tagName = "동호회";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);

@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.api.Distribution;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -122,13 +124,15 @@ public class StorageManager {
         String tagName = path[3];
         String docID = path[5];
 
-        String storageUri = boardName + "/" + tagName + "/PostingImages/" + docID + "/";
+        String storageUri = boardName + "/" + tagName + "/PostingImages/" + docID;
         StorageReference desertRef = storageRef.child(storageUri);
 
-        desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+        desertRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
-            public void onSuccess(Void unused) {
-                Log.d(TAG, "deleting Image in stroage has successed!");
+            public void onSuccess(ListResult listResult) {
+                for (StorageReference item : listResult.getItems()) {
+                    item.delete();
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

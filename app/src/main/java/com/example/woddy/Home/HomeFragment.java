@@ -1,7 +1,6 @@
 package com.example.woddy.Home;
 
 import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,12 +19,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.woddy.Alarm.AlarmActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.Posting;
-import com.example.woddy.Entity.User;
-import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.example.woddy.Search.SearchActivity;
@@ -43,6 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
+    SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
     Button btnLogin;
@@ -138,11 +140,20 @@ public class HomeFragment extends Fragment {
 
         setHomeAdapter();
 
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerView.setAdapter(homeAdapter);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
 
         return view;
@@ -151,6 +162,7 @@ public class HomeFragment extends Fragment {
     private void setHomeAdapter() {
         // 공지 Board
         ArrayList<Object> adapterList = new ArrayList<>();
+        adapterList.add(new HomePBAdapter());
         // 인기글
         manager.getPopularPost().get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -160,14 +172,12 @@ public class HomeFragment extends Fragment {
                             ArrayList<Posting> popPosts = new ArrayList<>();
                             ArrayList<String> popDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG,"인기글 => "+document.getData());
+                                Log.d(TAG, "인기글 => " + document.getData());
                                 popPosts.add(document.toObject(Posting.class));
                                 popDocPath.add(document.getReference().getPath());
                             }
                             popAdapter.setItem(popPosts, popDocPath);
                             adapterList.add(popAdapter);
-
-                            homeAdapter.addItem(popAdapter);
                         } else {
                             Log.d(TAG, "Finding PopularPost failed.", task.getException());
                         }
@@ -182,14 +192,14 @@ public class HomeFragment extends Fragment {
                         ArrayList<Posting> recentPosts = new ArrayList<>();
                         ArrayList<String> recDocPath = new ArrayList<>();
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                            Log.d(TAG,"최신글 => "+snap.getData());
+                            Log.d(TAG, "최신글 => " + snap.getData());
                             recentPosts.add(snap.toObject(Posting.class));
                             recDocPath.add(snap.getReference().getPath());
                         }
                         reAdapter.setItem(recentPosts, recDocPath);
                         adapterList.add(reAdapter);
 
-                        homeAdapter.addItem(reAdapter);
+                        homeAdapter.setItem(adapterList);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

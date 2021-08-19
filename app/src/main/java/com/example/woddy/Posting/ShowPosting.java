@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
@@ -35,8 +36,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -52,6 +53,7 @@ import java.util.TimeZone;
 public class ShowPosting extends BaseActivity implements View.OnClickListener {
     FirestoreManager manager = new FirestoreManager();
     SQLiteManager sqlManager = new SQLiteManager(this);
+    BottomSheetDialog bottomSheetDialog;
 
     TextView title, writer, time, content, likedCount, scrapCount, tag, board, writerUid;
 
@@ -65,6 +67,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     String postingPath;
     String boardName;
     String tagName;
+
+    SwipeRefreshLayout swipeRefresh;
 
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
@@ -108,9 +112,20 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         edtComment = findViewById(R.id.show_posting_edt_comment);
         btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(adapter);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerView.setAdapter(adapter);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+
         getComments();
 
         btnSend.setOnClickListener(this);
@@ -196,6 +211,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
             liked.setImageResource(R.drawable.ic_baseline_liked_yes);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+
+            //게시물 작성자 uid 획득
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -204,7 +221,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                             Posting posting = document.toObject(Posting.class);
 
                             String uid=posting.getPostingUid();
-                            manager.likeAlarm(uid, postingPath);
+                            manager.likeAlarm(uid, postingPath); //좋아요 알림
                         }
                     }
                 }
@@ -278,18 +295,21 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
             case R.id.menu_more_option:
 
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.show_posting_menu, null);
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+                bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomSheetView);
 
                 bottomLayout = bottomSheetDialog.findViewById(R.id.show_posting_menu_layout);
                 delete = bottomSheetDialog.findViewById(R.id.show_posting_menu_delete);
                 sendChat = bottomSheetDialog.findViewById(R.id.show_posting_menu_send_chatting);
+                cancle = bottomSheetDialog.findViewById(R.id.show_posting_menu_cancle);
+                cancle.setOnClickListener(this::bottomSheet);
 
                 if (writerUid.getText().toString().equals(USER_UID)) {
                     bottomLayout.setVisibility(View.GONE);
                     delete.setVisibility(View.VISIBLE);
                     manager.delPosting(postingPath);
 
+                    delete.setOnClickListener(this::bottomSheet);
                 } else {
                     bottomLayout.setVisibility(View.VISIBLE);
                     delete.setVisibility(View.GONE);
@@ -307,11 +327,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
     public void bottomSheet(View view) {
         switch (view.getId()) {
-
-            case R.id.show_posting_menu_report:_posting_report:
-
-                break;
-
             case R.id.show_posting_menu_send_chatting:
 
                 String w = writer.getText().toString();
@@ -329,6 +344,15 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
                                 ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participant), Arrays.asList(chatterImage));
                                 manager.addChatRoom(chattingInfo);
+
+//                                Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                                intent.putExtra("USER", sqlManager.getUserNick());
+//                                intent.putExtra("CHATTER", chattingInfo.getParticipant().get(0));
+//                                intent.putExtra("ROOMNUM", documentReference.getId());
+//                                intent.putExtra("IMAGE", chattingInfo.getParticipantImg().get(0));
+//
+//                                context.startActivity(intent);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -343,12 +367,11 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
 
 
             case R.id.show_posting_menu_delete:
-
+                manager.delPosting(postingPath);
                 break;
 
             case R.id.show_posting_menu_cancle:
-
-
+                bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_HIDDEN);
                 break;
         }
     }

@@ -41,7 +41,7 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final int WRITING_SIMPLE = 0;
     private final int WRITING_WITH_IMAGE = 1;
 
-    private ArrayList<Posting> postingList =  new ArrayList<>();
+    private ArrayList<Posting> postingList = new ArrayList<>();
     private ArrayList<String> postingPath = new ArrayList<>();
 
     public void setItem(ArrayList<Posting> writings, ArrayList<String> postingPath) {
@@ -67,7 +67,7 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if(viewType == WRITING_SIMPLE) {
+        if (viewType == WRITING_SIMPLE) {
             view = inflater.inflate(R.layout.home_item_posting_simple, parent, false);
             return new SimpleHolder(view);
         } else {
@@ -86,7 +86,7 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((SimpleHolder) holder).sContent.setText(posting.getContent());
 //            ((SimpleHolder) holder).sBoardName.setText(posting.getTag());
             ((SimpleHolder) holder).sTime.setText(timestamp(posting.getPostedTime()));
-            ((SimpleHolder) holder).sLiked.setText(""+posting.getNumberOfLiked());
+            ((SimpleHolder) holder).sLiked.setText("" + posting.getNumberOfLiked());
 
         } else if (holder instanceof ImageHolder) {
             Posting posting = postingList.get(position);
@@ -95,7 +95,7 @@ public class PostingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((ImageHolder) holder).iContent.setText(posting.getContent());
 //            ((ImageHolder) holder).iBoardName.setText(posting.getTag());
             ((ImageHolder) holder).iTime.setText(timestamp(posting.getPostedTime()));
-            ((ImageHolder) holder).iLiked.setText(""+posting.getNumberOfLiked());
+            ((ImageHolder) holder).iLiked.setText("" + posting.getNumberOfLiked());
 
             // 이미지 설정
             if (posting.getPictures() != null) {

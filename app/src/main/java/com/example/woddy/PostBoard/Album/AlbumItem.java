@@ -1,4 +1,5 @@
 package com.example.woddy.PostBoard.Album;
+
 //앨범게시판 아이템에 저장할 데이터
 public class AlbumItem {
 
@@ -8,7 +9,7 @@ public class AlbumItem {
     private String liked;
 
 
-    public AlbumItem(String postingNumber, String url, String title, String liked){
+    public AlbumItem(String postingNumber, String url, String title, String liked) {
         this.postingNumber = postingNumber;
         this.url = url;
         this.title = title;
@@ -18,7 +19,9 @@ public class AlbumItem {
     public AlbumItem() {
     }
 
-    public String getUrl(){ return url; }
+    public String getUrl() {
+        return url;
+    }
 
     public String getTitle() {
         return title;

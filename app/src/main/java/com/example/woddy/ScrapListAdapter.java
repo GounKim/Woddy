@@ -41,7 +41,7 @@ public class ScrapListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int WRITING_SIMPLE = 0;
     private final int WRITING_WITH_IMAGE = 1;
 
-    private ArrayList<PostingSQL> postingList =  new ArrayList<>();
+    private ArrayList<PostingSQL> postingList = new ArrayList<>();
 
     public void setItem(ArrayList<PostingSQL> writings) {
         this.postingList = writings;
@@ -56,7 +56,7 @@ public class ScrapListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if(viewType == WRITING_SIMPLE) {
+        if (viewType == WRITING_SIMPLE) {
             view = inflater.inflate(R.layout.item2, parent, false);
             return new SimpleHolder(view);
         } else {

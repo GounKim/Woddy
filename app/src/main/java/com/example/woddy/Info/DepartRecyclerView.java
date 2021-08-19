@@ -37,6 +37,7 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
     Button deptCallButton; //기관에 전화걸기 버튼
     TextView deptConnectTextView; //기관 프로그램 페이지
     Button deptConnectButton; //기관 페이지 연결 버튼
+    ImageView closeImageView; // 펼쳐진 상태 나타내는 이미지 뷰
 
     String url, telnumber;
 
@@ -55,6 +56,7 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
         deptCallButton = itemView.findViewById(R.id.dept_call_button);
         deptConnectTextView = itemView.findViewById(R.id.dept_connect_textview);
         deptConnectButton = itemView.findViewById(R.id.dept_connect_button);
+        closeImageView = itemView.findViewById(R.id.closeImageView);
 
         //아이템 클릭 시 펼치기 위한 리스너
         linearLayout.setOnClickListener(new View.OnClickListener() {

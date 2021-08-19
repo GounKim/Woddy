@@ -9,7 +9,7 @@ public class Board {
 
     public Board(String boardName) {
         this.boardName = boardName;
-        this.tags =  new ArrayList<>();
+        this.tags = new ArrayList<>();
     }
 
     public String getBoardName() {

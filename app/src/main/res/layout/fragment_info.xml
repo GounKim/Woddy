@@ -31,32 +31,39 @@
                 android:id="@+id/chipLifeSupport"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="@string/lifeSupport"
-                android:textSize="12sp" />
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipEducation"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="@string/education"
-                android:textSize="12sp" />
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipEvent"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="@string/event"
-                android:textSize="12sp" />
+                android:textSize="20sp" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

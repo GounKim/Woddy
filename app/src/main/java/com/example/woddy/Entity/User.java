@@ -18,7 +18,8 @@ public class User {
     private ArrayList<String> scrappedPostings;    // 스크랩한글
     private ArrayList<String> favoriteBoards;  // 즐겨찾기한 게시판
 
-    public User() {}
+    public User() {
+    }
 
     public User(String nickName) {
         this.nickName = nickName;

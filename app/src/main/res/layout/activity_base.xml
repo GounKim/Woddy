@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,29 +7,33 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/chatting_room_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/toolbar_logo"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/logos_02"
-            android:visibility="gone" />
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/logos_02" />
 
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:layout_marginLeft="50dp"
             android:text="ToolbarTitle"
             android:textColor="@color/main_color"
-            android:textSize="18dp"
-            android:textStyle="bold"/>
+            android:textSize="26dp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -43,12 +46,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="bottom"
         android:background="@drawable/bottom_navi_shape"
+        app:itemIconSize="36dp"
         app:itemIconTint="@drawable/bottom_navi_color"
         app:itemTextColor="@drawable/bottom_navi_color"
-        app:menu="@menu/menu_bottom"
-        app:labelVisibilityMode="unlabeled"/>
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu_bottom" />
 
 </LinearLayout>

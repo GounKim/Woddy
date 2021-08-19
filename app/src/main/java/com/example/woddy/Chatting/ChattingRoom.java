@@ -4,6 +4,7 @@ package com.example.woddy.Chatting;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,7 @@ public class ChattingRoom extends BaseActivity {
     EditText edtInputCon;
     Button btnSend;
     SwipeRefreshLayout swipeRefresh;
+    ImageView toolbarLogoImage;
 
     // DB
     FirestoreManager manager;
@@ -59,14 +61,16 @@ public class ChattingRoom extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
 
+        toolbarLogoImage = (ImageView) findViewById(R.id.toolbar_logo);
+
         // ChattingList에서 클릭한 방의 CHATTER 받아오기
         Intent intent = getIntent();
         String chatter = intent.getStringExtra("CHATTER");
         setMyTitle(chatter);
+        toolbarLogoImage.setVisibility(View.GONE);
         String roomNum = intent.getStringExtra("ROOMNUM");
         String user = intent.getStringExtra("USER");
         String chatterImage = intent.getStringExtra("IMAGE");
-
 
         initDatabase(roomNum);
         updateDB(roomNum);
@@ -82,7 +86,7 @@ public class ChattingRoom extends BaseActivity {
         crAdapter = new ChattingRoomAdapter(user, chatter, chatterImage);
         crRecyclerView.setLayoutManager(new LinearLayoutManager(this, crRecyclerView.VERTICAL, false)); // 상하 스크롤
         crRecyclerView.setAdapter(crAdapter);
-        if(crAdapter.getItemCount() != 0) {
+        if (crAdapter.getItemCount() != 0) {
             crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
         }
 
@@ -120,10 +124,10 @@ public class ChattingRoom extends BaseActivity {
                                 try {
                                     ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
                                     crAdapter.addItem(chattingMsg);
-                                    if(crAdapter.getItemCount() != 0) {
-                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
+                                    if (crAdapter.getItemCount() != 0) {
+                                        crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
                                     }
-                                } catch (RuntimeException e){
+                                } catch (RuntimeException e) {
                                     Log.d(TAG, "Error getting chatList: ", e);
                                 }
                             }

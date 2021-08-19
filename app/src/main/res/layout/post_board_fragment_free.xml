@@ -31,33 +31,33 @@
                 android:id="@+id/chipFreeTalk"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/free_talk" />
+                android:layout_height="60dp"
+                android:text="@string/free_talk"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDIY"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/diy" />
+                android:layout_height="60dp"
+                android:text="@string/diy"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipInterior"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/interior" />
+                android:layout_height="60dp"
+                android:text="@string/interior"
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipTownInfo"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/town_info" />
+                android:layout_height="60dp"
+                android:text="@string/town_info"
+                android:textSize="20sp" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
@@ -70,7 +70,7 @@
         android:id="@+id/recyclerView_free"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp" />
+        android:layout_margin="10dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

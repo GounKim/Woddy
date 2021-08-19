@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class ChangePwActivity extends BaseActivity {
     EditText newPw2EditTExt;
     TextView pwCheckTextView;
     Button pwChangeButton;
+    ImageView toolbarLogoImage;
 
     FirebaseUser user;
 
@@ -55,10 +57,13 @@ public class ChangePwActivity extends BaseActivity {
         newPw2EditTExt = findViewById(R.id.new_pw2_edit_text);
         pwCheckTextView = findViewById(R.id.pw_check_text_view);
         pwChangeButton = findViewById(R.id.pw_change_button);
+        toolbarLogoImage = findViewById(R.id.toolbar_logo);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         String emailID = user.getEmail();
+
+        toolbarLogoImage.setVisibility(View.GONE);
 
         newPw2EditTExt.addTextChangedListener(new TextWatcher() {
             @Override

@@ -91,16 +91,16 @@ public class PostBoardAdapter extends RecyclerView.Adapter<PostBoardAdapter.View
             likeNum = (TextView) itemView.findViewById(R.id.post_board_item_like_num);
 
             layout.setClickable(true);
-            layout.setOnClickListener(new View.OnClickListener(){
+            layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //사용자가 클릭한 아이템의 position을 준다
                     int pos = getAdapterPosition();
                     //포지션이 recylerView의 아이템인지 확인
-                    if(pos != RecyclerView.NO_POSITION){
+                    if (pos != RecyclerView.NO_POSITION) {
                         //액티비티 전환
                         int viewType = getViewType(pos); //포스팅 이미지 존재 여부 판단
-                        openPosting(v,viewType,pos); //타입에 맞는 포스팅 실행
+                        openPosting(v, viewType, pos); //타입에 맞는 포스팅 실행
                     }
                 }
             });
@@ -108,6 +108,7 @@ public class PostBoardAdapter extends RecyclerView.Adapter<PostBoardAdapter.View
 
 
     }
+
     private final int WRITING_SIMPLE = 0;
     private final int WRITING_WITH_IMAGE = 1;
 
@@ -121,7 +122,7 @@ public class PostBoardAdapter extends RecyclerView.Adapter<PostBoardAdapter.View
     }
 
     //종류에 맞게 포스팅 열기
-    public void openPosting(View v, int viewType, int pos){
+    public void openPosting(View v, int viewType, int pos) {
         switch (viewType) {
             case WRITING_SIMPLE: {   // 기본형
                 Intent intent = new Intent(v.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

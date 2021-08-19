@@ -6,6 +6,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,6 +162,7 @@ public class HomeFragment extends Fragment {
     private void setHomeAdapter() {
         // 공지 Board
         ArrayList<Object> adapterList = new ArrayList<>();
+        adapterList.add(new HomePBAdapter());
         // 인기글
         manager.getPopularPost().get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -165,14 +172,12 @@ public class HomeFragment extends Fragment {
                             ArrayList<Posting> popPosts = new ArrayList<>();
                             ArrayList<String> popDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG,"인기글 => "+document.getData());
+                                Log.d(TAG, "인기글 => " + document.getData());
                                 popPosts.add(document.toObject(Posting.class));
                                 popDocPath.add(document.getReference().getPath());
                             }
                             popAdapter.setItem(popPosts, popDocPath);
                             adapterList.add(popAdapter);
-
-                            homeAdapter.addItem(popAdapter);
                         } else {
                             Log.d(TAG, "Finding PopularPost failed.", task.getException());
                         }
@@ -187,14 +192,14 @@ public class HomeFragment extends Fragment {
                         ArrayList<Posting> recentPosts = new ArrayList<>();
                         ArrayList<String> recDocPath = new ArrayList<>();
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                            Log.d(TAG,"최신글 => "+snap.getData());
+                            Log.d(TAG, "최신글 => " + snap.getData());
                             recentPosts.add(snap.toObject(Posting.class));
                             recDocPath.add(snap.getReference().getPath());
                         }
                         reAdapter.setItem(recentPosts, recDocPath);
                         adapterList.add(reAdapter);
 
-                        homeAdapter.addItem(reAdapter);
+                        homeAdapter.setItem(adapterList);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

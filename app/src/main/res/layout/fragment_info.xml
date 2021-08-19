@@ -31,25 +31,25 @@
                 android:id="@+id/chipLifeSupport"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="@string/lifeSupport"
-                android:textSize="12sp" />
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipEducation"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="@string/education"
-                android:textSize="12sp" />
+                android:textSize="20sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipEvent"
                 style="@style/Widget.Woody.Chip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="@string/event"
-                android:textSize="12sp" />
+                android:textSize="20sp" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 

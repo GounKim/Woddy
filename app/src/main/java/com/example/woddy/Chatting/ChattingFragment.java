@@ -96,7 +96,7 @@ public class ChattingFragment extends Fragment {
                             return;
                         }
 
-                        for (DocumentSnapshot doc: value.getDocuments()) {
+                        for (DocumentSnapshot doc : value.getDocuments()) {
                             String curMsg = doc.get("message").toString();
                             chatInfo.setRecentMsg(curMsg);
                             clAdapter.setCurMsg(chatInfo);

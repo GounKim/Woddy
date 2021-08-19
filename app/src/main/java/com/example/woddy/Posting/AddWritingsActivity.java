@@ -69,6 +69,7 @@ public class AddWritingsActivity extends BaseActivity {
 
     String boardName;
     String tagName;
+    ImageView toolbarImage;
 
     String[] imgNeedTag = {"물품공유", "홈", "무료나눔", "DIY", "인테리어어"};
     InputMethodManager imm;
@@ -100,6 +101,7 @@ public class AddWritingsActivity extends BaseActivity {
         plotTV = (EditText) findViewById(R.id.plotTextView);
         tvBoarName = (TextView) findViewById(R.id.add_writing_board_name);
         tvTagName = (TextView) findViewById(R.id.add_writing_tag_name);
+        toolbarImage = (ImageView) findViewById(R.id.toolbar_logo);
 
         // 툴바 설정
         setSupportActionBar(getmToolbar());
@@ -108,6 +110,7 @@ public class AddWritingsActivity extends BaseActivity {
         actionBar.setDisplayShowCustomEnabled(true);    // 커스터마이징하기
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);  // 뒤로가기 버튼
+        toolbarImage.setVisibility(View.GONE);
         setMyTitle("글 작성");
 
         // 게시판 & 태그 정보 가져와서 나타냄
@@ -312,7 +315,7 @@ public class AddWritingsActivity extends BaseActivity {
                         iv.setVisibility(View.GONE);
                     }
                 });
-                dlg.setPositiveButton("취소",null);
+                dlg.setPositiveButton("취소", null);
                 return false;
             }
         });

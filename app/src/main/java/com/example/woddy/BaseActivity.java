@@ -100,12 +100,18 @@ public class BaseActivity extends AppCompatActivity {
                             setMyTitle("홈");
                             return true;
                         case R.id.bottom_menu_post:
+                            toolbarLogo.setVisibility(View.GONE);
+                            toolbarTitle.setVisibility(View.VISIBLE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new PostBoardMain()).commit();
-                            mToolbar.setVisibility(View.GONE);
+                            mToolbar.setVisibility(View.VISIBLE);
+                            setMyTitle("게시판");
                             return true;
                         case R.id.bottom_menu_info:
+                            toolbarLogo.setVisibility(View.GONE);
+                            toolbarTitle.setVisibility(View.VISIBLE);
                             getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, new InfoBoardMain()).commit();
-                            mToolbar.setVisibility(View.GONE);
+                            mToolbar.setVisibility(View.VISIBLE);
+                            setMyTitle("정보 모아보기");
                             return true;
                         case R.id.bottom_menu_chatting:
                             toolbarLogo.setVisibility(View.GONE);
@@ -159,7 +165,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-
     // 앱바 메뉴 클릭
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -168,12 +173,12 @@ public class BaseActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
-            case R.id.menu_alarm:{
+            case R.id.menu_alarm: {
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
                 return true;
             }
-            case R.id.menu_search:{
+            case R.id.menu_search: {
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
                 return true;
@@ -195,7 +200,7 @@ public class BaseActivity extends AppCompatActivity {
                             return;
                         }
                         String token = task.getResult();
-                        Log.d("sys",token);
+                        Log.d("sys", token);
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, String> map = new HashMap<>();
                         map.put("pushToken", token);
@@ -205,7 +210,7 @@ public class BaseActivity extends AppCompatActivity {
                 });
     }
 
-//    public void onStop(){ //확인용
+    //    public void onStop(){ //확인용
 //        super.onStop();
 //        sendGson(FirebaseAuth.getInstance().getUid(), "title","message");
 //    }

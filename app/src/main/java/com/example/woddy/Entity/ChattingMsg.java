@@ -13,7 +13,8 @@ public class ChattingMsg {
     private String message; // 대화내용
     private Date writtenTime; // 작성시간
 
-    public ChattingMsg() {}
+    public ChattingMsg() {
+    }
 
     public ChattingMsg(String writer, String message, Date writtenTime) {
         this.writer = writer;

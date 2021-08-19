@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/myPage_userImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:src="@drawable/init_user_image"
@@ -34,11 +34,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="13dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="26dp"
                 android:text="  "
-                android:textSize="20dp"
-                android:textStyle="bold"
                 android:textColor="@color/main_color"
+                android:textSize="30sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,19 +49,20 @@
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="5dp"
                 android:text="  "
-                android:textSize="12sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toEndOf="@id/myPage_userImage"
                 app:layout_constraintTop_toBottomOf="@id/myPage_userNick" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/myPage_btn_update_myProfile"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/button_round_shape_no_background"
                 android:text="프로필 수정"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_userImage"
@@ -71,20 +72,20 @@
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="#E8E8E8"
                 app:layout_constraintTop_toBottomOf="@id/myPage_btn_update_myProfile" />
 
             <LinearLayout
                 android:id="@+id/linear2"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="7dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/view2">
 
                 <ImageView
-                    android:layout_width="25dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="17dp"
                     android:padding="1dp"
@@ -99,7 +100,7 @@
                     android:paddingLeft="10dp"
                     android:text="내가 쓴 글"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="22sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -107,12 +108,12 @@
             <LinearLayout
                 android:id="@+id/linear3"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/linear2">
 
                 <ImageView
-                    android:layout_width="25dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="17dp"
                     android:padding="1dp"
@@ -127,7 +128,7 @@
                     android:paddingLeft="10dp"
                     android:text="내가 좋아요 누른 글"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="22sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -135,12 +136,12 @@
             <LinearLayout
                 android:id="@+id/linear4"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/linear3">
 
                 <ImageView
-                    android:layout_width="25dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="17dp"
                     android:padding="1dp"
@@ -155,7 +156,7 @@
                     android:paddingLeft="10dp"
                     android:text="스크랩한 글"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="22sp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="280dp" />
             </LinearLayout>
@@ -164,7 +165,7 @@
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:background="#E8E8E8"
                 app:layout_constraintTop_toBottomOf="@id/linear4" />
 
@@ -173,10 +174,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:text="설정"
                 android:textColor="@color/main_color"
-                android:textSize="16sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view3" />
@@ -184,14 +185,14 @@
             <Button
                 android:id="@+id/myPage_setAccount"
                 android:layout_width="0dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="12dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
                 android:paddingStart="27dp"
                 android:text="계정 관리"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView20" />
@@ -199,13 +200,13 @@
             <Button
                 android:id="@+id/myPage_setAlarm"
                 android:layout_width="0dp"
-                android:layout_height="43dp"
+                android:layout_height="60dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
                 android:paddingStart="27dp"
                 android:text="알림 설정"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_setAccount" />
@@ -214,7 +215,7 @@
                 android:id="@+id/view4"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:background="#E8E8E8"
                 app:layout_constraintTop_toBottomOf="@id/myPage_setAlarm" />
 
@@ -223,10 +224,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:text="기타"
                 android:textColor="@color/main_color"
-                android:textSize="16sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view4" />
@@ -234,14 +235,14 @@
             <Button
                 android:id="@+id/myPage_notices"
                 android:layout_width="0dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="12sp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
                 android:paddingStart="27dp"
                 android:text="공지사항"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView21" />
@@ -249,13 +250,13 @@
             <Button
                 android:id="@+id/myPage_Ask"
                 android:layout_width="0dp"
-                android:layout_height="43dp"
+                android:layout_height="60dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
                 android:paddingStart="27dp"
                 android:text="문의하기"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_notices" />
@@ -263,13 +264,13 @@
             <Button
                 android:id="@+id/myPage_logout"
                 android:layout_width="0dp"
-                android:layout_height="43dp"
+                android:layout_height="60dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
                 android:paddingStart="27dp"
                 android:text="로그아웃"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_Ask" />
@@ -277,13 +278,13 @@
             <Button
                 android:id="@+id/myPage_deleteAccount"
                 android:layout_width="0dp"
-                android:layout_height="43dp"
+                android:layout_height="60dp"
                 android:background="#00ffffff"
                 android:gravity="left|center"
                 android:paddingStart="27dp"
                 android:text="회원탈퇴"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/myPage_logout" />

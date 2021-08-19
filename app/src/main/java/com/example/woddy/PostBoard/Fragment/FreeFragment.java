@@ -89,7 +89,7 @@ public class FreeFragment extends Fragment {
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.chipFreeTalk:
                         tagName = "자유";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
@@ -158,7 +158,7 @@ public class FreeFragment extends Fragment {
         chipGroup.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.chipFreeTalk:
                         Toast.makeText(getContext(), "자유", Toast.LENGTH_LONG).show();
                         return true;

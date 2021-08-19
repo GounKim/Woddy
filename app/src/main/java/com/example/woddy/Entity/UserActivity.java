@@ -11,20 +11,18 @@ public class UserActivity {
     private String activityName;
 
 
-    public UserActivity() { }
+    public UserActivity() {
+    }
 
     public UserActivity(String postingNum, int activityName) throws Exception {
         this.postingNum = postingNum;
         if (activityName == WRITEARTICLE) {
             this.activityName = "myPostings";
-        }
-        else if (activityName == PRESSLIKE) {
+        } else if (activityName == PRESSLIKE) {
             this.activityName = "likedPostings";
-        }
-        else if (activityName == SCRAPPED) {
+        } else if (activityName == SCRAPPED) {
             this.activityName = "scrappedPostings";
-        }
-        else {
+        } else {
             throw new Exception("Not available activity");
         }
 
@@ -45,14 +43,11 @@ public class UserActivity {
     public void setActivityName(int activityName) throws Exception {
         if (activityName == WRITEARTICLE) {
             this.activityName = "myPostings";
-        }
-        else if (activityName == PRESSLIKE) {
+        } else if (activityName == PRESSLIKE) {
             this.activityName = "likedPostings";
-        }
-        else if (activityName == SCRAPPED) {
+        } else if (activityName == SCRAPPED) {
             this.activityName = "scrappedPostings";
-        }
-        else {
+        } else {
             throw new Exception("Not available activity");
         }
     }

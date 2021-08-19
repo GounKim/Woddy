@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="댓글 작성자 닉네임"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="댓글내용"
-            android:textSize="12sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -43,22 +43,6 @@
         app:layout_constraintStart_toEndOf="@+id/linearLayout5"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/show_writing_comment_liked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="좋아요"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/show_writing_comment_commend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:text="대댓글"
-            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

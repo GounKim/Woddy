@@ -232,11 +232,11 @@ public class AlarmActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String nickname = (String) documentSnapshot.get("nickname");
+                        String nickname = (String) documentSnapshot.get("nickname"); //받는 사람 닉네임
                         Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
-                        intent.putExtra("USER", nickname); //내 닉네임
-                        intent.putExtra("CHATTER", currentAlarm.getNickname()); //상대 닉네임
+                        intent.putExtra("USER", nickname);
+                        intent.putExtra("CHATTER", currentAlarm.getNickname());
                         Log.d("onclick", currentAlarm.getRoomNum());
                         view.getContext().startActivity(intent);
                     }

@@ -30,7 +30,6 @@ public class ChattingInfo {
         this.recentMsg = "";
     }
 
-
     public String getRoomNumber() {
         return roomNumber;
     }

@@ -328,7 +328,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                 String[] chatterImage = {wImage, sqlManager.getUserImage()};
 
                                 ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participantUID), Arrays.asList(chatterImage));
-                                manager.addChatRoom(chattingInfo, bottomSheetDialog);
+                                manager.addChatRoom(chattingInfo, bottomSheetDialog, participant);
 
 //                                Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //

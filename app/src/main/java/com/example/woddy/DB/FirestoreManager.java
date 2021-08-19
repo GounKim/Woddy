@@ -396,7 +396,7 @@ public class FirestoreManager {
 
     /* ---------------------- Chatting용 DB ---------------------- */
     // 채팅방 추가
-    public void addChatRoom(ChattingInfo chattingInfo, BottomSheetDialog bottomSheetDialog) {
+    public void addChatRoom(ChattingInfo chattingInfo, BottomSheetDialog bottomSheetDialog, String[] participant) {
         fsDB.collection("chattingRoom").whereEqualTo("participant", chattingInfo.getParticipant()).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -412,7 +412,7 @@ public class FirestoreManager {
                                             updateChatRoom(roomNum, data);
 
                                             addMessage(roomNum,
-                                                    new ChattingMsg(null, chattingInfo.getParticipant().get(0) + "님과 " + chattingInfo.getParticipant().get(1) + "님이 입장하셨습니다.", new Date()));
+                                                    new ChattingMsg(null, participant[0] + "님과 " + participant[1] + "님이 입장하셨습니다.", new Date()));
 
                                             Log.d(TAG, "chattingRoom has successfully Added!");
                                         }
@@ -625,23 +625,23 @@ public class FirestoreManager {
                         nickname = nickname.replace("]", "");
                         Log.d("firebase", nickname);
 
-//                        //알림 받을 사용자의 uid 획득
-//                        fsDB.collection("userProfile")
-//                                .whereEqualTo("nickname", nickname).get()
-//                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                        if( task.isSuccessful()) {
-//                                            QuerySnapshot qDocument = task.getResult();
-//                                            String uid = qDocument.getDocuments().get(0).getId();
-//                                            String roomNum = document.get("roomNumber").toString();
-//                                            Log.d("firebase", uid);
-//                                            chattingAlarm(uid, msg,roomNum); //채팅 알림
-//                                        }else {
-//                                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                                        }
-//                                    }
-//                                });
+                        //알림 받을 사용자의 uid 획득
+                        fsDB.collection("userProfile")
+                                .whereEqualTo("nickname", nickname).get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if( task.isSuccessful()) {
+                                            QuerySnapshot qDocument = task.getResult();
+                                            String uid = qDocument.getDocuments().get(0).getId();
+                                            String roomNum = document.get("roomNumber").toString();
+                                            Log.d("firebase", uid);
+                                            chattingAlarm(uid, msg,roomNum); //채팅 알림
+                                        }else {
+                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
                     } else {
                         Log.d(TAG, "No such document");
                     }

@@ -12,14 +12,14 @@ public class Profile {
     private String userImage; //프로필 사진
     private boolean women; // 여성 인증 여부
 
-    public Profile(String userID, String nickname, String city, String gu, String dong, String local) {
+    public Profile(String userID, String nickname, String city, String gu, String dong, String local, String userImage) {
         this.userID = userID;
         this.nickname = nickname;
         this.city = city;
         this.gu = gu;
         this.dong = dong;
         this.local = local;
-        this.userImage = "UserProfileImages/user.png";
+        this.userImage = userImage;
         this.women = false;
     }
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.News;
 import com.example.woddy.Posting.ShowImgPosting;
+import com.example.woddy.Posting.ShowInfoPosting;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -110,19 +111,19 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
             infoHeart.setVisibility(View.INVISIBLE);
             infoLiked.setVisibility(View.INVISIBLE);
 
-//            itemView.setClickable(true);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int pos = getAdapterPosition();
-//                    if (pos != RecyclerView.NO_POSITION) {
-//                        Intent intent = new Intent(v.getContext(), ShowImgPosting.class)
-//                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        intent.putExtra("documentPath", documentPath.get(pos));
-//                        v.getContext().startActivity(intent);
-//                    }
-//                }
-//            });
+            itemView.setClickable(true);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Intent intent = new Intent(v.getContext(), ShowInfoPosting.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("documentPath", documentPath.get(pos));
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,6 +33,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import org.jetbrains.annotations.NotNull;
+
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 public class LogInActivity extends AppCompatActivity {
     final String TAG = "LogIn";
@@ -165,12 +173,25 @@ public class LogInActivity extends AppCompatActivity {
             assert task != null;
             if (task.isSuccessful()) {
                 final String uid = firebaseAuth.getCurrentUser().getUid();
-                Profile profile =
-                        new Profile(account.getEmail(), account.getDisplayName(),
-                                "null", "null", "null", "null");
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                Uri img = Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.user);
+                String filename = USER_UID + "_profile.jpg"; // 파일명 생성: 사용자의 NickName_profile.jpg
+                String fileUri = "UserProfileImages/" + USER_UID + "/" + filename;
+                StorageReference riversRef = storageRef.child(fileUri);
+                UploadTask uploadTask = riversRef.putFile(img);
+                final String finalUserImage = fileUri;
 
-                FirestoreManager fsManager = new FirestoreManager();
-                fsManager.addProfile(uid, profile);
+                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<UploadTask.TaskSnapshot> task) {
+                        Profile profile =
+                                new Profile(account.getEmail(), account.getDisplayName(),
+                                        "null", "null", "null", "null", finalUserImage);
+
+                        FirestoreManager fsManager = new FirestoreManager();
+                        fsManager.addProfile(uid, profile);
+                    }
+                });
 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);

@@ -98,7 +98,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         boardName = path[1];
         tagName = path[3];
 
-        setTitle(boardName);
+        setMyTitle(boardName);
 
         title = findViewById(R.id.show_img_posting_title);
         writer = findViewById(R.id.show_img_posting_writer);
@@ -226,16 +226,14 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
             sqlManager.insertLiked(postingPath);
-            FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Posting posting = document.toObject(Posting.class);
+            FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Posting posting = document.toObject(Posting.class);
 
-                            String uid=posting.getPostingUid();
-                            manager.likeAlarm(uid, postingPath);
-                        }
+                        String uid=posting.getPostingUid();
+                        manager.likeAlarm(uid, postingPath);
                     }
                 }
             });

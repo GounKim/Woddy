@@ -19,10 +19,12 @@ import org.jetbrains.annotations.NotNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -33,21 +35,19 @@ import java.util.List;
 import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHolder> {
-    private ArrayList<ChattingInfo> chattingInfos;
-    private String user;
+    FirestoreManager manager = new FirestoreManager();
 
-    ChattingAdapter(String user) {
-        this.user = user;
+    private ArrayList<ChattingInfo> chattingInfos;
+    String userUid;
+
+    ChattingAdapter(String userUid) {
+        this.userUid = userUid;
         this.chattingInfos = new ArrayList<>();
     }
 
     public void addItem(ChattingInfo chattingInfo) {
         chattingInfos.add(chattingInfo);
         notifyDataSetChanged();
-    }
-
-    public void setItem(ArrayList<ChattingInfo> chattingInfos) {
-        this.chattingInfos = chattingInfos;
     }
 
     public class clHolder extends ViewHolder {
@@ -70,9 +70,8 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
                         Context context = itemView.getContext();
                         Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        String[] chatterInfo = getChatterInfo(pos, user);
-                        intent.putExtra("USER", user);
-                        intent.putExtra("CHATTER", chatterInfo[0]);
+                        String[] chatterInfo = getChatterInfo(pos);
+                        intent.putExtra("CHATTER", getChatterName().getText());
                         intent.putExtra("ROOMNUM", chattingInfos.get(pos).getRoomNumber());
                         intent.putExtra("IMAGE", chatterInfo[1]);
 
@@ -111,9 +110,21 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
     public void onBindViewHolder(@NonNull @NotNull clHolder holder, int position) {
         ChattingInfo chatInfo = chattingInfos.get(position);
 
-        String[] chatterInfo = getChatterInfo(position, user);
-        holder.getChatterName().setText(chatterInfo[0]);
+        String[] chatterInfo = getChatterInfo(position);
         holder.getRecentChatt().setText(chatInfo.getRecentMsg());
+
+        manager.findUserWithUid(chatterInfo[0])
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            String chatterNick = task.getResult().get("nickname").toString();
+                            holder.getChatterName().setText(chatterNick);
+                        } else {
+                            Log.d(TAG, "finding chatter failed.");
+                        }
+                    }
+                });
 
 //        if (chatterInfo[1] != null | chatterInfo[1] != "") {
 //            FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
@@ -140,14 +151,14 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
     }
 
     // 대화 상대 분리하기 (리턴값 index = 0: 채팅 상대 이름, index = 1: 채팅 상대 이미지)
-    private String[] getChatterInfo(int pos, String user) {
+    private String[] getChatterInfo(int pos) {
         String[] chatterInfo = new String[2];
         ChattingInfo chatInfo = chattingInfos.get(pos);
 
         List<String> nick = (List<String>) chatInfo.getParticipant();
 //        List<String> img = (List<String>) chatInfo.getParticipantImg();
 
-        if (nick.get(0).equals(user)) {
+        if (nick.get(0).equals(userUid)) {
             chatterInfo[0] = nick.get(1);
 //            chatterInfo[1] = img.get(1);
         } else {

@@ -77,7 +77,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             boardName = itemView.findViewById(R.id.home_board_nameR);
             boardName.bringToFront();
-            horiView = itemView.findViewById(R.id.home_board_hori_recycler);
+            horiView = itemView.findViewById(R.id.home_posting_slider);
         }
     }
 
@@ -112,10 +112,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
                     Object obj = adapterList.get(position);
                     String objName = obj.getClass().getSimpleName().trim();
-                    if (objName.equals("HomeNBAdapter")) {
-                        HomeNBAdapter nbAdapter = (HomeNBAdapter) obj;
-                        ((VerticalScrollHolder) holder).listView.setAdapter(nbAdapter);
-                    } else if (objName.equals("HomePBAdapter")) {
+                    if (objName.equals("HomePBAdapter")) {
                         HomePBAdapter pbAdapter = (HomePBAdapter) obj;
                         ((VerticalScrollHolder) holder).listView.setAdapter(pbAdapter);
                     }

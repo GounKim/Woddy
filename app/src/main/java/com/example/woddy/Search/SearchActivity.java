@@ -21,9 +21,9 @@ public class SearchActivity extends AppCompatActivity {
 
     ChipGroup chipGroup;
 
-    ImageButton searchBtn, beforeBtn;
-    EditText searchText;
-    RecyclerView recyclerView;
+    ImageButton searchBtn, beforeBtn; //버튼
+    EditText searchText; // 검색창
+    RecyclerView recyclerView; // 검색 내용
 
     private String board_name = "정보";
     private String tagName = "생활지원";
@@ -47,6 +47,7 @@ public class SearchActivity extends AppCompatActivity {
 
         chipGroup = (ChipGroup) findViewById(R.id.filterChipGroup);
 
+        // 이전 버튼이 눌렸을 때 메인화면으로
         beforeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +56,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // 어떤 칩 그룹을 선택했을 때 그에 맞는 게시판 찾아가기
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
@@ -161,15 +163,16 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // 검색 버튼을 누르면
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println(boardType);
-                if (boardType == "normal") {
+                if (boardType == "normal") { // 일반의 경우
                     new SearchData().getItems(recyclerView, board_name, tagName, searchText.getText().toString());
-                } else if (boardType == "album") {
-                    new SearchAlbumData().getItems(recyclerView, board_name, tagName, searchText.getText().toString());
-                } else {
+                } else if (boardType == "album") { //앨범형의 경우
+                    new SearchAlbumData().getItems(recyclerView,board_name, tagName, searchText.getText().toString());
+                } else {// 정보형의 경우
                     new SearchInfoData().getItems(recyclerView, board_name, tagName, searchText.getText().toString());
                 }
             }

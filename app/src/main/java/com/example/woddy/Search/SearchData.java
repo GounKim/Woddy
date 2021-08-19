@@ -38,9 +38,10 @@ public class SearchData {
     public ArrayList<Posting> getItems(RecyclerView recyclerView, String boardName, String tagName, String searchWord) {
 
         adapter = new PostBoardAdapter(boardName, tagName);
+        // 받은 게시판과 태그이름을 바탕으로 데베 찾기
             final CollectionReference docRef =
                     db.collection("postBoard").document(boardName).collection("postTag").document(tagName).collection("postings");
-
+        // 받은 검색 내용과 같거나 많은 내용을 담은 포스팅 뽑기
             docRef.whereGreaterThanOrEqualTo("content", searchWord.toLowerCase()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {

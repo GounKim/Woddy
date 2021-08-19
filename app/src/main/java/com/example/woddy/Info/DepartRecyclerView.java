@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.Entity.Depart;
@@ -47,12 +48,14 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
         deptConnectTextView = itemView.findViewById(R.id.dept_connect_textview);
         deptConnectButton = itemView.findViewById(R.id.dept_connect_button);
 
+        //아이템 클릭 시 펼치기 위한 리스너
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onViewHolderItemClickListener.onViewHolderItemClick();
             }
         });
+        //전화걸기
         deptCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +64,7 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
                 itemView.getContext().startActivity(intent);
             }
         });
+        //연결하기
         deptConnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,15 +87,18 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
 
     private void changeVisibility(final boolean isExpanded) {
         // ValueAnimator.ofInt(int... values)는 View가 변할 값을 지정, 인자는 int 배열
-        ValueAnimator va = isExpanded ? ValueAnimator.ofInt(0, 600) : ValueAnimator.ofInt(600, 0);
+        deptDetailLayout.measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        final int targetHeight = deptDetailLayout.getHeight();
+        ValueAnimator va = isExpanded ? ValueAnimator.ofInt(deptDetailLayout.getMeasuredHeight(), targetHeight)
+                : ValueAnimator.ofInt(targetHeight, deptDetailLayout.getMeasuredHeight());
         // Animation이 실행되는 시간, n/1000초
         va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 // imageView의 높이 변경
-                deptDetailLayout.getLayoutParams().height = (int) animation.getAnimatedValue();
-                deptDetailLayout.requestLayout();
+//                deptDetailLayout.getLayoutParams().height = (int) animation.getAnimatedValue();
+//                deptDetailLayout.requestLayout();
                 // imageView가 실제로 사라지게하는 부분
                 deptDetailLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
                 arrowImageView.setImageResource(isExpanded ? R.drawable.ic_baseline_keyboard_arrow_down_24 : R.drawable.ic_baseline_keyboard_arrow_up_24);

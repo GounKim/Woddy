@@ -59,6 +59,7 @@ public class InfoBoardAdapter extends RecyclerView.Adapter<InfoBoardAdapter.View
     public void onBindViewHolder(@NonNull @NotNull InfoBoardAdapter.ViewHolder viewHolder, int position) {
         News news = items.get(position);
 
+        //정보 이미지 가져오기
         if (!news.getPictures().isEmpty()) {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference(news.getPictures().get(0));

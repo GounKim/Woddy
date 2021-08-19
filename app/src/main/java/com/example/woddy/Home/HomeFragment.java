@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
                                 // Chip 인스턴스 생성
                                 Chip chip = new Chip(getContext());
                                 // Chip 의 텍스트 지정
-                                chip.setText(document.get());
+                                chip.setText(document.get("tagName"));
                                 chip.setChipBackgroundColorResource(R.color.bg_filter_chip_state_list);
                                 chip.setTextAppearanceResource(R.style.Widget_Woody_Chip);
                                 chipGroup.addView(chip);

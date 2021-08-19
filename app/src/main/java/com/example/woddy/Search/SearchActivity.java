@@ -19,8 +19,7 @@ import com.google.android.material.chip.ChipGroup;
 
 public class SearchActivity extends AppCompatActivity {
 
-    ChipGroup chipGroup_info, chipGroup_board;
-    Chip friend, help, mate, share, home, buy, freeShare, free, diy, interior, townInfo, club, meeting;
+    ChipGroup chipGroup;
 
     ImageButton searchBtn, beforeBtn;
     EditText searchText;
@@ -46,8 +45,7 @@ public class SearchActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        chipGroup_info = (ChipGroup) findViewById(R.id.filterChipGroup_info);
-        chipGroup_board = (ChipGroup) findViewById(R.id.filterChipGroup_board);
+        chipGroup = (ChipGroup) findViewById(R.id.filterChipGroup);
 
         beforeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,10 +54,12 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        chipGroup_info.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+
+        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
                 switch (checkedId) {
+
                     case R.id.chipLifeSupport:
                         board_name = "소통";
                         tagName = "친구찾기";
@@ -76,21 +76,7 @@ public class SearchActivity extends AppCompatActivity {
                         tagName = "퇴근메이트";
                         boardType = "info";
                         break;
-                }
-            }
-        });
 
-        chipGroup_board.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    /*
-                    case R.id.chipAll:
-                        board_name = "전체";
-                        tagName = "전체";
-                        break;
-                     */
                     case R.id.chipFriend:
                         board_name = "소통";
                         tagName = "친구찾기";

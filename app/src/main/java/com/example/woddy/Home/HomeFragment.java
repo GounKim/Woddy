@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
+import com.example.woddy.Entity.Posting;
 import com.example.woddy.Entity.User;
 import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Login.LogInActivity;
@@ -45,7 +46,6 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
     Button btnLogin;
-    Button btnAlarm;
     Button btnshow;
     Button btnDelAccount;
     Button btnLogout;
@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
 
         // test용(로그인화면)
         btnLogin = view.findViewById(R.id.button2);
@@ -134,81 +135,68 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        setHomeAdapter();
+
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
-            //setHomeAdapter();
 
         return view;
     }
-/*
+
     private void setHomeAdapter() {
         // 공지 Board
-        manager.getPostWithTag("notice").limit(3).get()
+        ArrayList<Object> adapterList = new ArrayList<>();
+        // 인기글
+        manager.getPopularPost().get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            ArrayList<Object> adapterList = new ArrayList<>();
-                            ArrayList<Posting> notices = new ArrayList<>();
-                            ArrayList<String> noticeDocPath = new ArrayList<>();
+                            ArrayList<Posting> popPosts = new ArrayList<>();
+                            ArrayList<String> popDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                notices.add(document.toObject(Posting.class));
+                                Log.d(TAG,"인기글 => "+document.getData());
+                                popPosts.add(document.toObject(Posting.class));
+                                popDocPath.add(document.getReference().getPath());
                             }
-                            adapterList.add(new HomeNBAdapter(notices));
+                            popAdapter.setItem(popPosts, popDocPath);
+                            adapterList.add(popAdapter);
 
-                            manager.getPopularPost().get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                ArrayList<Posting> popPosts = new ArrayList<>();
-                                                ArrayList<String> popDocPath = new ArrayList<>();
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    popPosts.add(document.toObject(Posting.class));
-                                                    popDocPath.add(document.getReference().getPath());
-                                                }
-                                                popAdapter.setItem(popPosts, popDocPath);
-                                                adapterList.add(popAdapter);
-
-                                                // 최신글 Board
-                                                manager.getCurrentPost().get()
-                                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                                            @Override
-                                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                                                ArrayList<Posting> recentPosts = new ArrayList<>();
-                                                                ArrayList<String> recDocPath = new ArrayList<>();
-                                                                for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                                                                    recentPosts.add(snap.toObject(Posting.class));
-                                                                    recDocPath.add(snap.getReference().getPath());
-                                                                }
-                                                                reAdapter.setItem(recentPosts, recDocPath);
-                                                                adapterList.add(reAdapter);
-
-
-                                                                homeAdapter.setItem(adapterList);
-                                                            }
-                                                        }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w(TAG, "Finding RecentPost failed.", e);
-                                                    }
-                                                });
-                                            } else {
-                                                Log.d(TAG, "Finding PopularPost failed.", task.getException());
-                                            }
-                                        }
-                                    });
-
+                            homeAdapter.addItem(popAdapter);
                         } else {
-                            Log.d(TAG, "Finding notice failed.", task.getException());
+                            Log.d(TAG, "Finding PopularPost failed.", task.getException());
                         }
                     }
                 });
+
+        // 최신글 Board
+        manager.getCurrentPost().get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        ArrayList<Posting> recentPosts = new ArrayList<>();
+                        ArrayList<String> recDocPath = new ArrayList<>();
+                        for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                            Log.d(TAG,"최신글 => "+snap.getData());
+                            recentPosts.add(snap.toObject(Posting.class));
+                            recDocPath.add(snap.getReference().getPath());
+                        }
+                        reAdapter.setItem(recentPosts, recDocPath);
+                        adapterList.add(reAdapter);
+
+                        homeAdapter.addItem(reAdapter);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Finding RecentPost failed.", e);
+            }
+        });
     }
 
- */
 }

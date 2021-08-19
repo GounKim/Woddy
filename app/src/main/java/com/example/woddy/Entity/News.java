@@ -24,6 +24,7 @@ public class News {
     private String content; //글 내용
     private ArrayList<String> pictures; //글에 첨부된 사진
     private Date postedTime; //작성 시간
+    private String si; //사용자의 시
 
     public News() {
     }

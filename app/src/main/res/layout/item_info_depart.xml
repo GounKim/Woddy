@@ -11,6 +11,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/dept_logo_imageview"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"

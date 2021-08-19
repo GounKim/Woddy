@@ -2,6 +2,7 @@ package com.example.woddy.Info;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -15,8 +16,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.woddy.Entity.Depart;
 import com.example.woddy.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +30,7 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
     LinearLayout linearLayout; //얘를 눌러야 펼쳐짐
     LinearLayout deptDetailLayout; //펼쳐질 레이아웃
     ImageView arrowImageView; //화살표 모양(접으면 ^ 펼치면 V)
+    ImageView deptLogoImageView; //기관 로고
     TextView deptNameTextView; //기관명
     TextView deptIntroduceTextView; //기관소개
     TextView deptCallNumberTextView; //기관 전화번호
@@ -41,6 +48,7 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
         linearLayout = itemView.findViewById(R.id.info_depart_linearlayout);
         deptDetailLayout = itemView.findViewById(R.id.dept_detail_linearlayout);
         arrowImageView = itemView.findViewById(R.id.closeImageView);
+        deptLogoImageView = itemView.findViewById(R.id.dept_logo_imageview);
         deptNameTextView = itemView.findViewById(R.id.dept_name_textview);
         deptIntroduceTextView = itemView.findViewById(R.id.dept_introduce_textview);
         deptCallNumberTextView = itemView.findViewById(R.id.dept_call_number_textview);
@@ -76,6 +84,24 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
     }
 
     public void onBind(Depart data, int position, SparseBooleanArray selectedItems) {
+
+        if (!data.getLogo().isEmpty()) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference(data.getLogo());
+
+            storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Glide.with(itemView)
+                                .load(task.getResult())
+                                .fitCenter()
+                                .into(deptLogoImageView);
+                    }
+                }
+            });
+        }
+
         deptNameTextView.setText(data.getDepart());
         deptIntroduceTextView.setText(data.getContent());
         deptCallNumberTextView.setText(data.getTel());
@@ -108,7 +134,8 @@ public class DepartRecyclerView extends RecyclerView.ViewHolder {
         va.start();
     }
 
-    public void setOnViewHolderItemClickListener(OnViewHolderItemClickListener onViewHolderItemClickListener) {
+    public void setOnViewHolderItemClickListener(OnViewHolderItemClickListener
+                                                         onViewHolderItemClickListener) {
         this.onViewHolderItemClickListener = onViewHolderItemClickListener;
     }
 }

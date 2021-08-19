@@ -45,7 +45,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_sign_up_success.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_update_profile.xml" value="0.4" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/add_writings_main.xml" value="0.2" />
-        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/albumboard_item.xml" value="0.4" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/albumboard_item.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/chat_list_recycler.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/chat_room_recycler_chatter.xml" value="0.20380434782608695" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/chat_room_recycler_user.xml" value="0.10625" />
@@ -105,7 +105,6 @@
         <entry key="..\:/Woddy/app/src/main/res/layout/activity_main.xml" value="0.10260416666666666" />
         <entry key="..\:/Woddy/app/src/main/res/layout/activity_posting_list.xml" value="0.10260416666666666" />
         <entry key="..\:/Woddy/app/src/main/res/layout/activity_show_image_posting.xml" value="0.1" />
-        <entry key="..\:/Woddy/app/src/main/res/layout/activity_show_info_posting.xml" value="0.1" />
         <entry key="..\:/Woddy/app/src/main/res/layout/activity_show_posting.xml" value="0.1" />
         <entry key="..\:/Woddy/app/src/main/res/layout/album_row_item.xml" value="0.1" />
         <entry key="..\:/Woddy/app/src/main/res/layout/chat_list_recycler.xml" value="0.10260416666666666" />
@@ -116,10 +115,6 @@
         <entry key="..\:/Woddy/app/src/main/res/layout/fragment_my_page.xml" value="0.10260416666666666" />
         <entry key="..\:/Woddy/app/src/main/res/layout/fragment_post.xml" value="0.22" />
         <entry key="..\:/Woddy/app/src/main/res/layout/fragment_post_board_main.xml" value="0.10260416666666666" />
-        <entry key="..\:/Woddy/app/src/main/res/layout/home_item.xml" value="0.12760416666666666" />
-        <entry key="..\:/Woddy/app/src/main/res/layout/home_item_hscroll.xml" value="0.11209068010075567" />
-        <entry key="..\:/Woddy/app/src/main/res/layout/home_item_notice.xml" value="0.1" />
-        <entry key="..\:/Woddy/app/src/main/res/layout/home_item_posting_image.xml" value="0.12760416666666666" />
         <entry key="..\:/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.1" />
         <entry key="..\:/Woddy/app/src/main/res/layout/img_slider.xml" value="0.11548913043478261" />
         <entry key="..\:/Woddy/app/src/main/res/layout/item_albumboard.xml" value="0.6666666666666666" />

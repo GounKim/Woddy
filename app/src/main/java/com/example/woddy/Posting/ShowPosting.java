@@ -1,14 +1,11 @@
 package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
-
 import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,7 +32,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -196,6 +191,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
             liked.setImageResource(R.drawable.ic_baseline_liked_yes);
             likedCount.setText(Integer.toString(num + 1));
             manager.updatePostInfo(postingPath, FirestoreManager.LIKE, FirestoreManager.INCRESE);
+
+            //게시물 작성자 uid 획득
             FirebaseFirestore.getInstance().document(postingPath).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -204,7 +201,7 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                             Posting posting = document.toObject(Posting.class);
 
                             String uid=posting.getPostingUid();
-                            manager.likeAlarm(uid, postingPath);
+                            manager.likeAlarm(uid, postingPath); //좋아요 알림
                         }
                     }
                 }

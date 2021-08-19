@@ -39,7 +39,6 @@ import java.util.ArrayList;
 
 public class AlarmActivity extends AppCompatActivity {
 
-    FirebaseFirestore fsDB = FirebaseFirestore.getInstance();
     FirestoreManager manager = new FirestoreManager();
 
     String TAG = "AlarmActivity";
@@ -66,6 +65,136 @@ public class AlarmActivity extends AppCompatActivity {
         adapter.setHasStableIds(true);
         alarm_recyclerview.setAdapter(adapter);
         alarm_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    //리사이클뷰 설정
+    class AlarmRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        ArrayList<AlarmDTO> alarmDTOList = new ArrayList<AlarmDTO>();
+
+        AlarmRecyclerViewAdapter(){
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            // Create a reference to the cities collection
+            Query query = FirebaseFirestore.getInstance().collection("alarms").orderBy("timestamp", Query.Direction.DESCENDING);
+            query.whereEqualTo("destinationUid",uid)
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                            alarmDTOList.clear();
+
+                            if (error != null) {
+                                Log.w(TAG, "Listen failed.", error);
+                                return;
+                            }
+
+                            if(value == null)return;
+                            else if (value != null) {
+                                for(DocumentSnapshot snapshot : value.getDocuments()){
+                                    alarmDTOList.add(snapshot.toObject(AlarmDTO.class));
+                                }
+                                notifyDataSetChanged();
+                            }
+
+                        }
+                    });
+        }
+
+        @NonNull
+        @Override
+        //알림 목록의 아이템 설정
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm,parent,false);
+            return new RecyclerView.ViewHolder(view) {
+            };
+        }
+
+        @Override
+        //알림 목록 설정
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+            View view = holder.itemView;
+            TextView text_message = view.findViewById(R.id.alarmitem_textview_message);
+            AlarmDTO currentAlarm = alarmDTOList.get(position);
+
+            //알림 종류 마다 다른 화면 전환
+            switch (currentAlarm.kind){
+                case 0 : //좋아요 알림
+                    String str0 = currentAlarm.nickname + getString(R.string.alarm_like);
+                    text_message.setText(str0);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }catch(RuntimeException e){
+                                Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }
+                        }
+                    });
+                    break;
+                case 1 : //댓글 알림
+                    String str1 = currentAlarm.nickname + getString(R.string.alarm_comment)
+                            +System.lineSeparator()+'"'+currentAlarm.message+'"';
+                    text_message.setText(str1);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }catch(RuntimeException e){
+                                Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
+                                view.getContext().startActivity(intent);
+                            }
+                        }
+                    });
+                    break;
+                case 2 : //채팅 알림
+                    String str2 = currentAlarm.nickname + getString(R.string.alarm_chatting);
+                    text_message.setText(str2);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            chatIntent(view, currentAlarm);
+                        }
+                    });
+                    break;
+            }
+        }
+        @Override
+        public int getItemCount() {
+            return alarmDTOList.size();
+        }
+    }
+
+    //채팅 알림일 때 화면 전환
+    public void chatIntent(View view, AlarmDTO currentAlarm) {
+        manager.findUserWithUid(currentAlarm.destinationUid)
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String nickname = (String) documentSnapshot.get("nickname"); //받는 사람 닉네임
+                        Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
+                        intent.putExtra("USER", nickname);
+                        intent.putExtra("CHATTER", currentAlarm.getNickname());
+                        Log.d("onclick", currentAlarm.getRoomNum());
+                        view.getContext().startActivity(intent);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Fail to find writer info");
+                    }
+                });
     }
 
     // 툴바 기본 설정
@@ -114,138 +243,5 @@ public class AlarmActivity extends AppCompatActivity {
     // 뒤로가기 버튼 사용여부 (사용 기본)
     protected boolean useBackButton() {
         return useBackButton;
-    }
-
-    //리사이클뷰 설정
-    class AlarmRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        ArrayList<AlarmDTO> alarmDTOList = new ArrayList<AlarmDTO>();
-
-        AlarmRecyclerViewAdapter(){
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-            // Create a reference to the cities collection
-            Query query = FirebaseFirestore.getInstance().collection("alarms").orderBy("timestamp", Query.Direction.DESCENDING);
-            query.whereEqualTo("destinationUid",uid)
-            //FirebaseFirestore.getInstance().collection("alarms").whereEqualTo("destinationUid",uid) //.orderBy("population");
-                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-
-                            alarmDTOList.clear();
-
-                            if (error != null) {
-                                Log.w(TAG, "Listen failed.", error);
-                                return;
-                            }
-
-                            if(value == null)return;
-                            else if (value != null) {
-                                //Log.d(TAG, "Current data: " + value.getData());
-                                for(DocumentSnapshot snapshot : value.getDocuments()){
-                                    alarmDTOList.add(snapshot.toObject(AlarmDTO.class));
-                                }
-                                notifyDataSetChanged();
-                            }
-
-                        }
-                    });
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm,parent,false);
-            return new RecyclerView.ViewHolder(view) {
-            };
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-            View view = holder.itemView;
-            ImageView image = view.findViewById(R.id.alarmitem_imageview);
-            TextView text_message = view.findViewById(R.id.alarmitem_textview_message);
-            AlarmDTO currentAlarm = alarmDTOList.get(position);
-
-            switch (currentAlarm.kind){
-                case 0 : //좋아요 알림
-                    //image.setImageResource(R.drawable.ic_baseline_liked_no);
-                    String str0 = currentAlarm.nickname + getString(R.string.alarm_like);
-                    text_message.setText(str0);
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            try {
-                                Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
-                                view.getContext().startActivity(intent);
-                            }catch(RuntimeException e){
-                                Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
-                                view.getContext().startActivity(intent);
-                            }
-                        }
-                    });
-                    break;
-                case 1 : //댓글 알림
-                    //image.setImageResource(R.drawable.ic_baseline_liked_no);
-                    String str1 = currentAlarm.nickname + getString(R.string.alarm_comment)
-                            +System.lineSeparator()+'"'+currentAlarm.message+'"';
-                    text_message.setText(str1);
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            try {
-                                Intent intent = new Intent(view.getContext(), ShowImgPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
-                                view.getContext().startActivity(intent);
-                            }catch(RuntimeException e){
-                                Intent intent = new Intent(view.getContext(), ShowPosting.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("documentPath", currentAlarm.getPostingPath());
-                                view.getContext().startActivity(intent);
-                            }
-                        }
-                    });
-                    break;
-                case 2 : //채팅 알림
-                    //image.setImageResource(R.drawable.ic_baseline_liked_no);
-                    String str2 = currentAlarm.nickname + getString(R.string.alarm_chatting);
-                    text_message.setText(str2);
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            chatIntent(view, currentAlarm);
-                        }
-                    });
-                    break;
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return alarmDTOList.size();
-        }
-    }
-
-    public void chatIntent(View view, AlarmDTO currentAlarm) {
-        manager.findUserWithUid(currentAlarm.destinationUid)
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String nickname = (String) documentSnapshot.get("nickname"); //받는 사람 닉네임
-                        Intent intent = new Intent(view.getContext(), ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("ROOMNUM", currentAlarm.getRoomNum());
-                        intent.putExtra("USER", nickname);
-                        intent.putExtra("CHATTER", currentAlarm.getNickname());
-                        Log.d("onclick", currentAlarm.getRoomNum());
-                        view.getContext().startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Fail to find writer info");
-                    }
-                });
     }
 }

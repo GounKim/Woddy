@@ -1,7 +1,6 @@
 package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
-
 import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 import android.Manifest;
@@ -17,7 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -37,7 +35,6 @@ import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.MainActivity;
 import com.example.woddy.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.gun0912.tedpermission.PermissionListener;
@@ -148,8 +145,9 @@ public class AddWritingsActivity extends BaseActivity {
                 if (!titleTV.getText().toString().isEmpty() && !plotTV.getText().toString().isEmpty()) {
                     // 이미지가 필수인 태그에 들어가는 글일 경우
                     if (Arrays.asList(imgNeedTag).contains(tagName)) {
-                        if (uriList == null) {  // 이미지가 입력되지 않으면 추가 불가능
+                        if (uriList.size() == 0) {  // 이미지가 입력되지 않으면 추가 불가능
                             Toast.makeText(getApplicationContext(), "사진이 한개 이상 필요합니다.", Toast.LENGTH_LONG).show();
+                            break;
                         } else {    // 이미지가 입력되면 추가됨
                             addNewPosting();
                         }
@@ -158,6 +156,7 @@ public class AddWritingsActivity extends BaseActivity {
                     }
                 } else {// 제목과 내용이 모두 입력되지 않으면 메시지를 띄움
                     Toast.makeText(getApplicationContext(), "제목과 내용 모두를 입력하세요.", Toast.LENGTH_LONG).show();
+                    break;
                 }
                 break;
         }

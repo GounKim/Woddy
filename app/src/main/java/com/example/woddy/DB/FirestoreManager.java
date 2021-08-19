@@ -451,8 +451,18 @@ public class FirestoreManager {
                 .collection("postTag").document(postTag).get();
     }
 
+    public CollectionReference departColRef(String boardName) {
+        CollectionReference departColRef = fsDB.collection("postBoard")
+                .document(boardName).collection("postings");
+        return departColRef;
+    }
+
     public Query getNewsQuery(String boardName, String tagName) {
         return postCollectionRef(boardName, tagName).orderBy("postedTime", Query.Direction.DESCENDING);
+    }
+
+    public Query getDepartQuery(String boardName) {
+        return departColRef(boardName).orderBy("depart", Query.Direction.ASCENDING);
     }
 
 
@@ -537,8 +547,8 @@ public class FirestoreManager {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         String nickname = (String) documentSnapshot.get("nickname");
-                                        Log.d("chatalarm",nickname);
-                                        forChatAlarm(roomRef,nickname,msg.getMessage());
+                                        Log.d("chatalarm", nickname);
+                                        forChatAlarm(roomRef, nickname, msg.getMessage());
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -591,7 +601,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("likealarm",nickname);
+                        Log.d("likealarm", nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(0);
@@ -619,7 +629,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("commentalarm",nickname);
+                        Log.d("commentalarm", nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setPostingPath(postPath);
                         alarmDTO.setKind(1);
@@ -648,7 +658,7 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String nickname = (String) documentSnapshot.get("nickname");
-                        Log.d("chatalarm",nickname);
+                        Log.d("chatalarm", nickname);
                         alarmDTO.setNickname(nickname);
                         alarmDTO.setKind(1);
                         alarmDTO.setMessage(message);
@@ -690,12 +700,12 @@ public class FirestoreManager {
                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if( task.isSuccessful()) {
+                                        if (task.isSuccessful()) {
                                             QuerySnapshot document = task.getResult();
                                             String uid = document.getDocuments().get(0).getId();
                                             Log.d("firebase", uid);
                                             chattingAlarm(uid, msg.toString());
-                                        }else {
+                                        } else {
                                             Log.d(TAG, "Error getting documents: ", task.getException());
                                         }
                                     }

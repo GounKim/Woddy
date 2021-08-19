@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
     Button btnLogin;
-    Button btnAlarm;
     Button btnshow;
     Button btnDelAccount;
     Button btnLogout;
@@ -136,7 +135,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
         setHomeAdapter();
 
         recyclerView = view.findViewById(R.id.home_recyclerView);
@@ -168,15 +166,14 @@ public class HomeFragment extends Fragment {
                             popAdapter.setItem(popPosts, popDocPath);
                             adapterList.add(popAdapter);
 
+                            homeAdapter.addItem(popAdapter);
                         } else {
                             Log.d(TAG, "Finding PopularPost failed.", task.getException());
                         }
-
                     }
-
                 });
 
-        // 최신글
+        // 최신글 Board
         manager.getCurrentPost().get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -184,14 +181,14 @@ public class HomeFragment extends Fragment {
                         ArrayList<Posting> recentPosts = new ArrayList<>();
                         ArrayList<String> recDocPath = new ArrayList<>();
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                            Log.d(TAG,"최신글 => "+ snap.getData());
+                            Log.d(TAG,"최신글 => "+snap.getData());
                             recentPosts.add(snap.toObject(Posting.class));
                             recDocPath.add(snap.getReference().getPath());
                         }
                         reAdapter.setItem(recentPosts, recDocPath);
                         adapterList.add(reAdapter);
 
-                        homeAdapter.setItem(adapterList);
+                        homeAdapter.addItem(reAdapter);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

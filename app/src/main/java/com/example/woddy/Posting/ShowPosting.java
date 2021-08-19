@@ -1,14 +1,11 @@
 package com.example.woddy.Posting;
 
 import static android.content.ContentValues.TAG;
-
 import static com.example.woddy.Home.HomeFragment.USER_UID;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +20,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
-import com.example.woddy.DB.StorageManager;
 import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.Comment;
 import com.example.woddy.Entity.Posting;
@@ -68,8 +63,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     String postingPath;
     String boardName;
     String tagName;
-
-    SwipeRefreshLayout swipeRefresh;
 
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
@@ -116,8 +109,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         edtComment = findViewById(R.id.show_posting_edt_comment);
         btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
-        swipeRefresh = findViewById(R.id.swipeRefresh);
-
         //툴바 이미지 및 타이틀 설정
         toolbarLogoImage = findViewById(R.id.toolbar_logo);
         toolbarLogoImage.setVisibility(View.GONE);
@@ -126,14 +117,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(adapter);
-
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                recyclerView.setAdapter(adapter);
-                swipeRefresh.setRefreshing(false);
-            }
-        });
 
         getComments();
 

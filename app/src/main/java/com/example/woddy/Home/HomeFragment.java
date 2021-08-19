@@ -44,6 +44,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
+    public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
     SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;

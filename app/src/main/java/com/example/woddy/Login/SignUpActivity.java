@@ -37,7 +37,7 @@ import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
+import static com.example.woddy.Home.HomeFragment.USER_UID;
 
 public class SignUpActivity extends AppCompatActivity {
     final String TAG = "SignUp";

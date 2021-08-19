@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // 게시글
 public class PostingSQL {
-    private String postingPath;  // P0000001부터 시작
+    private String postingPath;
     private String board;   // 게시판 이름
     private String tag; // 태그 이름 [ FK : BoardTag ]
     private String writer;  // User의 nickName [ FK : MemberInfo ]

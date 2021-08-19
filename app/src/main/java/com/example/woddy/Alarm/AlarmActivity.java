@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.Chatting.ChattingFragment;
+import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.MainActivity;
 import com.example.woddy.Posting.ShowImgPosting;
 import com.example.woddy.Posting.ShowPosting;
@@ -44,6 +45,7 @@ import java.util.List;
 
 public class AlarmActivity extends AppCompatActivity {
 
+    FirebaseFirestore fsDB = FirebaseFirestore.getInstance();
 
     String TAG = "AlarmActivity";
 
@@ -159,7 +161,6 @@ public class AlarmActivity extends AppCompatActivity {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm,parent,false);
-            //return null;
             return new RecyclerView.ViewHolder(view) {
             };
         }

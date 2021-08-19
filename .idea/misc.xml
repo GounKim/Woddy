@@ -37,7 +37,7 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_pw_reset_success.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_register_etc.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_set_account.xml" value="0.24818840579710144" />
-        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_image_posting.xml" value="0.4" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_image_posting.xml" value="0.2" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_posting.xml" value="0.2895348837209302" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_posting_menu.xml" value="0.1" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/activity_show_writing.xml" value="0.24818840579710144" />
@@ -62,11 +62,14 @@
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_post_board_main.xml" value="0.10625" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/fragment_show_posting_menu.xml" value="0.2" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item.xml" value="0.12335359675785208" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_favorite_board.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_hscroll.xml" value="0.264" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_notice.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_image.xml" value="0.4" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/home_item_posting_simple.xml" value="0.4" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/img_slider.xml" value="0.176" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/item.xml" value="0.23324275362318841" />
+        <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/item2.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/item_albumboard.xml" value="0.1" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/notice_item.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/Goun/Documents/GitHub/Woddy/app/src/main/res/layout/notice_page_free.xml" value="0.12604166666666666" />
@@ -106,7 +109,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="VisualizationToolProject">

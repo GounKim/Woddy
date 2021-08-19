@@ -1,9 +1,11 @@
 package com.example.woddy.Alarm;
 
+import java.util.Date;
+
 public class AlarmDTO { //알림 데이터
     String destinationUid = null; //알림 받을 사용자 uid
     String nickname = null; //알림 보낸 사용자 uid
-    String postingPath = null;
+    String postingPath = null; //포스팅 정보 저장
 
     Integer kind = null; //알림 종류 분류
     //0 : like alarm
@@ -11,7 +13,7 @@ public class AlarmDTO { //알림 데이터
     //2 : chatting alarm
 
     String message = null; //알림에 띄울 문구
-    Long timestamp = null; //시간
+    Date timestamp = null; //시간
 
     public AlarmDTO() {
     }
@@ -36,7 +38,7 @@ public class AlarmDTO { //알림 데이터
         return message;
     }
 
-    public Long getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
@@ -56,7 +58,7 @@ public class AlarmDTO { //알림 데이터
         this.message = message;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

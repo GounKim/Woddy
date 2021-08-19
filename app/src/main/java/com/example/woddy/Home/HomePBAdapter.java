@@ -44,6 +44,7 @@ public class HomePBAdapter extends BaseAdapter {
     public void setItem(ArrayList<Posting> writings, ArrayList<String> postingPath) {
         this.writingList = writings;
         this.postingPath = postingPath;
+        notifyDataSetChanged();
     }
 
     public ArrayList<Posting> getItem() {

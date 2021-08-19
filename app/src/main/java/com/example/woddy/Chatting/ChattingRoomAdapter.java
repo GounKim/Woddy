@@ -37,7 +37,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int DATE_MARK = 2;  // 날짜 출력 마크(자정이 넘어간 이후 글 입력시 출력)
     public static final int INTRO_MARK = 3; // 사용자들의 입장을 알리는 마크
 
-    ArrayList<ChattingMsg> chatItemList;    // 채팅방 목록
+    ArrayList<ChattingMsg> chatItemList;    // 메시지 목록
     String chatter; // 채팅 상대방
     String user;    // 사용자
     String chatterImg;  // 상대방 이미지
@@ -50,13 +50,13 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.chatItemList = new ArrayList<>();
     }
 
-    // 채팅방 목록(item) 전체 가져오기
+    // 메시지 목록(item) 전체 가져오기
     public void setItem(ArrayList<ChattingMsg> chatItemList) {
         this.chatItemList = chatItemList;
         notifyDataSetChanged();
     }
 
-    // 채팅방 목록(item) 하나만 추가하기
+    // 메시지 목록(item) 하나만 추가하기
     public void addItem(ChattingMsg chatItem) {
         chatItemList.add(chatItem);
         notifyDataSetChanged();
@@ -70,16 +70,16 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (viewType == USER_MESSAGE) {
+        if (viewType == USER_MESSAGE) { // 사용자가 입력한 메시지의 경우 (오른쪽 출력)
             view = inflater.inflate(R.layout.chat_room_recycler_user, parent, false);
             return new UserMessageHolder(view);
-        } else if (viewType == CHATTER_MESSAGE) {
+        } else if (viewType == CHATTER_MESSAGE) {   // 상대방이 입력한 메시지 경우(왼쪽출력)
             view = inflater.inflate(R.layout.chat_room_recycler_chatter, parent, false);
             return new ChatterMessageHolder(view);
-        } else if (viewType == DATE_MARK) {
+        } else if (viewType == DATE_MARK) { // 날짜 출력 (가운데)
             view = inflater.inflate(R.layout.chat_room_recycler_date, parent, false);
             return new DateMarkHolder(view);
-        } else {
+        } else {    // 입장 알림(가운데)
             view = inflater.inflate(R.layout.chat_room_recycler_date, parent, false);
             return new IntroMarkHolder(view);
         }
@@ -87,12 +87,13 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof UserMessageHolder) {
+        if (holder instanceof UserMessageHolder) {  // 사용자 메시지 출력
             ((UserMessageHolder) holder).userMsg.setText(chatItemList.get(position).getMessage());
             ((UserMessageHolder) holder).sendTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
-        } else if (holder instanceof ChatterMessageHolder) {
+        } else if (holder instanceof ChatterMessageHolder) {    // 상대방 메시지 출력
             ((ChatterMessageHolder) holder).chatterMsg.setText(chatItemList.get(position).getMessage());
             ((ChatterMessageHolder) holder).getTime.setText(timestamp(chatItemList.get(position).getWrittenTime()));
+
             // 이미지 설정
             if (chatterImg != null | chatterImg != "") {
                 FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
@@ -102,6 +103,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
+                            // 상대방 이미지 출력
                             Glide.with(((ChatterMessageHolder) holder).itemView.getContext())
                                     .load(task.getResult())
                                     .into(((ChatterMessageHolder) holder).imageView);
@@ -127,17 +129,19 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemViewType(int position) {
         ChattingMsg item = chatItemList.get(position);
 
+        // 메시지 작성자가 사용자와 일치 -> 사용자 메시지창, 불일치 -> 상대방 메시지창
         if (item.getWriter() != null && item.getWriter().equals(user)) {
             return USER_MESSAGE;
         } else if (item.getWriter() != null && item.getWriter().equals(chatter)) {
             return CHATTER_MESSAGE;
-        } else if (item.getWriter() == null) {
+        } else if (item.getWriter() == null) {  // 작성자가 없음 -> 입장
             return INTRO_MARK;
         } else {
             return DATE_MARK;
         }
     }
 
+    // 사용자 메시지 xml연결
     public class UserMessageHolder extends RecyclerView.ViewHolder {
         TextView userMsg;   // 사용자가 보낸 메시지
         TextView sendTime;  // 메시지 보낸 시간
@@ -149,6 +153,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    // 상대방 메시지 xml연결
     public class ChatterMessageHolder extends RecyclerView.ViewHolder {
         TextView chatterMsg;    // 상대방이 보낸 메시지
         TextView getTime;   // 메시지 받은 시간
@@ -162,6 +167,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    // 날짜 출력 xml연결
     public class DateMarkHolder extends RecyclerView.ViewHolder {
         TextView dateMark;
 
@@ -171,6 +177,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    // 입장 알림 출력 xml연결
     public class IntroMarkHolder extends RecyclerView.ViewHolder {
         TextView introMark;
 
@@ -183,7 +190,6 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private String timestamp(Date date) {    // 타임스탬프 생성
         TimeZone timeZone;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.KOREAN);
-        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREAN);
         timeZone = TimeZone.getTimeZone("Asia/Seoul");
         sdf.setTimeZone(timeZone);
         return sdf.format(date);

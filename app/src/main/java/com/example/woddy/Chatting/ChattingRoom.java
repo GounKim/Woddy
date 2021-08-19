@@ -4,7 +4,6 @@ package com.example.woddy.Chatting;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,17 +39,13 @@ public class ChattingRoom extends BaseActivity {
 
     ChattingRoomAdapter crAdapter;
     RecyclerView crRecyclerView;
-    ImageView btnPlus;
     EditText edtInputCon;
     Button btnSend;
-    SwipeRefreshLayout swipeRefresh;
     ImageView toolbarLogoImage;
 
     // DB
     FirestoreManager manager;
     SQLiteManager sql;
-
-    //private ArrayList<ChattingMsg> itemList;
 
     // 하단 메뉴 사용 안함
     @Override
@@ -64,26 +59,27 @@ public class ChattingRoom extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
         sql = new SQLiteManager(getApplicationContext());
+        manager = new FirestoreManager();
+
 
         toolbarLogoImage = (ImageView) findViewById(R.id.toolbar_logo);
+        toolbarLogoImage.setVisibility(View.GONE);
 
         // ChattingList에서 클릭한 방의 CHATTER 받아오기
         Intent intent = getIntent();
         String chatter = intent.getStringExtra("CHATTER");
-        setMyTitle(chatter);
-        toolbarLogoImage.setVisibility(View.GONE);
+        setMyTitle(chatter);    // 채팅방 이름(toolbar 제목)을 상대방 이름으로 설정
         String roomNum = intent.getStringExtra("ROOMNUM");
-        String user = sql.getUserNick();
+        String user = sql.getUserNick();    // 사용자 닉네임 받아오기
         String chatterImage = intent.getStringExtra("IMAGE");
 
-        initDatabase(roomNum);
-        updateDB(roomNum);
+        initDatabase(roomNum);  // 기존 메시지 목록 가져오기
+        updateDB(roomNum);  // 새로운 메시지 받았을때 업데이트
 
         // xml 연결
         crRecyclerView = findViewById(R.id.chatting_room_recyclerView);
         edtInputCon = findViewById(R.id.edt_input_conversation);
         btnSend = findViewById(R.id.btn_send);
-        swipeRefresh = findViewById(R.id.swipeRefresh);
 
         // ChattingRoomAdapter연결
         crAdapter = new ChattingRoomAdapter(user, chatter, chatterImage);
@@ -93,32 +89,21 @@ public class ChattingRoom extends BaseActivity {
             crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
         }
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                crRecyclerView.setAdapter(crAdapter);
-                if(crAdapter.getItemCount() != 0) {
-                    crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
-                }
-                swipeRefresh.setRefreshing(false);
-            }
-        });
-
+        // 메시지 전송 버튼 누를시
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String chat = edtInputCon.getText().toString();
-                manager.addMessage(roomNum, new ChattingMsg(user, chat, new Date()));
+                manager.addMessage(roomNum, new ChattingMsg(user, chat, new Date()));   // 메시지 전송(DB)
                 edtInputCon.setText(null);
             }
         });
 
     }
 
+    // 기존 메시지 가져오기
     private void initDatabase(String roomNum) {
-        manager = new FirestoreManager();
-
-        manager.getMessage(roomNum).get()
+        manager.getMessage(roomNum).get()   // 채팅방에 해당하는 메시지 찾아 가져오기
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
@@ -129,6 +114,7 @@ public class ChattingRoom extends BaseActivity {
                                     ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
                                     msgArrayList.add(chattingMsg);
 
+                                    // 가장 아래로 스크롤
                                     if (crAdapter.getItemCount() != 0) {
                                         crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
                                     } 
@@ -143,8 +129,9 @@ public class ChattingRoom extends BaseActivity {
 
     }
 
+    // 송신되는 메시지 대기
     private void updateDB(String roomNum) {
-        manager.getMessage(roomNum).limitToLast(1)
+        manager.getMessage(roomNum).limitToLast(1)  // 송신된 메시지만 받아옴
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
@@ -155,7 +142,9 @@ public class ChattingRoom extends BaseActivity {
 
                         for (DocumentSnapshot doc: value.getDocuments()) {
                             ChattingMsg chattingMsg = doc.toObject(ChattingMsg.class);
-                            crAdapter.addItem(chattingMsg);
+                            crAdapter.addItem(chattingMsg); // 수신한 메시지 화면에 추가
+
+                            // 가장 아래로 스크롤
                             if(crAdapter.getItemCount() != 0) {
                                 crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount()-1);
                             }

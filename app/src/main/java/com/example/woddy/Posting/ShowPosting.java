@@ -352,14 +352,6 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                                 ChattingInfo chattingInfo = new ChattingInfo(Arrays.asList(participantUID), Arrays.asList(chatterImage));
                                 manager.addChatRoom(chattingInfo, bottomSheetDialog, participant);
 
-//                                Intent intent = new Intent(context, ChattingRoom.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//                                intent.putExtra("USER", sqlManager.getUserNick());
-//                                intent.putExtra("CHATTER", chattingInfo.getParticipant().get(0));
-//                                intent.putExtra("ROOMNUM", documentReference.getId());
-//                                intent.putExtra("IMAGE", chattingInfo.getParticipantImg().get(0));
-//
-//                                context.startActivity(intent);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -369,6 +361,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
                             }
                         });
 
+                Toast.makeText(getApplicationContext(), "채팅방이 생성되었습니다.", Toast.LENGTH_LONG).show();
+                bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_HIDDEN);
 
                 break;
 

@@ -37,7 +37,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @NonNull
     @Override
     public AlbumAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.albumboard_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
 
@@ -68,7 +67,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         }
 
         viewHolder.album_title.setText(posting.getTitle());
-        viewHolder.album_text.setText(posting.getTitle());
+        viewHolder.album_text.setText(posting.getContent());
         viewHolder.album_time.setText(timestamp(posting.getPostedTime()));
         viewHolder.album_liked.setText(posting.getNumberOfLiked() + "");
     }

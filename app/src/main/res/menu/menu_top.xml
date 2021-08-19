@@ -6,6 +6,13 @@
         android:id="@+id/menu_alarm"
         android:icon="@drawable/ic_alarm"
         android:title="알림"
-        android:visible="true"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:visible="true"/>
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="검색"
+        app:showAsAction="ifRoom"
+        android:visible="true"/>
 </menu>

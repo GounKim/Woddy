@@ -50,10 +50,6 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.clHold
         notifyDataSetChanged();
     }
 
-    public void setItem(ArrayList<ChattingInfo> chattingInfos) {
-        this.chattingInfos = chattingInfos;
-    }
-
     public class clHolder extends ViewHolder {
         private final TextView chatterName;
         private final TextView recentChat;

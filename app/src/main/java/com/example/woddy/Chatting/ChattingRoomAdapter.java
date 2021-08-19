@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.woddy.Entity.ChattingInfo;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,6 +47,11 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.chatter = chatter;
         this.chatterImg = chatterImg;
         this.chatItemList = new ArrayList<>();
+    }
+
+    public void setItem(ArrayList<ChattingMsg> chatItemList) {
+        this.chatItemList = chatItemList;
+        notifyDataSetChanged();
     }
 
     public void addItem(ChattingMsg chatItem) {

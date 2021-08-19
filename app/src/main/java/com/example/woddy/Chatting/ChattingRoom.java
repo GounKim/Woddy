@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static android.content.ContentValues.TAG;
@@ -44,6 +46,7 @@ public class ChattingRoom extends BaseActivity {
 
     // DB
     FirestoreManager manager;
+    SQLiteManager sql;
 
     //private ArrayList<ChattingMsg> itemList;
 
@@ -58,6 +61,7 @@ public class ChattingRoom extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
+        sql = new SQLiteManager(getApplicationContext());
 
         toolbarLogoImage = (ImageView) findViewById(R.id.toolbar_logo);
 
@@ -67,7 +71,7 @@ public class ChattingRoom extends BaseActivity {
         setMyTitle(chatter);
         toolbarLogoImage.setVisibility(View.GONE);
         String roomNum = intent.getStringExtra("ROOMNUM");
-        String user = intent.getStringExtra("USER");
+        String user = sql.getUserNick();
         String chatterImage = intent.getStringExtra("IMAGE");
 
         initDatabase(roomNum);
@@ -106,16 +110,17 @@ public class ChattingRoom extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                try {
+                            ArrayList<ChattingMsg> msgArrayList = new ArrayList<>();
+                            if (!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
                                     ChattingMsg chattingMsg = document.toObject(ChattingMsg.class);
-                                    crAdapter.addItem(chattingMsg);
+                                    msgArrayList.add(chattingMsg);
+
                                     if (crAdapter.getItemCount() != 0) {
                                         crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
                                     }
-                                } catch (RuntimeException e) {
-                                    Log.d(TAG, "Error getting chatList: ", e);
                                 }
+                                crAdapter.setItem(msgArrayList);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

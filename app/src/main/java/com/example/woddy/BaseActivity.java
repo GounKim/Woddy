@@ -171,10 +171,12 @@ public class BaseActivity extends AppCompatActivity {
             case R.id.menu_alarm:{
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
+                return true;
             }
             case R.id.menu_search:{
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
+                return true;
             }
         }
         return super.onOptionsItemSelected(item);

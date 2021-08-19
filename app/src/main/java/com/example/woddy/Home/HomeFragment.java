@@ -1,18 +1,11 @@
 package com.example.woddy.Home;
 
 import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.woddy.Alarm.AlarmActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.woddy.DB.FirestoreManager;
-import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.Posting;
-import com.example.woddy.Entity.User;
-import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.R;
 import com.example.woddy.Search.SearchActivity;
@@ -43,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
+    SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
     Button btnLogin;
@@ -138,11 +134,20 @@ public class HomeFragment extends Fragment {
 
         setHomeAdapter();
 
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerView.setAdapter(homeAdapter);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
 
         return view;

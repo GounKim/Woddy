@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.woddy.Entity.News;
 import com.example.woddy.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -54,6 +54,7 @@ public class InfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
         context = container.getContext();
 
+        SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.swipeRefresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_info);
         recyclerView.setHasFixedSize(true);
 
@@ -68,6 +69,15 @@ public class InfoFragment extends Fragment {
 
         tagName = "생활지원";
         new InfoData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new InfoData(getContext()).getItems(recyclerView, BOARD_NAME, tagName);
+                givePathToParent(tagName);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override

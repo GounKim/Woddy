@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
@@ -60,6 +61,8 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
     String postingPath;
     String boardName;
     String tagName;
+
+    SwipeRefreshLayout swipeRefresh;
 
     //좋아요, 스크랩 버튼을 위한 변수
     private int i = 1, y = 1;
@@ -103,9 +106,20 @@ public class ShowPosting extends BaseActivity implements View.OnClickListener {
         edtComment = findViewById(R.id.show_posting_edt_comment);
         btnSend = findViewById(R.id.show_posting_btnSend_comment);
 
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+
         adapter = new CommentAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(adapter);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerView.setAdapter(adapter);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+
         getComments();
 
         btnSend.setOnClickListener(this);

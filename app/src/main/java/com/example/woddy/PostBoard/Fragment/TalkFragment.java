@@ -1,12 +1,15 @@
 package com.example.woddy.PostBoard.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.PostBoard.NormalData;
@@ -15,11 +18,6 @@ import com.example.woddy.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import android.content.Context;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class TalkFragment extends Fragment {
@@ -27,6 +25,7 @@ public class TalkFragment extends Fragment {
     private RecyclerView mVerticalView;
     private PostBoardAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
+    SwipeRefreshLayout swipeRefresh;
 
     ChipGroup chipGroup;
     Chip friend, help, mate;
@@ -55,6 +54,7 @@ public class TalkFragment extends Fragment {
         View view = inflater.inflate(R.layout.post_board_fragment_talk, container, false);
         context = container.getContext();
 
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_Talk);
         recyclerView.setHasFixedSize(true);
 
@@ -72,6 +72,15 @@ public class TalkFragment extends Fragment {
         tagName = "친구찾기";
         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
 //        givePathToParent(tagName);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
+                givePathToParent(tagName);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {

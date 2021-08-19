@@ -1,12 +1,16 @@
 package com.example.woddy.PostBoard.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.PostBoard.Album.AlbumData;
@@ -16,16 +20,11 @@ import com.example.woddy.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class FreeFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeRefresh;
     private RecyclerView mVerticalView;
     private PostBoardAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -64,6 +63,8 @@ public class FreeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+
         chipGroup = (ChipGroup) view.findViewById(R.id.filterChipGroup);
 
         free = (Chip) view.findViewById(R.id.chipFreeTalk);
@@ -74,7 +75,15 @@ public class FreeFragment extends Fragment {
         //default 부분 - 시작 시
         tagName = "자유";
         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
-//        givePathToParent(tagName);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+        givePathToParent(tagName);
 
         // chip들 중 선택된 버튼이 무엇인가에 따라
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
@@ -84,6 +93,14 @@ public class FreeFragment extends Fragment {
                     case R.id.chipFreeTalk:
                         tagName = "자유";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
+
+                        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
+                                swipeRefresh.setRefreshing(false);
+                            }
+                        });
                         givePathToParent(tagName);
 
                         break;
@@ -91,6 +108,14 @@ public class FreeFragment extends Fragment {
                     case R.id.chipDIY:
                         tagName = "DIY";
                         new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
+
+                        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
+                                swipeRefresh.setRefreshing(false);
+                            }
+                        });
                         givePathToParent(tagName);
 
                         break;
@@ -98,6 +123,14 @@ public class FreeFragment extends Fragment {
                     case R.id.chipInterior:
                         tagName = "인테리어";
                         new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
+
+                        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                new AlbumData().getItems(recyclerView, BOARD_NAME, tagName);
+                                swipeRefresh.setRefreshing(false);
+                            }
+                        });
                         givePathToParent(tagName);
 
                         break;
@@ -105,6 +138,14 @@ public class FreeFragment extends Fragment {
                     case R.id.chipTownInfo:
                         tagName = "동네정보";
                         new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
+
+                        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                new NormalData().getItems(recyclerView, BOARD_NAME, tagName);
+                                swipeRefresh.setRefreshing(false);
+                            }
+                        });
                         givePathToParent(tagName);
 
                         break;

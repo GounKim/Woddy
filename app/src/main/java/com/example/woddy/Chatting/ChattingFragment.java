@@ -1,18 +1,19 @@
 package com.example.woddy.Chatting;
 
+import static android.content.ContentValues.TAG;
+import static com.example.woddy.DB.FirestoreManager.USER_UID;
+
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
@@ -21,18 +22,15 @@ import com.example.woddy.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import static android.content.ContentValues.TAG;
-import static com.example.woddy.DB.FirestoreManager.USER_UID;
 
 
 public class ChattingFragment extends Fragment {
     FirestoreManager manager = new FirestoreManager();
     SQLiteManager sqlManager;
 
+    SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
     ChattingAdapter clAdapter;
 
@@ -45,12 +43,21 @@ public class ChattingFragment extends Fragment {
 
         sqlManager = new SQLiteManager(getContext());
         recyclerView = view.findViewById(R.id.chatting_recycler_view);
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
 
         getChatList();
 
         clAdapter = new ChattingAdapter(USER_UID);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
         recyclerView.setAdapter(clAdapter);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getChatList();
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
         return view;
     }

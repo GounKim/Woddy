@@ -1,6 +1,8 @@
 package com.example.woddy.Chatting;
 
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.BaseActivity;
 import com.example.woddy.DB.FirestoreManager;
@@ -20,7 +23,6 @@ import com.example.woddy.Entity.ChattingMsg;
 import com.example.woddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -31,14 +33,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-import static android.content.ContentValues.TAG;
-
 public class ChattingRoom extends BaseActivity {
+
     ChattingRoomAdapter crAdapter;
     RecyclerView crRecyclerView;
     ImageView btnPlus;
     EditText edtInputCon;
     Button btnSend;
+    SwipeRefreshLayout swipeRefresh;
 
     // DB
     FirestoreManager manager;
@@ -74,6 +76,7 @@ public class ChattingRoom extends BaseActivity {
         btnPlus = findViewById(R.id.btn_plus);
         edtInputCon = findViewById(R.id.edt_input_conversation);
         btnSend = findViewById(R.id.btn_send);
+        swipeRefresh = findViewById(R.id.swipeRefresh);
 
         // ChattingRoomAdapter연결
         crAdapter = new ChattingRoomAdapter(user, chatter, chatterImage);
@@ -82,6 +85,17 @@ public class ChattingRoom extends BaseActivity {
         if(crAdapter.getItemCount() != 0) {
             crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
         }
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                crRecyclerView.setAdapter(crAdapter);
+                if(crAdapter.getItemCount() != 0) {
+                    crRecyclerView.smoothScrollToPosition(crAdapter.getItemCount() - 1);
+                }
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override

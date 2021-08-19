@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.Chatting.ChattingRoom;
 import com.example.woddy.DB.FirestoreManager;
@@ -44,6 +45,7 @@ public class AlarmActivity extends AppCompatActivity {
     String TAG = "AlarmActivity";
 
     RecyclerView alarm_recyclerview;
+    SwipeRefreshLayout swipeRefresh;
 
     Toolbar mToolbar;
     TextView toolbarTitle;
@@ -60,11 +62,21 @@ public class AlarmActivity extends AppCompatActivity {
 
         toolbarTitle.setText("알림");
 
+        swipeRefresh = findViewById(R.id.swipeRefresh);
         alarm_recyclerview = findViewById(R.id.alarm_recyclerview);
         RecyclerView.Adapter adapter = new AlarmRecyclerViewAdapter();
+
         adapter.setHasStableIds(true);
         alarm_recyclerview.setAdapter(adapter);
         alarm_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                alarm_recyclerview.setAdapter(adapter);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
     }
 
     //리사이클뷰 설정

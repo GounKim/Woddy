@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.woddy.BaseActivity;
@@ -66,6 +67,7 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     private EditText edtComment;
     private Button btnSend;
     private RecyclerView commentView;
+    private SwipeRefreshLayout swipeRefresh;
 
     String postingPath, boardName, tagName;
 
@@ -116,12 +118,23 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         edtComment = findViewById(R.id.show_img_posting_edt_comment);
         btnSend = findViewById(R.id.show_img_posting_btnSend_comment);
 
+        //새로고침
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+
         commentAdapter = new CommentAdapter();
         commentView.setLayoutManager(new LinearLayoutManager(this, commentView.VERTICAL, false)); // 상하 스크롤
         commentView.setAdapter(commentAdapter);
         getComments(commentAdapter);
 
         btnSend.setOnClickListener(this);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                commentView.setAdapter(commentAdapter);
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
         getComments(commentAdapter);
 

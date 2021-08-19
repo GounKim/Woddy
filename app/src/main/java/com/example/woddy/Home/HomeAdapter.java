@@ -77,7 +77,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             boardName = itemView.findViewById(R.id.home_board_nameR);
             boardName.bringToFront();
-            horiView = itemView.findViewById(R.id.home_board_hori_recycler);
+            horiView = itemView.findViewById(R.id.home_posting_slider);
         }
     }
 

@@ -3,13 +3,6 @@ package com.example.woddy.Alarm;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import org.json.JSONObject;
 
 import okhttp3.MediaType;
@@ -22,6 +15,7 @@ import okhttp3.Response;
 public class SendNotification {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     public static void sendNotification(String regToken, String title, String messsage){
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... parms) {

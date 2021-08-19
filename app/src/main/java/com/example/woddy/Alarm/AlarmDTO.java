@@ -6,6 +6,7 @@ public class AlarmDTO { //알림 데이터
     String destinationUid = null; //알림 받을 사용자 uid
     String nickname = null; //알림 보낸 사용자 uid
     String postingPath = null; //포스팅 정보 저장
+    String roomNum = null; //채팅방 번호
 
     Integer kind = null; //알림 종류 분류
     //0 : like alarm
@@ -16,6 +17,10 @@ public class AlarmDTO { //알림 데이터
     Date timestamp = null; //시간
 
     public AlarmDTO() {
+    }
+
+    public String getRoomNum() {
+        return roomNum;
     }
 
     public String getPostingPath() {
@@ -64,5 +69,9 @@ public class AlarmDTO { //알림 데이터
 
     public void setPostingPath(String postingPath) {
         this.postingPath = postingPath;
+    }
+
+    public void setRoomNum(String roomNum) {
+        this.roomNum = roomNum;
     }
 }

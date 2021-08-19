@@ -1,10 +1,5 @@
 package com.example.woddy;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +12,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.woddy.Alarm.AlarmActivity;
 import com.example.woddy.Chatting.ChattingFragment;
 import com.example.woddy.Home.HomeFragment;
 import com.example.woddy.Info.InfoBoardMain;
 import com.example.woddy.MyPage.MyPageFragment;
 import com.example.woddy.PostBoard.PostBoardMain;
+import com.example.woddy.Search.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -49,6 +50,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
         registerPushToken();
     }
 
@@ -173,11 +175,14 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             case R.id.menu_search:{
-                //검색 연결
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);
     }
+
+    String TAG = "token";
 
     //사용자 푸시 토큰 생성해서 저장
     public void registerPushToken() {

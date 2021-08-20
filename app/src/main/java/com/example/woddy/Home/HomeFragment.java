@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.woddy.DB.FirestoreManager;
+import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.Posting;
 import com.example.woddy.Login.LogInActivity;
 import com.example.woddy.PostBoard.PostBoardMain;
@@ -68,6 +70,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        SQLiteManager manager = new SQLiteManager(getContext());
+        manager.setUser(USER_UID, "woddyAdmin","UserProfileImages/jFB2UTwuFdSIUldc064Ej8TbY8t2/jFB2UTwuFdSIUldc064Ej8TbY8t2_profile.jpg");
         setHomeAdapter();
 
         recyclerView = view.findViewById(R.id.home_recyclerView);

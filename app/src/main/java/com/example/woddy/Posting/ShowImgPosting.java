@@ -22,11 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.woddy.BaseActivity;
-import com.example.woddy.Chatting.ChattingRoom;
 import com.example.woddy.DB.FirestoreManager;
 import com.example.woddy.DB.SQLiteManager;
 import com.example.woddy.Entity.ChattingInfo;
@@ -71,7 +69,6 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
     private EditText edtComment;
     private Button btnSend;
     private RecyclerView commentView;
-    private SwipeRefreshLayout swipeRefresh;
 
     String postingPath, boardName, tagName;
 
@@ -124,9 +121,6 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         edtComment = findViewById(R.id.show_img_posting_edt_comment);
         btnSend = findViewById(R.id.show_img_posting_btnSend_comment);
 
-        //새로고침
-        swipeRefresh = findViewById(R.id.swipeRefresh);
-
         //툴바 이미지 및 타이틀 설정
         toolbarLogoImage = findViewById(R.id.toolbar_logo);
         toolbarLogoImage.setVisibility(View.GONE);
@@ -138,14 +132,6 @@ public class ShowImgPosting extends BaseActivity implements View.OnClickListener
         getComments(commentAdapter);
 
         btnSend.setOnClickListener(this);
-
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                commentView.setAdapter(commentAdapter);
-                swipeRefresh.setRefreshing(false);
-            }
-        });
 
         getComments(commentAdapter);
 

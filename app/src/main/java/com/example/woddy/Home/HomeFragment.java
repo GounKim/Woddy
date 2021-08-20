@@ -49,7 +49,6 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-    SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
 
@@ -65,20 +64,13 @@ public class HomeFragment extends Fragment {
 
         setHomeAdapter();
 
-        swipeRefresh = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                recyclerView.setAdapter(homeAdapter);
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+
 
 
         return view;
@@ -86,16 +78,8 @@ public class HomeFragment extends Fragment {
 
     private void setHomeAdapter() {
 
-
+        ArrayList<HomePBAdapter> adapterList = new ArrayList<>();
         // 공지 Board
-
-
-
-        // 인기글
-
-        ArrayList<Object> adapterList = new ArrayList<>();
-
-
         manager.getPopularPost().get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -104,7 +88,30 @@ public class HomeFragment extends Fragment {
                             ArrayList<Posting> popPosts = new ArrayList<>();
                             ArrayList<String> popDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "인기글 => " + document.getData());
+                                Log.d(TAG, "공지글");
+                                popPosts.add(document.toObject(Posting.class));
+                                popDocPath.add(document.getReference().getPath());
+                            }
+                            popAdapter.setItem(popPosts, popDocPath);
+//                            adapterList.add(popAdapter);
+                        } else {
+                            Log.d(TAG, "Finding PopularPost failed.", task.getException());
+                        }
+                    }
+                });
+        adapterList.add(new HomePBAdapter());
+
+        // 인기글
+        manager.getPopularPost().get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Posting> popPosts = new ArrayList<>();
+                            ArrayList<String> popDocPath = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                Log.d(TAG, "인기글");
                                 popPosts.add(document.toObject(Posting.class));
                                 popDocPath.add(document.getReference().getPath());
                             }
@@ -125,11 +132,11 @@ public class HomeFragment extends Fragment {
                             ArrayList<Posting> recentPosts = new ArrayList<>();
                             ArrayList<String> recDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                                if (snap.get("writer") != null) {
+                                //if (snap.get("writer") != null) {
                                     Log.d(TAG, "최신글 => " + snap.getData());
                                     recentPosts.add(snap.toObject(Posting.class));
                                     recDocPath.add(snap.getReference().getPath());
-                                }
+                              //  }
                             }
                             reAdapter.setItem(recentPosts, recDocPath);
                             adapterList.add(reAdapter);

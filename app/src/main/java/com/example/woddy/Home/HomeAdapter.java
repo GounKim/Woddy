@@ -1,67 +1,58 @@
 package com.example.woddy.Home;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woddy.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
-public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private final int NOTICE = 0;
     private final int POPULAR = 1;
     private final int RECENT = 2;
     private final int FAVORITE = 3;
 
-    private String[] homeBoards = new String[]{"알려드려요", "현재 인기글", "최신글", "즐겨찾기한 게시판"};
-    private ArrayList<Object> adapterList;
+    private String[] homeBoards = new String[]{"알려드려요", "현재 인기글", "최신글"};
+    private ArrayList<HomePBAdapter> adapterList;
 
     public HomeAdapter() {
         adapterList = new ArrayList<>();
     }
 
-    public void addItem(Object adapter) {
+    public void addItem(HomePBAdapter adapter) {
         adapterList.add(adapter);
         notifyDataSetChanged();
     }
 
-    public void setItem(ArrayList<Object> adapterList) {
+    public void setItem(ArrayList<HomePBAdapter> adapterList) {
         this.adapterList = adapterList;
         notifyDataSetChanged();
     }
 
-    public ArrayList<Object> getItem() {
+    public ArrayList<HomePBAdapter> getItem() {
         return adapterList;
     }
 
-    public class VerticalScrollHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView boardName;
         private final TextView itemMore;
         private final ListView listView;
 
-        public VerticalScrollHolder(@NonNull @NotNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             boardName = itemView.findViewById(R.id.home_board_name);
             boardName.bringToFront();
             itemMore = itemView.findViewById(R.id.home_item_more);
@@ -73,59 +64,57 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public HomeAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view;
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         view = inflater.inflate(R.layout.home_item, parent, false);
-        return new VerticalScrollHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HomeAdapter.ViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
-
         if (position < adapterList.size()) {
-            if (holder instanceof VerticalScrollHolder) {
-                ((VerticalScrollHolder) holder).boardName.setText(homeBoards[position]);
-                ((VerticalScrollHolder) holder).itemMore.setId(position);
+            holder.boardName.setText(homeBoards[position]);
+            holder.itemMore.setId(position);
 
-                // 각 ListView에 adapter 연결
-                try {
-                    Object obj = adapterList.get(position);
-                    String objName = obj.getClass().getSimpleName().trim();
-                    if (objName.equals("HomePBAdapter")) {
-                        HomePBAdapter pbAdapter = (HomePBAdapter) obj;
-                        ((VerticalScrollHolder) holder).listView.setAdapter(pbAdapter);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+            // 각 ListView에 adapter 연결
+            try {
+                Object obj = adapterList.get(position);
+                String objName = obj.getClass().getSimpleName().trim();
+                if (objName.equals("HomePBAdapter")) {
+                    HomePBAdapter pbAdapter = (HomePBAdapter) obj;
+                    holder.listView.setAdapter(pbAdapter);
                 }
-                setListViewHeight(((VerticalScrollHolder) holder).listView);
-
-                ((VerticalScrollHolder) holder).itemMore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (view.getId()) {
-                            case NOTICE:
-                                Toast.makeText(context, "공지", Toast.LENGTH_SHORT).show();
-                                break;
-                            case POPULAR:
-                                Toast.makeText(context, "인기글", Toast.LENGTH_SHORT).show();
-                                break;
-                            case RECENT:
-                                Toast.makeText(context, "최신글", Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            setListViewHeight(holder.listView);
+
+            holder.itemMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (view.getId()) {
+                        case NOTICE:
+                            Toast.makeText(context, "공지", Toast.LENGTH_SHORT).show();
+                            break;
+                        case POPULAR:
+                            Toast.makeText(context, "인기글", Toast.LENGTH_SHORT).show();
+                            break;
+                        case RECENT:
+                            Toast.makeText(context, "최신글", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+
         }
     }
+
 
     @Override
     public int getItemCount() {

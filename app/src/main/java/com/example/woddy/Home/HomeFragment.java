@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
+    ImageView imageView;
 
     FirestoreManager manager = new FirestoreManager();
     HomePBAdapter popAdapter = new HomePBAdapter();
@@ -64,23 +66,15 @@ public class HomeFragment extends Fragment {
 
         setHomeAdapter();
 
+        imageView = view.findViewById(R.id.imageView4);
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
-
-
-
-        return view;
-    }
-
-    private void setHomeAdapter() {
-
-        ArrayList<HomePBAdapter> adapterList = new ArrayList<>();
         // 공지 Board
-        manager.getPopularPost().get()
+        manager.getPost("정보", "생활지원").limit(1).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -89,8 +83,8 @@ public class HomeFragment extends Fragment {
                             ArrayList<String> popDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, "공지글");
-                                popPosts.add(document.toObject(Posting.class));
-                                popDocPath.add(document.getReference().getPath());
+//                                popPosts.add(document.toObject(Posting.class));
+//                                popDocPath.add(document.getReference().getPath());
                             }
                             popAdapter.setItem(popPosts, popDocPath);
 //                            adapterList.add(popAdapter);
@@ -99,6 +93,15 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+
+
+        return view;
+    }
+
+    private void setHomeAdapter() {
+
+        ArrayList<HomePBAdapter> adapterList = new ArrayList<>();
+
         adapterList.add(new HomePBAdapter());
 
         // 인기글

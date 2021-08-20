@@ -59,7 +59,7 @@ public class ChattingRoom extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
-        sql = new SQLiteManager(getApplicationContext());
+        sql = new SQLiteManager(getBaseContext());
         manager = new FirestoreManager();
 
 

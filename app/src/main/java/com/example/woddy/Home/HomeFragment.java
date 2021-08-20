@@ -16,8 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -49,6 +52,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     public static final String USER_UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+    ViewFlipper flipper;
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
 
@@ -70,7 +74,11 @@ public class HomeFragment extends Fragment {
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
-
+        flipper=view.findViewById(R.id.viewflipper);
+        Animation show= AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        flipper.setAnimation(show);
+        flipper.setOutAnimation(getContext(), android.R.anim.slide_out_right);
+        flipper.startFlipping();
 
 
         return view;

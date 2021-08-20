@@ -70,15 +70,14 @@ public class HomeFragment extends Fragment {
 
         setHomeAdapter();
 
-        imageView = view.findViewById(R.id.imageView4);
         recyclerView = view.findViewById(R.id.home_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), recyclerView.VERTICAL, false)); // 상하 스크롤
 
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
-        flipper=view.findViewById(R.id.viewflipper);
-        Animation show= AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        flipper = view.findViewById(R.id.viewflipper);
+        Animation show = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         flipper.setAnimation(show);
         flipper.setOutAnimation(getContext(), android.R.anim.slide_out_right);
         flipper.startFlipping();
@@ -90,36 +89,6 @@ public class HomeFragment extends Fragment {
     private void setHomeAdapter() {
 
         ArrayList<HomePBAdapter> adapterList = new ArrayList<>();
-
-        // 공지 Board
-        manager.getPost("정보", "생활지원").limit(1).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            ArrayList<Posting> popPosts = new ArrayList<>();
-                            ArrayList<String> popDocPath = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "공지글");
-//                                popPosts.add(document.toObject(Posting.class));
-//                                popDocPath.add(document.getReference().getPath());
-                            }
-                            popAdapter.setItem(popPosts, popDocPath);
-//                            adapterList.add(popAdapter);
-                        } else {
-                            Log.d(TAG, "Finding PopularPost failed.", task.getException());
-                        }
-                    }
-                });
-
-
-        return view;
-    }
-
-    private void setHomeAdapter() {
-
-        ArrayList<HomePBAdapter> adapterList = new ArrayList<>();
-
         adapterList.add(new HomePBAdapter());
 
         // 인기글
@@ -130,8 +99,7 @@ public class HomeFragment extends Fragment {
                         if (task.isSuccessful()) {
                             ArrayList<Posting> popPosts = new ArrayList<>();
                             ArrayList<String> popDocPath = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult())
-                            {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, "인기글");
                                 popPosts.add(document.toObject(Posting.class));
                                 popDocPath.add(document.getReference().getPath());
@@ -154,10 +122,10 @@ public class HomeFragment extends Fragment {
                             ArrayList<String> recDocPath = new ArrayList<>();
                             for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
                                 //if (snap.get("writer") != null) {
-                                    Log.d(TAG, "최신글 => " + snap.getData());
-                                    recentPosts.add(snap.toObject(Posting.class));
-                                    recDocPath.add(snap.getReference().getPath());
-                              //  }
+                                Log.d(TAG, "최신글 => " + snap.getData());
+                                recentPosts.add(snap.toObject(Posting.class));
+                                recDocPath.add(snap.getReference().getPath());
+                                //  }
                             }
                             reAdapter.setItem(recentPosts, recDocPath);
                             adapterList.add(reAdapter);
@@ -171,8 +139,7 @@ public class HomeFragment extends Fragment {
                 Log.w(TAG, "Finding RecentPost failed.", e);
             }
         });
-
-
     }
+
 
 }

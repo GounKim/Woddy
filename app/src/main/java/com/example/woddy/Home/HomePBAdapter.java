@@ -39,7 +39,7 @@ public class HomePBAdapter extends BaseAdapter {
     private final int WRITING_WITH_IMAGE = 1;
     private final int ITEM_VIEW_TYPE_MAX = 2;
 
-    private ArrayList<Posting> writingList =  new ArrayList<>();
+    private ArrayList<Posting> writingList = new ArrayList<>();
     private ArrayList<String> postingPath = new ArrayList<>();
 
     public void setItem(ArrayList<Posting> writings, ArrayList<String> postingPath) {
@@ -69,10 +69,10 @@ public class HomePBAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         Context context = viewGroup.getContext();
-        int viewType = getItemViewType(position) ;
+        int viewType = getItemViewType(position);
 
 
-        if(view == null) {
+        if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             switch (viewType) {
                 case WRITING_SIMPLE:    // 기본형
@@ -107,6 +107,10 @@ public class HomePBAdapter extends BaseAdapter {
         }
 
         Posting writing = getItem(position);
+        String path = postingPath.get(position);
+        String[] tmpPath = path.split("/");
+        String boardName = tmpPath[1];
+        String tagName = tmpPath[3];
 
         if (writing != null) {
             switch (viewType) {
@@ -114,9 +118,9 @@ public class HomePBAdapter extends BaseAdapter {
                     SimpleViewHolder sHolder = (SimpleViewHolder) view.getTag();
                     sHolder.sTitle.setText(writing.getTitle());
                     sHolder.sContent.setText(writing.getContent());
-//                    sHolder.sBoardName.setText(writing.getTag());
+                    sHolder.sBoardName.setText(boardName + " #" + tagName);
                     sHolder.sTime.setText(timestamp(writing.getPostedTime()));
-                    sHolder.sLiked.setText(""+writing.getNumberOfLiked());
+                    sHolder.sLiked.setText("" + writing.getNumberOfLiked());
 
                     sHolder.sLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -133,9 +137,9 @@ public class HomePBAdapter extends BaseAdapter {
                     ImageViewHolder iHolder = (ImageViewHolder) view.getTag();
                     iHolder.iTitle.setText(writing.getTitle());
                     iHolder.iContent.setText(writing.getContent());
-//                    iHolder.iBoardName.setText(writing.getTag());
+                    iHolder.iBoardName.setText(boardName + " #" + tagName);
                     iHolder.iTime.setText(timestamp(writing.getPostedTime()));
-                    iHolder.iLiked.setText(""+writing.getNumberOfLiked());
+                    iHolder.iLiked.setText("" + writing.getNumberOfLiked());
 
                     if (writing.getPictures() != null) {
                         FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
